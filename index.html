@@ -51,30 +51,25 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="readepi">readepi<a class="anchor" aria-label="anchor" href="#readepi"></a>
+<div class="page-header"><h1 id="epico">epiCo<a class="anchor" aria-label="anchor" href="#epico"></a>
 </h1></div>
-<p><em>readepi</em> provides functions for importing epidemiological data into <strong>R</strong> from common <em>health information systems</em>.</p>
+<p><em>epiCo</em> provides functions for clustering, regression, now casting, and sup reporting analyses vector-borne diseases in Colombia.</p>
+<p><strong>R</strong> from common <em>health information systems</em>.</p>
 <!-- badges: start -->
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the development version of <em>readepi</em> from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
+<p>You can install the development version of <em>epiCo</em> from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"epiverse-trace/readepi"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"epiverse-trace/epiCo"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
 <p>These examples illustrate some of the current functionalities:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">readepi</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># example of read_stuff():</span></span>
-<span><span class="co"># (a placeholder function returning its own argument)</span></span>
-<span><span class="va">path_to_file</span> <span class="op">&lt;-</span> <span class="st">"some_path_here"</span></span>
-<span><span class="fu"><a href="reference/read_stuff.html">read_stuff</a></span><span class="op">(</span><span class="va">path_to_file</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "some_path_here"</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">epiCo</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="development">Development<a class="anchor" aria-label="anchor" href="#development"></a>
@@ -87,118 +82,18 @@
 <div class="section level3">
 <h3 id="contributions">Contributions<a class="anchor" aria-label="anchor" href="#contributions"></a>
 </h3>
-<p>Contributions are welcome via <a href="https://github.com/epiverse-trace/readepi/pulls" class="external-link">pull requests</a>.</p>
+<p>Contributions are welcome via <a href="https://github.com/epiverse-trace/epiCo/pulls" class="external-link">pull requests</a>.</p>
 <p>Contributors to the project include:</p>
 <ul>
-<li>Thibaut Jombart (author)</li>
-<li>Joshua W. Lambert (contributor)</li>
+<li>Juan D. Umaña (author)</li>
+<li>Samuel Torres (contributor)</li>
+<li>Mauricio Santos-Vega (contributor)</li>
 </ul>
 </div>
 <div class="section level3">
 <h3 id="code-of-conduct">Code of Conduct<a class="anchor" aria-label="anchor" href="#code-of-conduct"></a>
 </h3>
-<p>Please note that the linelist project is released with a <a href="https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html" class="external-link">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
-</div>
-<div class="section level3">
-<h3 id="command-line-instructions-create-a-new-github-repository-using-a-template">Command line instructions: Create a new Github repository using a template<a class="anchor" aria-label="anchor" href="#command-line-instructions-create-a-new-github-repository-using-a-template"></a>
-</h3>
-<p>There’s a shortcut to this, which is provided here for people short on time, but the scenic route follows.</p>
-<p><strong>Github command line client</strong></p>
-<p>Install the Github command line client <code>gh</code> following the instructions for your OS here: <a href="https://github.com/cli/cli" class="external-link uri">https://github.com/cli/cli</a>. Run <code>gh auth login</code> to link your device with your Github account the first time you use the CLI.</p>
-<p>Once installed and authenticated, run:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gh</span> repo create epiverse-trace/mypackage <span class="at">--public</span> <span class="at">--template</span><span class="op">=</span>epiverse-trace/packagetemplate</span></code></pre></div>
-<p>Clone the repository as usual using your preferred method.</p>
-</div>
-<div class="section level3">
-<h3 id="command-line-instructions-create-a-repo-and-r-package-from-scratch">Command line instructions: Create a repo and R package from scratch<a class="anchor" aria-label="anchor" href="#command-line-instructions-create-a-repo-and-r-package-from-scratch"></a>
-</h3>
-<div class="section level4">
-<h4 id="make-an-r-project">Make an R project<a class="anchor" aria-label="anchor" href="#make-an-r-project"></a>
-</h4>
-<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">'devtools::create("mypackage")'</span></span></code></pre></div>
-<p>or</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">'usethis::create_package("mypackage")'</span></span></code></pre></div>
-</div>
-<div class="section level4">
-<h4 id="initialise-a-git-repository">Initialise a git repository<a class="anchor" aria-label="anchor" href="#initialise-a-git-repository"></a>
-</h4>
-<div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> mypackage</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> init</span></code></pre></div>
-</div>
-<div class="section level4">
-<h4 id="create-a-remote-github-repository">Create a remote Github repository<a class="anchor" aria-label="anchor" href="#create-a-remote-github-repository"></a>
-</h4>
-<p><strong>Github command line client</strong></p>
-<p>Install the Github command line client <code>gh</code> following the instructions for your OS here: <a href="https://github.com/cli/cli" class="external-link uri">https://github.com/cli/cli</a>. Run <code>gh auth login</code> to link your device with your Github account the first time you use the CLI.</p>
-<p>Create the package repository in the <em>Epiverse TRACE</em> organisation.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># still in mypackage</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">gh</span> repo create epiverse-trace/mypackage</span></code></pre></div>
-</div>
-<div class="section level4">
-<h4 id="initial-commit-to-main">Initial commit to main<a class="anchor" aria-label="anchor" href="#initial-commit-to-main"></a>
-</h4>
-<div class="sourceCode" id="cb8"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push <span class="at">--set-upstream</span> origin main</span></code></pre></div>
-</div>
-<div class="section level4">
-<h4 id="get-r-related-gitignore">Get R-related .gitignore<a class="anchor" aria-label="anchor" href="#get-r-related-gitignore"></a>
-</h4>
-<p>Getting <code>R.gitignore</code> from <a href="https://github.com/github/gitignore" class="external-link uri">https://github.com/github/gitignore</a>, and renaming it to <code>.gitignore</code>.</p>
-<p><code>wget</code> is cross platform and should be available on most systems. Alternatives using <code>curl</code> exist.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://raw.githubusercontent.com/github/gitignore/main/R.gitignore</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> R.gitignore .gitignore</span></code></pre></div>
-</div>
-<div class="section level4">
-<h4 id="set-up-r-package-components">Set up R package components<a class="anchor" aria-label="anchor" href="#set-up-r-package-components"></a>
-</h4>
-<p>These next steps are from the R command line. If you are prompted to copy or edit text in the terminal (especially if you launched R from the terminal using <code>$ R</code>), you might be in Vim. Exit by typing <code>:wq</code>, and edit these files in a text editor.</p>
-<ol style="list-style-type: decimal"><li>Populate fields in the DESCRIPTION and NAMESPACE</li></ol>
-<!-- end list --><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># e.g. using data.table</span></span>
-<span><span class="fu">usethis</span><span class="fu">::</span><span class="fu">use_package</span><span class="op">(</span><span class="st">"data.table"</span><span class="op">)</span></span></code></pre></div>
-<p>Actually <code>data.table</code> requires a bit more configuration to use many of its features, such as <code>:=</code> and <code>.SD</code>. Use instead:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">usethis</span><span class="fu">::</span><span class="fu">use_data_table</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<ol start="2" style="list-style-type: decimal"><li>Set up unit testing infrastructure</li></ol>
-<!-- end list --><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">usethis</span><span class="fu">::</span><span class="fu">use_testthat</span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># and a basic test file</span></span>
-<span><span class="fu">usethis</span><span class="fu">::</span><span class="fu">use_test</span><span class="op">(</span><span class="st">"basic-test"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># code coverage YAML for codecov</span></span>
-<span><span class="fu">usethis</span><span class="fu">::</span><span class="fu">use_coverage</span><span class="op">(</span><span class="st">"codecov"</span><span class="op">)</span></span></code></pre></div>
-<ol start="3" style="list-style-type: decimal"><li>Set a licence</li></ol>
-<p>We prefer the MIT licence, primarily because it is short and easy to read.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">usethis</span><span class="fu">::</span><span class="fu">use_mit_licence</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<ol start="4" style="list-style-type: decimal"><li>Make a README page</li></ol>
-<!-- end list --><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">usethis</span><span class="fu">::</span><span class="fu">use_readme_rmd</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>Readme.md can be updated manually from the Readme.Rmd created above, using</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">build_readme</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>or using a Github Actions setup (see the examples here <a href="https://github.com/r-lib/actions/tree/v2-branch/examples" class="external-link uri">https://github.com/r-lib/actions/tree/v2-branch/examples</a>).</p>
-<ol start="5" style="list-style-type: decimal"><li>Set up continuous integration using Github Actions</li></ol>
-<!-- end list --><div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># to check package installation</span></span>
-<span><span class="fu">usethis</span><span class="fu">::</span><span class="fu">use_github_actions_check_standard</span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># to report code coverage results to codecov</span></span>
-<span><span class="fu">usethis</span><span class="fu">::</span><span class="fu">use_github_action</span><span class="op">(</span><span class="st">"test-coverage"</span><span class="op">)</span></span></code></pre></div>
-<ol start="6" style="list-style-type: decimal"><li>Set up documentation</li></ol>
-<!-- end list --><ol style="list-style-type: decimal"><li>Document the package as required using</li></ol>
-<!-- end list --><div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">document</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<ol start="2" style="list-style-type: decimal"><li>Set up a <code>pkgdown</code> website.</li></ol>
-<!-- end list --><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># configure the pkgdown YAML.</span></span>
-<span><span class="co"># can be saved and edited later</span></span>
-<span><span class="fu">usethis</span><span class="fu">::</span><span class="fu">use_pkgdown</span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># build the website using</span></span>
-<span><span class="fu">pkgdown</span><span class="fu">::</span><span class="fu"><a href="https://pkgdown.r-lib.org/reference/build_site.html" class="external-link">build_site</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>Or set up a Github Actions job using <code>usethis::use_github_action("pkgdown")</code>.</p>
-</div>
+<p>Please note that the epiCo project is released with a <a href="https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html" class="external-link">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 </div>
 </div>
 </div>
