@@ -1,4 +1,4 @@
-#' Detect Outbreaks with EWMA
+#' Detects Outbreaks with SPC schemes
 #' 
 #' Function that performs EWMA Statistical Process Control to detect outliers
 #' @param epidata A data frame with the incidence or incidence rate time series
