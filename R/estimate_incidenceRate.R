@@ -1,4 +1,4 @@
-#' Estimates incidence rates from a incidence class object and 
+#' Extends an incidence class object with incidence rates estimations 
 #' 
 #' Function that estimates incidence rates from a incidence class object and population projections
 #' @param incidence An incidence object
