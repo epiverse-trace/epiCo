@@ -33,6 +33,26 @@ These examples illustrate some of the current functionalities:
 
 ``` r
 library(epiCo)
+library(incidence)
+library(qcc)
+
+## Occupation labels
+
+isco_codes <- c(7321, 2411, 4121, 3439, 3431)
+isco_labels <- get_occupationLabels(isco_codes, output_level = "unit_label")
+
+## Incidence rates estimation
+
+data("dengue_orinoquia_2017")
+incidence_object <- incidence(dengue_orinoquia_2017$FEC_NOT, groups = dengue_orinoquia_2017$COD_MUN_O)
+incidenceRate_object <- estimate_incidenceRate(incidence_object, level = 2)
+
+## Outbreaks detection
+
+# EWMA method
+
+incidence_arauca <- incidence_object$counts[,"81001"]
+outbreaks_object <- detect_outbreaks_EWMA(incidence_arauca, lambda = 0.2, nsigmas = 2)
 
 ```
 
