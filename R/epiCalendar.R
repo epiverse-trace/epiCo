@@ -4,6 +4,7 @@
 #' @param year A numeric value for the year of interest
 #' @param daysJan = 4 (default) Number of January days that the first epidemiological week must contains
 #' 
+#' @return A character array with the starting dates of the epidemiological weeks
 #' @examples
 #' epiCalendar(2016)
 #' @export
