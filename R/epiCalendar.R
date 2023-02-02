@@ -14,7 +14,7 @@ epiCalendar <- function(year, daysJan = 4) {
   
   epiCalendar <- c()
   
-  secday <- 24*60*60
+  secday <- 24*60*60 # seconds in a day
   
   firstDate <- as.POSIXlt(paste0("01-01-",toString(year)),format = "%d-%m-%Y")
   lastDate <- as.POSIXlt(paste0("31-12-",toString(year)),format = "%d-%m-%Y")
