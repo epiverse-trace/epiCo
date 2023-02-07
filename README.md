@@ -72,9 +72,11 @@ requests](https://github.com/epiverse-trace/epiCo/pulls).
 
 Contributors to the project include:
 
-  - Juan D. Umaña (author)
-  - Samuel Torres (contributor)
-  - Mauricio Santos-Vega (contributor)
+  - [Juan D. Umaña](https://github.com/juan-umana) (author)
+  - [Juan Montenegro](https://github.com/Juanmontenegro99) (author)
+  - [Julian Otero](https://github.com/jd-otero) (author)
+  - [Samuel Torres](https://github.com/samueltof) (contributor)
+  - [Mauricio Santos-Vega](https://github.com/mauricio110785) (author)
 
 ### Code of Conduct
 

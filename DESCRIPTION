@@ -1,10 +1,12 @@
-Package: readepi
-Title: Import Epidemiological Data into R
-Version: 0.0.1
+Package: epiCo
+Title: Provides statistical tools for the analysis of vector-borne diseases in Colombia
+Version: 0.2
 Authors@R: 
-    c(person("Thibaut", "Jombart", , "thibaut@data.org", role = c("aut", "cre")),
-      person("Avinash", "Laddha", , "avinash@data.org", role = c("aut")))
-Description: This package implements functions to read epidemiological data from health information systems.
+    c(person("Juan D.", "Umaña", , "jd.umana10@uniandes.edu.co", role = c("aut", "cre")),
+      person("Juan", "Montenegro", , "jf.montenegro@uniandes.edu.co", role = c("aut")),
+      person("Julian", "Otero", , "jd.otero10@uniandes.edu.co", role = c("aut")),
+      person("Mauricio", "Santos-Vega", , "om.santos@uniandes.edu.co", role = c("aut")))
+Description: Provides statistical tools for the analysis of demographic trends, spatiotemporal behavior, outbreaks characterization, underreporting estimation, and short-term forecasting of vector-borne diseases in Colombia
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
