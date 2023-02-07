@@ -4,7 +4,7 @@
 #' @param DIVIPOLA_code A numeric code accounting for the territory of interest
 #' @param year A numeric input for year of interest
 #' @param total = TRUE (default) A boolean for returning the total number rather than the porportion of the populations
-#' @param plot = FALSE (default) A boolean for returning a plot object
+#' @param plot = FALSE (default) A boolean for displaying a plot
 #' 
 #' @return A dataframe with the proportion or total count of individuals
 #' @examples
