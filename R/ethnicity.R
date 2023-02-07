@@ -29,8 +29,11 @@ ethnicity <- function(ethniclabels) {
   afro <- "Persona de ascendencia afrocolombiana que poseen una cultura propia, 
   y tienen sus propias tradiciones y costumbre d entro de la relación campo-poblado"
   
+  ggplot(ethniclabels, aes(ethniclabels)) +
+    geom_histogram() + theme_minimal()
+  
   descriptions <- c(indigena,rom,raizal,palenquero,afro)
   
-  labels <- unique(ethniclabels)  
+  labels <- unique(unique(ethniclabels))  
   descriptions[labels]
 }
