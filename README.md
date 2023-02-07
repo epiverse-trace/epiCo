@@ -44,7 +44,7 @@ isco_labels <- get_occupationLabels(isco_codes, output_level = "unit_label")
 ## Incidence rates estimation
 
 data("dengue_orinoquia_2017")
-incidence_object <- incidence(dengue_orinoquia_2017$FEC_NOT, groups = dengue_orinoquia_2017$COD_MUN_O)
+incidence_object <- incidence(dengue_orinoquia_2017$FEC_NOT, groups = dengue_orinoquia_2017$COD_MUN_O, interval = "1 week")
 incidenceRate_object <- estimate_incidenceRate(incidence_object, level = 2)
 
 ## Outbreaks detection
