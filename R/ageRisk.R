@@ -8,7 +8,7 @@
 #' 
 #' @return A dataframe with the proportion or total count of individuals
 #' @examples
-#' populationPyramid(15001, 2015, total = TRUE, plot = TRUE)
+#' ageRisk(linelist, popPyramid, gender = TRUE, plot = TRUE)
 #' @export
 ageRisk <- function(cases, populationPyramid, gender = TRUE, plot = FALSE) {
   
