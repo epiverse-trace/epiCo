@@ -10,7 +10,7 @@
 #' - weighted = a probability weighted calculation of GM for negative, positive, and zero values. See: Habib, E. A. (2012). Geometric mean for negative and zero values. International Journal of Research and Reviews in Applied Sciences, 11(3), 419-432. 
 #' @param shift = 1 (default) a positive value to use in the shifted method
 #' @param epsilon = 1e-5 (default) the minimum positive value to consider in the optimized method
-#' @return The geome
+#' @return The geometric mean of the x vector, and the epsilon value if optimized method is used
 #' @examples
 #' geomMean(x, method = "optimized")
 #' @export
