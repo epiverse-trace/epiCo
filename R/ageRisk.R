@@ -1,6 +1,6 @@
 #' Returns the conditional probability mass function of being infected given an age and gender
 #' 
-#' Function that returns the probability og being infected given an age
+#' Function that returns the probability of being infected given an age
 #' @param cases A data frame with a numeric vector with the ages of cases in years and a vector with gender
 #' @param populationPyramid A dataframe with the count of individuals
 #' @param gender = TRUE (default) A boolean to indicate the disaggregation of age risk by gender
