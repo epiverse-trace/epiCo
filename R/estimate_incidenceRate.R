@@ -23,7 +23,6 @@ estimate_incidenceRate <- function(incidence_object, level, scale = 100000) {
     populations <- dplyr::filter(population_projection_COL_2, DPMP %in% groups & ANO %in% years)
   }
   
-  rownames(populations) <- groups
   incRates <- incidence_object$counts
   
   for (gr in groups)
@@ -31,7 +30,7 @@ estimate_incidenceRate <- function(incidence_object, level, scale = 100000) {
     for (ye in years)
     {
       pop <- dplyr::filter(populations, ANO==ye) 
-      pop <- pop[gr,"Total_General"]
+      pop <- pop[pop$DPMP == gr,"Total_General"]
       incRates[which(dates_years==ye),gr] <- incRates[which(dates_years==ye),gr]*scale/pop
     }
   }
