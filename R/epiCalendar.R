@@ -39,5 +39,5 @@ epiCalendar <- function(year, daysJan = 4) {
     epiCalendar <- head(epiCalendar,-1)
   }
   
-  return(epiCalendar)
+  return(as.Date.character(epiCalendar))
 }
