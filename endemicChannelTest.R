@@ -17,10 +17,16 @@ historic <- as.data.frame(matrix(counts_historic, nrow = 7, byrow = TRUE))
 colnames(historic) <- seq(1,52)
 rownames(historic) <- seq(2007,2013)
 
+# Mean
+
+GM <- as.numeric(apply(historic, MARGIN = 2, FUN = mean))
+Q <- as.data.frame(matrix(as.numeric(apply(historic, MARGIN = 2, FUN = quantile, p = c(0.25,0.5,0.75))), nrow = 3))
+
+
+
+# GEO Mean
+
 GM <- as.numeric(apply(historic, MARGIN = 2, FUN = geomMean, method = "positive"))
 CI <- as.numeric(apply(historic, MARGIN = 2, FUN = function(x) qt(p = c(0.975),df = 6)*sd(x)/sqrt(length(x))))
 UL <- GM+CI
 LL <- GM-CI
-
-GM <- as.numeric(apply(historic, MARGIN = 2, FUN = mean))
-Q <- as.data.frame(matrix(as.numeric(apply(historic, MARGIN = 2, FUN = quantile)), nrow = 5))
