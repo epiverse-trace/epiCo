@@ -14,7 +14,7 @@
 #' @examples
 #' geomMean(x, method = "optimized")
 #' @export
-geomMean <- function(x, method = "optimized", shift = 1, epsilon = 1e-5) {
+geomMean <- function(x, method = "shifted", shift = 1, epsilon = 1e-5) {
   
   if (method == "positive"){
     
