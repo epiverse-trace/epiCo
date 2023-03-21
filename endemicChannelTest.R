@@ -117,7 +117,7 @@ D1$time.series
 
 
 model=auto.arima(ST, D =1)
-model
+
 
 
 #WAVELETS
