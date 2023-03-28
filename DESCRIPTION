@@ -13,13 +13,16 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.1
 Imports:
     checkmate,
+    dplyr,
     spdep,
     geosphere,
     incidence,
     lubridate,
     ggplot2,
     leaflet,
-    qcc
+    qcc,
+    utils,
+    stats 
 Suggests: 
     covr,
     testthat (>= 3.0.0)

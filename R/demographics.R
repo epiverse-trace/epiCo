@@ -10,8 +10,9 @@
 #' @param plot A boolean for displaying a plot
 #'
 #' @return A dataframe with the proportion or total count of individuals
-#' @examples \donttest{
-#' population_pyramid(15001, 2015, total = TRUE, plot = TRUE)
+#' @examples 
+#' \donttest{
+#'   population_pyramid(15001, 2015, total = TRUE, plot = TRUE)
 #' }
 #' @export
 #'
@@ -169,8 +170,6 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
   return(age_risk)
 }
 
-
-
 #' Provides the sociological description of ethnicities in Colombia
 #'
 #' @description Function that returns the description of consulted ethnicities
@@ -179,8 +178,9 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
 #' @param plot A boolean for displaying an histogram plot
 #'
 #' @return A printed message with the description of the ethnicities
-#' @examples \donttest{
-#' describe_ethnicity(c(1, 2, 3, 4))
+#' @examples 
+#' \donttest{
+#'   describe_ethnicity(c(1, 2, 3, 4))
 #' }
 #' @export
 describe_ethnicity <- function(ethniclabels, language = "ES", plot = FALSE) {
@@ -264,8 +264,9 @@ describe_ethnicity <- function(ethniclabels, language = "ES", plot = FALSE) {
 #' label (major, submajor, minor or unit)
 #'
 #' @return A string vector of ISCO-88 labels
-#' @examples \donttest{
-#' describe_occupation(1111, level = 1)
+#' @examples 
+#' \donttest{
+#'   describe_occupation(1111, level = 1)
 #' }
 #' @export
 describe_occupation <- function(isco_codes, output_level) {
