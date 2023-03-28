@@ -18,5 +18,5 @@ A printed message with the description of the ethnicities
 Function that returns the description of consulted ethnicities
 }
 \examples{
-ethnicity(c(1,2,3,4))
+ethnicity(c(1, 2, 3, 4))
 }

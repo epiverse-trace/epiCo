@@ -18,5 +18,5 @@ A string vector of ISCO-88 labels
 Function that translates a vector of ISCO-88 occupation codes into a vector of labels
 }
 \examples{
-estimate_incidenceRate(incidence, level=1)
+estimate_incidenceRate(incidence, level = 1)
 }

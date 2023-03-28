@@ -116,7 +116,10 @@ ts |>
   autoplot()
 
 ### CARLOS FEEL
-ST <- ts(data = as.numeric(incidence_historic$counts), frequency = 26)
+ST <- ts(data = as.numeric(incidence_historic$counts), 
+         start = c(2006,12),
+         end = c(2013,12),
+         frequency = 52)
 D1 <- stl(ST, s.window = 26, t.window = 52)
 plot(D1)
 SEAS <- D1$time.series[, 1]
@@ -147,9 +150,22 @@ plot(pronostico)
 
 # Prueba
 
-ST2 <- msts(as.numeric(incidence_historic$counts), seasonal.periods = c(52))
+ST2 <- msts(as.numeric(incidence_historic$counts), 
+            start = c(2006,12),
+            end = c(2013,12),
+            ts.frequency = 52,
+            seasonal.periods = c(52*3))
+
+library(ggplot2)
+# install.packages("WaveletComp")
+library(WaveletComp)
+DF <- data.frame(t = seq(1, length(ST2), by = 1), Inc = ST2) # Creamos dataframe
+w.analisis <- analyze.wavelet(DF, "Inc", loess.span = 1, dt = 1 / 52, upperPeriod = 52 * 4, make.pval = T, n.sim = 100) # Corremos wavelet. JUGAR CON LOESS.SPAN
+wt.image(w.analisis)
+
+            
 
 fc <- auto.arima(ST2, D = 1)
 
-for_fc <- forecast(fc, h = 52 * 3)
+for_fc <- forecast(fc, h = 52*3)
 plot(for_fc)

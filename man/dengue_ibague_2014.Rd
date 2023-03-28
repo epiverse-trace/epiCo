@@ -21,7 +21,6 @@ in 2014
 data(dengue_ibague_2014)
 ages_in_years <- dengue_ibague_2014$EDAD_REAL
 
-
 }
 \references{
 Prueba

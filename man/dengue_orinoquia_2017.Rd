@@ -21,7 +21,6 @@ in 2017
 data(dengue_orinoquia_2017)
 ages_in_years <- dengue_orinoquia_2017$EDAD_REAL
 
-
 }
 \references{
 Prueba
