@@ -5,8 +5,6 @@
 #' @param lambda = 0.2 (default) The smoothing parameter
 #' @param delta = 1e-3 (default) The lowest weight to include in the calculation
 #' @return The EWMA smoothed vector
-#' @examples
-#' ewma(x, lambda = 0.2)
 #' @export
 ewma <- function(x, lambda = 0.2, delta = 1e-3) {
   weights <- rep(0, length(x))
