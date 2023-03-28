@@ -67,20 +67,21 @@ population_pyramid <- function(divipola_code, year,
       pop_pyramid$Population <- c(-1 * female_total, male_total)
       
       pop_pyramid_plot <- ggplot2::ggplot(pop_pyramid,
-                                          ggplot2::aes(x = Age,y = Population
-                                                       ,fill = Gender)) +
-        ggplot2::geom_bar(data=subset(pop_pyramid,Gender == 'F'),
-                          stat='identity') +
-        ggplot2::geom_bar(data=subset(pop_pyramid,Gender == 'M'),
-                          stat='identity') +
+                                          ggplot2::aes(x = .data$Age,
+                                                       y = .data$Population
+                                                       ,fill = .data$Gender)) +
+        ggplot2::geom_bar(data = subset(pop_pyramid,.data$Gender == 'F'),
+                          stat = 'identity') +
+        ggplot2::geom_bar(data = subset(pop_pyramid,.data$Gender == 'M'),
+                          stat = 'identity') +
         ggplot2::coord_flip()
       
       pop_pyramid$Population <- c(female_total, male_total)
       
     } else {
       pop_pyramid_plot <- ggplot2::ggplot(pop_pyramid, 
-                                          ggplot2::aes(x = Age, 
-                                                       y = Population)) +
+                                          ggplot2::aes(x = .data$Age, 
+                                                       y = .data$Population)) +
         ggplot2::geom_bar(stat='identity')
     }
     

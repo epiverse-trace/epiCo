@@ -13,4 +13,7 @@ isco88_table
 \description{
 ISCO88 description of occupations
 }
+\details{
+ISCO88 occupation table
+}
 \keyword{datasets}

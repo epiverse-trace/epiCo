@@ -33,6 +33,9 @@ neighborhoods <- function(query_vector, threshold = 2){
 #' 
 #' @description Function to calculate spatial autocorrelation via Moran's Index
 #' from a given incidence_rate object grouped by municipality.
+#' 
+#' @importFrom magrittr %>%
+#' 
 #' @param incidence_rate Incidence rate object with only one observation for a 
 #' group of municipalities.
 #' @param threshold Maximum traveling time around each municipality.
