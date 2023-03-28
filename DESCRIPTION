@@ -18,7 +18,8 @@ Imports:
     incidence,
     lubridate,
     ggplot2,
-    leaflet
+    leaflet,
+    qcc
 Suggests: 
     covr,
     testthat (>= 3.0.0)
