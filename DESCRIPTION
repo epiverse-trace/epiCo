@@ -22,7 +22,8 @@ Imports:
     leaflet,
     qcc,
     utils,
-    stats 
+    stats,
+    magrittr
 Suggests: 
     covr,
     testthat (>= 3.0.0)

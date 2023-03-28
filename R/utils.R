@@ -10,8 +10,9 @@
 #' @return A character array with the starting dates of the epidemiological 
 #' weeks of the given year.
 #' 
-#' @examples \donttest{
-#' epi_calendar(2016)
+#' @examples 
+#' \dontrun{
+#'   epi_calendar(2016)
 #' }
 #' 
 #' @export
@@ -60,14 +61,14 @@ epi_calendar <- function(year, jan_days = 4) {
 #' the query.
 #' 
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'   epigeoref(query_vector)
 #' } 
 #' 
 #' @export
 epi_georef <- function(query_vector) {
   query_labels <- colnames(query_vector)
-  data("divipola_table", package = "epiCo")
+  utils::data("divipola_table", package = "epiCo")
   output_labels <- c("NOM_MPIO", "COD_MPIO", "LONGITUD", "LATITUD")
   if (sum(query_labels == c("LONGITUD", "LATITUD")) == 2) {
     dist_matrix <- geosphere::distm(query_vector, 
@@ -86,32 +87,34 @@ epi_georef <- function(query_vector) {
 #' @description Function that estimates incidence rates from a incidence class 
 #' object and population projections.
 #' @param incidence An incidence object.
-#' @param country 3 letter ISO code for the country of interest.
-#' @param level Administration level at which incidence counts are grouped 
+#' @param level Administration level at which incidence counts are grouped.
+#' @param scale Scale to consider when calculating the incidence_rate.
 #' (0=national, 1=state/department, 2=city/municipality).
 #'
 #' @return A modified incidence object where counts are normalized with the 
 #' population.
 #' 
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'   incidence_rate(incidence_object, 2)
 #' }
 #' 
 #' @export
 incidence_rate <- function(incidence_object, level, scale = 100000) {
-  data("population_projection_col_0", packages = "epiCo")
-  data("population_projection_col_1", packages = "epiCo")
-  data("population_projection_col_2", packages = "epiCo")
-  dates_years <- lubridate::year(incidence_object$dates)
+  utils::data("population_projection_col_0", packages = "epiCo")
+  utils::data("population_projection_col_1", packages = "epiCo")
+  utils::data("population_projection_col_2", packages = "epiCo")
+  utils::dates_years <- lubridate::year(incidence_object$dates)
   years <- unique(dates_years)
   groups <- colnames(incidence_object$counts)
   
   if (level == 0) {
-    populations <- dplyr::filter(population_projection_col_0, ANO %in% years)
+    populations <- dplyr::filter(population_projection_col_0, .data$ANO %in%
+                                   years)
   } else if (level == 1) {
-    populations <- dplyr::filter(population_projection_col_1, DP %in% groups 
-                                 & ANO %in% years)
+    populations <- dplyr::filter(population_projection_col_1, .data$DP %in% 
+                                   groups 
+                                 & .data$ANO %in% years)
   } else {
     populations <- dplyr::filter(population_projection_col_2, DPMP %in% groups 
                                  & ANO %in% years)
@@ -161,9 +164,10 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
 #' @return The geometric mean of the x vector, and the epsilon value if 
 #' optimized method is used.
 #' 
-#' @examples \donttest{
-#' x <- c(4,5,3,7,8)
-#' geom_mean(x, method = "optimized")
+#' @examples 
+#' \dontrun{
+#'   x <- c(4,5,3,7,8)
+#'   geom_mean(x, method = "optimized")
 #' }
 #' 
 #' @export
