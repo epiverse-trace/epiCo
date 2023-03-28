@@ -59,8 +59,8 @@ Function that builds the endemic channel of a disease time series based on
 the selected method and windows of observation
 }
 \examples{
-\donttest{
-endemic_channel(observations, incidence_historic, method = "geometric",
-outliers_handling = "replace_with_median", plot = TRUE)
+\dontrun{
+  endemic_channel(observations, incidence_historic, method = "geometric",
+  outliers_handling = "replace_with_median", plot = TRUE)
 }
 }

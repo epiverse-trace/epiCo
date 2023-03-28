@@ -21,7 +21,7 @@ Function that translates a vector of ISCO-88 occupation codes
 into a vector of labels
 }
 \examples{
-\donttest{
-describe_occupation(1111, level = 1)
+\dontrun{
+  describe_occupation(1111, level = 1)
 }
 }
