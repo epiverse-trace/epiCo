@@ -11,13 +11,12 @@
 #'
 #' @keywords datasets
 #'
-#' @references
+#' @references Prueba
 #'
 #' @source Sivigila, <http://portalsivigila.ins.gov.co/buscador>
 #'
 #' @examples
 #' data(dengue_orinoquia_2017)
 #' ages_in_years <- dengue_orinoquia_2017$EDAD_REAL
-#' 
-#' 
+#'
 "dengue_orinoquia_2017"

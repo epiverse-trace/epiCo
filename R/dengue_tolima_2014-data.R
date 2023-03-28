@@ -5,19 +5,18 @@
 #'
 #' @docType data
 #'
-#' @usage data(dengue_tolima_2017)
+#' @usage data(dengue_tolima_2014)
 #'
 #' @format linelist
 #'
 #' @keywords datasets
 #'
-#' @references
+#' @references Prueba
 #'
 #' @source Sivigila, <http://portalsivigila.ins.gov.co/buscador>
 #'
 #' @examples
-#' data(dengue_tolima_2017)
-#' ages_in_years <- dengue_tolima_2017$EDAD_REAL
-#' 
-#' 
-"dengue_tolima_2017"
+#' data(dengue_tolima_2014)
+#' ages_in_years <- dengue_tolima_2014$EDAD_REAL
+#'
+"dengue_tolima_2014"
