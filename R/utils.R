@@ -10,8 +10,9 @@
 #' @return A character array with the starting dates of the epidemiological 
 #' weeks of the given year.
 #' 
-#' @examples
+#' @examples \donttest{
 #' epi_calendar(2016)
+#' }
 #' 
 #' @export
 epi_calendar <- function(year, jan_days = 4) {
@@ -160,9 +161,10 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
 #' @return The geometric mean of the x vector, and the epsilon value if 
 #' optimized method is used.
 #' 
-#' @examples
+#' @examples \donttest{
 #' x <- c(4,5,3,7,8)
 #' geom_mean(x, method = "optimized")
+#' }
 #' 
 #' @export
 geom_mean <- function(x, method = "optimized", shift = 1, epsilon = 1e-5) {

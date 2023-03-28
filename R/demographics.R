@@ -10,8 +10,9 @@
 #' @param plot A boolean for displaying a plot
 #'
 #' @return A dataframe with the proportion or total count of individuals
-#' @examples
+#' @examples \donttest{
 #' population_pyramid(15001, 2015, total = TRUE, plot = TRUE)
+#' }
 #' @export
 #'
 population_pyramid <- function(divipola_code, year,
@@ -178,8 +179,9 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
 #' @param plot A boolean for displaying an histogram plot
 #'
 #' @return A printed message with the description of the ethnicities
-#' @examples
+#' @examples \donttest{
 #' describe_ethnicity(c(1, 2, 3, 4))
+#' }
 #' @export
 describe_ethnicity <- function(ethniclabels, language = "ES", plot = FALSE) {
   

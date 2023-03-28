@@ -21,6 +21,8 @@ Function that returns the starting date of the epidemiological
 weeks in a year of interest.
 }
 \examples{
+\donttest{
 epi_calendar(2016)
+}
 
 }
