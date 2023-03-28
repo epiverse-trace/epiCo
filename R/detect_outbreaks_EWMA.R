@@ -6,8 +6,6 @@
 #' @param nsigmas The numeric value of sigmas to use for control limits
 #'
 #' @return A list with Y smoothed values and limits UCL & LCL
-#' @examples
-#' detect_outbreaks_EWMA(epidata, lambda = 0.2, nsigmas = 2.5)
 #' @export
 detect_outbreaks_EWMA <- function(epidata, lambda, nsigmas) {
   ## TO TRY: perform EWMA smoothing and limits calculation lighter

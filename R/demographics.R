@@ -262,8 +262,9 @@ describe_ethnicity <- function(ethniclabels, language = "ES", plot = FALSE) {
 #' label (major, submajor, minor or unit)
 #'
 #' @return A string vector of ISCO-88 labels
-#' @examples
+#' @examples \donttest{
 #' describe_occupation(1111, level = 1)
+#' }
 #' @export
 describe_occupation <- function(isco_codes, output_level) {
   data(isco88_table)
