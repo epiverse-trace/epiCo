@@ -27,9 +27,9 @@
 #' @return A dataframe with the observation, historical mean, and confidence 
 #' intervals (or risk areas)
 #' @examples
-#' \donttest{
-#' endemic_channel(observations, incidence_historic, method = "geometric",
-#' outliers_handling = "replace_with_median", plot = TRUE)
+#' \dontrun{
+#'   endemic_channel(observations, incidence_historic, method = "geometric",
+#'   outliers_handling = "replace_with_median", plot = TRUE)
 #' }
 #' @export
 endemic_channel <- function(observations, incidence_historic,

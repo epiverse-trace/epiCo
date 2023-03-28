@@ -1,0 +1,4 @@
+#' @title isco88_table
+#' @description ISCO88 description of occupations
+#' @name isco88_table
+"isco88_table"
