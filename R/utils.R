@@ -42,7 +42,7 @@ epi_calendar <- function(year, jan_days = 4) {
   }
   
   if (last_week_day < 3) {
-    epi_calendar <- head(epi_calendar, -1)
+    epi_calendar <- utils::head(epi_calendar, -1)
   }
   
   return(as.Date.character(epi_calendar))
@@ -104,7 +104,7 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
   utils::data("population_projection_col_0", packages = "epiCo")
   utils::data("population_projection_col_1", packages = "epiCo")
   utils::data("population_projection_col_2", packages = "epiCo")
-  utils::dates_years <- lubridate::year(incidence_object$dates)
+  dates_years <- lubridate::year(incidence_object$dates)
   years <- unique(dates_years)
   groups <- colnames(incidence_object$counts)
   
@@ -113,11 +113,10 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
                                    years)
   } else if (level == 1) {
     populations <- dplyr::filter(population_projection_col_1, .data$DP %in% 
-                                   groups 
-                                 & .data$ANO %in% years)
+                                   groups & .data$ANO %in% years)
   } else {
-    populations <- dplyr::filter(population_projection_col_2, DPMP %in% groups 
-                                 & ANO %in% years)
+    populations <- dplyr::filter(population_projection_col_2, .data$DPMP %in% 
+                                   groups & .data$ANO %in% years)
   }
   
   inc_rates <- incidence_object$counts
@@ -126,7 +125,7 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
   {
     for (ye in years)
     {
-      pop <- dplyr::filter(populations, ANO == ye)
+      pop <- dplyr::filter(populations, .data$ANO == ye)
       pop <- pop[pop$DPMP == gr, "Total_General"]
       inc_rates[which(dates_years == ye), gr] <- 
         inc_rates[which(dates_years == ye), gr] * scale / pop

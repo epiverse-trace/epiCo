@@ -14,4 +14,7 @@ distance_matrix
 Distance matrix between all Colombia's municipalities by land
 or river.
 }
+\details{
+Distance matrix between municipalities
+}
 \keyword{datasets}

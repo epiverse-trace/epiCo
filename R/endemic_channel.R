@@ -38,10 +38,10 @@ endemic_channel <- function(observations, incidence_historic,
                             outliers_handling = "ignored", CI = 0.95,
                             plot = FALSE) {
   
-  observations <- c(observations, rep(NA, 52 - length(observations)))
-  years <- unique(epiyear(incidence::get_dates(incidence_historic)))
+  obs <- c(observations, rep(NA, 52 - length(observations)))
+  years <- unique(lubridate::epiyear(incidence::get_dates(incidence_historic)))
   
-  extra_weeks <- which(epiweek(incidence_historic$dates) == 53)
+  extra_weeks <- which(lubridate::epiweek(incidence_historic$dates) == 53)
   
   dates_historic <- incidence::get_dates(incidence_historic)[-extra_weeks]
   counts_historic <- incidence::get_counts(incidence_historic)[-extra_weeks]
@@ -57,7 +57,7 @@ endemic_channel <- function(observations, incidence_historic,
   } else if (outliers_handling == "ignored") {
     historic <- historic[!(row.names(historic) %in% outlier_years), ]
   } else if (outliers_handling == "replaced_by_median") {
-    handling <- as.numeric(apply(historic, MARGIN = 2, FUN = median))
+    handling <- as.numeric(apply(historic, MARGIN = 2, FUN = stats::median))
     handling <- t(replicate(length(outlier_years), handling))
     
     historic[outlier_years, ] <- handling
@@ -121,7 +121,7 @@ endemic_channel <- function(observations, incidence_historic,
     central = central,
     UL = UL,
     LL = LL,
-    obs = observations
+    obs = obs
   )
   
   channel_data$LL[which(channel_data$LL < 0)] <- 0
@@ -142,9 +142,9 @@ endemic_channel <- function(observations, incidence_historic,
                           color = "azure2", size = .1) +
       ggplot2::geom_hline(yintercept = seq(0, max(UL) * 1.05, 5),
                           color = "azure2", size = .1) +
-      ggplot2::geom_line(aes(y = UL), linewidth = 1,
+      ggplot2::geom_line(ggplot2::aes(y = UL), linewidth = 1,
                          color = "brown4") +
-      ggplot2::geom_line(aes(y = central), linewidth = 1,
+      ggplot2::geom_line(ggplot2::aes(y = central), linewidth = 1,
                          color = "darkorange3") +
       ggplot2::geom_line(ggplot2::aes(y = LL), linewidth = 1,
                          color = "darkgreen") +
@@ -176,13 +176,13 @@ endemic_channel <- function(observations, incidence_historic,
                         limits = c("Epidemic", "Warning", "Safety", "Success")
       ) +
       ggplot2::theme(
-        plot.background = element_rect(fill = "white"),
-        plot.margin = margin(20, 20, 20, 20),
-        plot.title = element_text(size = 16),
-        axis.title.x = element_text(size = 14),
-        axis.title.y = element_text(size = 14),
-        axis.text = element_text(size = 12),
-        plot.caption = element_text(size = 10, hjust = 0),
+        plot.background = ggplot2::element_rect(fill = "white"),
+        plot.margin = ggplot2::margin(20, 20, 20, 20),
+        plot.title = ggplot2::element_text(size = 16),
+        axis.title.x = ggplot2::element_text(size = 14),
+        axis.title.y = ggplot2::element_text(size = 14),
+        axis.text = ggplot2::element_text(size = 12),
+        plot.caption = ggplot2::element_text(size = 10, hjust = 0),
         legend.position = "bottom"
       )
     

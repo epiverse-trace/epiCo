@@ -14,4 +14,7 @@ divipola_table
 Political and administrative distribution of Colombia's
 municipalities
 }
+\details{
+DIVIPOLA table
+}
 \keyword{datasets}
