@@ -1,6 +1,6 @@
 #' Get the epidemiological calendar of a consulted year.
 #'
-#' @definition Function that returns the starting date of the epidemiological 
+#' @description Function that returns the starting date of the epidemiological 
 #' weeks in a year of interest.
 #' 
 #' @param year A numeric value for the year of interest.
@@ -60,7 +60,7 @@ epi_calendar <- function(year, jan_days = 4) {
 #' 
 #' @examples
 #' \donttest{
-#' epigeoref(query_vector)
+#'   epigeoref(query_vector)
 #' } 
 #' 
 #' @export
@@ -82,7 +82,7 @@ epi_georef <- function(query_vector) {
 
 #' Extends an incidence class object with incidence rates estimations.
 #'
-#' @definition Function that estimates incidence rates from a incidence class 
+#' @description Function that estimates incidence rates from a incidence class 
 #' object and population projections.
 #' @param incidence An incidence object.
 #' @param country 3 letter ISO code for the country of interest.
@@ -94,7 +94,7 @@ epi_georef <- function(query_vector) {
 #' 
 #' @examples
 #' \donttest{
-#' incidence_rate(incidence_object, 2)
+#'   incidence_rate(incidence_object, 2)
 #' }
 #' 
 #' @export
@@ -137,7 +137,7 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
 
 #' Returns the geometric mean of a vector of real numbers.
 #'
-#' @definition Function that returns the geometric mean of a vector of real 
+#' @description Function that returns the geometric mean of a vector of real 
 #' numbers according to the selected method.
 #' 
 #' @param x A numeric vector of real values
