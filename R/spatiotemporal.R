@@ -118,8 +118,9 @@ morans_index <- function(incidence_rate,threshold = 2, plot = TRUE){
                          shapes_plot$MPIO_CDPMP, "<br>",
                          "<b>","Cluster: ", "</b>", 
                          shapes_plot$CLUSTER, "<br>")
-    leaflet::leaflet(shapes_plot) %>% addTiles() %>% 
-      addPolygons(stroke=TRUE,
+    leaflet::leaflet(shapes_plot) %>% 
+      leaflet::addTiles() %>% 
+      leaflet::addPolygons(stroke=TRUE,
                    weight=1,
                    smoothFactor = 0.2,
                    fillColor  = ~ pal(CLUSTER),
