@@ -18,7 +18,7 @@ function that complete a structure of municipality names,
 DIVIPOLA codes, and coordinatesfrom an input of one of these variables.
 }
 \examples{
-\donttest{
+\dontrun{
   epigeoref(query_vector)
 } 
 

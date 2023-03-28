@@ -20,7 +20,7 @@ A printed message with the description of the ethnicities
 Function that returns the description of consulted ethnicities
 }
 \examples{
-\donttest{
-describe_ethnicity(c(1, 2, 3, 4))
+\dontrun{
+  describe_ethnicity(c(1, 2, 3, 4))
 }
 }

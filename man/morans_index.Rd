@@ -25,7 +25,7 @@ Function to calculate spatial autocorrelation via Moran's Index
 from a given incidence_rate object grouped by municipality.
 }
 \examples{
-\donttest{
+\dontrun{
   morans_index(incidence_rate, 2, FALSE)
 }
 }

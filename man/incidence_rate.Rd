@@ -7,12 +7,12 @@
 incidence_rate(incidence_object, level, scale = 1e+05)
 }
 \arguments{
-\item{level}{Administration level at which incidence counts are grouped
+\item{level}{Administration level at which incidence counts are grouped.}
+
+\item{scale}{Scale to consider when calculating the incidence_rate.
 (0=national, 1=state/department, 2=city/municipality).}
 
 \item{incidence}{An incidence object.}
-
-\item{country}{3 letter ISO code for the country of interest.}
 }
 \value{
 A modified incidence object where counts are normalized with the
@@ -23,7 +23,7 @@ Function that estimates incidence rates from a incidence class
 object and population projections.
 }
 \examples{
-\donttest{
+\dontrun{
   incidence_rate(incidence_object, 2)
 }
 
