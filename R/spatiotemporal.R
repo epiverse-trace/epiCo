@@ -10,14 +10,14 @@
 #' @return neighborhood object according to the introduced threshold.
 #' 
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'   query_vector <- c(5001, 5002, 5004, 5021, 5030, 5615, 5607)
 #'   neighborhood(query_vector, 2)
 #' }
 #' 
 #' @export
 neighborhoods <- function(query_vector, threshold = 2){
-  data("distance_matrix", package = "epiCo")
+  utils::data("distance_matrix", package = "epiCo")
   distance <- distance_matrix[which(row.names(distance_matrix) %in% 
                                       query_vector), 
                               which(names(distance_matrix) %in% 
@@ -43,12 +43,12 @@ neighborhoods <- function(query_vector, threshold = 2){
 #' observation, influential values.
 #' 
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'   morans_index(incidence_rate, 2, FALSE)
 #' }
 #' @export
 morans_index <- function(incidence_rate,threshold = 2, plot = TRUE){
-  data("divipola_table", package = "epiCo")
+  utils::data("divipola_table", package = "epiCo")
   # Match with DIVIPOLA order
   incidence_rate_ordered <- incidence_rate[,order(match(
     colnames(incidence_rate$counts),divipola_table$COD_MPIO))]
@@ -69,7 +69,7 @@ morans_index <- function(incidence_rate,threshold = 2, plot = TRUE){
   moran_data_frame <- as.data.frame(morans_i)
   #Clusters
   moran_data_frame <- dplyr::mutate(moran_data_frame, 
-                                    cluster = case_when(x > mean(x) & wx > 
+                                  cluster = dplyr::case_when(x > mean(x) & wx > 
                                                           mean(wx) ~ "HH",
                                                         x < mean(x) & wx < 
                                                           mean(wx) ~ "LL",
@@ -99,7 +99,7 @@ morans_index <- function(incidence_rate,threshold = 2, plot = TRUE){
   }
   #Plot
   if(plot == TRUE){
-    data("spatial_polygons_col_2", package = "epiCo")
+    utils::data("spatial_polygons_col_2", package = "epiCo")
     library(leaflet)
     pal <- leaflet::colorFactor(palette = c("#ba0001", "#357a38", "#2c7c94", 
                                                      "#fbe45b"), 
@@ -111,7 +111,8 @@ morans_index <- function(incidence_rate,threshold = 2, plot = TRUE){
                                        shapes$MPIO_CDPMP))]
     shapes_plot$CLUSTER <- influential_mpios$cluster
     shapes_plot$NOM_MPIO <- divipola_table$NOM_MPIO[divipola_table$COD_MPIO %in% 
-                                                      shapes_ordered$MPIO_CDPMP]
+                                                      shapes_plot$MPIO_CDPMP]
+    #shapes_ordered
     popup_data <- paste0("<b>","Municipality Name: ","</b>", 
                          shapes_plot$NOM_MPIO, "<br>",
                          "<b>","Municipality Code: ","</b>", 

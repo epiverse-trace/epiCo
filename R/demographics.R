@@ -11,7 +11,7 @@
 #'
 #' @return A dataframe with the proportion or total count of individuals
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #'   population_pyramid(15001, 2015, total = TRUE, plot = TRUE)
 #' }
 #' @export
@@ -67,23 +67,29 @@ population_pyramid <- function(divipola_code, year,
       pop_pyramid$Population <- c(-1 * female_total, male_total)
       
       pop_pyramid_plot <- ggplot2::ggplot(pop_pyramid,
-                                          ggplot2::aes(x=Age,y=Population
-                                                       ,fill=Gender)) +
-        ggplot2::geom_bar(data=subset(pop_pyramid,Gender=='F'),stat='identity')+
-        ggplot2::geom_bar(data=subset(pop_pyramid,Gender=='M'),stat='identity')+
+                                          ggplot2::aes(x = Age,y = Population
+                                                       ,fill = Gender)) +
+        ggplot2::geom_bar(data=subset(pop_pyramid,Gender == 'F'),
+                          stat='identity') +
+        ggplot2::geom_bar(data=subset(pop_pyramid,Gender == 'M'),
+                          stat='identity') +
         ggplot2::coord_flip()
       
       pop_pyramid$Population <- c(female_total, male_total)
       
     } else {
-      pop_pyramid_plot <- ggplot2::ggplot(pop_pyramid,aes(x=Age,y=Population)) +
+      pop_pyramid_plot <- ggplot2::ggplot(pop_pyramid, 
+                                          ggplot2::aes(x = Age, 
+                                                       y = Population)) +
         ggplot2::geom_bar(stat='identity')
     }
     
     if (total) {
-      pop_pyramid_plot <- pop_pyramid_plot + ylab("Total population")
+      pop_pyramid_plot <- pop_pyramid_plot + 
+        ggplot2::ylab("Total population")
     } else {
-      pop_pyramid_plot <- pop_pyramid_plot + ylab("Proportion of population")
+      pop_pyramid_plot <- pop_pyramid_plot + 
+        ggplot2::ylab("Proportion of population")
     }
     
     print(pop_pyramid_plot)
@@ -179,7 +185,7 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
 #'
 #' @return A printed message with the description of the ethnicities
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #'   describe_ethnicity(c(1, 2, 3, 4))
 #' }
 #' @export
@@ -189,24 +195,24 @@ describe_ethnicity <- function(ethniclabels, language = "ES", plot = FALSE) {
   
   #### ESPAÑOL ####
   indigena_ES <-"Persona de ascendencia amerindia que comparten sentimientos
-  de identificación con su pasado aborigen, manteniendo rasgos y valores
-  propios de su cultura tradicional, así como formas de organización
+  de identificacion con su pasado aborigen, manteniendo rasgos y valores
+  propios de su cultura tradicional, así como formas de organizacion
   y control social propios"
   
   rom_ES <-"Son comunidades que tienen una identidad étnica y cultural propia;
-  se caracterizan por una tradición nómada, y tienen su propio idioma
-  que es el romanés"
+  se caracterizan por una tradicion nomada, y tienen su propio idioma
+  que es el romanes"
   
-  raizal_ES <-"Población ubicada en el Archipiélago de San Andrés, Providencia
-  y Santa Catalina, con raíces culturales afroanglo-antillanas,
+  raizal_ES <-"Poblacion ubicada en el Archipielago de San Andres, Providencia
+  y Santa Catalina, con raices culturales afroanglo-antillanas,
   cuyos integrantes tienen rasgos socioculturales y lingüísticos
-  claramente diferenciados del resto de la población afrocolombiana"
+  claramente diferenciados del resto de la poblacion afrocolombiana"
   
-  palenquero_ES <-"Población ubicada en el municipio de San Basilio de Palenque,
-  departamento de Bolívar, donde se habla el palenquero, lenguaje criollo"
+  palenquero_ES <-"Poblacion ubicada en el municipio de San Basilio de Palenque,
+  departamento de Bolivar, donde se habla el palenquero, lenguaje criollo"
   
   afro_ES <-"Persona de ascendencia afrocolombiana que poseen una cultura
-  propia, y tienen sus propias tradiciones y costumbre dentro de la relación
+  propia, y tienen sus propias tradiciones y costumbre dentro de la relacion
   campo-poblado"
   
   #### ENGLISH ####
@@ -219,13 +225,13 @@ describe_ethnicity <- function(ethniclabels, language = "ES", plot = FALSE) {
   identity; They are characterized by a nomadic tradition, and have their own
   language, which is Romanesque"
   
-  raizal_EN <-"Population located in the Archipelago of San Andrés, Providencia
+  raizal_EN <-"Population located in the Archipelago of San Andres, Providencia
   and Santa Catalina, with Afro-Anglo-Antillean cultural roots, whose members
   have clearly differentiated sociocultural and linguistic traits
   from the rest of the Afro-Colombian population"
   
   palenquero_EN <-"Population located in the municipality of San Basilio de
-  Palenque, department of Bolívar, where palenquero is spoken,
+  Palenque, department of Bolivar, where palenquero is spoken,
   a Creole language"
   
   afro_EN <- "Person of Afro-Colombian descent who have their own culture,
@@ -238,9 +244,9 @@ describe_ethnicity <- function(ethniclabels, language = "ES", plot = FALSE) {
   description_EN <- c(indigena_EN, rom_EN, raizal_EN, palenquero_EN, afro_EN)
   
   if (plot) {
-    ethnHist <- ggplot(ethniclabels, aes(ethniclabels)) +
-      geom_histogram() +
-      theme_minimal()
+    ethnHist <- ggplot2::ggplot(ethniclabels, ggplot2::aes(ethniclabels)) +
+      ggplot2::geom_histogram() +
+      ggplot2::theme_minimal()
     
     print(ethnHist)
   }
@@ -265,12 +271,12 @@ describe_ethnicity <- function(ethniclabels, language = "ES", plot = FALSE) {
 #'
 #' @return A string vector of ISCO-88 labels
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #'   describe_occupation(1111, level = 1)
 #' }
 #' @export
 describe_occupation <- function(isco_codes, output_level) {
-  data(isco88_table)
+  utils::data("isco88_table", package = "epiCo")
   input_level <- ifelse(isco_codes==0 | isco_codes==110,"Armed Forces",
                         ifelse(nchar(isco_codes)==1,"major",
                                ifelse(nchar(isco_codes)==2,"sub_major",
