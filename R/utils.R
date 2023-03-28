@@ -98,7 +98,7 @@ epi_georef <- function(query_vector) {
 #' }
 #' 
 #' @export
-estimate_incidenceRate <- function(incidence_object, level, scale = 100000) {
+incidence_rate <- function(incidence_object, level, scale = 100000) {
   data("population_projection_col_0", packages = "epiCo")
   data("population_projection_col_1", packages = "epiCo")
   data("population_projection_col_2", packages = "epiCo")
