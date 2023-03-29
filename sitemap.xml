@@ -16,6 +16,69 @@
     <loc>/index.html</loc>
   </url>
   <url>
+    <loc>/reference/age_risk.html</loc>
+  </url>
+  <url>
+    <loc>/reference/describe_ethnicity.html</loc>
+  </url>
+  <url>
+    <loc>/reference/describe_occupation.html</loc>
+  </url>
+  <url>
+    <loc>/reference/detect_outbreaks_EWMA.html</loc>
+  </url>
+  <url>
+    <loc>/reference/distance_matrix.html</loc>
+  </url>
+  <url>
+    <loc>/reference/divipola_table.html</loc>
+  </url>
+  <url>
+    <loc>/reference/endemic_channel.html</loc>
+  </url>
+  <url>
+    <loc>/reference/epiCo-population-data.html</loc>
+  </url>
+  <url>
+    <loc>/reference/epiCo-spatial-data.html</loc>
+  </url>
+  <url>
+    <loc>/reference/epi_calendar.html</loc>
+  </url>
+  <url>
+    <loc>/reference/epi_georef.html</loc>
+  </url>
+  <url>
+    <loc>/reference/ewma.html</loc>
+  </url>
+  <url>
+    <loc>/reference/geom_mean.html</loc>
+  </url>
+  <url>
+    <loc>/reference/incidence_rate.html</loc>
+  </url>
+  <url>
     <loc>/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>/reference/isco88_table.html</loc>
+  </url>
+  <url>
+    <loc>/reference/morans_index.html</loc>
+  </url>
+  <url>
+    <loc>/reference/neighborhoods.html</loc>
+  </url>
+  <url>
+    <loc>/reference/population_projection_col.html</loc>
+  </url>
+  <url>
+    <loc>/reference/population_projection_col_0.html</loc>
+  </url>
+  <url>
+    <loc>/reference/population_pyramid.html</loc>
+  </url>
+  <url>
+    <loc>/reference/spatial_polygons_col.html</loc>
   </url>
 </urlset>
