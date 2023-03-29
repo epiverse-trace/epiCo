@@ -68,7 +68,9 @@ epi_calendar <- function(year, jan_days = 4) {
 #' @export
 epi_georef <- function(query_vector) {
   query_labels <- colnames(query_vector)
-  utils::data("divipola_table", package = "epiCo")
+  #utils::data("divipola_table", package = "epiCo")
+  path <- system.file("data", "divipola_table.rda", package = "epiCo")
+  divipola_table <- load(path)
   output_labels <- c("NOM_MPIO", "COD_MPIO", "LONGITUD", "LATITUD")
   if (sum(query_labels == c("LONGITUD", "LATITUD")) == 2) {
     dist_matrix <- geosphere::distm(query_vector, 
@@ -86,7 +88,7 @@ epi_georef <- function(query_vector) {
 #'
 #' @description Function that estimates incidence rates from a incidence class 
 #' object and population projections.
-#' @param incidence An incidence object.
+#' @param incidence_object An incidence object.
 #' @param level Administration level at which incidence counts are grouped.
 #' @param scale Scale to consider when calculating the incidence_rate.
 #' (0=national, 1=state/department, 2=city/municipality).
@@ -101,9 +103,20 @@ epi_georef <- function(query_vector) {
 #' 
 #' @export
 incidence_rate <- function(incidence_object, level, scale = 100000) {
-  utils::data("population_projection_col_0", packages = "epiCo")
-  utils::data("population_projection_col_1", packages = "epiCo")
-  utils::data("population_projection_col_2", packages = "epiCo")
+  #utils::data("population_projection_col_0", packages = "epiCo")
+  #utils::data("population_projection_col_1", packages = "epiCo")
+  #utils::data("population_projection_col_2", packages = "epiCo")
+  path_0 <- system.file("data", "population_projection_col_0.rda", 
+                        package = "epiCo")
+  population_projection_col_0 <- load(path_0)
+  path_1 <- system.file("data", "population_projection_col_1.rda", 
+                        package = "epiCo")
+  population_projection_col_1 <- load(path_1)
+  path_2 <- system.file("data", "population_projection_col_2.rda", 
+                        package = "epiCo")
+  population_projection_col_2 <- load(path_2)
+  
+  
   dates_years <- lubridate::year(incidence_object$dates)
   years <- unique(dates_years)
   groups <- colnames(incidence_object$counts)

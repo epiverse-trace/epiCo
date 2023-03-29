@@ -4,4 +4,5 @@
 #' @description Distance matrix between all Colombia's municipalities by land 
 #' or river.
 #' @name distance_matrix
+#' @usage data(distance_matrix)
 "distance_matrix"

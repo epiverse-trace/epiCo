@@ -12,7 +12,6 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.1
 Imports:
-    checkmate,
     dplyr,
     spdep,
     geosphere,
@@ -25,8 +24,10 @@ Imports:
     stats,
     magrittr
 Suggests: 
+    checkmate,
     covr,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Depends: 
     R (>= 2.10)
+LazyData: true
