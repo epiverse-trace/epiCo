@@ -6,7 +6,7 @@ Authors@R:
       person("Juan", "Montenegro", , "jf.montenegro@uniandes.edu.co", role = c("aut")),
       person("Julian", "Otero", , "jd.otero10@uniandes.edu.co", role = c("aut")),
       person("Mauricio", "Santos-Vega", , "om.santos@uniandes.edu.co", role = c("aut")))
-Description: Provides statistical tools for the analysis of demographic trends, spatiotemporal behavior, outbreaks characterization, underreporting estimation, and short-term forecasting of vector-borne diseases in Colombia
+Description: Provides statistical tools for the analysis of demographic trends, spatiotemporal behavior, outbreaks characterization, underreporting estimation, and short-term forecasting of vector-borne diseases in Colombia.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -22,7 +22,8 @@ Imports:
     qcc,
     utils,
     stats,
-    magrittr
+    magrittr,
+    rlang
 Suggests: 
     checkmate,
     covr,
