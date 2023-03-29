@@ -17,7 +17,6 @@
 #'
 #' @export
 neighborhoods <- function(query_vector, threshold = 2) {
-  # utils::data("distance_matrix", package = "epiCo")
   path <- system.file("data", "distance_matrix.rda", package = "epiCo")
   distance_matrix <- load(path)
   distance <- distance_matrix[
@@ -55,7 +54,6 @@ neighborhoods <- function(query_vector, threshold = 2) {
 #' }
 #' @export
 morans_index <- function(incidence_rate, threshold = 2, plot = TRUE) {
-  # utils::data("divipola_table", package = "epiCo")
   path_1 <- system.file("data", "divipola_table.rda", package = "epiCo")
   divipola_table <- load(path_1)
   # Match with DIVIPOLA order
@@ -75,7 +73,7 @@ morans_index <- function(incidence_rate, threshold = 2, plot = TRUE) {
 
   # Moran's I
   morans_i <- spdep::moran.plot(incidence_rate_log,
-    listw = weights, plot = F
+    listw = weights, plot = FALSE
   )
   moran_data_frame <- as.data.frame(morans_i)
   # Clusters
@@ -91,10 +89,8 @@ morans_index <- function(incidence_rate, threshold = 2, plot = TRUE) {
         mean(wx) ~ "LH"
     )
   )
-  influential_mpios <- moran_data_frame[which(moran_data_frame$is_inf == TRUE), ]
-  # Slope
-  # slope_moran <- lm(wx ~ x, morans_i)$coefficients[2]
-
+  influential_mpios <- moran_data_frame[which(moran_data_frame$is_inf == TRUE),
+                                        ]
   morans_index <- c(
     list(municipios = moran_data_frame$labels),
     list(quadrant = moran_data_frame$cluster),
@@ -104,7 +100,7 @@ morans_index <- function(incidence_rate, threshold = 2, plot = TRUE) {
   )
   cat(paste("Influential municipalities are:", "\n"))
   # Influential observations
-  for (i in 1:nrow(influential_mpios)) {
+  for (i in seq_len(nrow(influential_mpios))) {
     relative_incidence <- ifelse(substr(
       influential_mpios$cluster[i], 1, 1
     ) == "H", "high", "low")
@@ -119,7 +115,6 @@ morans_index <- function(incidence_rate, threshold = 2, plot = TRUE) {
   }
   # Plot
   if (plot == TRUE) {
-    # utils::data("spatial_polygons_col_2", package = "epiCo")
     path_2 <- system.file("data", "spatial_polygons_col_2.rda",
       package = "epiCo"
     )
@@ -161,8 +156,6 @@ morans_index <- function(incidence_rate, threshold = 2, plot = TRUE) {
         color = "white",
         fillOpacity = .75
       )
-    # rm(spatial_polygons_col_2, envir = .GlobalEnv)
-    # rm(divipola_table, envir = .GlobalEnv)
   }
   return(morans_index)
 }
