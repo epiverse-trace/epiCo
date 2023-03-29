@@ -8,7 +8,7 @@
 An object of class \code{data.frame} with 1121 rows and 7 columns.
 }
 \usage{
-divipola_table
+data(divipola_table)
 }
 \description{
 Political and administrative distribution of Colombia's

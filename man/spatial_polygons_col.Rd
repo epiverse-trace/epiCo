@@ -14,11 +14,11 @@ An object of class \code{SpatialPolygonsDataFrame} with 33 rows and 9 columns.
 An object of class \code{SpatialPolygonsDataFrame} with 1121 rows and 12 columns.
 }
 \usage{
-spatial_polygons_col_0
+data(spatial_polygons_col_0)
 
-spatial_polygons_col_1
+data(spatial_polygons_col_1)
 
-spatial_polygons_col_2
+data(spatial_polygons_col_2)
 }
 \description{
 Spatial polygon of Colombia.

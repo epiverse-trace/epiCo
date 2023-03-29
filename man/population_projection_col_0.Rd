@@ -8,7 +8,7 @@
 An object of class \code{data.frame} with 22 rows and 310 columns.
 }
 \usage{
-population_projection_col_0
+data(population_projection_col_0)
 }
 \description{
 Population projection of Colombia.

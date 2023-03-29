@@ -11,9 +11,9 @@ An object of class \code{data.frame} with 726 rows and 310 columns.
 An object of class \code{data.frame} with 24684 rows and 309 columns.
 }
 \usage{
-population_projection_col_1
+data(population_projection_col_1)
 
-population_projection_col_2
+data(population_projection_col_2)
 }
 \description{
 Population projection of the departments of Colombia.

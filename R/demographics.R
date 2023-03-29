@@ -19,10 +19,15 @@
 population_pyramid <- function(divipola_code, year,
                               gender = TRUE, total = TRUE, plot = FALSE) {
   
-  data("divipola_table", package = "epiCo")
+  #data("divipola_table", package = "epiCo")
+  path <- system.file("data", "divipola_table.rda", package = "epiCo")
+  divipola_table <- load(path)
   
   if (divipola_code %in% divipola_table$COD_DPTO) {
-    data("population_projection_col_1", package = "epiCo")
+    #data("population_projection_col_1", package = "epiCo")
+    path_1 <- system.file("data", "population_projection_col_1.rda", 
+                          package = "epiCo")
+    population_projection_col_1 <- load(path_1)
     pop_data_dpto <- subset(population_projection_col_1,
                            population_projection_col_1$DP == divipola_code
                            & population_projection_col_1$ANO == year)
@@ -31,10 +36,13 @@ population_pyramid <- function(divipola_code, year,
     male_total <- as.numeric(pop_data_dpto[5:105])
     
   } else if (divipola_code %in% divipola_table$COD_MPIO) {
-    data("population_projection_COL_2", package = "epiCo")
-    pop_data_mun <- subset(population_projection_COL_2,
-                           population_projection_COL_2$DPMP == divipola_code
-                           & population_projection_COL_2$ANO == year)
+    #data("population_projection_COL_2", package = "epiCo")
+    path_2 <- system.file("data", "population_projection_col_2.rda", 
+                          package = "epiCo")
+    population_projection_col_2 <- load(path_2)
+    pop_data_mun <- subset(population_projection_col_2,
+                           population_projection_col_2$DPMP == divipola_code
+                           & population_projection_col_2$ANO == year)
     
     female_total <- as.numeric(pop_data_mun[105:205])
     male_total <- as.numeric(pop_data_mun[4:104])
@@ -277,7 +285,9 @@ describe_ethnicity <- function(ethniclabels, language = "ES", plot = FALSE) {
 #' }
 #' @export
 describe_occupation <- function(isco_codes, output_level) {
-  utils::data("isco88_table", package = "epiCo")
+  #utils::data("isco88_table", package = "epiCo")
+  path <- system.file("data", "isco88_table.rda", package = "epiCo")
+  isco88_table <- load(path)
   input_level <- ifelse(isco_codes==0 | isco_codes==110,"Armed Forces",
                         ifelse(nchar(isco_codes)==1,"major",
                                ifelse(nchar(isco_codes)==2,"sub_major",

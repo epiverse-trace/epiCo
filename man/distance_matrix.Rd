@@ -8,7 +8,7 @@
 An object of class \code{data.frame} with 1121 rows and 1121 columns.
 }
 \usage{
-distance_matrix
+data(distance_matrix)
 }
 \description{
 Distance matrix between all Colombia's municipalities by land

@@ -8,7 +8,7 @@
 An object of class \code{data.frame} with 390 rows and 8 columns.
 }
 \usage{
-isco88_table
+data(isco88_table)
 }
 \description{
 ISCO88 description of occupations
