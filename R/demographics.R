@@ -23,7 +23,19 @@ population_pyramid <- function(divipola_code, year,
   path <- system.file("data", "divipola_table.rda", package = "epiCo")
   divipola_table <- load(path)
   
-  if (divipola_code %in% divipola_table$COD_DPTO) {
+  if (divipola_code == 0) {
+    #data("population_projection_col_1", package = "epiCo")
+    path_0 <- system.file("data", "population_projection_col_0.rda", 
+                          package = "epiCo")
+    population_projection_col_0 <- load(path_0)
+    pop_data_dpto <- subset(population_projection_col_0,
+                            population_projection_col_0$DP == divipola_code
+                            & population_projection_col_0$ANO == year)
+    
+    female_total <- as.numeric(pop_data_dpto[104:204])
+    male_total <- as.numeric(pop_data_dpto[3:103])
+    
+  } else if (divipola_code %in% divipola_table$COD_DPTO) {
     #data("population_projection_col_1", package = "epiCo")
     path_1 <- system.file("data", "population_projection_col_1.rda", 
                           package = "epiCo")
@@ -32,8 +44,8 @@ population_pyramid <- function(divipola_code, year,
                            population_projection_col_1$DP == divipola_code
                            & population_projection_col_1$ANO == year)
     
-    female_total <- as.numeric(pop_data_dpto[106:206])
-    male_total <- as.numeric(pop_data_dpto[5:105])
+    female_total <- as.numeric(pop_data_dpto[104:204])
+    male_total <- as.numeric(pop_data_dpto[3:103])
     
   } else if (divipola_code %in% divipola_table$COD_MPIO) {
     #data("population_projection_COL_2", package = "epiCo")
@@ -44,8 +56,8 @@ population_pyramid <- function(divipola_code, year,
                            population_projection_col_2$DPMP == divipola_code
                            & population_projection_col_2$ANO == year)
     
-    female_total <- as.numeric(pop_data_mun[105:205])
-    male_total <- as.numeric(pop_data_mun[4:104])
+    female_total <- as.numeric(pop_data_mun[104:204])
+    male_total <- as.numeric(pop_data_mun[3:103])
     
   } else {
     warning("There is no location assigned to the consulted DIVIPOLA code")
