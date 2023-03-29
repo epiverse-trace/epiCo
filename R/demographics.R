@@ -20,12 +20,10 @@
 #'
 population_pyramid <- function(divipola_code, year,
                                gender = TRUE, total = TRUE, plot = FALSE) {
-  # data("divipola_table", package = "epiCo")
   path <- system.file("data", "divipola_table.rda", package = "epiCo")
   divipola_table <- load(path)
 
   if (divipola_code == 0) {
-    # data("population_projection_col_1", package = "epiCo")
     path_0 <- system.file("data", "population_projection_col_0.rda",
       package = "epiCo"
     )
@@ -39,7 +37,6 @@ population_pyramid <- function(divipola_code, year,
     female_total <- as.numeric(pop_data_dpto[104:204])
     male_total <- as.numeric(pop_data_dpto[3:103])
   } else if (divipola_code %in% divipola_table$COD_DPTO) {
-    # data("population_projection_col_1", package = "epiCo")
     path_1 <- system.file("data", "population_projection_col_1.rda",
       package = "epiCo"
     )
@@ -52,7 +49,6 @@ population_pyramid <- function(divipola_code, year,
     female_total <- as.numeric(pop_data_dpto[104:204])
     male_total <- as.numeric(pop_data_dpto[3:103])
   } else if (divipola_code %in% divipola_table$COD_MPIO) {
-    # data("population_projection_COL_2", package = "epiCo")
     path_2 <- system.file("data", "population_projection_col_2.rda",
       package = "epiCo"
     )
@@ -153,49 +149,49 @@ population_pyramid <- function(divipola_code, year,
 #' @export
 age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
   if (!is.null(gender)) {
-    ages_F <- age[gender == "F"]
-    pyramid_F <- subset(population_pyramid, .data$Gender == "F")
-    hist_F <- graphics::hist(ages_F,
+    ages_f <- age[gender == "F"]
+    pyramid_f <- subset(population_pyramid, .data$Gender == "F")
+    hist_f <- graphics::hist(ages_f,
       breaks = c(0:101),
       right = FALSE, plot = FALSE
     )
 
-    age_risk_F <- data.frame(
-      Age = pyramid_F$Age,
-      Prob = hist_F$counts / pyramid_F$Population,
+    age_risk_f <- data.frame(
+      Age = pyramid_f$Age,
+      Prob = hist_f$counts / pyramid_f$Population,
       Gender = rep("F", 101)
     )
 
-    ages_M <- age[gender == "M"]
-    pyramid_M <- subset(population_pyramid, .data$Gender == "M")
-    hist_M <- graphics::hist(ages_M,
+    ages_m <- age[gender == "M"]
+    pyramid_m <- subset(population_pyramid, .data$Gender == "M")
+    hist_m <- graphics::hist(ages_m,
       breaks = c(0:101),
       right = FALSE, plot = FALSE
     )
 
-    age_risk_M <- data.frame(
-      Age = pyramid_M$Age,
-      Prob = hist_M$counts / pyramid_M$Population,
+    age_risk_m <- data.frame(
+      Age = pyramid_m$Age,
+      Prob = hist_m$counts / pyramid_m$Population,
       Gender = rep("M", 101)
     )
 
-    age_risk <- rbind(age_risk_F, age_risk_M)
+    age_risk <- rbind(age_risk_f, age_risk_m)
   } else {
-    hist_T <- graphics::hist(age,
+    hist_t <- graphics::hist(age,
       breaks = c(0:101), right = FALSE,
       plot = FALSE
     )
 
     age_risk <- data.frame(
       Age = population_pyramid$Age,
-      Prob = hist_T$counts / population_pyramid$Population
+      Prob = hist_t$counts / population_pyramid$Population
     )
   }
 
 
   if (plot == TRUE) {
     if (!is.null(gender)) {
-      age_risk$Prob <- c(-1 * age_risk_F$Prob, age_risk_M$Prob)
+      age_risk$Prob <- c(-1 * age_risk_f$Prob, age_risk_m$Prob)
 
       age_risk_plot <- ggplot2::ggplot(
         age_risk,
@@ -215,7 +211,7 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
         ) +
         ggplot2::coord_flip()
 
-      age_risk$Prob <- c(age_risk_F$Prob, age_risk_M$Prob)
+      age_risk$Prob <- c(age_risk_f$Prob, age_risk_m$Prob)
     } else {
       age_risk_plot <- ggplot2::ggplot(age_risk, ggplot2::aes(
         x = .data$Age,
@@ -248,69 +244,70 @@ describe_ethnicity <- function(ethniclabels, language = "ES", plot = FALSE) {
   ethniclabels <- as.data.frame(ethniclabels)
 
   #### ESPAÑOL ####
-  indigena_ES <- "Persona de ascendencia amerindia que comparten sentimientos
+  indigena_es <- "Persona de ascendencia amerindia que comparten sentimientos
   de identificacion con su pasado aborigen, manteniendo rasgos y valores
   propios de su cultura tradicional, asi como formas de organizacion
   y control social propios"
 
-  rom_ES <- "Son comunidades que tienen una identidad etnica y cultural propia;
+  rom_es <- "Son comunidades que tienen una identidad etnica y cultural propia;
   se caracterizan por una tradicion nomada, y tienen su propio idioma
   que es el romanes"
 
-  raizal_ES <- "Poblacion ubicada en el Archipielago de San Andres, Providencia
+  raizal_es <- "Poblacion ubicada en el Archipielago de San Andres, Providencia
   y Santa Catalina, con raices culturales afroanglo-antillanas,
   cuyos integrantes tienen rasgos socioculturales y linguisticos
   claramente diferenciados del resto de la poblacion afrocolombiana"
 
-  palenquero_ES <- "Poblacion ubicada en el municipio de San Basilio de Palenque,
-  departamento de Bolivar, donde se habla el palenquero, lenguaje criollo"
+  palenquero_es <- "Poblacion ubicada en el municipio de San Basilio de
+  Palenque, departamento de Bolivar, donde se habla el palenquero,
+  lenguaje criollo"
 
-  afro_ES <- "Persona de ascendencia afrocolombiana que poseen una cultura
+  afro_es <- "Persona de ascendencia afrocolombiana que poseen una cultura
   propia, y tienen sus propias tradiciones y costumbre dentro de la relacion
   campo-poblado"
 
   #### ENGLISH ####
-  indigena_EN <- "A person of Amerindian descent who shares feelings of
+  indigena_en <- "A person of Amerindian descent who shares feelings of
   identification with their aboriginal past, maintaining traits and values
   of their traditional culture, as well as their own forms of organization
   and social control"
 
-  rom_EN <- "They are communities that have their own ethnic and cultural
+  rom_en <- "They are communities that have their own ethnic and cultural
   identity; They are characterized by a nomadic tradition, and have their own
   language, which is Romanesque"
 
-  raizal_EN <- "Population located in the Archipelago of San Andres, Providencia
+  raizal_en <- "Population located in the Archipelago of San Andres, Providencia
   and Santa Catalina, with Afro-Anglo-Antillean cultural roots, whose members
   have clearly differentiated sociocultural and linguistic traits
   from the rest of the Afro-Colombian population"
 
-  palenquero_EN <- "Population located in the municipality of San Basilio de
+  palenquero_en <- "Population located in the municipality of San Basilio de
   Palenque, department of Bolivar, where palenquero is spoken,
   a Creole language"
 
-  afro_EN <- "Person of Afro-Colombian descent who have their own culture,
+  afro_en <- "Person of Afro-Colombian descent who have their own culture,
   and have their own traditions and customs within the
   rural-populated relationship"
 
   #####
 
-  descriptions_ES <- c(indigena_ES, rom_ES, raizal_ES, palenquero_ES, afro_ES)
-  description_EN <- c(indigena_EN, rom_EN, raizal_EN, palenquero_EN, afro_EN)
+  descriptions_es <- c(indigena_es, rom_es, raizal_es, palenquero_es, afro_es)
+  description_en <- c(indigena_en, rom_en, raizal_en, palenquero_en, afro_en)
 
   if (plot) {
-    ethnHist <- ggplot2::ggplot(ethniclabels, ggplot2::aes(ethniclabels)) +
+    ethn_hist <- ggplot2::ggplot(ethniclabels, ggplot2::aes(ethniclabels)) +
       ggplot2::geom_histogram() +
       ggplot2::theme_minimal()
 
-    print(ethnHist)
+    print(ethn_hist)
   }
 
   labels <- order(unique(ethniclabels$ethniclabels))
 
   if (language == "EN") {
-    return(description_EN[labels])
+    return(description_en[labels])
   } else {
-    return(descriptions_ES[labels])
+    return(descriptions_es[labels])
   }
 }
 
@@ -330,7 +327,6 @@ describe_ethnicity <- function(ethniclabels, language = "ES", plot = FALSE) {
 #' }
 #' @export
 describe_occupation <- function(isco_codes, output_level) {
-  # utils::data("isco88_table", package = "epiCo")
   path <- system.file("data", "isco88_table.rda", package = "epiCo")
   isco88_table <- load(path)
   input_level <- ifelse(isco_codes == 0 | isco_codes == 110, "Armed Forces",
@@ -376,8 +372,7 @@ describe_occupation <- function(isco_codes, output_level) {
   )
 
   isco88_labels <- as.list(input_level)
-  for (i in seq(1, length(isco_codes)))
-  {
+  for (i in seq(1, length(isco_codes))){
     tryCatch(
       {
         isco_code <- isco_codes[i]
