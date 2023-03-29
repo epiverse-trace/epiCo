@@ -6,9 +6,9 @@
 \alias{population_projection_col_2}
 \title{Department population projection}
 \format{
-An object of class \code{data.frame} with 726 rows and 310 columns.
+An object of class \code{data.frame} with 726 rows and 308 columns.
 
-An object of class \code{data.frame} with 24684 rows and 309 columns.
+An object of class \code{data.frame} with 24684 rows and 308 columns.
 }
 \usage{
 data(population_projection_col_1)

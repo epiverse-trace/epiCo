@@ -5,7 +5,7 @@
 \alias{divipola_table}
 \title{divipola_table}
 \format{
-An object of class \code{data.frame} with 1121 rows and 7 columns.
+An object of class \code{data.frame} with 1121 rows and 6 columns.
 }
 \usage{
 data(divipola_table)

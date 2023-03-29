@@ -5,7 +5,7 @@
 \alias{population_projection_col_0}
 \title{Colombian population projection}
 \format{
-An object of class \code{data.frame} with 22 rows and 310 columns.
+An object of class \code{data.frame} with 22 rows and 308 columns.
 }
 \usage{
 data(population_projection_col_0)
