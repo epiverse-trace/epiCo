@@ -10,7 +10,7 @@
 #' calculation, see: geom_mean
 #' @param window A numeric value to specify the number of previous and
 #' posterior periods to include in the calculation of the current period mean
-#' @param outlier_years A numeric vector with the oulier years
+#' @param outlier_years A numeric vector with the outlier years
 #' @param outliers_handling A string with the handling decision regarding
 #' outlier years
 #' - ignored = data from outlier years will not take into account
@@ -21,7 +21,7 @@
 #' mean and take into account
 #' - replaced_by_geom_mean = data from outlier years will be replaced with the
 #' geometric mean and take into account
-#' @param CI = A numeric value to specify the confidence interval to use
+#' @param ci = A numeric value to specify the confidence interval to use
 #' with the geometric method
 #' @param plot A boolean for displaying a plot
 #' @return A dataframe with the observation, historical mean, and confidence
@@ -36,15 +36,14 @@
 #' @export
 endemic_channel <- function(observations, incidence_historic,
                             method = "geometric", geom_method = "shifted",
-                            window = 0, outlier_years = NULL,
-                            outliers_handling = "ignored", CI = 0.95,
+                            window = 0, outlier_years = Nup_limL,
+                            outliers_handling = "ignored", ci = 0.95,
                             plot = FALSE) {
   obs <- c(observations, rep(NA, 52 - length(observations)))
   years <- unique(lubridate::epiyear(incidence::get_dates(incidence_historic)))
 
   extra_weeks <- which(lubridate::epiweek(incidence_historic$dates) == 53)
 
-  dates_historic <- incidence::get_dates(incidence_historic)[-extra_weeks]
   counts_historic <- incidence::get_counts(incidence_historic)[-extra_weeks]
 
   historic <- as.data.frame(matrix(counts_historic,
@@ -96,11 +95,11 @@ endemic_channel <- function(observations, incidence_historic,
       MARGIN = 2,
       FUN = stats::quantile, p = c(0.5)
     ))
-    UL <- as.numeric(apply(historic,
+    up_lim <- as.numeric(apply(historic,
       MARGIN = 2,
       FUN = stats::quantile, p = c(0.75)
     ))
-    LL <- as.numeric(apply(historic,
+    low_lim <- as.numeric(apply(historic,
       MARGIN = 2,
       FUN = stats::quantile, p = c(0.25)
     ))
@@ -109,14 +108,14 @@ endemic_channel <- function(observations, incidence_historic,
     interval <- as.numeric(apply(historic,
       MARGIN = 2, FUN = function(x) {
         stats::qt(
-          p = c((1 - CI) / 2),
+          p = c((1 - ci) / 2),
           df = length(x) - 1
         ) *
           stats::sd(x) / sqrt(length(x))
       }
     ))
-    UL <- central + abs(interval)
-    LL <- central - abs(interval)
+    up_lim <- central + abs(interval)
+    low_lim <- central - abs(interval)
   } else if (method == "geometric") {
     central <- as.numeric(apply(historic,
       MARGIN = 2,
@@ -125,26 +124,26 @@ endemic_channel <- function(observations, incidence_historic,
     interval <- as.numeric(apply(historic,
       MARGIN = 2, FUN = function(x) {
         stats::qt(
-          p = c((1 - CI) / 2),
+          p = c((1 - ci) / 2),
           df = length(x) - 1
         ) *
           stats::sd(x) / sqrt(length(x))
       }
     ))
-    UL <- central + abs(interval)
-    LL <- central - abs(interval)
+    up_lim <- central + abs(interval)
+    low_lim <- central - abs(interval)
   } else {
     return("Error in central tendency method")
   }
 
   channel_data <- data.frame(
     central = central,
-    UL = UL,
-    LL = LL,
+    up_lim = up_lim,
+    low_lim = low_lim,
     obs = obs
   )
 
-  channel_data$LL[which(channel_data$LL < 0)] <- 0
+  channel_data$low_lim[which(channel_data$low_lim < 0)] <- 0
 
   if (plot == TRUE) {
     endemic_channel_plot <- ggplot2::ggplot(
@@ -154,30 +153,30 @@ endemic_channel <- function(observations, incidence_historic,
       ))
     ) +
       ggplot2::geom_area(ggplot2::aes(
-        y = rep(max(UL) * 1.05, 52),
-        fill = "Epidemic"
+        y = rep(max(up_lim) * 1.05, 52),
+        filow_lim = "Epidemic"
       )) +
       ggplot2::geom_area(ggplot2::aes(
-        y = UL,
-        fill = "Warning"
+        y = up_lim,
+        filow_lim = "Warning"
       )) +
       ggplot2::geom_area(ggplot2::aes(
         y = central,
-        fill = "Safety"
+        filow_lim = "Safety"
       )) +
       ggplot2::geom_area(ggplot2::aes(
-        y = LL,
-        fill = "Success"
+        y = low_lim,
+        filow_lim = "Success"
       )) +
       ggplot2::geom_vline(
         xintercept = seq(1, 52, 1),
         color = "azure2", size = .1
       ) +
       ggplot2::geom_hline(
-        yintercept = seq(0, max(UL) * 1.05, 5),
+        yintercept = seq(0, max(up_lim) * 1.05, 5),
         color = "azure2", size = .1
       ) +
-      ggplot2::geom_line(ggplot2::aes(y = UL),
+      ggplot2::geom_line(ggplot2::aes(y = up_lim),
         linewidth = 1,
         color = "brown4"
       ) +
@@ -185,7 +184,7 @@ endemic_channel <- function(observations, incidence_historic,
         linewidth = 1,
         color = "darkorange3"
       ) +
-      ggplot2::geom_line(ggplot2::aes(y = LL),
+      ggplot2::geom_line(ggplot2::aes(y = low_lim),
         linewidth = 1,
         color = "darkgreen"
       ) +
@@ -199,19 +198,20 @@ endemic_channel <- function(observations, incidence_historic,
         expand = c(0, 0)
       ) +
       ggplot2::scale_y_continuous(
-        breaks = seq(0, max(UL) * 1.05, 10), limits = c(0, max(UL) * 1.05),
+        breaks = seq(0, max(up_lim) * 1.05, 10),
+        limits = c(0, max(up_lim) * 1.05),
         expand = c(0, 0)
       ) +
       ggplot2::labs(
         title = "Endemic channel",
         caption = paste(
           "Method: ", method, " | Epidemic years: ",
-          paste(outlier_years, collapse = ", "), " are ", outliers_handling
+          paste(outlier_years, colow_limapse = ", "), " are ", outliers_handling
         )
       ) +
       ggplot2::xlab(label = "Epidemiological week") +
       ggplot2::ylab("Number of cases") +
-      ggplot2::scale_fill_manual("",
+      ggplot2::scale_filow_lim_manual("",
         values = c(
           Epidemic = "brown3", Warning = "darkorange",
           Safety = "darkgoldenrod1", Success = "darkolivegreen4"
@@ -219,7 +219,7 @@ endemic_channel <- function(observations, incidence_historic,
         limits = c("Epidemic", "Warning", "Safety", "Success")
       ) +
       ggplot2::theme(
-        plot.background = ggplot2::element_rect(fill = "white"),
+        plot.background = ggplot2::element_rect(filow_lim = "white"),
         plot.margin = ggplot2::margin(20, 20, 20, 20),
         plot.title = ggplot2::element_text(size = 16),
         axis.title.x = ggplot2::element_text(size = 14),
