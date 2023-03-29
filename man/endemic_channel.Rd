@@ -12,7 +12,7 @@ endemic_channel(
   window = 0,
   outlier_years = NULL,
   outliers_handling = "ignored",
-  CI = 0.95,
+  ci = 0.95,
   plot = FALSE
 )
 }
@@ -30,7 +30,7 @@ calculation, see: geom_mean}
 \item{window}{A numeric value to specify the number of previous and
 posterior periods to include in the calculation of the current period mean}
 
-\item{outlier_years}{A numeric vector with the oulier years}
+\item{outlier_years}{A numeric vector with the outlier years}
 
 \item{outliers_handling}{A string with the handling decision regarding
 outlier years
@@ -45,7 +45,7 @@ mean and take into account
 geometric mean and take into account
 }}
 
-\item{CI}{= A numeric value to specify the confidence interval to use
+\item{ci}{= A numeric value to specify the confidence interval to use
 with the geometric method}
 
 \item{plot}{A boolean for displaying a plot}

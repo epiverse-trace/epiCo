@@ -7,17 +7,17 @@
 #'
 #' @return A list with Y smoothed values and limits UCL & LCL
 #' @export
-detect_outbreaks_EWMA <- function(epidata, lambda, nsigmas) {
-
+detect_outbreaks_ewma <- function(epidata, lambda, nsigmas) {
   qcc_list <- qcc::ewma(epidata, lambda = lambda, nsigmas = nsigmas)
+  outbreaks_ewma <- list(
+    epidata = NULL, y = NULL, up_lim = NULL,
+    low_lim = NULL, outliers = NULL
+  )
+  outbreaks_ewma$epidata <- epidata
+  outbreaks_ewma$y <- qcc_list$y
+  outbreaks_ewma$up_lim <- qcc_list$limits[, 2]
+  outbreaks_ewma$low_lim <- qcc_list$limits[, 1]
+  outbreaks_ewma$outliers <- qcc_list$violations
 
-  outbreaks_EWMA <- list(epidata = NULL, y = NULL, up_lim = NULL, low_lim = NULL, outliers = NULL)
-
-  outbreaks_EWMA$epidata <- epidata
-  outbreaks_EWMA$y <- qcc_list$y
-  outbreaks_EWMA$up_lim <- qcc_list$limits[, 2]
-  outbreaks_EWMA$low_lim <- qcc_list$limits[, 1]
-  outbreaks_EWMA$outliers <- qcc_list$violations
-
-  return(outbreaks_EWMA)
+  return(outbreaks_ewma)
 }

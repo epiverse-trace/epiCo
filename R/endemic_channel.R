@@ -36,7 +36,7 @@
 #' @export
 endemic_channel <- function(observations, incidence_historic,
                             method = "geometric", geom_method = "shifted",
-                            window = 0, outlier_years = Nup_limL,
+                            window = 0, outlier_years = NULL,
                             outliers_handling = "ignored", ci = 0.95,
                             plot = FALSE) {
   obs <- c(observations, rep(NA, 52 - length(observations)))
@@ -211,7 +211,7 @@ endemic_channel <- function(observations, incidence_historic,
       ) +
       ggplot2::xlab(label = "Epidemiological week") +
       ggplot2::ylab("Number of cases") +
-      ggplot2::scale_filow_lim_manual("",
+      ggplot2::scale_fill_manual("",
         values = c(
           Epidemic = "brown3", Warning = "darkorange",
           Safety = "darkgoldenrod1", Success = "darkolivegreen4"

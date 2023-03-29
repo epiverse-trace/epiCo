@@ -372,7 +372,7 @@ describe_occupation <- function(isco_codes, output_level) {
   )
 
   isco88_labels <- as.list(input_level)
-  for (i in seq(1, length(isco_codes))){
+  for (i in seq(1, length(isco_codes))) {
     tryCatch(
       {
         isco_code <- isco_codes[i]
