@@ -70,7 +70,6 @@ epi_calendar <- function(year, jan_days = 4) {
 #' @export
 epi_georef <- function(query_vector) {
   query_labels <- colnames(query_vector)
-  # utils::data("divipola_table", package = "epiCo")
   path <- system.file("data", "divipola_table.rda", package = "epiCo")
   divipola_table <- load(path)
   output_labels <- c("NOM_MPIO", "COD_MPIO", "LONGITUD", "LATITUD")
@@ -79,7 +78,7 @@ epi_georef <- function(query_vector) {
       query_vector,
       divipola_table[, c("LONGITUD", "LATITUD")]
     )
-    min_d <- apply(dist_matrix, 1, function(x) order(x, decreasing = F)[1])
+    min_d <- apply(dist_matrix, 1, function(x) order(x, decreasing = FALSE)[1])
     geo_ref <- divipola_table[min_d, output_labels]
   } else {
     geo_ref <- merge(query_vector, divipola_table, by = query_labels)
@@ -107,9 +106,7 @@ epi_georef <- function(query_vector) {
 #'
 #' @export
 incidence_rate <- function(incidence_object, level, scale = 100000) {
-  # utils::data("population_projection_col_0", packages = "epiCo")
-  # utils::data("population_projection_col_1", packages = "epiCo")
-  # utils::data("population_projection_col_2", packages = "epiCo")
+
   path_0 <- system.file("data", "population_projection_col_0.rda",
     package = "epiCo"
   )
@@ -147,10 +144,8 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
 
   inc_rates <- incidence_object$counts
 
-  for (gr in groups)
-  {
-    for (ye in years)
-    {
+  for (gr in groups){
+    for (ye in years){
       pop <- dplyr::filter(populations, .data$ANO == ye)
       pop <- pop[pop$DPMP == gr, "Total_General"]
       inc_rates[which(dates_years == ye), gr] <-
@@ -206,14 +201,14 @@ geom_mean <- function(x, method = "optimized", shift = 1, epsilon = 1e-5) {
 
     gm <- exp(mean(log(x_shifted))) - shift
   } else if (method == "weighted") {
-    N <- length(x)
+    n_x <- length(x)
 
     x_positive <- x[x > 0]
-    w_positive <- length(x_positive) / N
+    w_positive <- length(x_positive) / n_x
     x_negative <- x[x < 0]
-    w_negative <- length(x_negative) / N
+    w_negative <- length(x_negative) / n_x
     x_zeros <- x[x == 0]
-    w_zeros <- length(x_zeros) / N
+    w_zeros <- length(x_zeros) / n_x
 
     gm_positive <- exp(mean(log(x_positive)))
     gm_negative <- -1 * exp(mean(log(abs(x_negative))))
@@ -238,13 +233,6 @@ geom_mean <- function(x, method = "optimized", shift = 1, epsilon = 1e-5) {
 
     delta_min <- 0
     delta_max <- gm_positive + epsilon
-
-    # while (exp(mean(log(x_positive+deltamax)))-deltamax < epsilon)
-    # { #Just for data set with very small standard desviation
-    #   delta_min <- delta_max
-    #   delta_max <- delta_max*2
-    # }
-
     delta <- (delta_min + delta_max) / 2
 
     # Define aus_exp to not repeat operations
@@ -252,9 +240,9 @@ geom_mean <- function(x, method = "optimized", shift = 1, epsilon = 1e-5) {
 
     while ((aus_exp - gm_positive) > epsilon) {
       if ((aus_exp < gm_positive)) {
-        deltamin <- delta
+        delta_min <- delta
       } else {
-        deltamax <- delta
+        delta_max <- delta
       }
 
       delta <- (delta_min + delta_max) / 2
