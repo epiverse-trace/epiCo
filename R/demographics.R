@@ -8,6 +8,8 @@
 #' @param total A boolean for returning the total number rather than the 
 #' proportion of the populations
 #' @param plot A boolean for displaying a plot
+#' 
+#' @importFrom rlang .data
 #'
 #' @return A dataframe with the proportion or total count of individuals
 #' @examples 
@@ -29,8 +31,7 @@ population_pyramid <- function(divipola_code, year,
                           package = "epiCo")
     population_projection_col_1 <- load(path_1)
     pop_data_dpto <- subset(population_projection_col_1,
-                           population_projection_col_1$DP == divipola_code
-                           & population_projection_col_1$ANO == year)
+                           .data$DP == divipola_code & .data$ANO == year)
     
     female_total <- as.numeric(pop_data_dpto[106:206])
     male_total <- as.numeric(pop_data_dpto[5:105])
@@ -41,8 +42,7 @@ population_pyramid <- function(divipola_code, year,
                           package = "epiCo")
     population_projection_col_2 <- load(path_2)
     pop_data_mun <- subset(population_projection_col_2,
-                           population_projection_col_2$DPMP == divipola_code
-                           & population_projection_col_2$ANO == year)
+                           .data$DPMP == divipola_code & .data$ANO == year)
     
     female_total <- as.numeric(pop_data_mun[105:205])
     male_total <- as.numeric(pop_data_mun[4:104])
@@ -119,6 +119,8 @@ population_pyramid <- function(divipola_code, year,
 #' @param population_pyramid A dataframe with the count of individuals
 #' @param plot A boolean for displaying a plot
 #'
+#' @importFrom rlang .data
+#' 
 #' @return A dataframe with the proportion or total count of individuals
 #' @export
 age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
@@ -126,7 +128,7 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
   if (!is.null(gender)) {
     
     ages_F <- age[gender=='F']
-    pyramid_F <- subset(population_pyramid, Gender == "F")
+    pyramid_F <- subset(population_pyramid, .data$Gender == "F")
     hist_F <- graphics::hist(ages_F, breaks = c(0:101),
                              right = FALSE, plot = FALSE)
     
@@ -137,7 +139,7 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
     )
     
     ages_M <- age[gender=='M']
-    pyramid_M <- subset(population_pyramid, Gender == "M")
+    pyramid_M <- subset(population_pyramid, .data$Gender == "M")
     hist_M <- graphics::hist(ages_M, breaks = c(0:101),
                              right = FALSE, plot = FALSE)
     
@@ -166,15 +168,20 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
       age_risk$Prob <- c(-1 * age_risk_F$Prob, age_risk_M$Prob)
       
       age_risk_plot <- ggplot2::ggplot(age_risk, 
-                                       ggplot2::aes(x=Age,y=Prob,fill=Gender)) +
-        ggplot2::geom_bar(data=subset(age_risk,Gender=='F'),stat="identity") +
-        ggplot2::geom_bar(data=subset(age_risk,Gender=='M'),stat="identity") +
+                                       ggplot2::aes(x = .data$Age,
+                                                    y = .data$Prob,
+                                                    fill = .data$Gender)) +
+        ggplot2::geom_bar(data = subset(age_risk, .data$Gender == 'F'), 
+                          stat = "identity") +
+        ggplot2::geom_bar(data = subset(age_risk, .data$Gender == 'M'), 
+                          stat = "identity") +
         ggplot2::coord_flip()
       
       age_risk$Prob <- c(age_risk_F$Prob, age_risk_M$Prob)
       
     } else {
-      age_risk_plot <- ggplot2::ggplot(age_risk, ggplot2::aes(x=Age,y=Prob)) +
+      age_risk_plot <- ggplot2::ggplot(age_risk, ggplot2::aes(x = .data$Age,
+                                                              y = .data$Prob)) +
         ggplot2::geom_bar(stat = "identity")
     }
     
