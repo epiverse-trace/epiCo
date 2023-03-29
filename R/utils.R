@@ -106,7 +106,6 @@ epi_georef <- function(query_vector) {
 #'
 #' @export
 incidence_rate <- function(incidence_object, level, scale = 100000) {
-
   path_0 <- system.file("data", "population_projection_col_0.rda",
     package = "epiCo"
   )
@@ -144,8 +143,8 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
 
   inc_rates <- incidence_object$counts
 
-  for (gr in groups){
-    for (ye in years){
+  for (gr in groups) {
+    for (ye in years) {
       pop <- dplyr::filter(populations, .data$ANO == ye)
       pop <- pop[pop$DPMP == gr, "Total_General"]
       inc_rates[which(dates_years == ye), gr] <-

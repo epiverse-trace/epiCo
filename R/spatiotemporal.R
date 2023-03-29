@@ -89,8 +89,7 @@ morans_index <- function(incidence_rate, threshold = 2, plot = TRUE) {
         mean(wx) ~ "LH"
     )
   )
-  influential_mpios <- moran_data_frame[which(moran_data_frame$is_inf == TRUE),
-                                        ]
+  inf_mpios <- moran_data_frame[which(moran_data_frame$is_inf == TRUE), ]
   morans_index <- c(
     list(municipios = moran_data_frame$labels),
     list(quadrant = moran_data_frame$cluster),
@@ -100,15 +99,15 @@ morans_index <- function(incidence_rate, threshold = 2, plot = TRUE) {
   )
   cat(paste("Influential municipalities are:", "\n"))
   # Influential observations
-  for (i in seq_len(nrow(influential_mpios))) {
+  for (i in seq_len(nrow(inf_mpios))) {
     relative_incidence <- ifelse(substr(
-      influential_mpios$cluster[i], 1, 1
+      inf_mpios$cluster[i], 1, 1
     ) == "H", "high", "low")
     relative_correlation <- ifelse(substr(
-      influential_mpios$cluster[i], 2, 2
+      inf_mpios$cluster[i], 2, 2
     ) == "H", "high", "low")
     cat(paste(
-      influential_mpios$labels[i], "con", relative_incidence,
+      inf_mpios$labels[i], "con", relative_incidence,
       "incidence and", relative_correlation, "spatial correlation",
       "\n"
     ))
@@ -128,12 +127,12 @@ morans_index <- function(incidence_rate, threshold = 2, plot = TRUE) {
       ordered = TRUE
     )
     shapes <- spatial_polygons_col_2[spatial_polygons_col_2$MPIO_CDPMP %in%
-      as.integer(influential_mpios$labels), ]
+      as.integer(inf_mpios$labels), ]
     shapes_plot <- shapes[, order(match(
-      as.integer(influential_mpios$labels),
+      as.integer(inf_mpios$labels),
       shapes$MPIO_CDPMP
     ))]
-    shapes_plot$CLUSTER <- influential_mpios$cluster
+    shapes_plot$CLUSTER <- inf_mpios$cluster
     shapes_plot$NOM_MPIO <- divipola_table$NOM_MPIO[divipola_table$COD_MPIO %in%
       shapes_plot$MPIO_CDPMP]
     # shapes_ordered
