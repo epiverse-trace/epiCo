@@ -21,6 +21,6 @@ Function that returns the description of consulted ethnicities
 }
 \examples{
 \dontrun{
-  describe_ethnicity(c(1, 2, 3, 4))
+describe_ethnicity(c(1, 2, 3, 4))
 }
 }

@@ -22,6 +22,6 @@ into a vector of labels
 }
 \examples{
 \dontrun{
-  describe_occupation(1111, level = 1)
+describe_occupation(1111, level = 1)
 }
 }

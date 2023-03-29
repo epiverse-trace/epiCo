@@ -21,8 +21,8 @@ inside Colombia by land or river transport.
 }
 \examples{
 \dontrun{
-  query_vector <- c(5001, 5002, 5004, 5021, 5030, 5615, 5607)
-  neighborhood(query_vector, 2)
+query_vector <- c(5001, 5002, 5004, 5021, 5030, 5615, 5607)
+neighborhood(query_vector, 2)
 }
 
 }
