@@ -18,6 +18,5 @@ detect_outbreaks_ewma <- function(epidata, lambda, nsigmas) {
   outbreaks_ewma$up_lim <- qcc_list$limits[, 2]
   outbreaks_ewma$low_lim <- qcc_list$limits[, 1]
   outbreaks_ewma$outliers <- qcc_list$violations
-
   return(outbreaks_ewma)
 }
