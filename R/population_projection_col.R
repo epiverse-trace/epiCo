@@ -1,5 +1,5 @@
 #' Colombian Population projection
-#' 
+#'
 #' @title population_projection_col
 #' @description Documentation for datasets regarding population projection
 #'

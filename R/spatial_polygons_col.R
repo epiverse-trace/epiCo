@@ -1,5 +1,5 @@
 #' Spatial polygons of Colombia
-#' 
+#'
 #' @title spatial_polygons_col
 #' @description Documentation for datasets regarding spatial polygons
 #'
