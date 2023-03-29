@@ -217,16 +217,16 @@ describe_ethnicity <- function(ethniclabels, language = "ES", plot = FALSE) {
   #### ESPAÑOL ####
   indigena_ES <-"Persona de ascendencia amerindia que comparten sentimientos
   de identificacion con su pasado aborigen, manteniendo rasgos y valores
-  propios de su cultura tradicional, así como formas de organizacion
+  propios de su cultura tradicional, asi como formas de organizacion
   y control social propios"
   
-  rom_ES <-"Son comunidades que tienen una identidad étnica y cultural propia;
+  rom_ES <-"Son comunidades que tienen una identidad etnica y cultural propia;
   se caracterizan por una tradicion nomada, y tienen su propio idioma
   que es el romanes"
   
   raizal_ES <-"Poblacion ubicada en el Archipielago de San Andres, Providencia
   y Santa Catalina, con raices culturales afroanglo-antillanas,
-  cuyos integrantes tienen rasgos socioculturales y lingüísticos
+  cuyos integrantes tienen rasgos socioculturales y linguisticos
   claramente diferenciados del resto de la poblacion afrocolombiana"
   
   palenquero_ES <-"Poblacion ubicada en el municipio de San Basilio de Palenque,
