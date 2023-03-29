@@ -122,14 +122,14 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
   groups <- colnames(incidence_object$counts)
   
   if (level == 0) {
-    populations <- dplyr::filter(population_projection_col_0, .data$ANO %in%
-                                   years)
+    populations <- dplyr::filter(population_projection_col_0, 
+                                 .data$ANO %in% years)
   } else if (level == 1) {
-    populations <- dplyr::filter(population_projection_col_1, .data$DP %in% 
-                                   groups & .data$ANO %in% years)
+    populations <- dplyr::filter(population_projection_col_1, 
+                                 .data$DP %in% groups & .data$ANO %in% years)
   } else {
-    populations <- dplyr::filter(population_projection_col_2, .data$DPMP %in% 
-                                   groups & .data$ANO %in% years)
+    populations <- dplyr::filter(population_projection_col_2, 
+                                 .data$DPMP %in% groups & .data$ANO %in% years)
   }
   
   inc_rates <- incidence_object$counts
