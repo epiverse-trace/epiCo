@@ -19,7 +19,7 @@ DIVIPOLA codes, and coordinatesfrom an input of one of these variables.
 }
 \examples{
 \dontrun{
-  epigeoref(query_vector)
-} 
+epigeoref(query_vector)
+}
 
 }

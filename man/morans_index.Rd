@@ -26,6 +26,6 @@ from a given incidence_rate object grouped by municipality.
 }
 \examples{
 \dontrun{
-  morans_index(incidence_rate, 2, FALSE)
+morans_index(incidence_rate, 2, FALSE)
 }
 }

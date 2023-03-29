@@ -60,7 +60,9 @@ the selected method and windows of observation
 }
 \examples{
 \dontrun{
-  endemic_channel(observations, incidence_historic, method = "geometric",
-  outliers_handling = "replace_with_median", plot = TRUE)
+endemic_channel(observations, incidence_historic,
+  method = "geometric",
+  outliers_handling = "replace_with_median", plot = TRUE
+)
 }
 }

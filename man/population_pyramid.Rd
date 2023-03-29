@@ -33,6 +33,6 @@ or department of an specific year
 }
 \examples{
 \dontrun{
-  population_pyramid(15001, 2015, total = TRUE, plot = TRUE)
+population_pyramid(15001, 2015, total = TRUE, plot = TRUE)
 }
 }

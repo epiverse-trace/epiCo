@@ -24,7 +24,7 @@ object and population projections.
 }
 \examples{
 \dontrun{
-  incidence_rate(incidence_object, 2)
+incidence_rate(incidence_object, 2)
 }
 
 }

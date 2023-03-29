@@ -22,7 +22,7 @@ weeks in a year of interest.
 }
 \examples{
 \dontrun{
-  epi_calendar(2016)
+epi_calendar(2016)
 }
 
 }
