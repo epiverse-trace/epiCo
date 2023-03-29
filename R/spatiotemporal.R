@@ -126,6 +126,8 @@ morans_index <- function(incidence_rate, threshold = 2, plot = TRUE) {
       domain = c("HH", "LL", "LH", "HL"),
       ordered = TRUE
     )
+    pal_test <- pal(c("LL", "HH"))
+    rm(pal_test)
     shapes <- spatial_polygons_col_2[spatial_polygons_col_2$MPIO_CDPMP %in%
       as.integer(inf_mpios$labels), ]
     shapes_plot <- shapes[, order(match(
