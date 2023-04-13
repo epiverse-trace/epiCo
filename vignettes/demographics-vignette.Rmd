@@ -1,0 +1,30 @@
+---
+title: "epiCo Demographic Analyses"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{epiCo Demographic Analyses}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+**epiCo**'s demographics module is a tool for demographic descriptive analysis and
+risk assessment of epidemiological events in Colombia. Based on linelist data 
+provided by the National Surveillance System (SIVIGILA) and demographic data
+from the National Administrative Department of Statistics (DANE), the functions
+displayed in this vignette will allow you to:
+
+- Consult the population pyramid of a municipality, department, or the country
+for a year of interest
+- Calculate a relative age risk by normalizing the distribution of cases
+by the specific age structure of the location of interest
+
+```{r setup}
+library(epiCo)
+```
