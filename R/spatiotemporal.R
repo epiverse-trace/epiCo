@@ -19,6 +19,7 @@
 neighborhoods <- function(query_vector, threshold = 2) {
   path <- system.file("data", "distance_matrix.rda", package = "epiCo")
   load(path)
+  distance_matrix <- distance_matrix
   distance <- distance_matrix[
     which(row.names(distance_matrix) %in%
       query_vector),
@@ -56,6 +57,7 @@ neighborhoods <- function(query_vector, threshold = 2) {
 morans_index <- function(incidence_rate, threshold = 2, plot = TRUE) {
   path_1 <- system.file("data", "divipola_table.rda", package = "epiCo")
   load(path_1)
+  divipola_table <- divipola_table
   # Match with DIVIPOLA order
   incidence_rate_ordered <- incidence_rate[, order(match(
     colnames(incidence_rate$counts), divipola_table$COD_MPIO
@@ -118,6 +120,7 @@ morans_index <- function(incidence_rate, threshold = 2, plot = TRUE) {
       package = "epiCo"
     )
     load(path_2)
+    spatial_polygons_col_2 <- spatial_polygons_col_2
     pal <- leaflet::colorFactor(
       palette = c(
         "#ba0001", "#357a38", "#2c7c94",

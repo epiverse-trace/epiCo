@@ -72,6 +72,7 @@ epi_georef <- function(query_vector) {
   query_labels <- colnames(query_vector)
   path <- system.file("data", "divipola_table.rda", package = "epiCo")
   load(path)
+  divipola_table <- divipola_table
   output_labels <- c("NOM_MPIO", "COD_MPIO", "LONGITUD", "LATITUD")
   if (sum(query_labels == c("LONGITUD", "LATITUD")) == 2) {
     dist_matrix <- geosphere::distm(
@@ -110,14 +111,17 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
     package = "epiCo"
   )
   load(path_0)
+  population_projection_col_0 <- population_projection_col_0
   path_1 <- system.file("data", "population_projection_col_1.rda",
     package = "epiCo"
   )
   load(path_1)
+  population_projection_col_1 <- population_projection_col_1
   path_2 <- system.file("data", "population_projection_col_2.rda",
     package = "epiCo"
   )
   load(path_2)
+  population_projection_col_2 <- population_projection_col_2
 
 
   dates_years <- lubridate::year(incidence_object$dates)
