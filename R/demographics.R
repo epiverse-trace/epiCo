@@ -23,7 +23,7 @@ population_pyramid <- function(divipola_code, year,
   path <- system.file("data", "divipola_table.rda", package = "epiCo")
   load(path)
   divipola_table <- divipola_table
-  
+
   if (divipola_code == 0) {
     path_0 <- system.file("data", "population_projection_col_0.rda",
       package = "epiCo"
