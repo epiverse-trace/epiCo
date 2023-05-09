@@ -30,7 +30,7 @@ population_pyramid <- function(divipola_code, year,
     )
     load(path_0)
     population_projection_col_0 <- population_projection_col_0
-    pop_data_dpto <- subset(
+    pop_data_dpto <- dplyr::filter(
       population_projection_col_0,
       population_projection_col_0$DP == divipola_code &
         population_projection_col_0$ANO == year
@@ -44,7 +44,7 @@ population_pyramid <- function(divipola_code, year,
     )
     load(path_1)
     population_projection_col_1 <- population_projection_col_1
-    pop_data_dpto <- subset(
+    pop_data_dpto <- dplyr::filter(
       population_projection_col_1,
       .data$DP == divipola_code & .data$ANO == year
     )
@@ -57,7 +57,7 @@ population_pyramid <- function(divipola_code, year,
     )
     load(path_2)
     population_projection_col_2 <- population_projection_col_2
-    pop_data_mun <- subset(
+    pop_data_mun <- dplyr::filter(
       population_projection_col_2,
       .data$DPMP == divipola_code & .data$ANO == year
     )
@@ -100,11 +100,11 @@ population_pyramid <- function(divipola_code, year,
         )
       ) +
         ggplot2::geom_bar(
-          data = subset(pop_pyramid, .data$Gender == "F"),
+          data = dplyr::filter(pop_pyramid, .data$Gender == "F"),
           stat = "identity"
         ) +
         ggplot2::geom_bar(
-          data = subset(pop_pyramid, .data$Gender == "M"),
+          data = dplyr::filter(pop_pyramid, .data$Gender == "M"),
           stat = "identity"
         ) +
         ggplot2::coord_flip()
@@ -154,7 +154,7 @@ population_pyramid <- function(divipola_code, year,
 age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
   if (!is.null(gender)) {
     ages_f <- age[gender == "F"]
-    pyramid_f <- subset(population_pyramid, .data$Gender == "F")
+    pyramid_f <- dplyr::filter(population_pyramid, .data$Gender == "F")
     hist_f <- graphics::hist(ages_f,
       breaks = c(0:101),
       right = FALSE, plot = FALSE
@@ -167,7 +167,7 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
     )
 
     ages_m <- age[gender == "M"]
-    pyramid_m <- subset(population_pyramid, .data$Gender == "M")
+    pyramid_m <- dplyr::filter(population_pyramid, .data$Gender == "M")
     hist_m <- graphics::hist(ages_m,
       breaks = c(0:101),
       right = FALSE, plot = FALSE
@@ -206,11 +206,11 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
         )
       ) +
         ggplot2::geom_bar(
-          data = subset(age_risk, .data$Gender == "F"),
+          data = dplyr::filter(age_risk, .data$Gender == "F"),
           stat = "identity"
         ) +
         ggplot2::geom_bar(
-          data = subset(age_risk, .data$Gender == "M"),
+          data = dplyr::filter(age_risk, .data$Gender == "M"),
           stat = "identity"
         ) +
         ggplot2::coord_flip()
