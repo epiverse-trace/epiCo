@@ -71,7 +71,8 @@ epi_calendar <- function(year, jan_days = 4) {
 epi_georef <- function(query_vector) {
   query_labels <- colnames(query_vector)
   path <- system.file("data", "divipola_table.rda", package = "epiCo")
-  divipola_table <- load(path)
+  load(path)
+  divipola_table <- divipola_table
   output_labels <- c("NOM_MPIO", "COD_MPIO", "LONGITUD", "LATITUD")
   if (sum(query_labels == c("LONGITUD", "LATITUD")) == 2) {
     dist_matrix <- geosphere::distm(
@@ -109,15 +110,18 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
   path_0 <- system.file("data", "population_projection_col_0.rda",
     package = "epiCo"
   )
-  population_projection_col_0 <- load(path_0)
+  load(path_0)
+  population_projection_col_0 <- population_projection_col_0
   path_1 <- system.file("data", "population_projection_col_1.rda",
     package = "epiCo"
   )
-  population_projection_col_1 <- load(path_1)
+  load(path_1)
+  population_projection_col_1 <- population_projection_col_1
   path_2 <- system.file("data", "population_projection_col_2.rda",
     package = "epiCo"
   )
-  population_projection_col_2 <- load(path_2)
+  load(path_2)
+  population_projection_col_2 <- population_projection_col_2
 
 
   dates_years <- lubridate::year(incidence_object$dates)

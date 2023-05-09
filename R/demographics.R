@@ -21,13 +21,15 @@
 population_pyramid <- function(divipola_code, year,
                                gender = TRUE, total = TRUE, plot = FALSE) {
   path <- system.file("data", "divipola_table.rda", package = "epiCo")
-  divipola_table <- load(path)
+  load(path)
+  divipola_table <- divipola_table
 
   if (divipola_code == 0) {
     path_0 <- system.file("data", "population_projection_col_0.rda",
       package = "epiCo"
     )
-    population_projection_col_0 <- load(path_0)
+    load(path_0)
+    population_projection_col_0 <- population_projection_col_0
     pop_data_dpto <- subset(
       population_projection_col_0,
       population_projection_col_0$DP == divipola_code &
@@ -40,7 +42,8 @@ population_pyramid <- function(divipola_code, year,
     path_1 <- system.file("data", "population_projection_col_1.rda",
       package = "epiCo"
     )
-    population_projection_col_1 <- load(path_1)
+    load(path_1)
+    population_projection_col_1 <- population_projection_col_1
     pop_data_dpto <- subset(
       population_projection_col_1,
       .data$DP == divipola_code & .data$ANO == year
@@ -52,7 +55,8 @@ population_pyramid <- function(divipola_code, year,
     path_2 <- system.file("data", "population_projection_col_2.rda",
       package = "epiCo"
     )
-    population_projection_col_2 <- load(path_2)
+    load(path_2)
+    population_projection_col_2 <- population_projection_col_2
     pop_data_mun <- subset(
       population_projection_col_2,
       .data$DPMP == divipola_code & .data$ANO == year
@@ -328,7 +332,8 @@ describe_ethnicity <- function(ethniclabels, language = "ES", plot = FALSE) {
 #' @export
 describe_occupation <- function(isco_codes, output_level) {
   path <- system.file("data", "isco88_table.rda", package = "epiCo")
-  isco88_table <- load(path)
+  load(path)
+  isco88_table <- isco88_table
   input_level <- ifelse(isco_codes == 0 | isco_codes == 110, "Armed Forces",
     ifelse(nchar(isco_codes) == 1, "major",
       ifelse(nchar(isco_codes) == 2, "sub_major",
