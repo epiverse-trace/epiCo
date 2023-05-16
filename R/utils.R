@@ -107,6 +107,8 @@ epi_georef <- function(query_vector) {
 #'
 #' @export
 incidence_rate <- function(incidence_object, level, scale = 100000) {
+  dates_years <- lubridate::year(incidence_object$dates)
+  years <- unique(dates_years)
   if (level == 0) {
     path_0 <- system.file("data", "population_projection_col_0.rda",
       package = "epiCo"
@@ -115,6 +117,7 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
     population_projection_col_0 <- population_projection_col_0
     populations <- population_projection_col_0
     populations$code <- population_projection_col_0$DP
+    groups <- c(0)
   } else if (level == 1) {
     path_1 <- system.file("data", "population_projection_col_1.rda",
       package = "epiCo"
@@ -123,6 +126,7 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
     population_projection_col_1 <- population_projection_col_1
     populations <- population_projection_col_1
     populations$code <- population_projection_col_1$DP
+    groups <- colnames(incidence_object$counts)
   } else if (level == 2) {
     path_2 <- system.file("data", "population_projection_col_2.rda",
       package = "epiCo"
@@ -131,33 +135,21 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
     population_projection_col_2 <- population_projection_col_2
     populations <- population_projection_col_2
     populations$code <- population_projection_col_2$DPMP
+    groups <- colnames(incidence_object$counts)
   } else {
     return("Error in selection Administrative Level")
   }
 
-  dates_years <- lubridate::year(incidence_object$dates)
-  years <- unique(dates_years)
-  if (level == 0) {
-    groups <- c(0)
-  } else {
-    groups <- colnames(incidence_object$counts)
-  }
-
-  if (sum(!(years %in% unique(populations$ANO))) > 0) {
-    return("There are dates out of the projection dates (2005-2023)")
-  } else if (sum(!(groups %in% unique(populations$codes))) > 0) {
-    return("There are groups out of the DIVIPOLA codes.
-           Check for incidence groups and administration level matching.")
+  if (sum(!(years %in% unique(populations$ANO))) +
+    sum(!(groups %in% unique(populations$codes))) > 0) {
+    return("No population projections found.
+           Incidence groups and administration level may not match or
+           dates may be out of the projections (2005-2023)")
   } else {
     populations <- dplyr::filter(
       populations,
       .data$code %in% groups & .data$ANO %in% years
     )
-  }
-
-  if (nrow(populations) == 0) {
-    return("No population projections found.
-           Check for incidence groups and administration level matching.")
   }
 
   inc_rates <- incidence_object$counts
