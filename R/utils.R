@@ -107,41 +107,48 @@ epi_georef <- function(query_vector) {
 #'
 #' @export
 incidence_rate <- function(incidence_object, level, scale = 100000) {
-  path_0 <- system.file("data", "population_projection_col_0.rda",
-    package = "epiCo"
-  )
-  load(path_0)
-  population_projection_col_0 <- population_projection_col_0
-  path_1 <- system.file("data", "population_projection_col_1.rda",
-    package = "epiCo"
-  )
-  load(path_1)
-  population_projection_col_1 <- population_projection_col_1
-  path_2 <- system.file("data", "population_projection_col_2.rda",
-    package = "epiCo"
-  )
-  load(path_2)
-  population_projection_col_2 <- population_projection_col_2
-
-
   dates_years <- lubridate::year(incidence_object$dates)
   years <- unique(dates_years)
-  groups <- colnames(incidence_object$counts)
-
   if (level == 0) {
-    populations <- dplyr::filter(
-      population_projection_col_0,
-      .data$ANO %in% years
+    path_0 <- system.file("data", "population_projection_col_0.rda",
+      package = "epiCo"
     )
+    load(path_0)
+    population_projection_col_0 <- population_projection_col_0
+    populations <- population_projection_col_0
+    populations$code <- population_projection_col_0$DP
+    groups <- c(0)
   } else if (level == 1) {
-    populations <- dplyr::filter(
-      population_projection_col_1,
-      .data$DP %in% groups & .data$ANO %in% years
+    path_1 <- system.file("data", "population_projection_col_1.rda",
+      package = "epiCo"
     )
+    load(path_1)
+    population_projection_col_1 <- population_projection_col_1
+    populations <- population_projection_col_1
+    populations$code <- population_projection_col_1$DP
+    groups <- colnames(incidence_object$counts)
+  } else if (level == 2) {
+    path_2 <- system.file("data", "population_projection_col_2.rda",
+      package = "epiCo"
+    )
+    load(path_2)
+    population_projection_col_2 <- population_projection_col_2
+    populations <- population_projection_col_2
+    populations$code <- population_projection_col_2$DPMP
+    groups <- colnames(incidence_object$counts)
+  } else {
+    return("Error in selection Administrative Level")
+  }
+
+  if (sum(!(years %in% unique(populations$ANO))) +
+    sum(!(groups %in% unique(populations$codes))) > 0) {
+    return("No population projections found.
+           Incidence groups and administration level may not match or
+           dates may be out of the projections (2005-2023)")
   } else {
     populations <- dplyr::filter(
-      population_projection_col_2,
-      .data$DPMP %in% groups & .data$ANO %in% years
+      populations,
+      .data$code %in% groups & .data$ANO %in% years
     )
   }
 
@@ -150,9 +157,14 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
   for (gr in groups) {
     for (ye in years) {
       pop <- dplyr::filter(populations, .data$ANO == ye)
-      pop <- pop[pop$DPMP == gr, "Total_General"]
-      inc_rates[which(dates_years == ye), gr] <-
-        inc_rates[which(dates_years == ye), gr] * scale / pop
+      pop <- pop[pop$code == gr, "Total_General"]
+      if (level == 0) {
+        inc_rates[which(dates_years == ye)] <-
+          inc_rates[which(dates_years == ye)] * scale / pop
+      } else {
+        inc_rates[which(dates_years == ye), gr] <-
+          inc_rates[which(dates_years == ye), gr] * scale / pop
+      }
     }
   }
 
