@@ -3,7 +3,8 @@
 #' Function that builds the endemic channel of a disease time series based on
 #' the selected method and windows of observation
 #' @param observations A numeric vector with the current observations
-#' @param incidence_historic An incidence object with the historic observations
+#' @param incidence_historic An incidence object with the historic weekly
+#' observations
 #' @param method A string with the mean calculation method of preference
 #' (median, mean, or geometric)
 #' @param geom_method A string with the selected method for geometric mean
@@ -12,15 +13,7 @@
 #' posterior periods to include in the calculation of the current period mean
 #' @param outlier_years A numeric vector with the outlier years
 #' @param outliers_handling A string with the handling decision regarding
-#' outlier years
-#' - ignored = data from outlier years will not take into account
-#' - included = data from outlier years will take into account
-#' - replaced_by_median = data from outlier years will be replaced with the
-#' median and take into account
-#' - replaced_by_mean = data from outlier years will be replaced with the
-#' mean and take into account
-#' - replaced_by_geom_mean = data from outlier years will be replaced with the
-#' geometric mean and take into account
+#' outlier years, see: outliers_handling function
 #' @param ci = A numeric value to specify the confidence interval to use
 #' with the geometric method
 #' @param plot A boolean for displaying a plot
@@ -52,43 +45,9 @@ endemic_channel <- function(observations, incidence_historic,
   ))
   colnames(historic) <- seq(1, 52)
   rownames(historic) <- years
-
-
-  if (outliers_handling == "included") {
-    historic <- historic
-  } else if (outliers_handling == "ignored") {
-    historic <- historic[!(row.names(historic) %in% outlier_years), ]
-  } else if (outliers_handling == "replaced_by_median") {
-    handling <- as.numeric(apply(historic, MARGIN = 2, FUN = stats::median))
-    handling <- t(replicate(length(outlier_years), handling))
-
-    historic[outlier_years, ] <- handling
-  } else if (outliers_handling == "replaced_by_mean") {
-    handling <- as.numeric(apply(historic, MARGIN = 2, FUN = mean))
-    handling <- t(replicate(length(outlier_years), handling))
-
-    historic[outlier_years, ] <- handling
-  } else if (outliers_handling == "replaced_by_geom_mean") {
-    if (geom_method == "optimized") {
-      handling <- apply(historic,
-        MARGIN = 2, FUN = geom_mean,
-        method = geom_method
-      )
-      handling <- as.numeric(handling[1, ])
-    } else {
-      handling <- as.numeric(apply(historic,
-        MARGIN = 2, FUN = geom_mean,
-        method = geom_method
-      ))
-    }
-
-    handling <- t(replicate(length(outlier_years), handling))
-
-    historic[outlier_years, ] <- handling
-  } else {
-    return("Error in outlier years handling")
-  }
-
+  
+  historic <- outliers_handling(historic, outlier_years, outliers_handling,
+                                geom_method)
 
   if (method == "median") {
     central <- as.numeric(apply(historic,
