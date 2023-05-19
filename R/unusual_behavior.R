@@ -5,21 +5,27 @@
 #' or decrement of cases in hypoendemic territories using a Poisson distribution
 #' test
 #'
-#' @param 
+#' @param incidence_historic An incidence object with the historic weekly
+#' observations
+#' @param outlier_years A numeric vector with the outlier years
+#' @param outliers_handling A string with the handling decision regarding
+#' outlier years
+#' @param ci = 0.95 A numeric value to specify the confidence interval to use
+#' with the geometric method
 #'
 #' @return 
 #'
 #' @examples
 #' \dontrun{
-#' 
+#' unusual_behaviour(incidence_historic)
 #' }
 #'
 #' @export
-unusual_behaviour <- function(observations, incidence_historic,
-                                 window = 0, outlier_years = NULL,
-                                 outliers_handling = "ignored",
-                                 ci = 0.95, plot = FALSE) {
-  obs <- c(observations, rep(NA, 12 - length(observations)))
+unusual_behaviour <- function(historic,
+                              outlier_years = NULL,
+                              outliers_handling = "ignored",
+                              ci = 0.95) {
+  
   years <- unique(lubridate::epiyear(incidence::get_dates(incidence_historic)))
   
   counts_historic <- incidence::get_counts(incidence_historic)
@@ -30,12 +36,19 @@ unusual_behaviour <- function(observations, incidence_historic,
   ))
   colnames(historic) <- seq(1, 12)
   rownames(historic) <- years
-  historic <- outliers_handling(historic, outlier_years, outliers_handling,
+  historic2 <- endemic_outliers(historic, outlier_years, outliers_handling,
                                 geom_method)
   
   central <- as.numeric(apply(historic, MARGIN = 2, FUN = mean))
-  poiss_test <- poisson.test(central, alternative = "two.sided", conf.level = ci)
-  up_lim <- poiss_test$conf.level[2]
-  low_lim <- poiss_test$conf.level[1]
+  up_lim <- c()
+  low_lim <- c()
+  for (c in central){
+    poiss_test <- poisson.test(round(c), alternative = "two.sided", conf.level = ci)
+    up_lim <- c(up_lim,poiss_test$conf.int[2])
+    low_lim <- c(low_lim,poiss_test$conf.int[1])
+  }
+  unusual_behavior_data <- list(central = central, up_lim = up_lim,
+                                low_lim = low_lim)
+  return(unusual_behavior_data)
   
 }

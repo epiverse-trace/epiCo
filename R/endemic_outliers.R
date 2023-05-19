@@ -23,12 +23,12 @@
 #'
 #' @examples
 #' \dontrun{
-#' outliers_handling(historic, outlier_years, outliers_handling,
+#' endemic_outliers(historic, outlier_years, outliers_handling,
 #' geom_method = "shifted")
 #' }
 #'
 #' @export
-outliers_handling <- function(historic, outlier_years, outliers_handling,
+endemic_outliers <- function(historic, outlier_years, outliers_handling,
                               geom_method = "shifted"){
   if (outliers_handling == "included") {
     historic <- historic
