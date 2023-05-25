@@ -1,0 +1,99 @@
+#### Tests for utils module ####
+
+
+test_that("Epidemiological calendar works as expected",{
+    # error on parameters
+    expect_error(epi_calendar("2004"))
+    expect_error(epi_calendar(2004, "3"))
+    
+    # class
+    expect_s3_class(epi_calendar(2004), "Date")
+    
+    # results
+    expect_true(lubridate::is.Date(epi_calendar(2004)))
+    expect_true(lubridate::is.Date(epi_calendar(2008, 2)))
+    
+    # dimensions and count
+    expect_equal(length(epi_calendar(2004))== 52)
+    expect_equal(length(epi_calendar(2020))== 53)
+    })
+
+## data for incidence rate
+
+# dates
+set.seed(3)
+sample_data <- as.integer(sample(1:50, 200, replace = TRUE))
+sample_dates <- as.Date("2018-12-31") + sample_data
+
+# groups
+sample_groups_1 <- sample(c(5,8,11), 200, replace = TRUE)
+sample_groups_2 <- sample(c(5001, 5264, 5615, 5607), 200, replace = TRUE)
+
+sample_df_0 <- data.frame(CASES = sample_dates)
+sample_df_1 <- data.frame(CASES = sample_dates, GROUP = sample_groups_1)
+sample_df_2 <- data.frame(CASES = sample_dates, GROUP = sample_groups_2)
+
+# incidence objects
+incidence_object_0 <- incidence::incidence(sample_df_0$CASES, 
+                                          interval = "weeks")
+incidence_object_1 <- incidence::incidence(sample_df_1$CASES, 
+                                          interval = "weeks",
+                                          group = sample_df_1$GROUP)
+incidence_object_2 <- incidence::incidence(sample_df_2$CASES, 
+                                            interval = "weeks", 
+                                            group = sample_df_2$GROUP)
+
+# examples for each level
+test_incidence_rate_0 <- incidence_rate(incidence_object_0, 0)
+test_incidence_rate_1 <- incidence_rate(incidence_object_1, 1)
+test_incidence_rate_2 <- incidence_rate(incidence_object_2, 2)
+
+test_that("Incidence rate construction",{
+  # parameters
+  expect_error(incidence_rate(1,2))
+  expect_error(incidence_rate(incidence_object_0, 5))
+  expect_error(incidence_rate(incidence_object_0, "2"))
+  expect_error(incidence_rate(incidence_object_0, 2, "100"))
+  
+  # class
+  expect_s3_class(incidence_rate(incidence_object_2, 2), "incidence")
+  expect_type(test_incidence_rate_2$rates, "double")
+  
+  #results
+  expect_equal(length(test_incidence_rate_0),9)
+  expect_equal(length(test_incidence_rate_1),9)
+  expect_equal(length(test_incidence_rate_2),9)
+  
+  expect_equal(colnames(test_incidence_rate_0$rates),NULL)
+  expect_identical(sort(colnames(test_incidence_rate_1$rates)),
+               sort(as.character(unique(sample_groups_1))))
+  expect_identical(sort(colnames(test_incidence_rate_2$rates)),
+                   sort(as.character(unique(sample_groups_2))))
+})
+
+
+test_that("Geometric mean works as expected",{
+  # parameters
+  expect_error(geom_mean(c(45, 20, 1000, 'a')))
+  expect_error(geom_mean(c(45, 20, 1000, 100), method = 'test'))
+  expect_error(geom_mean(c(45, 20, 1000, 100), method = 'shifted', shift = '2'))
+  expect_error(geom_mean(c(45, 20, 1000, 100), epsilon = 'test'))
+  expect_error(geom_mean(c(45, 20, 1000, -100), method = 'shifted'))
+  expect_error(geom_mean(c(45, 20, 1000, -100), epsilon = 'positive'))
+  
+  # class
+  expect_type(geom_mean(c(45, 20, 1000, 100)), "double")
+  
+  # results
+  expect_equal(geom_mean(c(45, 20, 1000, 100), method = 'positive'), 97.40037)
+  expect_equal(geom_mean(c(45, 20, 1000, 100), method = 'shifted', 
+                         shift = 1), 98.41070)
+  expect_equal(geom_mean(c(45, 20, 1000, -100), method = 'weighted'), 47.41170)
+  expect_equal(geom_mean(c(45, 20, 1000, 100), method = 'optimized'), 
+               c(97.40114, 0.00074))
+})
+
+
+
+
+
