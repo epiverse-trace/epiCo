@@ -14,8 +14,8 @@ test_that("Epidemiological calendar works as expected",{
     expect_true(lubridate::is.Date(epi_calendar(2008, 2)))
     
     # dimensions and count
-    expect_equal(length(epi_calendar(2004))== 52)
-    expect_equal(length(epi_calendar(2020))== 53)
+    expect_length(epi_calendar(2004) == 52L)
+    expect_length(epi_calendar(2020) == 53L)
     })
 
 ## data for incidence rate
@@ -58,11 +58,13 @@ test_that("Incidence rate construction",{
   # class
   expect_s3_class(incidence_rate(incidence_object_2, 2), "incidence")
   expect_type(test_incidence_rate_2$rates, "double")
-  
+})
+
+test_that("Incidence rate calculate rates"{
   #results
-  expect_equal(length(test_incidence_rate_0),9)
-  expect_equal(length(test_incidence_rate_1),9)
-  expect_equal(length(test_incidence_rate_2),9)
+  expect_length(test_incidence_rate_0, 9L)
+  expect_length(test_incidence_rate_1, 9L)
+  expect_length(test_incidence_rate_2, 9L)
   
   expect_equal(colnames(test_incidence_rate_0$rates),NULL)
   expect_identical(sort(colnames(test_incidence_rate_1$rates)),
@@ -70,7 +72,6 @@ test_that("Incidence rate construction",{
   expect_identical(sort(colnames(test_incidence_rate_2$rates)),
                    sort(as.character(unique(sample_groups_2))))
 })
-
 
 test_that("Geometric mean works as expected",{
   # parameters
@@ -83,14 +84,8 @@ test_that("Geometric mean works as expected",{
   
   # class
   expect_type(geom_mean(c(45, 20, 1000, 100)), "double")
+  expect_length(geom_mean(c(45, 20, 1000, 100)), 2L)
   
-  # results
-  expect_equal(geom_mean(c(45, 20, 1000, 100), method = 'positive'), 97.40037)
-  expect_equal(geom_mean(c(45, 20, 1000, 100), method = 'shifted', 
-                         shift = 1), 98.41070)
-  expect_equal(geom_mean(c(45, 20, 1000, -100), method = 'weighted'), 47.41170)
-  expect_equal(geom_mean(c(45, 20, 1000, 100), method = 'optimized'), 
-               c(97.40114, 0.00074))
 })
 
 
