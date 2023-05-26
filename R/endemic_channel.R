@@ -30,8 +30,8 @@
 #' @export
 endemic_channel <- function(observations, incidence_historic,
                             method = "geometric", geom_method = "shifted",
-                            window = 0, outlier_years = NULL,
-                            outliers_handling = "ignored", ci = 0.95,
+                            outlier_years = NULL, outliers_handling = "ignored",
+                            ci = 0.95,
                             plot = FALSE) {
   period <- ifelse(incidence_historic$interval == "1 month", 12, 52)
   obs <- c(observations, rep(NA, period - length(observations)))
@@ -39,7 +39,7 @@ endemic_channel <- function(observations, incidence_historic,
 
   extra_weeks <- which(lubridate::epiweek(incidence_historic$dates) == 53)
   
-  counts_historic <- felse(incidence_historic$interval == "1 month",
+  counts_historic <- ifelse(incidence_historic$interval == "1 month",
                            incidence::get_counts(incidence_historic)[-extra_weeks],
                            incidence::get_counts(incidence_historic))
 
