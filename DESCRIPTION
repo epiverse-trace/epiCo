@@ -28,6 +28,8 @@ Suggests:
     checkmate,
     covr,
     testthat (>= 3.0.0)
+Config/Needs/website:
+    epiverse-trace/epiversetheme
 Config/testthat/edition: 3
 Depends: 
     R (>= 2.10)
