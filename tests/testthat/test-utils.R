@@ -60,7 +60,7 @@ test_that("Incidence rate construction",{
   expect_type(test_incidence_rate_2$rates, "double")
 })
 
-test_that("Incidence rate calculate rates"{
+test_that("Incidence rate calculate rates", {
   #results
   expect_length(test_incidence_rate_0, 9L)
   expect_length(test_incidence_rate_1, 9L)

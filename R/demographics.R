@@ -251,7 +251,9 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
 #' describe_ethnicity(c(1, 2, 3, 4))
 #' }
 #' @export
-describe_ethnicity <- function(ethnic_labels, language = "ES", plot = FALSE) {
+describe_ethnicity <- function(ethnic_labels, language = "ES") {
+  stopifnot("`ethnic_labels` must be a numeric vector" = 
+              is.numeric(ethnic_labels))
   ethnic_labels <- as.data.frame(ethnic_labels)
 
   #### ESPAÑOL ####
@@ -305,14 +307,6 @@ describe_ethnicity <- function(ethnic_labels, language = "ES", plot = FALSE) {
   descriptions_es <- c(indigena_es, rom_es, raizal_es, palenquero_es, afro_es)
   description_en <- c(indigena_en, rom_en, raizal_en, palenquero_en, afro_en)
 
-  if (plot) {
-    ethnic_hist <- ggplot2::ggplot(ethnic_labels, ggplot2::aes(ethnic_labels)) +
-      ggplot2::geom_histogram() +
-      ggplot2::theme_minimal()
-
-    print(ethnic_hist)
-  }
-
   labels <- order(unique(ethnic_labels$ethnic_labels))
 
   if (language == "EN") {
@@ -338,6 +332,7 @@ describe_ethnicity <- function(ethnic_labels, language = "ES", plot = FALSE) {
 #' }
 #' @export
 describe_occupation <- function(isco_codes, output_level) {
+  stopifnot("`isco_codes` must be a numeric vector" = is.numeric(isco_codes))
   path <- system.file("data", "isco88_table.rda", package = "epiCo")
   load(path)
   isco88_table <- isco88_table
