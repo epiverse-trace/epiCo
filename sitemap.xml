@@ -1,84 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>/404.html</loc>
+    <loc>https://epiverse-trace.github.io/epiCo/404.html</loc>
   </url>
   <url>
-    <loc>/LICENSE-text.html</loc>
+    <loc>https://epiverse-trace.github.io/epiCo/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>/LICENSE.html</loc>
+    <loc>https://epiverse-trace.github.io/epiCo/LICENSE.html</loc>
   </url>
   <url>
-    <loc>/authors.html</loc>
+    <loc>https://epiverse-trace.github.io/epiCo/authors.html</loc>
   </url>
   <url>
-    <loc>/index.html</loc>
+    <loc>https://epiverse-trace.github.io/epiCo/index.html</loc>
   </url>
   <url>
-    <loc>/reference/age_risk.html</loc>
+    <loc>https://epiverse-trace.github.io/epiCo/reference/age_risk.html</loc>
   </url>
   <url>
-    <loc>/reference/describe_ethnicity.html</loc>
+    <loc>https://epiverse-trace.github.io/epiCo/reference/describe_ethnicity.html</loc>
   </url>
   <url>
-    <loc>/reference/describe_occupation.html</loc>
+    <loc>https://epiverse-trace.github.io/epiCo/reference/describe_occupation.html</loc>
   </url>
   <url>
-    <loc>/reference/detect_outbreaks_EWMA.html</loc>
+    <loc>https://epiverse-trace.github.io/epiCo/reference/detect_outbreaks_EWMA.html</loc>
   </url>
   <url>
-    <loc>/reference/distance_matrix.html</loc>
+    <loc>https://epiverse-trace.github.io/epiCo/reference/distance_matrix.html</loc>
   </url>
   <url>
-    <loc>/reference/divipola_table.html</loc>
+    <loc>https://epiverse-trace.github.io/epiCo/reference/divipola_table.html</loc>
   </url>
   <url>
-    <loc>/reference/endemic_channel.html</loc>
+    <loc>https://epiverse-trace.github.io/epiCo/reference/endemic_channel.html</loc>
   </url>
   <url>
-    <loc>/reference/epiCo-population-data.html</loc>
+    <loc>https://epiverse-trace.github.io/epiCo/reference/epiCo-population-data.html</loc>
   </url>
   <url>
-    <loc>/reference/epiCo-spatial-data.html</loc>
+    <loc>https://epiverse-trace.github.io/epiCo/reference/epiCo-spatial-data.html</loc>
   </url>
   <url>
-    <loc>/reference/epi_calendar.html</loc>
+    <loc>https://epiverse-trace.github.io/epiCo/reference/epi_calendar.html</loc>
   </url>
   <url>
-    <loc>/reference/epi_georef.html</loc>
+    <loc>https://epiverse-trace.github.io/epiCo/reference/epi_georef.html</loc>
   </url>
   <url>
-    <loc>/reference/ewma.html</loc>
+    <loc>https://epiverse-trace.github.io/epiCo/reference/ewma.html</loc>
   </url>
   <url>
-    <loc>/reference/geom_mean.html</loc>
+    <loc>https://epiverse-trace.github.io/epiCo/reference/geom_mean.html</loc>
   </url>
   <url>
-    <loc>/reference/incidence_rate.html</loc>
+    <loc>https://epiverse-trace.github.io/epiCo/reference/incidence_rate.html</loc>
   </url>
   <url>
-    <loc>/reference/index.html</loc>
+    <loc>https://epiverse-trace.github.io/epiCo/reference/index.html</loc>
   </url>
   <url>
-    <loc>/reference/isco88_table.html</loc>
+    <loc>https://epiverse-trace.github.io/epiCo/reference/isco88_table.html</loc>
   </url>
   <url>
-    <loc>/reference/morans_index.html</loc>
+    <loc>https://epiverse-trace.github.io/epiCo/reference/morans_index.html</loc>
   </url>
   <url>
-    <loc>/reference/neighborhoods.html</loc>
+    <loc>https://epiverse-trace.github.io/epiCo/reference/neighborhoods.html</loc>
   </url>
   <url>
-    <loc>/reference/population_projection_col.html</loc>
+    <loc>https://epiverse-trace.github.io/epiCo/reference/population_projection_col.html</loc>
   </url>
   <url>
-    <loc>/reference/population_projection_col_0.html</loc>
+    <loc>https://epiverse-trace.github.io/epiCo/reference/population_projection_col_0.html</loc>
   </url>
   <url>
-    <loc>/reference/population_pyramid.html</loc>
+    <loc>https://epiverse-trace.github.io/epiCo/reference/population_pyramid.html</loc>
   </url>
   <url>
-    <loc>/reference/spatial_polygons_col.html</loc>
+    <loc>https://epiverse-trace.github.io/epiCo/reference/spatial_polygons_col.html</loc>
   </url>
 </urlset>
