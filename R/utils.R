@@ -20,33 +20,33 @@ epi_calendar <- function(year, jan_days = 4) {
   # By definition, the first epidemiological week of the year contains at least
   # four days in January.
   epi_calendar <- c()
-
+  
   sec_day <- 24 * 60 * 60 # seconds in a day
-
+  
   first_date <- as.POSIXlt(paste0("01-01-", toString(year)),
-    format = "%d-%m-%Y"
+                           format = "%d-%m-%Y"
   )
   last_date <- as.POSIXlt(paste0("31-12-", toString(year)),
-    format = "%d-%m-%Y"
+                          format = "%d-%m-%Y"
   )
   first_week_day <- first_date$wday # 0 to 6 starting on Sundays
   last_week_day <- last_date$wday # 0 to 6 starting on Sundays
-
+  
   if (first_week_day < jan_days) {
     temp_date <- first_date - first_week_day * sec_day
   } else {
     temp_date <- first_date + (7 * sec_day - first_week_day * sec_day)
   }
-
+  
   while (as.numeric(format(temp_date, "%Y")) <= year) {
     epi_calendar <- c(epi_calendar, as.character.Date(temp_date))
     temp_date <- temp_date + 7 * sec_day
   }
-
+  
   if (last_week_day < 3) {
     epi_calendar <- utils::head(epi_calendar, -1)
   }
-
+  
   return(as.Date.character(epi_calendar))
 }
 
@@ -111,7 +111,7 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
   years <- unique(dates_years)
   if (level == 0) {
     path_0 <- system.file("data", "population_projection_col_0.rda",
-      package = "epiCo"
+                          package = "epiCo"
     )
     load(path_0)
     population_projection_col_0 <- population_projection_col_0
@@ -120,7 +120,7 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
     groups <- c(0)
   } else if (level == 1) {
     path_1 <- system.file("data", "population_projection_col_1.rda",
-      package = "epiCo"
+                          package = "epiCo"
     )
     load(path_1)
     population_projection_col_1 <- population_projection_col_1
@@ -129,7 +129,7 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
     groups <- colnames(incidence_object$counts)
   } else if (level == 2) {
     path_2 <- system.file("data", "population_projection_col_2.rda",
-      package = "epiCo"
+                          package = "epiCo"
     )
     load(path_2)
     population_projection_col_2 <- population_projection_col_2
@@ -139,9 +139,9 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
   } else {
     return("Error in selection Administrative Level")
   }
-
+  
   if (sum(!(years %in% unique(populations$ANO))) +
-    sum(!(groups %in% unique(populations$codes))) > 0) {
+      sum(!(groups %in% unique(populations$codes))) > 0) {
     return("No population projections found.
            Incidence groups and administration level may not match or
            dates may be out of the projections (2005-2023)")
@@ -151,9 +151,9 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
       .data$code %in% groups & .data$ANO %in% years
     )
   }
-
+  
   inc_rates <- incidence_object$counts
-
+  
   for (gr in groups) {
     for (ye in years) {
       pop <- dplyr::filter(populations, .data$ANO == ye)
@@ -167,10 +167,10 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
       }
     }
   }
-
+  
   incidence_rate_object <- incidence_object
   incidence_rate_object$rates <- inc_rates
-
+  
   return(incidence_rate_object)
 }
 
@@ -209,26 +209,26 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
 geom_mean <- function(x, method = "optimized", shift = 1, epsilon = 1e-5) {
   if (method == "positive") {
     x_positive <- x[x > 0]
-
+    
     gm <- exp(mean(log(x_positive)))
   } else if (method == "shifted") {
     x_shifted <- x[x >= 0] + shift
-
+    
     gm <- exp(mean(log(x_shifted))) - shift
   } else if (method == "weighted") {
     n_x <- length(x)
-
+    
     x_positive <- x[x > 0]
     w_positive <- length(x_positive) / n_x
     x_negative <- x[x < 0]
     w_negative <- length(x_negative) / n_x
     x_zeros <- x[x == 0]
     w_zeros <- length(x_zeros) / n_x
-
+    
     gm_positive <- exp(mean(log(x_positive)))
     gm_negative <- -1 * exp(mean(log(abs(x_negative))))
     gm_zeros <- 0
-
+    
     gm <- w_positive * gm_positive + w_negative * gm_negative + w_zeros *
       gm_zeros
   } else if (method == "optimized") {
@@ -237,39 +237,39 @@ geom_mean <- function(x, method = "optimized", shift = 1, epsilon = 1e-5) {
     # where delta is the maximum value such that:
     # abs([exp(mean(log(x_positive+delta)))-delta]-geomean(x_positive))<
     # epsilon*geomean(x_positive) (Eq. II)
-
+    
     x <- x[x >= 0]
     x_positive <- x[x > 0]
     gm_positive <- exp(mean(log(x_positive)))
     epsilon <- epsilon * gm_positive
-
+    
     # Simple bisection  method to calculate delta: (Eq. I) is increasing as
     # consequence of the Superaddivity of the Geometric Mean
-
+    
     delta_min <- 0
     delta_max <- gm_positive + epsilon
     delta <- (delta_min + delta_max) / 2
-
+    
     # Define aus_exp to not repeat operations
     aus_exp <- exp(mean(log(x_positive + delta))) - delta
-
+    
     while ((aus_exp - gm_positive) > epsilon) {
       if ((aus_exp < gm_positive)) {
         delta_min <- delta
       } else {
         delta_max <- delta
       }
-
+      
       delta <- (delta_min + delta_max) / 2
       aus_exp <- exp(mean(log(x_positive + delta))) - delta
     }
-
+    
     gm <- exp(mean(log(x + delta))) - delta
-
+    
     return(c(gm, delta))
   } else {
     return("Error in selection of geometric mean calculation method")
   }
-
+  
   return(gm)
 }
