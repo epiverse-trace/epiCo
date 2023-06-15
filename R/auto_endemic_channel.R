@@ -4,8 +4,7 @@
 #' an automated endemic channel given a method and an specific disease, location
 #' and year.
 #'
-#' @param incidence_historic An incidence object with the historic weekly
-#' observations
+#' @param incidence_historic An incidence object with the historic weekly cases
 #' @param outlier_years A numeric vector with the outlier years
 #' @param outliers_handling A string with the handling decision regarding
 #' outlier years
@@ -21,6 +20,7 @@
 #'
 #' @export
 auto_endemic_channel <- function(disease_name, divipola_code, year,
+                                 observations = NULL,
                                  location = "O", window = 7,
                                  method = "geometric", geom_method = "shifted",
                                  outlier_years = NULL, 
