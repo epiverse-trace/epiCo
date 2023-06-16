@@ -4,12 +4,25 @@
 #' an automated endemic channel given a method and an specific disease, location
 #' and year.
 #'
-#' @param incidence_historic An incidence object with the historic weekly cases
+#' @param disease_name Disease to be consulted
+#' @param divipola_code DIVIPOLA code of the municipality where the disease is
+#' consulted
+#' @param year Year of observations
+#' @param observations A numeric vector with the current observations (Optional)
+#' @param location TBD
+#' @param window A numeric value to specify the number of previous and
+#' posterior periods to include in the calculation of the current period mean
+#' @param method A string with the mean calculation method of preference
+#' (median, mean, or geometric) or to use unusual behavior method (Poisson
+#' Distribution Test for hypoendemic settings)
+#' @param geom_method A string with the selected method for geometric mean
+#' calculation, see: geom_mean
 #' @param outlier_years A numeric vector with the outlier years
 #' @param outliers_handling A string with the handling decision regarding
 #' outlier years
 #' @param ci = 0.95 A numeric value to specify the confidence interval to use
 #' with the geometric method
+#' @param plot A boolean for displaying a plot
 #'
 #' @return TBD
 #'
@@ -43,10 +56,8 @@ auto_endemic_channel <- function(disease_name, divipola_code, year,
   disease_data <- data.frame(matrix(ncol = length(tags_to_analyze), nrow = 0))
   colnames(disease_data) <- tags_to_analyze
 
-  for (y in years_to_analyze)
-  {
-    for (e in events_to_analyze)
-    {
+  for (y in years_to_analyze) {
+    for (e in events_to_analyze) {
       temp_data <- sivirep::import_data_disease_by_year(y, e)
       temp_data$FEC_NOT <- as.character(temp_data$FEC_NOT)
       temp_data$FEC_NOT <- format(
@@ -67,56 +78,55 @@ auto_endemic_channel <- function(disease_name, divipola_code, year,
 
   ## Dates and DIVIPOLA codes preparation and cleaning
 
-  disease_data <- disease_data %>%
-    mutate(
-      COD_MUN_R = ifelse(COD_DPTO_R == 1,
-        COD_PAIS_O, # 1 indicates residence abroad
-        ifelse(nchar(COD_MUN_R) == 1,
-          as.numeric(paste(COD_DPTO_R,
-            COD_MUN_R,
-            sep = "00"
+  disease_data <- disease_data %>% dplyr::mutate(
+    COD_MUN_R = ifelse(.data$COD_DPTO_R == 1,
+      .data$COD_PAIS_O, # 1 indicates residence abroad
+      ifelse(nchar(.data$COD_MUN_R) == 1,
+        as.numeric(paste(.data$COD_DPTO_R,
+          .data$COD_MUN_R,
+          sep = "00"
+        )),
+        ifelse(nchar(.data$COD_MUN_R) == 2,
+          as.numeric(paste(.data$COD_DPTO_R,
+            .data$COD_MUN_R,
+            sep = "0"
           )),
-          ifelse(nchar(COD_MUN_R) == 2,
-            as.numeric(paste(COD_DPTO_R,
-              COD_MUN_R,
-              sep = "0"
+          ifelse(nchar(.data$COD_MUN_R) == 3,
+            as.numeric(paste(.data$COD_DPTO_R,
+              .data$COD_MUN_R,
+              sep = ""
             )),
-            ifelse(nchar(COD_MUN_R) == 3,
-              as.numeric(paste(COD_DPTO_R,
-                COD_MUN_R,
-                sep = ""
-              )),
-              NA
-            )
+            NA
           )
         )
-      ),
-      COD_MUN_O = ifelse(COD_DPTO_O == 1,
-        COD_PAIS_O, # 1 indicates infection occurred abroad
-        ifelse(nchar(COD_MUN_O) == 1,
-          as.numeric(paste(COD_DPTO_O,
-            COD_MUN_O,
-            sep = "00"
+      )
+    ),
+    COD_MUN_O = ifelse(.data$COD_DPTO_O == 1,
+      .data$COD_PAIS_O, # 1 indicates infection occurred abroad
+      ifelse(nchar(.data$COD_MUN_O) == 1,
+        as.numeric(paste(.data$COD_DPTO_O,
+          .data$COD_MUN_O,
+          sep = "00"
+        )),
+        ifelse(nchar(.data$COD_MUN_O) == 2,
+          as.numeric(paste(.data$COD_DPTO_O,
+            .data$COD_MUN_O,
+            sep = "0"
           )),
-          ifelse(nchar(COD_MUN_O) == 2,
-            as.numeric(paste(COD_DPTO_O,
-              COD_MUN_O,
-              sep = "0"
+          ifelse(nchar(.data$COD_MUN_O) == 3,
+            as.numeric(paste(.data$COD_DPTO_O,
+              .data$COD_MUN_O,
+              sep = ""
             )),
-            ifelse(nchar(COD_MUN_O) == 3,
-              as.numeric(paste(COD_DPTO_O,
-                COD_MUN_O,
-                sep = ""
-              )),
-              NA
-            )
+            NA
           )
         )
-      ),
-      EPI_WEEK = epiweek(FEC_NOT),
-      EPI_MONTH = month(FEC_NOT),
-      EPI_YEAR = epiyear(FEC_NOT)
-    )
+      )
+    ),
+    EPI_WEEK = lubridate::epiweek(.data$FEC_NOT),
+    EPI_MONTH = lubridate::month(.data$FEC_NOT),
+    EPI_YEAR = lubridate::epiyear(.data$FEC_NOT)
+  )
 
   # Cleaning of cases without specified municipalities
 
@@ -126,15 +136,19 @@ auto_endemic_channel <- function(disease_name, divipola_code, year,
 
   # Cleaning of cases out of the years range
 
-  disease_data <- dplyr::filter(disease_data, EPI_YEAR %in% years_to_analyze)
+  disease_data <- dplyr::filter(
+    disease_data,
+    .data$EPI_YEAR %in% years_to_analyze
+  )
 
   # Cleaning of cases from abroad
 
-  disease_data <- dplyr::filter(disease_data, COD_PAIS_O == 170)
+  disease_data <- dplyr::filter(disease_data, .data$COD_PAIS_O == 170)
 
   # Cleaning of typos
-
-  data("divipola_table", package = "epiCo")
+  path <- system.file("data", "divipola_table.rda", package = "epiCo")
+  load(path)
+  divipola_table <- divipola_table
 
   typos <- which(disease_data$COD_PAIS_O == 170 &
     !(disease_data$COD_MUN_O %in% divipola_table$COD_MPIO))
@@ -144,7 +158,7 @@ auto_endemic_channel <- function(disease_name, divipola_code, year,
   #####
 
 
-  disease_data <- dplyr::filter(disease_data, COD_MUN_O == divipola_code)
+  disease_data <- dplyr::filter(disease_data, .data$COD_MUN_O == divipola_code)
 
   interval <- ifelse(method == "unusual_behavior", "1 month", "1 epiweek")
 
@@ -166,8 +180,6 @@ auto_endemic_channel <- function(disease_name, divipola_code, year,
 #' Distribution Test for hypoendemic settings)
 #' @param geom_method A string with the selected method for geometric mean
 #' calculation, see: geom_mean
-#' @param window A numeric value to specify the number of previous and
-#' posterior periods to include in the calculation of the current period mean
 #' @param outlier_years A numeric vector with the outlier years
 #' @param outliers_handling A string with the handling decision regarding
 #' outlier years, see: outliers_handling function
@@ -266,7 +278,7 @@ endemic_channel <- function(observations, incidence_historic,
     up_lim <- c()
     low_lim <- c()
     for (c in central) {
-      poiss_test <- poisson.test(round(c),
+      poiss_test <- stats::poisson.test(round(c),
         alternative = "two.sided",
         conf.level = ci
       )
@@ -398,19 +410,22 @@ endemic_plot <- function(channel_data, method,
     ))
   ) +
     ggplot2::geom_area(ggplot2::aes(
-      y = rep(max(c(max(up_lim), obs), na.rm = T) * 1.05, nrow(channel_data)),
+      y = rep(
+        max(c(max(.data$up_lim), .data$obs), na.rm = TRUE) * 1.05,
+        nrow(channel_data)
+      ),
       fill = "Epidemic"
     )) +
     ggplot2::geom_area(ggplot2::aes(
-      y = up_lim,
+      y = .data$up_lim,
       fill = "Warning"
     )) +
     ggplot2::geom_area(ggplot2::aes(
-      y = central,
+      y = .data$central,
       fill = "Safety"
     )) +
     ggplot2::geom_area(ggplot2::aes(
-      y = low_lim,
+      y = .data$low_lim,
       fill = "Success"
     )) +
     ggplot2::geom_vline(
@@ -419,28 +434,28 @@ endemic_plot <- function(channel_data, method,
     ) +
     ggplot2::geom_hline(
       yintercept = seq(0, max(c(max(channel_data$up_lim), channel_data$obs),
-        na.rm = T
+        na.rm = TRUE
       ) * 1.05, length.out = 8),
       color = "azure2", size = .1
     ) +
-    ggplot2::geom_line(ggplot2::aes(y = up_lim),
+    ggplot2::geom_line(ggplot2::aes(y = channel_data$up_lim),
       linewidth = 1,
       color = "brown4"
     ) +
-    ggplot2::geom_line(ggplot2::aes(y = central),
+    ggplot2::geom_line(ggplot2::aes(y = channel_data$central),
       linewidth = 1,
       color = "darkorange3"
     ) +
-    ggplot2::geom_line(ggplot2::aes(y = low_lim),
+    ggplot2::geom_line(ggplot2::aes(y = channel_data$low_lim),
       linewidth = 1,
       color = "darkgreen"
     ) +
     ggplot2::scale_y_continuous(
       breaks = round(seq(0, max(c(max(channel_data$up_lim), channel_data$obs),
-        na.rm = T
+        na.rm = TRUE
       ) * 1.05, length.out = 8)),
       limits = c(0, max(c(max(channel_data$up_lim), channel_data$obs),
-        na.rm = T
+        na.rm = TRUE
       ) * 1.05),
       expand = c(0, 0)
     ) +

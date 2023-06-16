@@ -20,6 +20,27 @@ auto_endemic_channel(
 )
 }
 \arguments{
+\item{disease_name}{Disease to be consulted}
+
+\item{divipola_code}{DIVIPOLA code of the municipality where the disease is
+consulted}
+
+\item{year}{Year of observations}
+
+\item{observations}{A numeric vector with the current observations (Optional)}
+
+\item{location}{TBD}
+
+\item{window}{A numeric value to specify the number of previous and
+posterior periods to include in the calculation of the current period mean}
+
+\item{method}{A string with the mean calculation method of preference
+(median, mean, or geometric) or to use unusual behavior method (Poisson
+Distribution Test for hypoendemic settings)}
+
+\item{geom_method}{A string with the selected method for geometric mean
+calculation, see: geom_mean}
+
 \item{outlier_years}{A numeric vector with the outlier years}
 
 \item{outliers_handling}{A string with the handling decision regarding
@@ -28,7 +49,7 @@ outlier years}
 \item{ci}{= 0.95 A numeric value to specify the confidence interval to use
 with the geometric method}
 
-\item{incidence_historic}{An incidence object with the historic weekly cases}
+\item{plot}{A boolean for displaying a plot}
 }
 \value{
 TBD

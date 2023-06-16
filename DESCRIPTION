@@ -23,7 +23,8 @@ Imports:
     utils,
     stats,
     magrittr,
-    rlang
+    rlang,
+    sivirep
 Suggests: 
     checkmate,
     testthat (>= 3.0.0)
