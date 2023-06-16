@@ -25,6 +25,8 @@ Imports:
     magrittr,
     rlang,
     sivirep
+Remotes:
+    epiverse-trace/sivirep
 Suggests: 
     checkmate,
     testthat (>= 3.0.0)
