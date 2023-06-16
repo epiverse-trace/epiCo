@@ -159,12 +159,6 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
       populations,
       .data$code %in% groups & .data$ANO %in% years
     )
-<<<<<<< Updated upstream
-  }
-=======
-  # }
-  
->>>>>>> Stashed changes
   incidence_rates <- incidence_object$counts
   
   for (group in groups) {
