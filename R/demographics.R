@@ -20,11 +20,12 @@
 #'
 population_pyramid <- function(divipola_code, year,
                                gender = TRUE, total = TRUE, plot = FALSE) {
-  stopifnot("`year` is only available from 2005 to 2026, 
+  stopifnot(
+    "`year` is only available from 2005 to 2026,
             please select a valid year" = (year >= 2005 & year <= 2026),
-            "`divipola_code` must be numeric" = (is.numeric(divipola_code) &
-                                                  length(divipola_code) == 1)
-            )
+    "`divipola_code` must be numeric" = (is.numeric(divipola_code) &
+      length(divipola_code) == 1)
+  )
   path <- system.file("data", "divipola_table.rda", package = "epiCo")
   load(path)
   divipola_table <- divipola_table
@@ -161,7 +162,7 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
     pyramid_female <- dplyr::filter(population_pyramid, .data$gender == "F")
     hist_female <- graphics::hist(ages_female,
       breaks = c(0:101),
-      right = FALSE, 
+      right = FALSE,
       plot = FALSE
     )
 
@@ -175,7 +176,7 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
     pyramid_male <- dplyr::filter(population_pyramid, .data$Gender == "M")
     hist_male <- graphics::hist(ages_male,
       breaks = c(0:101),
-      right = FALSE, 
+      right = FALSE,
       plot = FALSE
     )
 
@@ -188,7 +189,7 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
     age_risk <- rbind(age_risk_f, age_risk_m)
   } else {
     hist_total <- graphics::hist(age,
-      breaks = c(0:101), 
+      breaks = c(0:101),
       right = FALSE,
       plot = FALSE
     )
@@ -252,8 +253,10 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
 #' }
 #' @export
 describe_ethnicity <- function(ethnic_labels, language = "ES") {
-  stopifnot("`ethnic_labels` must be a numeric vector" = 
-              is.numeric(ethnic_labels))
+  stopifnot(
+    "`ethnic_labels` must be a numeric vector" =
+      is.numeric(ethnic_labels)
+  )
   ethnic_labels <- as.data.frame(ethnic_labels)
 
   #### ESPAÑOL ####

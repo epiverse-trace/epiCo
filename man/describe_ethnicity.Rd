@@ -4,10 +4,10 @@
 \alias{describe_ethnicity}
 \title{Provides the sociological description of ethnicities in Colombia}
 \usage{
-describe_ethnicity(ethniclabels, language = "ES", plot = FALSE)
+describe_ethnicity(ethnic_labels, language = "ES")
 }
 \arguments{
-\item{ethniclabels}{A numeric vector with the codes of ethnicities to consult}
+\item{ethnic_labels}{A numeric vector with the codes of ethnicities to consult}
 
 \item{language}{"ES" for description in spanish "EN" for english}
 

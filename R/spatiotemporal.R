@@ -23,12 +23,12 @@ neighborhoods <- function(query_vector, threshold = 2) {
   distance_matrix <- distance_matrix
   distance <- distance_matrix[
     which(row.names(distance_matrix) %in%
-            query_vector),
+      query_vector),
     which(names(distance_matrix) %in%
-            query_vector)
+      query_vector)
   ]
   excluded <- query_vector[!query_vector %in% rownames(distance)]
-  for(i in excluded){
+  for (i in excluded) {
     warning(paste("municipality", i, "was not found"))
   }
   adjacency_matrix <- as.matrix(ifelse(distance <= threshold, 1, 0))
@@ -60,8 +60,10 @@ neighborhoods <- function(query_vector, threshold = 2) {
 #' }
 #' @export
 morans_index <- function(incidence_rate, threshold = 2, plot = TRUE) {
-  stopifnot("`incidence_rate` must have observations for only one given date" =
-              ncol(incidence_rate$rates)==length(incidence_rate$rates))
+  stopifnot(
+    "`incidence_rate` must have observations for only one given date" =
+      ncol(incidence_rate$rates) == length(incidence_rate$rates)
+  )
   path_1 <- system.file("data", "divipola_table.rda", package = "epiCo")
   load(path_1)
   divipola_table <- divipola_table
@@ -70,33 +72,33 @@ morans_index <- function(incidence_rate, threshold = 2, plot = TRUE) {
     colnames(incidence_rate$counts), divipola_table$COD_MPIO
   ))]
   mpios <- colnames(incidence_rate_ordered$counts)
-  
+
   # Logarithmic transformation
   incidence_rate_log <- log(incidence_rate_ordered$rates)
   mpios_filtered <- as.numeric(mpios[which(incidence_rate_log > -Inf)])
   incidence_rate_log <- incidence_rate_log[which(incidence_rate_log > -Inf)]
-  
+
   # Neighborhood structure
   nb <- neighborhoods(mpios_filtered, threshold)
   weights <- spdep::nb2listw(nb, style = "W")
-  
+
   # Moran's I
   morans_i <- spdep::moran.plot(incidence_rate_log,
-                                listw = weights, plot = FALSE
+    listw = weights, plot = FALSE
   )
   moran_data_frame <- as.data.frame(morans_i)
   # Clusters
   moran_data_frame <- dplyr::mutate(moran_data_frame,
-                                    cluster = dplyr::case_when(
-                                      x > mean(x) & wx >
-                                        mean(wx) ~ "HH",
-                                      x < mean(x) & wx <
-                                        mean(wx) ~ "LL",
-                                      x > mean(x) & wx <
-                                        mean(wx) ~ "HL",
-                                      x < mean(x) & wx >
-                                        mean(wx) ~ "LH"
-                                    )
+    cluster = dplyr::case_when(
+      x > mean(x) & wx >
+        mean(wx) ~ "HH",
+      x < mean(x) & wx <
+        mean(wx) ~ "LL",
+      x > mean(x) & wx <
+        mean(wx) ~ "HL",
+      x < mean(x) & wx >
+        mean(wx) ~ "LH"
+    )
   )
   inf_mpios <- moran_data_frame[which(moran_data_frame$is_inf == TRUE), ]
   morans_index <- c(
@@ -106,11 +108,11 @@ morans_index <- function(incidence_rate, threshold = 2, plot = TRUE) {
     list(logIncidence = moran_data_frame$x),
     list(lagIncidence = moran_data_frame$wx)
   )
-  if (!all(is.na(morans_index$quadrant))){
+  if (!all(is.na(morans_index$quadrant))) {
     cat(paste("Influential municipalities are:", "\n"))
     # Influential observations
     for (i in seq_len(nrow(inf_mpios))) {
-      if(!is.na(inf_mpios$cluster[i])){
+      if (!is.na(inf_mpios$cluster[i])) {
         relative_incidence <- ifelse(substr(
           inf_mpios$cluster[i], 1, 1
         ) == "H", "high", "low")
@@ -127,9 +129,9 @@ morans_index <- function(incidence_rate, threshold = 2, plot = TRUE) {
   }
   # Plot
   if (plot == TRUE) {
-    if(!all(is.na(morans_index$quadrant))){
+    if (!all(is.na(morans_index$quadrant))) {
       path_2 <- system.file("data", "spatial_polygons_col_2.rda",
-                            package = "epiCo"
+        package = "epiCo"
       )
       load(path_2)
       spatial_polygons_col_2 <- spatial_polygons_col_2
@@ -144,7 +146,7 @@ morans_index <- function(incidence_rate, threshold = 2, plot = TRUE) {
       pal_test <- pal(c("LL", "HH"))
       rm(pal_test)
       shapes <- spatial_polygons_col_2[spatial_polygons_col_2$MPIO_CDPMP %in%
-                                         as.integer(inf_mpios$labels), ]
+        as.integer(inf_mpios$labels), ]
       shapes_plot <- shapes[, order(match(
         as.integer(inf_mpios$labels),
         shapes$MPIO_CDPMP
@@ -152,7 +154,7 @@ morans_index <- function(incidence_rate, threshold = 2, plot = TRUE) {
       shapes_plot$CLUSTER <- inf_mpios$cluster
       shapes_plot$MPIO_CDPMP <- inf_mpios$labels
       shapes_plot$NOM_MPIO <- divipola_table$NOM_MPIO[divipola_table$COD_MPIO %in%
-                                                        shapes_plot$MPIO_CDPMP]
+        shapes_plot$MPIO_CDPMP]
       # shapes_ordered
       popup_data <- paste0(
         "<b>", "Municipality Name: ", "</b>",
@@ -173,8 +175,7 @@ morans_index <- function(incidence_rate, threshold = 2, plot = TRUE) {
           color = "white",
           fillOpacity = .75
         )
-    }
-    else{
+    } else {
       warning("There are no influential municipalities to plot")
     }
   }

@@ -9,7 +9,6 @@ endemic_channel(
   incidence_historic,
   method = "geometric",
   geom_method = "shifted",
-  window = 0,
   outlier_years = NULL,
   outliers_handling = "ignored",
   ci = 0.95,
@@ -19,36 +18,28 @@ endemic_channel(
 \arguments{
 \item{observations}{A numeric vector with the current observations}
 
-\item{incidence_historic}{An incidence object with the historic observations}
+\item{incidence_historic}{An incidence object with the historic weekly
+observations}
 
 \item{method}{A string with the mean calculation method of preference
-(median, mean, or geometric)}
+(median, mean, or geometric) or to use unusual behavior method (Poisson
+Distribution Test for hypoendemic settings)}
 
 \item{geom_method}{A string with the selected method for geometric mean
 calculation, see: geom_mean}
 
-\item{window}{A numeric value to specify the number of previous and
-posterior periods to include in the calculation of the current period mean}
-
 \item{outlier_years}{A numeric vector with the outlier years}
 
 \item{outliers_handling}{A string with the handling decision regarding
-outlier years
-\itemize{
-\item ignored = data from outlier years will not take into account
-\item included = data from outlier years will take into account
-\item replaced_by_median = data from outlier years will be replaced with the
-median and take into account
-\item replaced_by_mean = data from outlier years will be replaced with the
-mean and take into account
-\item replaced_by_geom_mean = data from outlier years will be replaced with the
-geometric mean and take into account
-}}
+outlier years, see: outliers_handling function}
 
-\item{ci}{= A numeric value to specify the confidence interval to use
+\item{ci}{= 0.95 A numeric value to specify the confidence interval to use
 with the geometric method}
 
 \item{plot}{A boolean for displaying a plot}
+
+\item{window}{A numeric value to specify the number of previous and
+posterior periods to include in the calculation of the current period mean}
 }
 \value{
 A dataframe with the observation, historical mean, and confidence

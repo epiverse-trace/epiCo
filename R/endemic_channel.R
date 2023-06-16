@@ -34,100 +34,108 @@ endemic_channel <- function(observations, incidence_historic,
                             ci = 0.95,
                             plot = FALSE) {
   ifelse(incidence_historic$interval == "1 month",
-         period <- 12,
-         period <- 52)
+    period <- 12,
+    period <- 52
+  )
   obs <- c(observations, rep(NA, period - length(observations)))
   years <- unique(lubridate::epiyear(incidence::get_dates(incidence_historic)))
-  
+
   extra_weeks <- which(lubridate::epiweek(incidence_historic$dates) == 53)
-  
+
   ifelse(incidence_historic$interval == "1 month",
-         counts_historic <- as.numeric(incidence::get_counts(incidence_historic)),
-         counts_historic <- as.numeric(incidence::get_counts(incidence_historic)[-extra_weeks]))
-  
+    counts_historic <- as.numeric(incidence::get_counts(incidence_historic)),
+    counts_historic <- as.numeric(incidence::get_counts(incidence_historic)[-extra_weeks])
+  )
+
   historic <- as.data.frame(matrix(counts_historic,
-                                   nrow = length(years),
-                                   byrow = TRUE
+    nrow = length(years),
+    byrow = TRUE
   ))
   colnames(historic) <- seq(1, period)
   rownames(historic) <- years
-  
-  historic <- endemic_outliers(historic, outlier_years, outliers_handling,
-                               geom_method)
-  
+
+  historic <- endemic_outliers(
+    historic, outlier_years, outliers_handling,
+    geom_method
+  )
+
   if (method == "median") {
     central <- as.numeric(apply(historic,
-                                MARGIN = 2,
-                                FUN = stats::quantile, p = c(0.5)
+      MARGIN = 2,
+      FUN = stats::quantile, p = c(0.5)
     ))
     up_lim <- as.numeric(apply(historic,
-                               MARGIN = 2,
-                               FUN = stats::quantile, p = c(0.75)
+      MARGIN = 2,
+      FUN = stats::quantile, p = c(0.75)
     ))
     low_lim <- as.numeric(apply(historic,
-                                MARGIN = 2,
-                                FUN = stats::quantile, p = c(0.25)
+      MARGIN = 2,
+      FUN = stats::quantile, p = c(0.25)
     ))
   } else if (method == "mean") {
     central <- as.numeric(apply(historic, MARGIN = 2, FUN = mean))
     interval <- as.numeric(apply(historic,
-                                 MARGIN = 2, FUN = function(x) {
-                                   stats::qt(
-                                     p = c((1 - ci) / 2),
-                                     df = length(x) - 1
-                                   ) *
-                                     stats::sd(x) / sqrt(length(x))
-                                 }
+      MARGIN = 2, FUN = function(x) {
+        stats::qt(
+          p = c((1 - ci) / 2),
+          df = length(x) - 1
+        ) *
+          stats::sd(x) / sqrt(length(x))
+      }
     ))
     up_lim <- central + abs(interval)
     low_lim <- central - abs(interval)
   } else if (method == "geometric") {
     central <- as.numeric(apply(historic,
-                                MARGIN = 2,
-                                FUN = geom_mean, method = geom_method
+      MARGIN = 2,
+      FUN = geom_mean, method = geom_method
     ))
     interval <- as.numeric(apply(historic,
-                                 MARGIN = 2, FUN = function(x) {
-                                   stats::qt(
-                                     p = c((1 - ci) / 2),
-                                     df = length(x) - 1
-                                   ) *
-                                     stats::sd(x) / sqrt(length(x))
-                                 }
+      MARGIN = 2, FUN = function(x) {
+        stats::qt(
+          p = c((1 - ci) / 2),
+          df = length(x) - 1
+        ) *
+          stats::sd(x) / sqrt(length(x))
+      }
     ))
     up_lim <- central + abs(interval)
     low_lim <- central - abs(interval)
-  } else if (method == "unusual_behavior"){
+  } else if (method == "unusual_behavior") {
     central <- as.numeric(apply(historic, MARGIN = 2, FUN = mean))
     up_lim <- c()
     low_lim <- c()
-    for (c in central){
+    for (c in central) {
       poiss_test <- poisson.test(round(c), alternative = "two.sided", conf.level = ci)
-      up_lim <- c(up_lim,poiss_test$conf.int[2])
-      low_lim <- c(low_lim,poiss_test$conf.int[1])
+      up_lim <- c(up_lim, poiss_test$conf.int[2])
+      low_lim <- c(low_lim, poiss_test$conf.int[1])
     }
   } else {
     return("Error in central tendency method")
   }
-  
+
   channel_data <- data.frame(
     central = central,
     up_lim = up_lim,
     low_lim = low_lim,
     obs = obs
   )
-  
+
   channel_data$low_lim[which(channel_data$low_lim < 0)] <- 0
-  
+
   if (plot == TRUE) {
-    endemic_channel_plot <- endemic_plot(channel_data, method,
-                                         outlier_years, outliers_handling)
+    endemic_channel_plot <- endemic_plot(
+      channel_data, method,
+      outlier_years, outliers_handling
+    )
     plot(endemic_channel_plot)
-    endemic_channel_data <- list(endemic_channel_plot = endemic_channel_plot,
-                                 channel_data = channel_data)
+    endemic_channel_data <- list(
+      endemic_channel_plot = endemic_channel_plot,
+      channel_data = channel_data
+    )
     return(endemic_channel_data)
   } else {
-  return(channel_data)
+    return(channel_data)
   }
 }
 
@@ -154,7 +162,6 @@ endemic_channel <- function(observations, incidence_historic,
 #' @export
 endemic_plot <- function(channel_data, method,
                          outlier_years, outliers_handling) {
-  
   endemic_channel_plot <- ggplot2::ggplot(
     channel_data,
     ggplot2::aes(x = as.numeric(
@@ -162,7 +169,7 @@ endemic_plot <- function(channel_data, method,
     ))
   ) +
     ggplot2::geom_area(ggplot2::aes(
-      y = rep(max(c(max(up_lim),obs),na.rm = T) * 1.05, nrow(channel_data)),
+      y = rep(max(c(max(up_lim), obs), na.rm = T) * 1.05, nrow(channel_data)),
       fill = "Epidemic"
     )) +
     ggplot2::geom_area(ggplot2::aes(
@@ -182,24 +189,24 @@ endemic_plot <- function(channel_data, method,
       color = "azure2", size = .1
     ) +
     ggplot2::geom_hline(
-      yintercept = seq(0, max(c(max(channel_data$up_lim),channel_data$obs),na.rm = T) * 1.05, length.out = 8),
+      yintercept = seq(0, max(c(max(channel_data$up_lim), channel_data$obs), na.rm = T) * 1.05, length.out = 8),
       color = "azure2", size = .1
     ) +
     ggplot2::geom_line(ggplot2::aes(y = up_lim),
-                       linewidth = 1,
-                       color = "brown4"
+      linewidth = 1,
+      color = "brown4"
     ) +
     ggplot2::geom_line(ggplot2::aes(y = central),
-                       linewidth = 1,
-                       color = "darkorange3"
+      linewidth = 1,
+      color = "darkorange3"
     ) +
     ggplot2::geom_line(ggplot2::aes(y = low_lim),
-                       linewidth = 1,
-                       color = "darkgreen"
+      linewidth = 1,
+      color = "darkgreen"
     ) +
     ggplot2::scale_y_continuous(
-      breaks = round(seq(0, max(c(max(channel_data$up_lim),channel_data$obs),na.rm = T) * 1.05, length.out = 8)),
-      limits = c(0, max(c(max(channel_data$up_lim),channel_data$obs),na.rm = T) * 1.05),
+      breaks = round(seq(0, max(c(max(channel_data$up_lim), channel_data$obs), na.rm = T) * 1.05, length.out = 8)),
+      limits = c(0, max(c(max(channel_data$up_lim), channel_data$obs), na.rm = T) * 1.05),
       expand = c(0, 0)
     ) +
     ggplot2::labs(
@@ -212,11 +219,11 @@ endemic_plot <- function(channel_data, method,
     ggplot2::xlab(label = "Epidemiological period") +
     ggplot2::ylab("Number of cases") +
     ggplot2::scale_fill_manual("",
-                               values = c(
-                                 Epidemic = "brown3", Warning = "darkorange",
-                                 Safety = "darkgoldenrod1", Success = "darkolivegreen4"
-                               ),
-                               limits = c("Epidemic", "Warning", "Safety", "Success")
+      values = c(
+        Epidemic = "brown3", Warning = "darkorange",
+        Safety = "darkgoldenrod1", Success = "darkolivegreen4"
+      ),
+      limits = c("Epidemic", "Warning", "Safety", "Success")
     ) +
     ggplot2::theme(
       plot.background = ggplot2::element_rect(fill = "white"),
@@ -228,13 +235,12 @@ endemic_plot <- function(channel_data, method,
       plot.caption = ggplot2::element_text(size = 10, hjust = 0),
       legend.position = "bottom"
     )
-  
-  if(all(!is.na(channel_data$obs)))
-  {
+
+  if (all(!is.na(channel_data$obs))) {
     endemic_channel_plot <- endemic_channel_plot +
       ggplot2::geom_line(ggplot2::aes(y = channel_data$obs),
-                         linetype = "dashed",
-                         linewidth = 0.75
+        linetype = "dashed",
+        linewidth = 0.75
       ) +
       ggplot2::geom_point(ggplot2::aes(y = channel_data$obs), size = 2) +
       ggplot2::scale_x_continuous(
@@ -242,7 +248,6 @@ endemic_plot <- function(channel_data, method,
         expand = c(0, 0)
       )
   }
-  
+
   return(endemic_channel_plot)
-  
 }

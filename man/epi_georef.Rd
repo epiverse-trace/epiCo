@@ -15,7 +15,7 @@ the query.
 }
 \description{
 function that complete a structure of municipality names,
-DIVIPOLA codes, and coordinatesfrom an input of one of these variables.
+DIVIPOLA codes, and coordinates from an input of one of these variables.
 }
 \examples{
 \dontrun{
