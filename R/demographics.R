@@ -6,7 +6,7 @@
 #' @param year A numeric input for year of interest
 #' @param gender A boolean to consult data disaggregated by gender
 #' @param total A boolean for returning the total number rather than the
-#' proportion of the populations
+#' proportion of the country's population
 #' @param plot A boolean for displaying a plot
 #'
 #' @importFrom rlang .data
@@ -20,6 +20,11 @@
 #'
 population_pyramid <- function(divipola_code, year,
                                gender = TRUE, total = TRUE, plot = FALSE) {
+  stopifnot("`year` is only available from 2005 to 2026, 
+            please select a valid year" = (year >= 2005 & year <= 2026),
+            "`divipola_code` must be numeric" = (is.numeric(divipola_code) &
+                                                  length(divipola_code) == 1)
+            )
   path <- system.file("data", "divipola_table.rda", package = "epiCo")
   load(path)
   divipola_table <- divipola_table
@@ -65,8 +70,7 @@ population_pyramid <- function(divipola_code, year,
     female_total <- as.numeric(pop_data_mun[104:204])
     male_total <- as.numeric(pop_data_mun[3:103])
   } else {
-    warning("There is no location assigned to the consulted DIVIPOLA code")
-    return(NA)
+    stop("There is no location assigned to the consulted DIVIPOLA code")
   }
 
   if (total == FALSE) {
@@ -76,46 +80,46 @@ population_pyramid <- function(divipola_code, year,
 
   if (gender == TRUE) {
     pop_pyramid <- data.frame(
-      Age = rep(c(0:100), 2),
-      Population = c(female_total, male_total),
-      Gender = c(rep("F", 101), rep("M", 101))
+      age = rep(c(0:100), 2),
+      population = c(female_total, male_total),
+      gender = c(rep("F", 101), rep("M", 101))
     )
   } else {
     pop_pyramid <- data.frame(
-      Age = c(0:100),
-      Population = c(female_total + male_total)
+      age = c(0:100),
+      population = c(female_total + male_total)
     )
   }
 
   if (plot == TRUE) {
     if (gender == TRUE) {
-      pop_pyramid$Population <- c(-1 * female_total, male_total)
+      pop_pyramid$population <- c(-1 * female_total, male_total)
 
       pop_pyramid_plot <- ggplot2::ggplot(
         pop_pyramid,
         ggplot2::aes(
-          x = .data$Age,
-          y = .data$Population,
-          fill = .data$Gender
+          x = .data$age,
+          y = .data$population,
+          fill = .data$gender
         )
       ) +
         ggplot2::geom_bar(
-          data = dplyr::filter(pop_pyramid, .data$Gender == "F"),
+          data = dplyr::filter(pop_pyramid, .data$gender == "F"),
           stat = "identity"
         ) +
         ggplot2::geom_bar(
-          data = dplyr::filter(pop_pyramid, .data$Gender == "M"),
+          data = dplyr::filter(pop_pyramid, .data$gender == "M"),
           stat = "identity"
         ) +
         ggplot2::coord_flip()
 
-      pop_pyramid$Population <- c(female_total, male_total)
+      pop_pyramid$population <- c(female_total, male_total)
     } else {
       pop_pyramid_plot <- ggplot2::ggplot(
         pop_pyramid,
         ggplot2::aes(
-          x = .data$Age,
-          y = .data$Population
+          x = .data$age,
+          y = .data$population
         )
       ) +
         ggplot2::geom_bar(stat = "identity")
@@ -153,73 +157,76 @@ population_pyramid <- function(divipola_code, year,
 #' @export
 age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
   if (!is.null(gender)) {
-    ages_f <- age[gender == "F"]
-    pyramid_f <- dplyr::filter(population_pyramid, .data$Gender == "F")
-    hist_f <- graphics::hist(ages_f,
+    ages_female <- age[gender == "F"]
+    pyramid_female <- dplyr::filter(population_pyramid, .data$gender == "F")
+    hist_female <- graphics::hist(ages_female,
       breaks = c(0:101),
-      right = FALSE, plot = FALSE
+      right = FALSE, 
+      plot = FALSE
     )
 
-    age_risk_f <- data.frame(
-      Age = pyramid_f$Age,
-      Prob = hist_f$counts / pyramid_f$Population,
-      Gender = rep("F", 101)
+    age_risk_female <- data.frame(
+      age = pyramid_female$age,
+      prob = hist_female$counts / pyramid_female$population,
+      gender = rep("F", 101)
     )
 
-    ages_m <- age[gender == "M"]
-    pyramid_m <- dplyr::filter(population_pyramid, .data$Gender == "M")
-    hist_m <- graphics::hist(ages_m,
+    ages_male <- age[gender == "M"]
+    pyramid_male <- dplyr::filter(population_pyramid, .data$Gender == "M")
+    hist_male <- graphics::hist(ages_male,
       breaks = c(0:101),
-      right = FALSE, plot = FALSE
+      right = FALSE, 
+      plot = FALSE
     )
 
-    age_risk_m <- data.frame(
-      Age = pyramid_m$Age,
-      Prob = hist_m$counts / pyramid_m$Population,
-      Gender = rep("M", 101)
+    age_risk_male <- data.frame(
+      age = pyramid_male$age,
+      prob = hist_male$counts / pyramid_male$population,
+      gender = rep("M", 101)
     )
 
     age_risk <- rbind(age_risk_f, age_risk_m)
   } else {
-    hist_t <- graphics::hist(age,
-      breaks = c(0:101), right = FALSE,
+    hist_total <- graphics::hist(age,
+      breaks = c(0:101), 
+      right = FALSE,
       plot = FALSE
     )
 
     age_risk <- data.frame(
-      Age = population_pyramid$Age,
-      Prob = hist_t$counts / population_pyramid$Population
+      age = population_pyramid$age,
+      prob = hist_total$counts / population_pyramid$population
     )
   }
 
 
-  if (plot == TRUE) {
+  if (plot) {
     if (!is.null(gender)) {
-      age_risk$Prob <- c(-1 * age_risk_f$Prob, age_risk_m$Prob)
+      age_risk$prob <- c(-1 * age_risk_female$prob, age_risk_male$prob)
 
       age_risk_plot <- ggplot2::ggplot(
         age_risk,
         ggplot2::aes(
-          x = .data$Age,
-          y = .data$Prob,
-          fill = .data$Gender
+          x = .data$age,
+          y = .data$prob,
+          fill = .data$gender
         )
       ) +
         ggplot2::geom_bar(
-          data = dplyr::filter(age_risk, .data$Gender == "F"),
+          data = dplyr::filter(age_risk, .data$gender == "F"),
           stat = "identity"
         ) +
         ggplot2::geom_bar(
-          data = dplyr::filter(age_risk, .data$Gender == "M"),
+          data = dplyr::filter(age_risk, .data$gender == "M"),
           stat = "identity"
         ) +
         ggplot2::coord_flip()
 
-      age_risk$Prob <- c(age_risk_f$Prob, age_risk_m$Prob)
+      age_riskpProb <- c(age_risk_female$prob, age_risk_male$prob)
     } else {
       age_risk_plot <- ggplot2::ggplot(age_risk, ggplot2::aes(
-        x = .data$Age,
-        y = .data$Prob
+        x = .data$age,
+        y = .data$prob
       )) +
         ggplot2::geom_bar(stat = "identity")
     }
@@ -234,7 +241,7 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
 #' Provides the sociological description of ethnicities in Colombia
 #'
 #' @description Function that returns the description of consulted ethnicities
-#' @param ethniclabels A numeric vector with the codes of ethnicities to consult
+#' @param ethnic_labels A numeric vector with the codes of ethnicities to consult
 #' @param language "ES" for description in spanish "EN" for english
 #' @param plot A boolean for displaying an histogram plot
 #'
@@ -244,8 +251,10 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
 #' describe_ethnicity(c(1, 2, 3, 4))
 #' }
 #' @export
-describe_ethnicity <- function(ethniclabels, language = "ES", plot = FALSE) {
-  ethniclabels <- as.data.frame(ethniclabels)
+describe_ethnicity <- function(ethnic_labels, language = "ES") {
+  stopifnot("`ethnic_labels` must be a numeric vector" = 
+              is.numeric(ethnic_labels))
+  ethnic_labels <- as.data.frame(ethnic_labels)
 
   #### ESPAÑOL ####
   indigena_es <- "Persona de ascendencia amerindia que comparten sentimientos
@@ -298,15 +307,7 @@ describe_ethnicity <- function(ethniclabels, language = "ES", plot = FALSE) {
   descriptions_es <- c(indigena_es, rom_es, raizal_es, palenquero_es, afro_es)
   description_en <- c(indigena_en, rom_en, raizal_en, palenquero_en, afro_en)
 
-  if (plot) {
-    ethn_hist <- ggplot2::ggplot(ethniclabels, ggplot2::aes(ethniclabels)) +
-      ggplot2::geom_histogram() +
-      ggplot2::theme_minimal()
-
-    print(ethn_hist)
-  }
-
-  labels <- order(unique(ethniclabels$ethniclabels))
+  labels <- order(unique(ethnic_labels$ethnic_labels))
 
   if (language == "EN") {
     return(description_en[labels])
@@ -331,6 +332,7 @@ describe_ethnicity <- function(ethniclabels, language = "ES", plot = FALSE) {
 #' }
 #' @export
 describe_occupation <- function(isco_codes, output_level) {
+  stopifnot("`isco_codes` must be a numeric vector" = is.numeric(isco_codes))
   path <- system.file("data", "isco88_table.rda", package = "epiCo")
   load(path)
   isco88_table <- isco88_table
