@@ -225,7 +225,6 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
         ) +
         ggplot2::coord_flip()
 
-      #age_risk_prob <- c(age_risk_female$prob, age_risk_male$prob)
     } else {
       age_risk_plot <- ggplot2::ggplot(age_risk, ggplot2::aes(
         x = .data$age,
