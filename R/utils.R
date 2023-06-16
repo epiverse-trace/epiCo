@@ -160,7 +160,6 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
       .data$code %in% groups & .data$ANO %in% years
     )
   }
-  
   incidence_rates <- incidence_object$counts
   
   for (group in groups) {
@@ -181,7 +180,6 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
   
   incidence_rate_object <- incidence_object
   incidence_rate_object$rates <- incidence_rates
-  
   return(incidence_rate_object)
 }
 
@@ -285,7 +283,6 @@ geom_mean <- function(x, method = "optimized", shift = 1, epsilon = 1e-5) {
       delta <- (delta_min + delta_max) / 2
       aus_exp <- exp(mean(log(x_positive + delta))) - delta
     }
-    
     gm <- round(exp(mean(log(x + delta))) - delta, 5)
     delta <- round(delta, 5)
     
