@@ -80,22 +80,25 @@ test_that("Population pyramid is not NA",{
                                             plot = TRUE))))
 })
 
-##### AGE RISK
-testthat("describe ethnicity errors are thrown",{
+
+
+
+test_that("describe ethnicity errors are thrown",{
   expect_error(describe_ethnicity(c("a", 4)))
 })
 
-testthat("describe etnicity works as expected",{
+test_that("describe etnicity works as expected",{
   expect_type(describe_ethnicity(c(1,2,3), "EN"), type = "character")
   expect_type(describe_ethnicity(c(1,2,3), "ES"), type = "character")
 })
 
-testthat("describe occupation errors are thrown",{
+test_that("describe occupation errors are thrown",{
   expect_error(describe_occupation(c("a", 4)))
   expect_error(describe_occupation(c(4148)))
+  expect_error(describe_occupation(c(41487, 39),3))
 })
 
-testthat("describe occupation works as expected"){
+test_that("describe occupation works as expected",{
   expect_type(describe_occupation(c(1111, 4141), output_level = 1), 
               type = "list")
   expect_type(describe_occupation(c(1111, 4141), output_level = 2), 
@@ -108,6 +111,9 @@ testthat("describe occupation works as expected"){
               type = "list")
   expect_type(describe_occupation(c(1111, 23), output_level = 4), 
               type = "list")
-  expect_length(describe_occupation(c(1111, 4141), output_level = 2), n = 2)
   
-}
+  expect_length(describe_occupation(c(1111, 4141), output_level = 2), n = 2)
+  expect_length(describe_occupation(c(110), output_level = 2), n = 1)
+  expect_length(describe_occupation(c(111), output_level = 4), n = 1)
+  
+})

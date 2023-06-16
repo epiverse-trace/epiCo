@@ -73,7 +73,7 @@ morans_index <- function(incidence_rate, threshold = 2, plot = TRUE) {
   
   # Logarithmic transformation
   incidence_rate_log <- log(incidence_rate_ordered$rates)
-  mpios_filtered <- mpios[which(incidence_rate_log > -Inf)]
+  mpios_filtered <- as.numeric(mpios[which(incidence_rate_log > -Inf)])
   incidence_rate_log <- incidence_rate_log[which(incidence_rate_log > -Inf)]
   
   # Neighborhood structure

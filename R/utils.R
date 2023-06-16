@@ -149,17 +149,22 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
     stop("Error in Administrative Level selection")
   }
   
-  if (sum(!(years %in% unique(populations$ANO))) +
-      sum(!(groups %in% unique(populations$code))) > 0) {
-    stop("No population projections found.
-           Incidence groups and administration level may not match or
-           dates may be out of the projections (2005-2023)")
-  } else {
+  # if (sum(!(years %in% unique(populations$ANO))) +
+  #     sum(!(groups %in% unique(populations$code))) > 0) {
+  #   stop("No population projections found.
+  #          Incidence groups and administration level may not match or
+  #          dates may be out of the projections (2005-2023)")
+  # } else {
     populations <- dplyr::filter(
       populations,
       .data$code %in% groups & .data$ANO %in% years
     )
+<<<<<<< Updated upstream
   }
+=======
+  # }
+  
+>>>>>>> Stashed changes
   incidence_rates <- incidence_object$counts
   
   for (group in groups) {
@@ -223,7 +228,7 @@ geom_mean <- function(x, method = "optimized", shift = 1, epsilon = 1e-5) {
             "`epsilon` must be numeric" = (is.numeric(epsilon)))
   if (method == "positive") {
     x_positive <- x[x > 0]
-    if(length(x) != length(x_pisitive)){
+    if(length(x) != length(x_positive)){
       stop("`positive` method cannot be implemented for negative values")
     }
     
@@ -287,9 +292,7 @@ geom_mean <- function(x, method = "optimized", shift = 1, epsilon = 1e-5) {
     delta <- round(delta, 5)
     
     return(c(gm, delta))
-  } else {
-    stop("Error in selection of geometric mean calculation method")
-  }
+  } 
   gm <- round(gm, 5)
   return(gm)
 }
