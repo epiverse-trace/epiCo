@@ -24,12 +24,12 @@ Imports:
     stats,
     magrittr,
     rlang,
-    sivirep
-Remotes:
-    epiverse-trace/sivirep
 Suggests: 
+    sivirep,
     checkmate,
     testthat (>= 3.0.0)
+Remotes:
+    epiverse-trace/sivirep
 Config/testthat/edition: 3
 Depends: 
     R (>= 2.10)
