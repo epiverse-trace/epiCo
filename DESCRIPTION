@@ -24,11 +24,11 @@ Imports:
     stats,
     magrittr,
     rlang,
+    sivirep
 Suggests: 
-    sivirep,
     checkmate,
     testthat (>= 3.0.0)
-Remotes:
+Additional_repositories:
     epiverse-trace/sivirep
 Config/testthat/edition: 3
 Depends: 
