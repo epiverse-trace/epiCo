@@ -14,7 +14,6 @@ RoxygenNote: 7.2.3
 Imports:
     dplyr,
     spdep,
-    geosphere,
     incidence,
     lubridate,
     ggplot2,
@@ -23,13 +22,13 @@ Imports:
     utils,
     stats,
     magrittr,
-    rlang,
-    sivirep
+    rlang
 Suggests: 
+    sivirep,
     checkmate,
     testthat (>= 3.0.0)
-Additional_repositories:
-    epiverse-trace/sivirep
+Remotes:
+    github::epiverse-trace/sivirep
 Config/Needs/website:
     epiverse-trace/epiversetheme
 Config/testthat/edition: 3

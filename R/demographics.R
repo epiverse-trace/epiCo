@@ -159,7 +159,12 @@ population_pyramid <- function(divipola_code, year,
 #'
 #'
 age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
+  stopifnot("`age` must be a numeric vector" = is.numeric(age))
   if (!is.null(gender)) {
+    stopifnot(
+      "`population_pyramid` should include gender" =
+        (length(population_pyramid) == 3)
+    )
     ages_female <- age[gender == "F"]
     pyramid_female <- dplyr::filter(population_pyramid, .data$gender == "F")
     hist_female <- graphics::hist(ages_female,
@@ -175,7 +180,7 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
     )
 
     ages_male <- age[gender == "M"]
-    pyramid_male <- dplyr::filter(population_pyramid, .data$Gender == "M")
+    pyramid_male <- dplyr::filter(population_pyramid, .data$gender == "M")
     hist_male <- graphics::hist(ages_male,
       breaks = c(0:101),
       right = FALSE,
@@ -224,7 +229,6 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
           stat = "identity"
         ) +
         ggplot2::coord_flip()
-
     } else {
       age_risk_plot <- ggplot2::ggplot(age_risk, ggplot2::aes(
         x = .data$age,

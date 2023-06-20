@@ -154,7 +154,8 @@ morans_index <- function(incidence_rate, threshold = 2, plot = TRUE) {
       shapes_plot$CLUSTER <- inf_mpios$cluster
       shapes_plot$MPIO_CDPMP <- inf_mpios$labels
       shapes_plot$NOM_MPIO <- divipola_table$NOM_MPIO[
-        divipola_table$COD_MPIO %in% shapes_plot$MPIO_CDPMP]
+        divipola_table$COD_MPIO %in% shapes_plot$MPIO_CDPMP
+      ]
       # shapes_ordered
       popup_data <- paste0(
         "<b>", "Municipality Name: ", "</b>",
