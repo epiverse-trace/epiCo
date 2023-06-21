@@ -56,7 +56,6 @@ the selected method and windows of observation</p>
 <span>  <span class="va">incidence_historic</span>,</span>
 <span>  method <span class="op">=</span> <span class="st">"geometric"</span>,</span>
 <span>  geom_method <span class="op">=</span> <span class="st">"shifted"</span>,</span>
-<span>  window <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  outlier_years <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  outliers_handling <span class="op">=</span> <span class="st">"ignored"</span>,</span>
 <span>  ci <span class="op">=</span> <span class="fl">0.95</span>,</span>
@@ -71,22 +70,19 @@ the selected method and windows of observation</p>
 
 
 <dt>incidence_historic</dt>
-<dd><p>An incidence object with the historic observations</p></dd>
+<dd><p>An incidence object with the historic weekly
+observations</p></dd>
 
 
 <dt>method</dt>
 <dd><p>A string with the mean calculation method of preference
-(median, mean, or geometric)</p></dd>
+(median, mean, or geometric) or to use unusual behavior method (Poisson
+Distribution Test for hypoendemic settings)</p></dd>
 
 
 <dt>geom_method</dt>
 <dd><p>A string with the selected method for geometric mean
 calculation, see: geom_mean</p></dd>
-
-
-<dt>window</dt>
-<dd><p>A numeric value to specify the number of previous and
-posterior periods to include in the calculation of the current period mean</p></dd>
 
 
 <dt>outlier_years</dt>
@@ -95,19 +91,11 @@ posterior periods to include in the calculation of the current period mean</p></
 
 <dt>outliers_handling</dt>
 <dd><p>A string with the handling decision regarding
-outlier years</p><ul><li><p>ignored = data from outlier years will not take into account</p></li>
-<li><p>included = data from outlier years will take into account</p></li>
-<li><p>replaced_by_median = data from outlier years will be replaced with the
-median and take into account</p></li>
-<li><p>replaced_by_mean = data from outlier years will be replaced with the
-mean and take into account</p></li>
-<li><p>replaced_by_geom_mean = data from outlier years will be replaced with the
-geometric mean and take into account</p></li>
-</ul></dd>
+outlier years, see: outliers_handling function</p></dd>
 
 
 <dt>ci</dt>
-<dd><p>= A numeric value to specify the confidence interval to use
+<dd><p>= 0.95 A numeric value to specify the confidence interval to use
 with the geometric method</p></dd>
 
 

@@ -19,6 +19,9 @@
     <loc>https://epiverse-trace.github.io/epiCo/reference/age_risk.html</loc>
   </url>
   <url>
+    <loc>https://epiverse-trace.github.io/epiCo/reference/auto_endemic_channel.html</loc>
+  </url>
+  <url>
     <loc>https://epiverse-trace.github.io/epiCo/reference/describe_ethnicity.html</loc>
   </url>
   <url>
@@ -37,6 +40,12 @@
     <loc>https://epiverse-trace.github.io/epiCo/reference/endemic_channel.html</loc>
   </url>
   <url>
+    <loc>https://epiverse-trace.github.io/epiCo/reference/endemic_outliers.html</loc>
+  </url>
+  <url>
+    <loc>https://epiverse-trace.github.io/epiCo/reference/endemic_plot.html</loc>
+  </url>
+  <url>
     <loc>https://epiverse-trace.github.io/epiCo/reference/epiCo-population-data.html</loc>
   </url>
   <url>
@@ -44,9 +53,6 @@
   </url>
   <url>
     <loc>https://epiverse-trace.github.io/epiCo/reference/epi_calendar.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/epiCo/reference/epi_georef.html</loc>
   </url>
   <url>
     <loc>https://epiverse-trace.github.io/epiCo/reference/ewma.html</loc>
