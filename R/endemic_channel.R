@@ -58,7 +58,7 @@ auto_endemic_channel <- function(disease_name, divipola_code, year,
 
   for (y in years_to_analyze) {
     for (e in events_to_analyze) {
-      temp_data <- sivirep::import_data_disease_by_year(y, e)
+      temp_data <- sivirep::import_linelist_disease_year(y, e)
       temp_data$FEC_NOT <- as.character(temp_data$FEC_NOT)
       temp_data$FEC_NOT <- format(
         as.Date(temp_data$FEC_NOT,
