@@ -5,16 +5,6 @@ remotes::install_github("epiverse-trace/epiCo")
 
 library(epiCo)
 library(incidence)
-
-View(inc_dep)
-inc_dep[["counts"]]
-
-incidencia_dengue <- as.data.frame(inc_dep$dates)
-plot(inc_dep)
-library(ggplot2)
-ggplot(google_dengue, aes(x=date, y=dengue)) 
-
-
 library(epiparameter)
 library(bpmodels)
 library(incidence2)
@@ -30,10 +20,8 @@ test_data_dengue <- data.frame(COD = sample(numbers, 100, replace = T)) %>%
   mutate(dengue = sample(0:100, replace = T, n())) %>%
   mutate(hemorragia = sample(0:100, replace = T, n())) %>%
   mutate(mosquito = sample(0:100, replace = T, n()))
-                   
 
-  
-  
+write.csv(test_data_dengue, "dolab/test_data.csv")                   
 
 
 
