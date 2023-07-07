@@ -298,7 +298,7 @@ endemic_channel <- function(observations, incidence_historic,
 
   channel_data$low_lim[which(channel_data$low_lim < 0)] <- 0
 
-  if (plot == TRUE) {
+  if (plot) {
     endemic_channel_plot <- endemic_plot(
       channel_data, method,
       outlier_years, outliers_handling

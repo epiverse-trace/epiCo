@@ -74,12 +74,12 @@ population_pyramid <- function(divipola_code, year,
     stop("There is no location assigned to the consulted DIVIPOLA code")
   }
 
-  if (total == FALSE) {
+  if (!total) {
     female_total <- female_total / sum(female_total)
     male_total <- male_total / sum(male_total)
   }
 
-  if (gender == TRUE) {
+  if (gender) {
     pop_pyramid <- data.frame(
       age = rep(c(0:100), 2),
       population = c(female_total, male_total),
@@ -92,8 +92,8 @@ population_pyramid <- function(divipola_code, year,
     )
   }
 
-  if (plot == TRUE) {
-    if (gender == TRUE) {
+  if (plot) {
+    if (gender) {
       pop_pyramid$population <- c(-1 * female_total, male_total)
 
       pop_pyramid_plot <- ggplot2::ggplot(

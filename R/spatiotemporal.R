@@ -100,7 +100,7 @@ morans_index <- function(incidence_rate, threshold = 2, plot = TRUE) {
         mean(wx) ~ "LH"
     )
   )
-  inf_mpios <- moran_data_frame[which(moran_data_frame$is_inf == TRUE), ]
+  inf_mpios <- moran_data_frame[which(moran_data_frame$is_inf), ]
   morans_index <- c(
     list(municipios = moran_data_frame$labels),
     list(quadrant = moran_data_frame$cluster),
@@ -128,7 +128,7 @@ morans_index <- function(incidence_rate, threshold = 2, plot = TRUE) {
     }
   }
   # Plot
-  if (plot == TRUE) {
+  if (plot) {
     if (!all(is.na(morans_index$quadrant))) {
       path_2 <- system.file("data", "spatial_polygons_col_2.rda",
         package = "epiCo"
