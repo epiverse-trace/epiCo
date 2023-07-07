@@ -23,39 +23,39 @@ test_that("Population pyramid errors are thrown", {
 
 test_that("Population pyramid obtaines data", {
   # dimension
-  expect_equal(
+  expect_identical(
     dim(population_pyramid(
       divipola_code = 5001,
       year = 2020
     )),
-    c(202, 3)
+    c(202L, 3L)
   )
-  expect_equal(
+  expect_identical(
     dim(population_pyramid(
       divipola_code = 5001,
       year = 2020,
       gender = FALSE
     )),
-    c(101, 2)
+    c(101L, 2L)
   )
-  expect_equal(
+  expect_identical(
     dim(population_pyramid(
       divipola_code = 5001,
       year = 2020,
       total = FALSE
     )),
-    c(202, 3)
+    c(202L, 3L)
   )
-  expect_equal(
+  expect_identical(
     dim(population_pyramid(
       divipola_code = 5001,
       year = 2020,
       gender = FALSE,
       total = FALSE
     )),
-    c(101, 2)
+    c(101L, 2L)
   )
-  expect_equal(
+  expect_identical(
     dim(population_pyramid(
       divipola_code = 5001,
       year = 2020,
@@ -63,22 +63,22 @@ test_that("Population pyramid obtaines data", {
       total = FALSE,
       plot = TRUE
     )),
-    c(101, 2)
+    c(101L, 2L)
   )
 
-  expect_equal(
+  expect_identical(
     dim(population_pyramid(
       divipola_code = 5,
       year = 2020
     )),
-    c(202, 3)
+    c(202L, 3L)
   )
-  expect_equal(
+  expect_identical(
     dim(population_pyramid(
       divipola_code = 0,
       year = 2020
     )),
-    c(202, 3)
+    c(202L, 3L)
   )
 })
 
