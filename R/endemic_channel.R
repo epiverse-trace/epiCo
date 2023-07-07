@@ -62,7 +62,9 @@ auto_endemic_channel <- function(disease_name, divipola_code, year,
       temp_data$FEC_NOT <- as.character(temp_data$FEC_NOT)
       temp_data$FEC_NOT <- format(
         as.Date(temp_data$FEC_NOT,
+          # nolint start: nonportable_path_linter
           tryFormats = c("%Y-%m-%d", "%d/%m/%Y")
+          # nolint end: nonportable_path_linter
         ),
         "%Y-%m-%d"
       )

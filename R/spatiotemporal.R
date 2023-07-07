@@ -113,9 +113,11 @@ morans_index <- function(incidence_rate, threshold = 2, plot = TRUE) {
     # Influential observations
     for (i in seq_len(nrow(inf_mpios))) {
       if (!is.na(inf_mpios$cluster[i])) {
+        # nolint start: string_boundary_linter
         relative_incidence <- ifelse(substr(
           inf_mpios$cluster[i], 1, 1
         ) == "H", "high", "low")
+        # nolint end: string_boundary_linter
         relative_correlation <- ifelse(substr(
           inf_mpios$cluster[i], 2, 2
         ) == "H", "high", "low")
