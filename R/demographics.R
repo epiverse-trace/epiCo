@@ -176,7 +176,8 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
     age_risk_female <- data.frame(
       age = pyramid_female$age,
       prob = hist_female$counts / pyramid_female$population,
-      gender = rep("F", 101)
+      gender = rep("F", 101),
+      stringsAsFactors = FALSE
     )
 
     ages_male <- age[gender == "M"]
@@ -190,7 +191,8 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
     age_risk_male <- data.frame(
       age = pyramid_male$age,
       prob = hist_male$counts / pyramid_male$population,
-      gender = rep("M", 101)
+      gender = rep("M", 101),
+      stringsAsFactors = FALSE
     )
 
     age_risk <- rbind(age_risk_female, age_risk_male)
