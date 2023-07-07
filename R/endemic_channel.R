@@ -491,7 +491,7 @@ endemic_plot <- function(channel_data, method,
       legend.position = "bottom"
     )
 
-  if (!any(is.na(channel_data$obs))) {
+  if (!anyNA(channel_data$obs)) {
     endemic_channel_plot <- endemic_channel_plot +
       ggplot2::geom_line(ggplot2::aes(y = channel_data$obs),
         linetype = "dashed",
