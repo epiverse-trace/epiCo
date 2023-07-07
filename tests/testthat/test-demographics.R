@@ -172,7 +172,7 @@ test_that("describe etnicity works as expected", {
 
 test_that("describe occupation errors are thrown", {
   expect_error(describe_occupation(c("a", 4)))
-  expect_error(describe_occupation(c(4148)))
+  expect_error(describe_occupation(4148))
   expect_error(describe_occupation(c(41487, 39), 3))
 })
 
@@ -197,7 +197,7 @@ test_that("describe occupation works as expected", {
   )
 
   expect_length(describe_occupation(c(1111, 4141), output_level = 2), n = 2)
-  expect_length(describe_occupation(c(110), output_level = 2), n = 1)
-  expect_length(describe_occupation(c(111), output_level = 4), n = 1)
+  expect_length(describe_occupation(110, output_level = 2), n = 1)
+  expect_length(describe_occupation(111, output_level = 4), n = 1)
   expect_length(describe_occupation(c(23, 11), output_level = 4), n = 2)
 })

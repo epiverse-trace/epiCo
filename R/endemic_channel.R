@@ -234,15 +234,15 @@ endemic_channel <- function(observations, incidence_historic,
   if (method == "median") {
     central <- as.numeric(apply(historic,
       MARGIN = 2,
-      FUN = stats::quantile, p = c(0.5)
+      FUN = stats::quantile, p = 0.5
     ))
     up_lim <- as.numeric(apply(historic,
       MARGIN = 2,
-      FUN = stats::quantile, p = c(0.75)
+      FUN = stats::quantile, p = 0.75
     ))
     low_lim <- as.numeric(apply(historic,
       MARGIN = 2,
-      FUN = stats::quantile, p = c(0.25)
+      FUN = stats::quantile, p = 0.25
     ))
   } else if (method == "mean") {
     central <- as.numeric(apply(historic, MARGIN = 2, FUN = mean))
@@ -275,8 +275,8 @@ endemic_channel <- function(observations, incidence_historic,
     low_lim <- central - abs(interval)
   } else if (method == "unusual_behavior") {
     central <- as.numeric(apply(historic, MARGIN = 2, FUN = mean))
-    up_lim <- c()
-    low_lim <- c()
+    up_lim <- NULL
+    low_lim <- NULL
     for (c in central) {
       poiss_test <- stats::poisson.test(round(c),
         alternative = "two.sided",

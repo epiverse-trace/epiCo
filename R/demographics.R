@@ -81,13 +81,13 @@ population_pyramid <- function(divipola_code, year,
 
   if (gender) {
     pop_pyramid <- data.frame(
-      age = rep(c(0:100), 2),
+      age = rep(0:100, 2),
       population = c(female_total, male_total),
       gender = c(rep("F", 101), rep("M", 101))
     )
   } else {
     pop_pyramid <- data.frame(
-      age = c(0:100),
+      age = 0:100,
       population = c(female_total + male_total)
     )
   }
@@ -168,7 +168,7 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
     ages_female <- age[gender == "F"]
     pyramid_female <- dplyr::filter(population_pyramid, .data$gender == "F")
     hist_female <- graphics::hist(ages_female,
-      breaks = c(0:101),
+      breaks = 0:101,
       right = FALSE,
       plot = FALSE
     )
@@ -182,7 +182,7 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
     ages_male <- age[gender == "M"]
     pyramid_male <- dplyr::filter(population_pyramid, .data$gender == "M")
     hist_male <- graphics::hist(ages_male,
-      breaks = c(0:101),
+      breaks = 0:101,
       right = FALSE,
       plot = FALSE
     )
@@ -196,7 +196,7 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
     age_risk <- rbind(age_risk_female, age_risk_male)
   } else {
     hist_total <- graphics::hist(age,
-      breaks = c(0:101),
+      breaks = 0:101,
       right = FALSE,
       plot = FALSE
     )
