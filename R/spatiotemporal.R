@@ -31,7 +31,7 @@ neighborhoods <- function(query_vector, threshold = 2) {
   for (i in excluded) {
     warning("municipality ", i, " was not found")
   }
-  adjacency_matrix <- as.matrix(ifelse(distance <= threshold, 1, 0))
+  adjacency_matrix <- as.matrix(distance <= threshold)
   list_weights <- spdep::mat2listw(adjacency_matrix)
   neighborhoods <- list_weights$neighbours
   return(neighborhoods)
