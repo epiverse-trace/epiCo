@@ -428,13 +428,13 @@ endemic_plot <- function(channel_data, method,
     )) +
     ggplot2::geom_vline(
       xintercept = seq(1, nrow(channel_data), 1),
-      color = "azure2", size = .1
+      color = "azure2", size = 0.1
     ) +
     ggplot2::geom_hline(
       yintercept = seq(0, max(c(max(channel_data$up_lim), channel_data$obs),
         na.rm = TRUE
       ) * 1.05, length.out = 8),
-      color = "azure2", size = .1
+      color = "azure2", size = 0.1
     ) +
     ggplot2::geom_line(ggplot2::aes(y = channel_data$up_lim),
       linewidth = 1,

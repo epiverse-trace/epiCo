@@ -174,7 +174,7 @@ morans_index <- function(incidence_rate, threshold = 2, plot = TRUE) {
           fillColor = ~ pal(CLUSTER),
           popup = popup_data,
           color = "white",
-          fillOpacity = .75
+          fillOpacity = 0.75
         )
     } else {
       warning("There are no influential municipalities to plot")
