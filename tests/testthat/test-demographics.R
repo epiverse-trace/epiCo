@@ -84,49 +84,49 @@ test_that("Population pyramid obtaines data", {
 
 test_that("Population pyramid is not NA", {
   # dimension
-  expect_true(all(!is.na(population_pyramid(
+  expect_true(!any(is.na(population_pyramid(
     divipola_code = 5001,
     year = 2006
   ))))
-  expect_true(all(!is.na(population_pyramid(
+  expect_true(!any(is.na(population_pyramid(
     divipola_code = 5001,
     year = 2006,
     total = FALSE,
     gender = FALSE
   ))))
-  expect_true(all(!is.na(population_pyramid(
+  expect_true(!any(is.na(population_pyramid(
     divipola_code = 5001,
     year = 2006,
     plot = TRUE
   ))))
 
-  expect_true(all(!is.na(population_pyramid(
+  expect_true(!any(is.na(population_pyramid(
     divipola_code = 73,
     year = 2006
   ))))
-  expect_true(all(!is.na(population_pyramid(
+  expect_true(!any(is.na(population_pyramid(
     divipola_code = 73,
     year = 2006,
     total = FALSE,
     gender = FALSE
   ))))
-  expect_true(all(!is.na(population_pyramid(
+  expect_true(!any(is.na(population_pyramid(
     divipola_code = 73,
     year = 2006,
     plot = TRUE
   ))))
 
-  expect_true(all(!is.na(population_pyramid(
+  expect_true(!any(is.na(population_pyramid(
     divipola_code = 0,
     year = 2006
   ))))
-  expect_true(all(!is.na(population_pyramid(
+  expect_true(!any(is.na(population_pyramid(
     divipola_code = 0,
     year = 2006,
     total = FALSE,
     gender = FALSE
   ))))
-  expect_true(all(!is.na(population_pyramid(
+  expect_true(!any(is.na(population_pyramid(
     divipola_code = 0,
     year = 2006,
     plot = TRUE
