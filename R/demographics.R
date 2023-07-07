@@ -346,16 +346,13 @@ describe_occupation <- function(isco_codes, output_level) {
   path <- system.file("data", "isco88_table.rda", package = "epiCo")
   load(path)
   isco88_table <- isco88_table
-  input_level <- ifelse(isco_codes == 0 | isco_codes == 110, "Armed Forces",
-    ifelse(nchar(isco_codes) == 1, "major",
-      ifelse(nchar(isco_codes) == 2, "sub_major",
-        ifelse(nchar(isco_codes) == 3, "minor",
-          ifelse(nchar(isco_codes) == 4, "unit",
-            NA
-          )
-        )
-      )
-    )
+  input_level <- dplyr::case_when(
+    isco_codes %in% c(0, 110) ~ "Armed Forces",
+    nchar(isco_codes) == 1    ~ "major",
+    nchar(isco_codes) == 2    ~ "sub_major",
+    nchar(isco_codes) == 3    ~ "minor",
+    nchar(isco_codes) == 4    ~ "unit",
+    TRUE                      ~ NA_character_
   )
   tryCatch(
     {

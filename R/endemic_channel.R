@@ -81,47 +81,42 @@ auto_endemic_channel <- function(disease_name, divipola_code, year,
   ## Dates and DIVIPOLA codes preparation and cleaning
 
   disease_data <- disease_data %>% dplyr::mutate(
-    COD_MUN_R = ifelse(.data$COD_DPTO_R == 1,
-      .data$COD_PAIS_O, # 1 indicates residence abroad
-      ifelse(nchar(.data$COD_MUN_R) == 1,
+    COD_MUN_R = dplyr::case_when(
+      .data$COD_DPTO_R == 1 ~ .data$COD_PAIS_O, # 1 indicates residence abroad
+      nchar(.data$COD_MUN_R) == 1 ~
         as.numeric(paste(.data$COD_DPTO_R,
           .data$COD_MUN_R,
           sep = "00"
         )),
-        ifelse(nchar(.data$COD_MUN_R) == 2,
-          as.numeric(paste(.data$COD_DPTO_R,
-            .data$COD_MUN_R,
-            sep = "0"
-          )),
-          ifelse(nchar(.data$COD_MUN_R) == 3,
-            as.numeric(paste0(.data$COD_DPTO_R,
-              .data$COD_MUN_R
-            )),
-            NA
-          )
-        )
-      )
+      nchar(.data$COD_MUN_R) == 2 ~
+        as.numeric(paste(.data$COD_DPTO_R,
+          .data$COD_MUN_R,
+          sep = "0"
+        )),
+      nchar(.data$COD_MUN_R) == 3 ~
+        as.numeric(paste0(.data$COD_DPTO_R,
+          .data$COD_MUN_R
+        )),
+      TRUE ~ NA_real_
     ),
-    COD_MUN_O = ifelse(.data$COD_DPTO_O == 1,
-      .data$COD_PAIS_O, # 1 indicates infection occurred abroad
-      ifelse(nchar(.data$COD_MUN_O) == 1,
+    COD_MUN_O = dplyr::case_when(
+      # 1 indicates infection occurred abroad
+      .data$COD_DPTO_O == 1 ~ .data$COD_PAIS_O,
+      nchar(.data$COD_MUN_O) == 1 ~
         as.numeric(paste(.data$COD_DPTO_O,
           .data$COD_MUN_O,
           sep = "00"
         )),
-        ifelse(nchar(.data$COD_MUN_O) == 2,
-          as.numeric(paste(.data$COD_DPTO_O,
-            .data$COD_MUN_O,
-            sep = "0"
-          )),
-          ifelse(nchar(.data$COD_MUN_O) == 3,
-            as.numeric(paste0(.data$COD_DPTO_O,
-              .data$COD_MUN_O
-            )),
-            NA
-          )
-        )
-      )
+      nchar(.data$COD_MUN_O) == 2 ~
+        as.numeric(paste(.data$COD_DPTO_O,
+          .data$COD_MUN_O,
+          sep = "0"
+        )),
+      nchar(.data$COD_MUN_O) == 3 ~
+        as.numeric(paste0(.data$COD_DPTO_O,
+          .data$COD_MUN_O
+        )),
+      TRUE ~ NA_real_
     ),
     EPI_WEEK = lubridate::epiweek(.data$FEC_NOT),
     EPI_MONTH = lubridate::month(.data$FEC_NOT),
