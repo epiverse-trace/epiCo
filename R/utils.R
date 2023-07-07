@@ -78,7 +78,7 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
   # Input check
   stopifnot(
     "`incidence_object` must have incidence class" =
-      (class(incidence_object) == "incidence"),
+      (inherits(incidence_object, "incidence")),
     "`level` must be numeric" = (is.numeric(level)),
     "`scale` must be numeric" = (is.numeric(scale))
   )
