@@ -245,7 +245,7 @@ endemic_channel <- function(observations, incidence_historic,
       FUN = stats::quantile, p = 0.25
     ))
   } else if (method == "mean") {
-    central <- as.numeric(apply(historic, MARGIN = 2, FUN = mean))
+    central <- as.numeric(colMeans(historic))
     interval <- as.numeric(apply(historic,
       MARGIN = 2, FUN = function(x) {
         stats::qt(
@@ -274,7 +274,7 @@ endemic_channel <- function(observations, incidence_historic,
     up_lim <- central + abs(interval)
     low_lim <- central - abs(interval)
   } else if (method == "unusual_behavior") {
-    central <- as.numeric(apply(historic, MARGIN = 2, FUN = mean))
+    central <- as.numeric(colMeans(historic))
     up_lim <- NULL
     low_lim <- NULL
     for (c in central) {
@@ -356,7 +356,7 @@ endemic_outliers <- function(historic, outlier_years, outliers_handling,
     handling <- t(replicate(length(outlier_years), handling))
     historic[outlier_years, ] <- handling
   } else if (outliers_handling == "replaced_by_mean") {
-    handling <- as.numeric(apply(historic, MARGIN = 2, FUN = mean))
+    handling <- as.numeric(colMeans(historic))
     handling <- t(replicate(length(outlier_years), handling))
     historic[outlier_years, ] <- handling
   } else if (outliers_handling == "replaced_by_geom_mean") {
