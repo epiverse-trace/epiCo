@@ -29,7 +29,7 @@ neighborhoods <- function(query_vector, threshold = 2) {
   ]
   excluded <- query_vector[!query_vector %in% rownames(distance)]
   for (i in excluded) {
-    warning(paste("municipality", i, "was not found"))
+    warning("municipality ", i, " was not found")
   }
   adjacency_matrix <- as.matrix(ifelse(distance <= threshold, 1, 0))
   list_weights <- spdep::mat2listw(adjacency_matrix)

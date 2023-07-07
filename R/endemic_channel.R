@@ -92,9 +92,8 @@ auto_endemic_channel <- function(disease_name, divipola_code, year,
             sep = "0"
           )),
           ifelse(nchar(.data$COD_MUN_R) == 3,
-            as.numeric(paste(.data$COD_DPTO_R,
-              .data$COD_MUN_R,
-              sep = ""
+            as.numeric(paste0(.data$COD_DPTO_R,
+              .data$COD_MUN_R
             )),
             NA
           )
@@ -114,9 +113,8 @@ auto_endemic_channel <- function(disease_name, divipola_code, year,
             sep = "0"
           )),
           ifelse(nchar(.data$COD_MUN_O) == 3,
-            as.numeric(paste(.data$COD_DPTO_O,
-              .data$COD_MUN_O,
-              sep = ""
+            as.numeric(paste0(.data$COD_DPTO_O,
+              .data$COD_MUN_O
             )),
             NA
           )

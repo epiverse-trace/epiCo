@@ -372,7 +372,8 @@ describe_occupation <- function(isco_codes, output_level) {
       ))
     },
     error = function(e) {
-      stop(paste0("Output level does not exist, please check your input"),
+      stop(
+        "Output level does not exist, please check your input",
         call. = FALSE
       )
     }
@@ -412,8 +413,10 @@ describe_occupation <- function(isco_codes, output_level) {
         }
       },
       error = function(e) {
-        stop(paste0("Code ", isco_code, " does not exist,
-                    please check your input"), call. = FALSE)
+        stop(
+          "Code ", isco_code, " does not exist, please check your input",
+          call. = FALSE
+        )
       }
     )
   }
