@@ -5,8 +5,8 @@
 \title{Returns the endemic channel of a disease}
 \usage{
 endemic_channel(
-  observations,
   incidence_historic,
+  observations = NULL,
   method = "geometric",
   geom_method = "shifted",
   outlier_years = NULL,
@@ -16,10 +16,10 @@ endemic_channel(
 )
 }
 \arguments{
-\item{observations}{A numeric vector with the current observations}
-
 \item{incidence_historic}{An incidence object with the historic weekly
 observations}
+
+\item{observations}{A numeric vector with the current observations}
 
 \item{method}{A string with the mean calculation method of preference
 (median, mean, or geometric) or to use unusual behavior method (Poisson

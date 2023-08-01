@@ -58,7 +58,7 @@ auto_endemic_channel <- function(disease_name, divipola_code, year,
 
   for (y in years_to_analyze) {
     for (e in events_to_analyze) {
-      temp_data <- sivirep::import_linelist_disease_year(y, e)
+      temp_data <- sivirep::import_data_event(y, e)
       temp_data$FEC_NOT <- as.character(temp_data$FEC_NOT)
       temp_data$FEC_NOT <- format(
         as.Date(temp_data$FEC_NOT,
@@ -191,11 +191,20 @@ auto_endemic_channel <- function(disease_name, divipola_code, year,
 #' )
 #' }
 #' @export
-endemic_channel <- function(observations, incidence_historic,
+endemic_channel <- function(incidence_historic, observations = NULL,
                             method = "geometric", geom_method = "shifted",
                             outlier_years = NULL, outliers_handling = "ignored",
                             ci = 0.95,
                             plot = FALSE) {
+  stopifnot(
+    "`incidence_historic` must be an incidence object" =
+      inherits(incidence_historic, "incidence"),
+    "`observations`must be numeric and positive" =
+      (is.numeric(observations) & sign(observations) != -1),
+    "incidence interval should be `1 month`, `1 week` or `1 epiweek`" =
+      incidence_historic$interval %in%
+        c("1 month", "1 week", "1 epiweek")
+  )
   ifelse(incidence_historic$interval == "1 month",
     period <- 12,
     period <- 52
