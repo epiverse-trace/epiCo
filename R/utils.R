@@ -56,44 +56,6 @@ epi_calendar <- function(year, jan_days = 4) {
   return(as.Date.character(epi_calendar))
 }
 
-
-
-#' Complete georeference data from an epidemiologic linelist.
-#'
-#' @description function that complete a structure of municipality names,
-#' DIVIPOLA codes, and coordinates from an input of one of these variables.
-#'
-#' @param query_vector A vector of DIVIPOLA codes, names or coordinates.
-#'
-#' @return A dataframe with DIVIPOLA codes, names, longitude and latitude from
-#' the query.
-#'
-#' @examples
-#' \dontrun{
-#' epigeoref(query_vector)
-#' }
-#'
-#' @export
-epi_georef <- function(query_vector) {
-  query_labels <- colnames(query_vector)
-  path <- system.file("data", "divipola_table.rda", package = "epiCo")
-  load(path)
-  divipola_table <- divipola_table
-  output_labels <- c("NOM_MPIO", "COD_MPIO", "LONGITUD", "LATITUD")
-  if (sum(query_labels == c("LONGITUD", "LATITUD")) == 2) {
-    dist_matrix <- geosphere::distm(
-      query_vector,
-      divipola_table[, c("LONGITUD", "LATITUD")]
-    )
-    min_d <- apply(dist_matrix, 1, function(x) order(x, decreasing = FALSE)[1])
-    geo_ref <- divipola_table[min_d, output_labels]
-  } else {
-    geo_ref <- merge(query_vector, divipola_table, by = query_labels)
-    geo_ref <- geo_ref[, output_labels]
-  }
-  return(geo_ref)
-}
-
 #' Extends an incidence class object with incidence rates estimations.
 #'
 #' @description Function that estimates incidence rates from a incidence class

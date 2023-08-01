@@ -156,8 +156,15 @@ population_pyramid <- function(divipola_code, year,
 #'
 #' @return A dataframe with the proportion or total count of individuals
 #' @export
+#'
+#'
 age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
+  stopifnot("`age` must be a numeric vector" = is.numeric(age))
   if (!is.null(gender)) {
+    stopifnot(
+      "`population_pyramid` should include gender" =
+        (length(population_pyramid) == 3)
+    )
     ages_female <- age[gender == "F"]
     pyramid_female <- dplyr::filter(population_pyramid, .data$gender == "F")
     hist_female <- graphics::hist(ages_female,
@@ -173,7 +180,7 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
     )
 
     ages_male <- age[gender == "M"]
-    pyramid_male <- dplyr::filter(population_pyramid, .data$Gender == "M")
+    pyramid_male <- dplyr::filter(population_pyramid, .data$gender == "M")
     hist_male <- graphics::hist(ages_male,
       breaks = c(0:101),
       right = FALSE,
@@ -186,7 +193,7 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
       gender = rep("M", 101)
     )
 
-    age_risk <- rbind(age_risk_f, age_risk_m)
+    age_risk <- rbind(age_risk_female, age_risk_male)
   } else {
     hist_total <- graphics::hist(age,
       breaks = c(0:101),
@@ -222,8 +229,6 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
           stat = "identity"
         ) +
         ggplot2::coord_flip()
-
-      age_riskpProb <- c(age_risk_female$prob, age_risk_male$prob)
     } else {
       age_risk_plot <- ggplot2::ggplot(age_risk, ggplot2::aes(
         x = .data$age,
@@ -242,9 +247,9 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
 #' Provides the sociological description of ethnicities in Colombia
 #'
 #' @description Function that returns the description of consulted ethnicities
-#' @param ethnic_labels A numeric vector with the codes of ethnicities to consult
+#' @param ethnic_labels A numeric vector with the codes of ethnicities to
+#' consult
 #' @param language "ES" for description in spanish "EN" for english
-#' @param plot A boolean for displaying an histogram plot
 #'
 #' @return A printed message with the description of the ethnicities
 #' @examples

@@ -37,9 +37,6 @@ outlier years, see: outliers_handling function}
 with the geometric method}
 
 \item{plot}{A boolean for displaying a plot}
-
-\item{window}{A numeric value to specify the number of previous and
-posterior periods to include in the calculation of the current period mean}
 }
 \value{
 A dataframe with the observation, historical mean, and confidence

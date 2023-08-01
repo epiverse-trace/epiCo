@@ -7,11 +7,10 @@
 describe_ethnicity(ethnic_labels, language = "ES")
 }
 \arguments{
-\item{ethnic_labels}{A numeric vector with the codes of ethnicities to consult}
+\item{ethnic_labels}{A numeric vector with the codes of ethnicities to
+consult}
 
 \item{language}{"ES" for description in spanish "EN" for english}
-
-\item{plot}{A boolean for displaying an histogram plot}
 }
 \value{
 A printed message with the description of the ethnicities

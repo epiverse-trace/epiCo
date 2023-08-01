@@ -133,7 +133,32 @@ test_that("Population pyramid is not NA", {
   ))))
 })
 
+# data for age_risk tests
+age_0 <- c(1, 1, 20, 4, 5, 7, 3, 3, 4, 4, 6, 6, 6, 50, 47, 47, 3, 20, 23, 23)
+age_1 <- c(1, 1, 20, 4, 5, 7, 3, 3, 4, 4, 6, 6, 6, 50, 47, "47", 3, 35, 35, 3)
 
+gender_0 <- c(
+  "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "M", "M",
+  "M", "M", "M", "M", "M", "M", "M", "M"
+)
+
+pop_pyramid_0 <- population_pyramid(5001, 2020, FALSE)
+pop_pyramid_1 <- population_pyramid(5001, 2020, TRUE)
+
+test_that("age risk errors are thrown", {
+  expect_error(age_risk(age_1, gender_0, pop_pyramid_0))
+  expect_error(age_risk(age_0, gender_0, pop_pyramid_0))
+})
+
+test_that("age risk works as expected", {
+  expect_length(age_risk(age_0, gender_0, pop_pyramid_1), 3)
+  expect_length(age_risk(age_0, population_pyramid = pop_pyramid_1), 2)
+  expect_type(age_risk(age_0, gender_0, pop_pyramid_1, TRUE), "list")
+  expect_type(
+    age_risk(age_0, population_pyramid = pop_pyramid_1, plot = TRUE),
+    "list"
+  )
+})
 
 
 test_that("describe ethnicity errors are thrown", {
@@ -174,4 +199,5 @@ test_that("describe occupation works as expected", {
   expect_length(describe_occupation(c(1111, 4141), output_level = 2), n = 2)
   expect_length(describe_occupation(c(110), output_level = 2), n = 1)
   expect_length(describe_occupation(c(111), output_level = 4), n = 1)
+  expect_length(describe_occupation(c(23, 11), output_level = 4), n = 2)
 })
