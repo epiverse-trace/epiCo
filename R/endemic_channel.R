@@ -191,18 +191,20 @@ auto_endemic_channel <- function(disease_name, divipola_code, year,
 #' )
 #' }
 #' @export
-endemic_channel <- function(incidence_historic, observations = NULL, 
+endemic_channel <- function(incidence_historic, observations = NULL,
                             method = "geometric", geom_method = "shifted",
                             outlier_years = NULL, outliers_handling = "ignored",
                             ci = 0.95,
                             plot = FALSE) {
-  stopifnot("`incidence_historic` must be an incidence object" = 
-              inherits(historic_data, "incidence"),
-            "`observations`must be numeric and positive" = 
-              (is.numeric(observations) & sign(observations) != -1),
-            "incidence interval should be `1 month`, `1 week` or `1 epiweek`" =
-              incidence_historic$interval %in% 
-              c("1 month", "1 week", "1 epiweek"))
+  stopifnot(
+    "`incidence_historic` must be an incidence object" =
+      inherits(incidence_historic, "incidence"),
+    "`observations`must be numeric and positive" =
+      (is.numeric(observations) & sign(observations) != -1),
+    "incidence interval should be `1 month`, `1 week` or `1 epiweek`" =
+      incidence_historic$interval %in%
+        c("1 month", "1 week", "1 epiweek")
+  )
   ifelse(incidence_historic$interval == "1 month",
     period <- 12,
     period <- 52

@@ -1,9 +1,9 @@
 #' Modifies the historic incidence to handle with the observations of epidemic
 #' years
 #'
-#' @description Function that modifies an historic incidence by including, 
+#' @description Function that modifies an historic incidence by including,
 #' ignoring, or replacing the observations of epidemic years
-#' 
+#'
 #' @param historic Historic incidence counts
 #' @param outlier_years A numeric vector with the outlier years
 #' @param outliers_handling A string with the handling decision regarding
@@ -24,12 +24,13 @@
 #' @examples
 #' \dontrun{
 #' endemic_outliers(historic, outlier_years, outliers_handling,
-#' geom_method = "shifted")
+#'   geom_method = "shifted"
+#' )
 #' }
 #'
 #' @export
 endemic_outliers <- function(historic, outlier_years, outliers_handling,
-                              geom_method = "shifted"){
+                             geom_method = "shifted") {
   if (outliers_handling == "included") {
     historic <- historic
   } else if (outliers_handling == "ignored") {
@@ -43,22 +44,21 @@ endemic_outliers <- function(historic, outlier_years, outliers_handling,
     handling <- t(replicate(length(outlier_years), handling))
     historic[outlier_years, ] <- handling
   } else if (outliers_handling == "replaced_by_geom_mean") {
-    
     if (geom_method == "optimized") {
       handling <- apply(historic,
-                        MARGIN = 2, FUN = geom_mean,
-                        method = geom_method
+        MARGIN = 2, FUN = geom_mean,
+        method = geom_method
       )
       handling <- as.numeric(handling[1, ])
     } else {
       handling <- as.numeric(apply(historic,
-                                   MARGIN = 2, FUN = geom_mean,
-                                   method = geom_method
+        MARGIN = 2, FUN = geom_mean,
+        method = geom_method
       ))
     }
-    
+
     handling <- t(replicate(length(outlier_years), handling))
-    
+
     historic[outlier_years, ] <- handling
   } else {
     return("Error in outlier years handling")
