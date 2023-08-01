@@ -25,7 +25,7 @@ epi_calendar <- function(year, jan_days = 4) {
 
   # By definition, the first epidemiological week of the year contains at least
   # four days in January.
-  epi_calendar <- c()
+  epi_calendar <- NULL
 
   sec_day <- 24 * 60 * 60 # seconds in a day
 
@@ -78,7 +78,7 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
   # Input check
   stopifnot(
     "`incidence_object` must have incidence class" =
-      (class(incidence_object) == "incidence"),
+      (inherits(incidence_object, "incidence")),
     "`level` must be numeric" = (is.numeric(level)),
     "`scale` must be numeric" = (is.numeric(scale))
   )
@@ -92,7 +92,7 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
     population_projection_col_0 <- population_projection_col_0
     populations <- population_projection_col_0
     populations$code <- population_projection_col_0$DP
-    groups <- c(0)
+    groups <- 0
   } else if (level == 1) {
     path_1 <- system.file("data", "population_projection_col_1.rda",
       package = "epiCo"

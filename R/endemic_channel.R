@@ -58,11 +58,13 @@ auto_endemic_channel <- function(disease_name, divipola_code, year,
 
   for (y in years_to_analyze) {
     for (e in events_to_analyze) {
-      temp_data <- sivirep::import_data_event(y, e)
+      temp_data <- sivirep::import_linelist_disease_year(y, e)
       temp_data$FEC_NOT <- as.character(temp_data$FEC_NOT)
       temp_data$FEC_NOT <- format(
         as.Date(temp_data$FEC_NOT,
+          # nolint start: nonportable_path_linter
           tryFormats = c("%Y-%m-%d", "%d/%m/%Y")
+          # nolint end: nonportable_path_linter
         ),
         "%Y-%m-%d"
       )
@@ -79,49 +81,42 @@ auto_endemic_channel <- function(disease_name, divipola_code, year,
   ## Dates and DIVIPOLA codes preparation and cleaning
 
   disease_data <- disease_data %>% dplyr::mutate(
-    COD_MUN_R = ifelse(.data$COD_DPTO_R == 1,
-      .data$COD_PAIS_O, # 1 indicates residence abroad
-      ifelse(nchar(.data$COD_MUN_R) == 1,
+    COD_MUN_R = dplyr::case_when(
+      .data$COD_DPTO_R == 1 ~ .data$COD_PAIS_O, # 1 indicates residence abroad
+      nchar(.data$COD_MUN_R) == 1 ~
         as.numeric(paste(.data$COD_DPTO_R,
           .data$COD_MUN_R,
           sep = "00"
         )),
-        ifelse(nchar(.data$COD_MUN_R) == 2,
-          as.numeric(paste(.data$COD_DPTO_R,
-            .data$COD_MUN_R,
-            sep = "0"
-          )),
-          ifelse(nchar(.data$COD_MUN_R) == 3,
-            as.numeric(paste(.data$COD_DPTO_R,
-              .data$COD_MUN_R,
-              sep = ""
-            )),
-            NA
-          )
-        )
-      )
+      nchar(.data$COD_MUN_R) == 2 ~
+        as.numeric(paste(.data$COD_DPTO_R,
+          .data$COD_MUN_R,
+          sep = "0"
+        )),
+      nchar(.data$COD_MUN_R) == 3 ~
+        as.numeric(paste0(.data$COD_DPTO_R,
+          .data$COD_MUN_R
+        )),
+      TRUE ~ NA_real_
     ),
-    COD_MUN_O = ifelse(.data$COD_DPTO_O == 1,
-      .data$COD_PAIS_O, # 1 indicates infection occurred abroad
-      ifelse(nchar(.data$COD_MUN_O) == 1,
+    COD_MUN_O = dplyr::case_when(
+      # 1 indicates infection occurred abroad
+      .data$COD_DPTO_O == 1 ~ .data$COD_PAIS_O,
+      nchar(.data$COD_MUN_O) == 1 ~
         as.numeric(paste(.data$COD_DPTO_O,
           .data$COD_MUN_O,
           sep = "00"
         )),
-        ifelse(nchar(.data$COD_MUN_O) == 2,
-          as.numeric(paste(.data$COD_DPTO_O,
-            .data$COD_MUN_O,
-            sep = "0"
-          )),
-          ifelse(nchar(.data$COD_MUN_O) == 3,
-            as.numeric(paste(.data$COD_DPTO_O,
-              .data$COD_MUN_O,
-              sep = ""
-            )),
-            NA
-          )
-        )
-      )
+      nchar(.data$COD_MUN_O) == 2 ~
+        as.numeric(paste(.data$COD_DPTO_O,
+          .data$COD_MUN_O,
+          sep = "0"
+        )),
+      nchar(.data$COD_MUN_O) == 3 ~
+        as.numeric(paste0(.data$COD_DPTO_O,
+          .data$COD_MUN_O
+        )),
+      TRUE ~ NA_real_
     ),
     EPI_WEEK = lubridate::epiweek(.data$FEC_NOT),
     EPI_MONTH = lubridate::month(.data$FEC_NOT),
@@ -241,18 +236,18 @@ endemic_channel <- function(incidence_historic, observations = NULL,
   if (method == "median") {
     central <- as.numeric(apply(historic,
       MARGIN = 2,
-      FUN = stats::quantile, p = c(0.5)
+      FUN = stats::quantile, p = 0.5
     ))
     up_lim <- as.numeric(apply(historic,
       MARGIN = 2,
-      FUN = stats::quantile, p = c(0.75)
+      FUN = stats::quantile, p = 0.75
     ))
     low_lim <- as.numeric(apply(historic,
       MARGIN = 2,
-      FUN = stats::quantile, p = c(0.25)
+      FUN = stats::quantile, p = 0.25
     ))
   } else if (method == "mean") {
-    central <- as.numeric(apply(historic, MARGIN = 2, FUN = mean))
+    central <- as.numeric(colMeans(historic))
     interval <- as.numeric(apply(historic,
       MARGIN = 2, FUN = function(x) {
         stats::qt(
@@ -281,9 +276,9 @@ endemic_channel <- function(incidence_historic, observations = NULL,
     up_lim <- central + abs(interval)
     low_lim <- central - abs(interval)
   } else if (method == "unusual_behavior") {
-    central <- as.numeric(apply(historic, MARGIN = 2, FUN = mean))
-    up_lim <- c()
-    low_lim <- c()
+    central <- as.numeric(colMeans(historic))
+    up_lim <- NULL
+    low_lim <- NULL
     for (c in central) {
       poiss_test <- stats::poisson.test(round(c),
         alternative = "two.sided",
@@ -305,7 +300,7 @@ endemic_channel <- function(incidence_historic, observations = NULL,
 
   channel_data$low_lim[which(channel_data$low_lim < 0)] <- 0
 
-  if (plot == TRUE) {
+  if (plot) {
     endemic_channel_plot <- endemic_plot(
       channel_data, method,
       outlier_years, outliers_handling
@@ -363,7 +358,7 @@ endemic_outliers <- function(historic, outlier_years, outliers_handling,
     handling <- t(replicate(length(outlier_years), handling))
     historic[outlier_years, ] <- handling
   } else if (outliers_handling == "replaced_by_mean") {
-    handling <- as.numeric(apply(historic, MARGIN = 2, FUN = mean))
+    handling <- as.numeric(colMeans(historic))
     handling <- t(replicate(length(outlier_years), handling))
     historic[outlier_years, ] <- handling
   } else if (outliers_handling == "replaced_by_geom_mean") {
@@ -437,13 +432,13 @@ endemic_plot <- function(channel_data, method,
     )) +
     ggplot2::geom_vline(
       xintercept = seq(1, nrow(channel_data), 1),
-      color = "azure2", size = .1
+      color = "azure2", size = 0.1
     ) +
     ggplot2::geom_hline(
       yintercept = seq(0, max(c(max(channel_data$up_lim), channel_data$obs),
         na.rm = TRUE
       ) * 1.05, length.out = 8),
-      color = "azure2", size = .1
+      color = "azure2", size = 0.1
     ) +
     ggplot2::geom_line(ggplot2::aes(y = channel_data$up_lim),
       linewidth = 1,
@@ -500,7 +495,7 @@ endemic_plot <- function(channel_data, method,
       legend.position = "bottom"
     )
 
-  if (all(!is.na(channel_data$obs))) {
+  if (!anyNA(channel_data$obs)) {
     endemic_channel_plot <- endemic_channel_plot +
       ggplot2::geom_line(ggplot2::aes(y = channel_data$obs),
         linetype = "dashed",

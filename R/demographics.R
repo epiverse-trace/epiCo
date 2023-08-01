@@ -74,26 +74,26 @@ population_pyramid <- function(divipola_code, year,
     stop("There is no location assigned to the consulted DIVIPOLA code")
   }
 
-  if (total == FALSE) {
+  if (!total) {
     female_total <- female_total / sum(female_total)
     male_total <- male_total / sum(male_total)
   }
 
-  if (gender == TRUE) {
+  if (gender) {
     pop_pyramid <- data.frame(
-      age = rep(c(0:100), 2),
+      age = rep(0:100, 2),
       population = c(female_total, male_total),
       gender = c(rep("F", 101), rep("M", 101))
     )
   } else {
     pop_pyramid <- data.frame(
-      age = c(0:100),
+      age = 0:100,
       population = c(female_total + male_total)
     )
   }
 
-  if (plot == TRUE) {
-    if (gender == TRUE) {
+  if (plot) {
+    if (gender) {
       pop_pyramid$population <- c(-1 * female_total, male_total)
 
       pop_pyramid_plot <- ggplot2::ggplot(
@@ -168,7 +168,7 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
     ages_female <- age[gender == "F"]
     pyramid_female <- dplyr::filter(population_pyramid, .data$gender == "F")
     hist_female <- graphics::hist(ages_female,
-      breaks = c(0:101),
+      breaks = 0:101,
       right = FALSE,
       plot = FALSE
     )
@@ -176,13 +176,14 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
     age_risk_female <- data.frame(
       age = pyramid_female$age,
       prob = hist_female$counts / pyramid_female$population,
-      gender = rep("F", 101)
+      gender = rep("F", 101),
+      stringsAsFactors = FALSE
     )
 
     ages_male <- age[gender == "M"]
     pyramid_male <- dplyr::filter(population_pyramid, .data$gender == "M")
     hist_male <- graphics::hist(ages_male,
-      breaks = c(0:101),
+      breaks = 0:101,
       right = FALSE,
       plot = FALSE
     )
@@ -190,13 +191,14 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
     age_risk_male <- data.frame(
       age = pyramid_male$age,
       prob = hist_male$counts / pyramid_male$population,
-      gender = rep("M", 101)
+      gender = rep("M", 101),
+      stringsAsFactors = FALSE
     )
 
     age_risk <- rbind(age_risk_female, age_risk_male)
   } else {
     hist_total <- graphics::hist(age,
-      breaks = c(0:101),
+      breaks = 0:101,
       right = FALSE,
       plot = FALSE
     )
@@ -344,16 +346,13 @@ describe_occupation <- function(isco_codes, output_level) {
   path <- system.file("data", "isco88_table.rda", package = "epiCo")
   load(path)
   isco88_table <- isco88_table
-  input_level <- ifelse(isco_codes == 0 | isco_codes == 110, "Armed Forces",
-    ifelse(nchar(isco_codes) == 1, "major",
-      ifelse(nchar(isco_codes) == 2, "sub_major",
-        ifelse(nchar(isco_codes) == 3, "minor",
-          ifelse(nchar(isco_codes) == 4, "unit",
-            NA
-          )
-        )
-      )
-    )
+  input_level <- dplyr::case_when(
+    isco_codes %in% c(0, 110) ~ "Armed Forces",
+    nchar(isco_codes) == 1    ~ "major",
+    nchar(isco_codes) == 2    ~ "sub_major",
+    nchar(isco_codes) == 3    ~ "minor",
+    nchar(isco_codes) == 4    ~ "unit",
+    TRUE                      ~ NA_character_
   )
   tryCatch(
     {
@@ -370,7 +369,8 @@ describe_occupation <- function(isco_codes, output_level) {
       ))
     },
     error = function(e) {
-      stop(paste0("Output level does not exist, please check your input"),
+      stop(
+        "Output level does not exist, please check your input",
         call. = FALSE
       )
     }
@@ -410,8 +410,10 @@ describe_occupation <- function(isco_codes, output_level) {
         }
       },
       error = function(e) {
-        stop(paste0("Code ", isco_code, " does not exist,
-                    please check your input"), call. = FALSE)
+        stop(
+          "Code ", isco_code, " does not exist, please check your input",
+          call. = FALSE
+        )
       }
     )
   }
