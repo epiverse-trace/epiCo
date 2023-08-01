@@ -69,7 +69,7 @@ test_that("Incidence rate calculate rates", {
   expect_length(test_incidence_rate_1, 9L)
   expect_length(test_incidence_rate_2, 9L)
 
-  expect_equal(colnames(test_incidence_rate_0$rates), NULL)
+  expect_null(colnames(test_incidence_rate_0$rates))
   expect_identical(
     sort(colnames(test_incidence_rate_1$rates)),
     sort(as.character(unique(sample_groups_1)))

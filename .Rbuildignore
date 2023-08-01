@@ -5,3 +5,6 @@
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
+^.*\.Rproj$
+^\.Rproj\.user$
+^\.lintr$

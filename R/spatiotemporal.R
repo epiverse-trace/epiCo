@@ -29,9 +29,9 @@ neighborhoods <- function(query_vector, threshold = 2) {
   ]
   excluded <- query_vector[!query_vector %in% rownames(distance)]
   for (i in excluded) {
-    warning(paste("municipality", i, "was not found"))
+    warning("municipality ", i, " was not found")
   }
-  adjacency_matrix <- as.matrix(ifelse(distance <= threshold, 1, 0))
+  adjacency_matrix <- as.matrix(distance <= threshold)
   list_weights <- spdep::mat2listw(adjacency_matrix)
   neighborhoods <- list_weights$neighbours
   return(neighborhoods)
@@ -100,7 +100,7 @@ morans_index <- function(incidence_rate, threshold = 2, plot = TRUE) {
         mean(wx) ~ "LH"
     )
   )
-  inf_mpios <- moran_data_frame[which(moran_data_frame$is_inf == TRUE), ]
+  inf_mpios <- moran_data_frame[which(moran_data_frame$is_inf), ]
   morans_index <- c(
     list(municipios = moran_data_frame$labels),
     list(quadrant = moran_data_frame$cluster),
@@ -113,9 +113,11 @@ morans_index <- function(incidence_rate, threshold = 2, plot = TRUE) {
     # Influential observations
     for (i in seq_len(nrow(inf_mpios))) {
       if (!is.na(inf_mpios$cluster[i])) {
+        # nolint start: string_boundary_linter
         relative_incidence <- ifelse(substr(
           inf_mpios$cluster[i], 1, 1
         ) == "H", "high", "low")
+        # nolint end: string_boundary_linter
         relative_correlation <- ifelse(substr(
           inf_mpios$cluster[i], 2, 2
         ) == "H", "high", "low")
@@ -128,7 +130,7 @@ morans_index <- function(incidence_rate, threshold = 2, plot = TRUE) {
     }
   }
   # Plot
-  if (plot == TRUE) {
+  if (plot) {
     if (!all(is.na(morans_index$quadrant))) {
       path_2 <- system.file("data", "spatial_polygons_col_2.rda",
         package = "epiCo"
@@ -174,7 +176,7 @@ morans_index <- function(incidence_rate, threshold = 2, plot = TRUE) {
           fillColor = ~ pal(CLUSTER),
           popup = popup_data,
           color = "white",
-          fillOpacity = .75
+          fillOpacity = 0.75
         )
     } else {
       warning("There are no influential municipalities to plot")

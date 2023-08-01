@@ -23,39 +23,39 @@ test_that("Population pyramid errors are thrown", {
 
 test_that("Population pyramid obtaines data", {
   # dimension
-  expect_equal(
+  expect_identical(
     dim(population_pyramid(
       divipola_code = 5001,
       year = 2020
     )),
-    c(202, 3)
+    c(202L, 3L)
   )
-  expect_equal(
+  expect_identical(
     dim(population_pyramid(
       divipola_code = 5001,
       year = 2020,
       gender = FALSE
     )),
-    c(101, 2)
+    c(101L, 2L)
   )
-  expect_equal(
+  expect_identical(
     dim(population_pyramid(
       divipola_code = 5001,
       year = 2020,
       total = FALSE
     )),
-    c(202, 3)
+    c(202L, 3L)
   )
-  expect_equal(
+  expect_identical(
     dim(population_pyramid(
       divipola_code = 5001,
       year = 2020,
       gender = FALSE,
       total = FALSE
     )),
-    c(101, 2)
+    c(101L, 2L)
   )
-  expect_equal(
+  expect_identical(
     dim(population_pyramid(
       divipola_code = 5001,
       year = 2020,
@@ -63,74 +63,74 @@ test_that("Population pyramid obtaines data", {
       total = FALSE,
       plot = TRUE
     )),
-    c(101, 2)
+    c(101L, 2L)
   )
 
-  expect_equal(
+  expect_identical(
     dim(population_pyramid(
       divipola_code = 5,
       year = 2020
     )),
-    c(202, 3)
+    c(202L, 3L)
   )
-  expect_equal(
+  expect_identical(
     dim(population_pyramid(
       divipola_code = 0,
       year = 2020
     )),
-    c(202, 3)
+    c(202L, 3L)
   )
 })
 
 test_that("Population pyramid is not NA", {
   # dimension
-  expect_true(all(!is.na(population_pyramid(
+  expect_false(anyNA(population_pyramid(
     divipola_code = 5001,
     year = 2006
-  ))))
-  expect_true(all(!is.na(population_pyramid(
+  )))
+  expect_false(anyNA(population_pyramid(
     divipola_code = 5001,
     year = 2006,
     total = FALSE,
     gender = FALSE
-  ))))
-  expect_true(all(!is.na(population_pyramid(
+  )))
+  expect_false(anyNA(population_pyramid(
     divipola_code = 5001,
     year = 2006,
     plot = TRUE
-  ))))
+  )))
 
-  expect_true(all(!is.na(population_pyramid(
+  expect_false(anyNA(population_pyramid(
     divipola_code = 73,
     year = 2006
-  ))))
-  expect_true(all(!is.na(population_pyramid(
+  )))
+  expect_false(anyNA(population_pyramid(
     divipola_code = 73,
     year = 2006,
     total = FALSE,
     gender = FALSE
-  ))))
-  expect_true(all(!is.na(population_pyramid(
+  )))
+  expect_false(anyNA(population_pyramid(
     divipola_code = 73,
     year = 2006,
     plot = TRUE
-  ))))
+  )))
 
-  expect_true(all(!is.na(population_pyramid(
+  expect_false(anyNA(population_pyramid(
     divipola_code = 0,
     year = 2006
-  ))))
-  expect_true(all(!is.na(population_pyramid(
+  )))
+  expect_false(anyNA(population_pyramid(
     divipola_code = 0,
     year = 2006,
     total = FALSE,
     gender = FALSE
-  ))))
-  expect_true(all(!is.na(population_pyramid(
+  )))
+  expect_false(anyNA(population_pyramid(
     divipola_code = 0,
     year = 2006,
     plot = TRUE
-  ))))
+  )))
 })
 
 # data for age_risk tests
@@ -172,7 +172,7 @@ test_that("describe etnicity works as expected", {
 
 test_that("describe occupation errors are thrown", {
   expect_error(describe_occupation(c("a", 4)))
-  expect_error(describe_occupation(c(4148)))
+  expect_error(describe_occupation(4148))
   expect_error(describe_occupation(c(41487, 39), 3))
 })
 
@@ -197,7 +197,7 @@ test_that("describe occupation works as expected", {
   )
 
   expect_length(describe_occupation(c(1111, 4141), output_level = 2), n = 2)
-  expect_length(describe_occupation(c(110), output_level = 2), n = 1)
-  expect_length(describe_occupation(c(111), output_level = 4), n = 1)
+  expect_length(describe_occupation(110, output_level = 2), n = 1)
+  expect_length(describe_occupation(111, output_level = 4), n = 1)
   expect_length(describe_occupation(c(23, 11), output_level = 4), n = 2)
 })
