@@ -218,7 +218,7 @@ endemic_channel <- function(incidence_historic, observations = NULL,
           length(observations) == 12))),
     "`method` should be `median`, `mean`, `geometric` or `unusual behavior`" =
       method %in%
-        c("median", "mean", "geometric", "unusual behavior"),
+        c("median", "mean", "geometric", "unusual_behavior"),
     "`ci` must be a number between 0 and 1" =
       (ci >= 0 & ci <= 1 & is.numeric(ci)),
     "`plot` must be a boolean" =
