@@ -40,6 +40,10 @@ auto_endemic_channel <- function(disease_name, divipola_code, year,
                                  outliers_handling = "ignored",
                                  ci = 0.95,
                                  plot = TRUE) {
+  stopifnot(
+    "`window` must be a number" =
+      is.numeric(window)
+  )
   ## Data import and cleaning ####
 
   years_to_analyze <- seq(year - window + 1, year)
@@ -94,7 +98,8 @@ auto_endemic_channel <- function(disease_name, divipola_code, year,
           sep = "0"
         )),
       nchar(.data$COD_MUN_R) == 3 ~
-        as.numeric(paste0(.data$COD_DPTO_R,
+        as.numeric(paste0(
+          .data$COD_DPTO_R,
           .data$COD_MUN_R
         )),
       TRUE ~ NA_real_
@@ -113,7 +118,8 @@ auto_endemic_channel <- function(disease_name, divipola_code, year,
           sep = "0"
         )),
       nchar(.data$COD_MUN_O) == 3 ~
-        as.numeric(paste0(.data$COD_DPTO_O,
+        as.numeric(paste0(
+          .data$COD_DPTO_O,
           .data$COD_MUN_O
         )),
       TRUE ~ NA_real_
@@ -200,10 +206,23 @@ endemic_channel <- function(incidence_historic, observations = NULL,
     "`incidence_historic` must be an incidence object" =
       inherits(incidence_historic, "incidence"),
     "`observations`must be numeric and positive" =
-      (is.numeric(observations) & sign(observations) != -1),
+      (!is.null(observations) & is.numeric(observations) &
+        sign(observations) != -1),
     "incidence interval should be `1 month`, `1 week` or `1 epiweek`" =
       incidence_historic$interval %in%
-        c("1 month", "1 week", "1 epiweek")
+        c("1 month", "1 week", "1 epiweek"),
+    "`observations` size doesn't correspond to incidence interval" =
+      (!is.null(observations) & ((incidence_historic$interval == "1 week" &
+        length(observations) == 52) ||
+        (incidence_historic$interval == "1 month" &
+          length(observations) == 12))),
+    "`method` should be `median`, `mean`, `geometric` or `unusual behavior`" =
+      method %in%
+        c("median", "mean", "geometric", "unusual_behavior"),
+    "`ci` must be a number between 0 and 1" =
+      (ci >= 0 & ci <= 1 & is.numeric(ci)),
+    "`plot` must be a boolean" =
+      (is.logical(plot))
   )
   ifelse(incidence_historic$interval == "1 month",
     period <- 12,
@@ -290,7 +309,7 @@ endemic_channel <- function(incidence_historic, observations = NULL,
       low_lim <- c(low_lim, poiss_test$conf.int[1])
     }
   } else {
-    return("Error in central tendency method")
+    stop("Error in central tendency method")
   }
 
   channel_data <- data.frame(
