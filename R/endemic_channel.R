@@ -202,32 +202,73 @@ endemic_channel <- function(incidence_historic, observations = NULL,
                             outlier_years = NULL, outliers_handling = "ignored",
                             ci = 0.95,
                             plot = FALSE) {
-  stopifnot(
-    "`incidence_historic` must be an incidence object" =
-      inherits(incidence_historic, "incidence"),
-    "`observations`must be numeric and positive" =
-      (!is.null(observations) & is.numeric(observations) &
-        sign(observations) != -1),
-    "incidence interval should be `1 month`, `1 week` or `1 epiweek`" =
-      incidence_historic$interval %in%
+  if (!is.null(observations)) {
+    stopifnot(
+      "`incidence_historic` must be an incidence object" =
+        inherits(incidence_historic, "incidence"),
+      "`observations` must be numeric and positive" =
+        (!is.null(observations) && is.numeric(observations) &&
+           all(observations >= 0)),
+      "incidence interval should be `1 month`, `1 week` or `1 epiweek`" =
+        incidence_historic$interval %in%
         c("1 month", "1 week", "1 epiweek"),
-    "`observations` size doesn't correspond to incidence interval" =
-      (!is.null(observations) & ((incidence_historic$interval == "1 week" &
-        length(observations) == 52) ||
-        (incidence_historic$interval == "1 month" &
-          length(observations) == 12))),
-    "`method` should be `median`, `mean`, `geometric` or `unusual behavior`" =
-      method %in%
+      "`observations` size doesn't correspond to incidence interval" =
+        (!is.null(observations) & ((incidence_historic$interval == "1 week" &
+                                      length(observations) == 52) ||
+                                     (incidence_historic$interval == "1 month" &
+                                        length(observations) == 12))),
+      "`method` should be `median`, `mean`, `geometric` or `unusual behavior`" =
+        method %in%
         c("median", "mean", "geometric", "unusual_behavior"),
-    "`ci` must be a number between 0 and 1" =
-      (ci >= 0 & ci <= 1 & is.numeric(ci)),
-    "`plot` must be a boolean" =
-      (is.logical(plot))
-  )
-  ifelse(incidence_historic$interval == "1 month",
-    period <- 12,
+      "`ci` must be a number between 0 and 1" =
+        (ci >= 0 & ci <= 1 & is.numeric(ci)),
+      "`plot` must be a boolean" =
+        (is.logical(plot))
+    )
+  } else{
+    stopifnot(
+      "`incidence_historic` must be an incidence object" =
+        inherits(incidence_historic, "incidence"),
+      "incidence interval should be `1 month`, `1 week` or `1 epiweek`" =
+        incidence_historic$interval %in%
+        c("1 month", "1 week", "1 epiweek"),
+      "`method` should be `median`, `mean`, `geometric` or `unusual behavior`" =
+        method %in%
+        c("median", "mean", "geometric", "unusual_behavior"),
+      "`ci` must be a number between 0 and 1" =
+        (ci >= 0 & ci <= 1 & is.numeric(ci)),
+      "`plot` must be a boolean" =
+        (is.logical(plot))
+    )
+  }
+  
+  if (incidence_historic$interval == "1 month") {
+    period <- 12
+    if (lubridate::month(incidence_historic$dates[1]) != 1) {
+      first_year <- lubridate::year(incidence_historic$dates[1])
+      new_date <- paste(as.character(first_year + 1),"01-01", sep="-")
+      incidence_historic <- incidence_historic[incidence_historic$dates >= as.Date(new_date)]
+    }
+    if (lubridate::month(incidence_historic$dates[length(incidence_historic$dates)]) != 12) {
+      last_year <- lubridate::year(incidence_historic$dates[length(incidence_historic$dates)])
+      new_date <- paste(as.character(last_year - 1),"12-01", sep="-")
+      incidence_historic <- incidence_historic[incidence_historic$dates <= as.Date(new_date)]
+    }
+  }
+  if (incidence_historic$interval == "1 week") {
     period <- 52
-  )
+    first_year <- lubridate::epiyear(incidence_historic$dates[1])
+    if(incidence_historic$dates[1] != epiCo::epi_calendar(first_year)[1]){
+      new_date <- epiCo::epi_calendar(first_year+1)[1]
+      incidence_historic <- incidence_historic[incidence_historic$dates >= new_date]
+    }
+    last_year <- lubridate::epiyear(incidence_historic$dates[length(incidence_historic$dates)])
+    last_epidate <- epiCo::epi_calendar(last_year)[length(epiCo::epi_calendar(last_year))]
+    if (incidence_historic$dates[length(incidence_historic$dates)] != last_epidate) {
+      new_date <- epiCo::epi_calendar(last_year-1)[length(epiCo::epi_calendar(last_year-1))]
+      incidence_historic <- incidence_historic[incidence_historic$dates <= as.Date(new_date)]
+    }
+  }
   obs <- c(observations, rep(NA, period - length(observations)))
   years <- unique(lubridate::epiyear(incidence::get_dates(incidence_historic)))
 
