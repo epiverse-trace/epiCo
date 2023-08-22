@@ -1,10 +1,13 @@
 ---
-title: "epiCo Demographic Analyses"
+title: "epiCo - Demographic module"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{epiCo Demographic Analyses}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  markdown: 
+    wrap: 72
 ---
 
 ```{r, include = FALSE}
@@ -14,16 +17,41 @@ knitr::opts_chunk$set(
 )
 ```
 
-**epiCo**'s demographics module is a tool for demographic descriptive analysis and
-risk assessment of epidemiological events in Colombia. Based on linelist data 
-provided by the National Surveillance System (SIVIGILA) and demographic data
-from the National Administrative Department of Statistics (DANE), the functions
-displayed in this vignette will allow you to:
+**epiCo**'s demographic module is a tool for demographic descriptive
+analysis and risk assessment of epidemiological events in Colombia.
+Based on linelist data provided by the Colombian National Surveillance System
+[SIVIGILA](https://www.ins.gov.co/Direcciones/Vigilancia/Paginas/SIVIGILA.aspx)
+and demographic data from the Colombian National Administrative Department of 
+Statistics 
+[DANE](https://microdatos.dane.gov.co/index.php/catalog/central/about).
 
-- Consult the population pyramid of a municipality, department, or the country
-for a year of interest
-- Calculate a relative age risk by normalizing the distribution of cases
-by the specific age structure of the location of interest
+The module allows you to:
+
+-   Consult and visualize the population pyramid of a municipality,
+    department, or the country for a year of interest
+-   Consult the definitions of demographic variables as ethnicities,
+    special populations groups, and occupational labels
+-   Calculate and visualize a relative age risk by normalizing the
+    distribution of cases by the specific age structure of the location
+    of interest
+-   Visualize the distribution of occupations reported in the linelist
+    according to the [ISCO 88
+    Standard](https://www.ilo.org/public/english/bureau/stat/isco/isco88/)
+
+    
+In the following vignette you will learn how to:
+
+1. Navigate the Administrative Political Division Coding of Colombia (DIVIPOLA)
+2. Consult, visualize and interpret Colombian population pyramids at different
+population scales
+3. Interpret the demographic variables reported by the SIVIGILA (as ethnicities,
+special population groups, and occupatioanl labels)
+4. Obtain official historic linelist data from SIVIGILA using
+Epiverse-TRACE package [sivirep](https://github.com/epiverse-trace/sivirep)
+5. Integrate age distributions of cases with population pyramids to obtain an age
+risk assessment for a disease
+6. Generate a treemap of reported occupations to estimate an exposure risk
+assessment for a disease
 
 ```{r setup}
 library(epiCo)
