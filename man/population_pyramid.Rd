@@ -20,7 +20,7 @@ population_pyramid(
 \item{gender}{A boolean to consult data disaggregated by gender}
 
 \item{total}{A boolean for returning the total number rather than the
-proportion of the populations}
+proportion of the country's population}
 
 \item{plot}{A boolean for displaying a plot}
 }

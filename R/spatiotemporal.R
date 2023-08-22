@@ -17,15 +17,21 @@
 #'
 #' @export
 neighborhoods <- function(query_vector, threshold = 2) {
+  stopifnot("`query_vector` must be numeric" = (is.numeric(query_vector)))
   path <- system.file("data", "distance_matrix.rda", package = "epiCo")
-  distance_matrix <- load(path)
+  load(path)
+  distance_matrix <- distance_matrix
   distance <- distance_matrix[
     which(row.names(distance_matrix) %in%
       query_vector),
     which(names(distance_matrix) %in%
       query_vector)
   ]
-  adjacency_matrix <- as.matrix(ifelse(distance <= threshold, 1, 0))
+  excluded <- query_vector[!query_vector %in% rownames(distance)]
+  for (i in excluded) {
+    warning("municipality ", i, " was not found")
+  }
+  adjacency_matrix <- as.matrix(distance <= threshold)
   list_weights <- spdep::mat2listw(adjacency_matrix)
   neighborhoods <- list_weights$neighbours
   return(neighborhoods)
@@ -54,8 +60,13 @@ neighborhoods <- function(query_vector, threshold = 2) {
 #' }
 #' @export
 morans_index <- function(incidence_rate, threshold = 2, plot = TRUE) {
+  stopifnot(
+    "`incidence_rate` must have observations for only one given date" =
+      ncol(incidence_rate$rates) == length(incidence_rate$rates)
+  )
   path_1 <- system.file("data", "divipola_table.rda", package = "epiCo")
-  divipola_table <- load(path_1)
+  load(path_1)
+  divipola_table <- divipola_table
   # Match with DIVIPOLA order
   incidence_rate_ordered <- incidence_rate[, order(match(
     colnames(incidence_rate$counts), divipola_table$COD_MPIO
@@ -64,7 +75,7 @@ morans_index <- function(incidence_rate, threshold = 2, plot = TRUE) {
 
   # Logarithmic transformation
   incidence_rate_log <- log(incidence_rate_ordered$rates)
-  mpios_filtered <- mpios[which(incidence_rate_log > -Inf)]
+  mpios_filtered <- as.numeric(mpios[which(incidence_rate_log > -Inf)])
   incidence_rate_log <- incidence_rate_log[which(incidence_rate_log > -Inf)]
 
   # Neighborhood structure
@@ -89,7 +100,7 @@ morans_index <- function(incidence_rate, threshold = 2, plot = TRUE) {
         mean(wx) ~ "LH"
     )
   )
-  inf_mpios <- moran_data_frame[which(moran_data_frame$is_inf == TRUE), ]
+  inf_mpios <- moran_data_frame[which(moran_data_frame$is_inf), ]
   morans_index <- c(
     list(municipios = moran_data_frame$labels),
     list(quadrant = moran_data_frame$cluster),
@@ -97,66 +108,79 @@ morans_index <- function(incidence_rate, threshold = 2, plot = TRUE) {
     list(logIncidence = moran_data_frame$x),
     list(lagIncidence = moran_data_frame$wx)
   )
-  cat(paste("Influential municipalities are:", "\n"))
-  # Influential observations
-  for (i in seq_len(nrow(inf_mpios))) {
-    relative_incidence <- ifelse(substr(
-      inf_mpios$cluster[i], 1, 1
-    ) == "H", "high", "low")
-    relative_correlation <- ifelse(substr(
-      inf_mpios$cluster[i], 2, 2
-    ) == "H", "high", "low")
-    cat(paste(
-      inf_mpios$labels[i], "con", relative_incidence,
-      "incidence and", relative_correlation, "spatial correlation",
-      "\n"
-    ))
+  if (!all(is.na(morans_index$quadrant))) {
+    cat(paste("Influential municipalities are:", "\n"))
+    # Influential observations
+    for (i in seq_len(nrow(inf_mpios))) {
+      if (!is.na(inf_mpios$cluster[i])) {
+        # nolint start: string_boundary_linter
+        relative_incidence <- ifelse(substr(
+          inf_mpios$cluster[i], 1, 1
+        ) == "H", "high", "low")
+        # nolint end: string_boundary_linter
+        relative_correlation <- ifelse(substr(
+          inf_mpios$cluster[i], 2, 2
+        ) == "H", "high", "low")
+        cat(paste(
+          inf_mpios$labels[i], "with", relative_incidence,
+          "incidence and", relative_correlation, "spatial correlation",
+          "\n"
+        ))
+      }
+    }
   }
   # Plot
-  if (plot == TRUE) {
-    path_2 <- system.file("data", "spatial_polygons_col_2.rda",
-      package = "epiCo"
-    )
-    spatial_polygons_col_2 <- load(path_2)
-    pal <- leaflet::colorFactor(
-      palette = c(
-        "#ba0001", "#357a38", "#2c7c94",
-        "#fbe45b"
-      ),
-      domain = c("HH", "LL", "LH", "HL"),
-      ordered = TRUE
-    )
-    pal_test <- pal(c("LL", "HH"))
-    rm(pal_test)
-    shapes <- spatial_polygons_col_2[spatial_polygons_col_2$MPIO_CDPMP %in%
-      as.integer(inf_mpios$labels), ]
-    shapes_plot <- shapes[, order(match(
-      as.integer(inf_mpios$labels),
-      shapes$MPIO_CDPMP
-    ))]
-    shapes_plot$CLUSTER <- inf_mpios$cluster
-    shapes_plot$NOM_MPIO <- divipola_table$NOM_MPIO[divipola_table$COD_MPIO %in%
-      shapes_plot$MPIO_CDPMP]
-    # shapes_ordered
-    popup_data <- paste0(
-      "<b>", "Municipality Name: ", "</b>",
-      shapes_plot$NOM_MPIO, "<br>",
-      "<b>", "Municipality Code: ", "</b>",
-      shapes_plot$MPIO_CDPMP, "<br>",
-      "<b>", "Cluster: ", "</b>",
-      shapes_plot$CLUSTER, "<br>"
-    )
-    leaflet::leaflet(shapes_plot) %>%
-      leaflet::addTiles() %>%
-      leaflet::addPolygons(
-        stroke = TRUE,
-        weight = 1,
-        smoothFactor = 0.2,
-        fillColor = ~ pal(CLUSTER),
-        popup = popup_data,
-        color = "white",
-        fillOpacity = .75
+  if (plot) {
+    if (!all(is.na(morans_index$quadrant))) {
+      path_2 <- system.file("data", "spatial_polygons_col_2.rda",
+        package = "epiCo"
       )
+      load(path_2)
+      spatial_polygons_col_2 <- spatial_polygons_col_2
+      pal <- leaflet::colorFactor(
+        palette = c(
+          "#ba0001", "#357a38", "#2c7c94",
+          "#fbe45b"
+        ),
+        domain = c("HH", "LL", "LH", "HL"),
+        ordered = TRUE
+      )
+      pal_test <- pal(c("LL", "HH"))
+      rm(pal_test)
+      shapes <- spatial_polygons_col_2[spatial_polygons_col_2$MPIO_CDPMP %in%
+        as.integer(inf_mpios$labels), ]
+      shapes_plot <- shapes[, order(match(
+        as.integer(inf_mpios$labels),
+        shapes$MPIO_CDPMP
+      ))]
+      shapes_plot$CLUSTER <- inf_mpios$cluster
+      shapes_plot$MPIO_CDPMP <- inf_mpios$labels
+      shapes_plot$NOM_MPIO <- divipola_table$NOM_MPIO[
+        divipola_table$COD_MPIO %in% shapes_plot$MPIO_CDPMP
+      ]
+      # shapes_ordered
+      popup_data <- paste0(
+        "<b>", "Municipality Name: ", "</b>",
+        shapes_plot$NOM_MPIO, "<br>",
+        "<b>", "Municipality Code: ", "</b>",
+        shapes_plot$MPIO_CDPMP, "<br>",
+        "<b>", "Cluster: ", "</b>",
+        shapes_plot$CLUSTER, "<br>"
+      )
+      leaflet::leaflet(shapes_plot) %>%
+        leaflet::addTiles() %>%
+        leaflet::addPolygons(
+          stroke = TRUE,
+          weight = 1,
+          smoothFactor = 0.2,
+          fillColor = ~ pal(CLUSTER),
+          popup = popup_data,
+          color = "white",
+          fillOpacity = 0.75
+        )
+    } else {
+      warning("There are no influential municipalities to plot")
+    }
   }
   return(morans_index)
 }

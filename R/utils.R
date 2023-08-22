@@ -17,9 +17,15 @@
 #'
 #' @export
 epi_calendar <- function(year, jan_days = 4) {
+  # Input must be numeric
+  stopifnot(
+    "`year` must be numeric" = (is.numeric(year)),
+    "`jan_days` must be numeric" = (is.numeric(jan_days))
+  )
+
   # By definition, the first epidemiological week of the year contains at least
   # four days in January.
-  epi_calendar <- c()
+  epi_calendar <- NULL
 
   sec_day <- 24 * 60 * 60 # seconds in a day
 
@@ -50,43 +56,6 @@ epi_calendar <- function(year, jan_days = 4) {
   return(as.Date.character(epi_calendar))
 }
 
-
-
-#' Complete georeference data from an epidemiologic linelist.
-#'
-#' @description function that complete a structure of municipality names,
-#' DIVIPOLA codes, and coordinatesfrom an input of one of these variables.
-#'
-#' @param query_vector A vector of DIVIPOLA codes, names or coordinates.
-#'
-#' @return A dataframe with DIVIPOLA codes, names, longitude and latitude from
-#' the query.
-#'
-#' @examples
-#' \dontrun{
-#' epigeoref(query_vector)
-#' }
-#'
-#' @export
-epi_georef <- function(query_vector) {
-  query_labels <- colnames(query_vector)
-  path <- system.file("data", "divipola_table.rda", package = "epiCo")
-  divipola_table <- load(path)
-  output_labels <- c("NOM_MPIO", "COD_MPIO", "LONGITUD", "LATITUD")
-  if (sum(query_labels == c("LONGITUD", "LATITUD")) == 2) {
-    dist_matrix <- geosphere::distm(
-      query_vector,
-      divipola_table[, c("LONGITUD", "LATITUD")]
-    )
-    min_d <- apply(dist_matrix, 1, function(x) order(x, decreasing = FALSE)[1])
-    geo_ref <- divipola_table[min_d, output_labels]
-  } else {
-    geo_ref <- merge(query_vector, divipola_table, by = query_labels)
-    geo_ref <- geo_ref[, output_labels]
-  }
-  return(geo_ref)
-}
-
 #' Extends an incidence class object with incidence rates estimations.
 #'
 #' @description Function that estimates incidence rates from a incidence class
@@ -106,55 +75,78 @@ epi_georef <- function(query_vector) {
 #'
 #' @export
 incidence_rate <- function(incidence_object, level, scale = 100000) {
-  path_0 <- system.file("data", "population_projection_col_0.rda",
-    package = "epiCo"
+  # Input check
+  stopifnot(
+    "`incidence_object` must have incidence class" =
+      (inherits(incidence_object, "incidence")),
+    "`level` must be numeric" = (is.numeric(level)),
+    "`scale` must be numeric" = (is.numeric(scale))
   )
-  population_projection_col_0 <- load(path_0)
-  path_1 <- system.file("data", "population_projection_col_1.rda",
-    package = "epiCo"
-  )
-  population_projection_col_1 <- load(path_1)
-  path_2 <- system.file("data", "population_projection_col_2.rda",
-    package = "epiCo"
-  )
-  population_projection_col_2 <- load(path_2)
-
-
-  dates_years <- lubridate::year(incidence_object$dates)
-  years <- unique(dates_years)
-  groups <- colnames(incidence_object$counts)
-
+  dates <- lubridate::year(incidence_object$dates)
+  years <- unique(dates)
   if (level == 0) {
-    populations <- dplyr::filter(
-      population_projection_col_0,
-      .data$ANO %in% years
+    path_0 <- system.file("data", "population_projection_col_0.rda",
+      package = "epiCo"
     )
+    load(path_0)
+    population_projection_col_0 <- population_projection_col_0
+    populations <- population_projection_col_0
+    populations$code <- population_projection_col_0$DP
+    groups <- 0
   } else if (level == 1) {
-    populations <- dplyr::filter(
-      population_projection_col_1,
-      .data$DP %in% groups & .data$ANO %in% years
+    path_1 <- system.file("data", "population_projection_col_1.rda",
+      package = "epiCo"
     )
+    load(path_1)
+    population_projection_col_1 <- population_projection_col_1
+    populations <- population_projection_col_1
+    populations$code <- population_projection_col_1$DP
+    groups <- as.numeric(colnames(incidence_object$counts))
+  } else if (level == 2) {
+    path_2 <- system.file("data", "population_projection_col_2.rda",
+      package = "epiCo"
+    )
+    load(path_2)
+    population_projection_col_2 <- population_projection_col_2
+    populations <- population_projection_col_2
+    populations$code <- population_projection_col_2$DPMP
+    groups <- as.numeric(colnames(incidence_object$counts))
   } else {
-    populations <- dplyr::filter(
-      population_projection_col_2,
-      .data$DPMP %in% groups & .data$ANO %in% years
-    )
+    stop("Error in Administrative Level selection")
   }
 
-  inc_rates <- incidence_object$counts
+  # if (sum(!(years %in% unique(populations$ANO))) +
+  #     sum(!(groups %in% unique(populations$code))) > 0) {
+  #   stop("No population projections found.
+  #          Incidence groups and administration level may not match or
+  #          dates may be out of the projections (2005-2023)")
+  # } else {
+  populations <- dplyr::filter(
+    populations,
+    .data$code %in% groups & .data$ANO %in% years
+  )
+  incidence_rates <- incidence_object$counts
 
-  for (gr in groups) {
-    for (ye in years) {
-      pop <- dplyr::filter(populations, .data$ANO == ye)
-      pop <- pop[pop$DPMP == gr, "Total_General"]
-      inc_rates[which(dates_years == ye), gr] <-
-        inc_rates[which(dates_years == ye), gr] * scale / pop
+  for (group in groups) {
+    for (year in years) {
+      year_population <- dplyr::filter(populations, .data$ANO == year)
+      group_population <- year_population[
+        year_population$code == group,
+        "Total_General"
+      ]
+      if (level == 0) {
+        incidence_rates[which(dates == year)] <-
+          incidence_rates[which(dates == year)] * scale / group_population
+      } else {
+        incidence_rates[which(dates == year), as.character(group)] <-
+          incidence_rates[which(dates == year), as.character(group)] *
+            scale / group_population
+      }
     }
   }
 
   incidence_rate_object <- incidence_object
-  incidence_rate_object$rates <- inc_rates
-
+  incidence_rate_object$rates <- incidence_rates
   return(incidence_rate_object)
 }
 
@@ -191,12 +183,25 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
 #'
 #' @export
 geom_mean <- function(x, method = "optimized", shift = 1, epsilon = 1e-5) {
+  stopifnot(
+    "`x`must be numeric" = (is.numeric(x)),
+    "`method` must be positive, shifted, otimized or wehighted" =
+      (method %in% c("positive", "shifted", "optimized", "weighted")),
+    "`shift` must be numeric" = (is.numeric(shift)),
+    "`epsilon` must be numeric" = (is.numeric(epsilon))
+  )
   if (method == "positive") {
     x_positive <- x[x > 0]
+    if (length(x) != length(x_positive)) {
+      stop("`positive` method cannot be implemented for negative values")
+    }
 
     gm <- exp(mean(log(x_positive)))
   } else if (method == "shifted") {
     x_shifted <- x[x >= 0] + shift
+    if (length(x) != length(x_shifted)) {
+      stop("`shifted` method cannot be implemented for negative values")
+    }
 
     gm <- exp(mean(log(x_shifted))) - shift
   } else if (method == "weighted") {
@@ -247,13 +252,11 @@ geom_mean <- function(x, method = "optimized", shift = 1, epsilon = 1e-5) {
       delta <- (delta_min + delta_max) / 2
       aus_exp <- exp(mean(log(x_positive + delta))) - delta
     }
-
-    gm <- exp(mean(log(x + delta))) - delta
+    gm <- round(exp(mean(log(x + delta))) - delta, 5)
+    delta <- round(delta, 5)
 
     return(c(gm, delta))
-  } else {
-    return("Error in selection of geometric mean calculation method")
   }
-
+  gm <- round(gm, 5)
   return(gm)
 }

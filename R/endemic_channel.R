@@ -1,27 +1,190 @@
+#' Returns an automated endemic channel of a disease
+#'
+#' @description Function that performs automated data wrangling necessary for
+#' an automated endemic channel given a method and an specific disease, location
+#' and year.
+#'
+#' @param disease_name Disease to be consulted
+#' @param divipola_code DIVIPOLA code of the municipality where the disease is
+#' consulted
+#' @param year Year of observations
+#' @param observations A numeric vector with the current observations (Optional)
+#' @param location TBD
+#' @param window A numeric value to specify the number of previous and
+#' posterior periods to include in the calculation of the current period mean
+#' @param method A string with the mean calculation method of preference
+#' (median, mean, or geometric) or to use unusual behavior method (Poisson
+#' Distribution Test for hypoendemic settings)
+#' @param geom_method A string with the selected method for geometric mean
+#' calculation, see: geom_mean
+#' @param outlier_years A numeric vector with the outlier years
+#' @param outliers_handling A string with the handling decision regarding
+#' outlier years
+#' @param ci = 0.95 A numeric value to specify the confidence interval to use
+#' with the geometric method
+#' @param plot A boolean for displaying a plot
+#'
+#' @return TBD
+#'
+#' @examples
+#' \dontrun{
+#' unusual_behaviour(incidence_historic)
+#' }
+#'
+#' @export
+auto_endemic_channel <- function(disease_name, divipola_code, year,
+                                 observations = NULL,
+                                 location = "O", window = 7,
+                                 method = "geometric", geom_method = "shifted",
+                                 outlier_years = NULL,
+                                 outliers_handling = "ignored",
+                                 ci = 0.95,
+                                 plot = TRUE) {
+  stopifnot(
+    "`window` must be a number" =
+      is.numeric(window)
+  )
+  ## Data import and cleaning ####
+
+  years_to_analyze <- seq(year - window + 1, year)
+
+  events_to_analyze <- disease_name
+
+  tags_to_analyze <- c(
+    "FEC_NOT",
+    "COD_PAIS_O", "COD_DPTO_O", "COD_MUN_O",
+    "COD_DPTO_R", "COD_MUN_R",
+    "COD_DPTO_N", "COD_MUN_N"
+  )
+
+  disease_data <- data.frame(matrix(ncol = length(tags_to_analyze), nrow = 0))
+  colnames(disease_data) <- tags_to_analyze
+
+  for (y in years_to_analyze) {
+    for (e in events_to_analyze) {
+      temp_data <- sivirep::import_data_event(y, e)
+      temp_data$FEC_NOT <- as.character(temp_data$FEC_NOT)
+      temp_data$FEC_NOT <- format(
+        as.Date(temp_data$FEC_NOT,
+          # nolint start: nonportable_path_linter
+          tryFormats = c("%Y-%m-%d", "%d/%m/%Y")
+          # nolint end: nonportable_path_linter
+        ),
+        "%Y-%m-%d"
+      )
+      disease_data <- rbind(
+        disease_data,
+        dplyr::select(
+          temp_data,
+          tags_to_analyze
+        )
+      )
+    }
+  }
+
+  ## Dates and DIVIPOLA codes preparation and cleaning
+
+  disease_data <- disease_data %>% dplyr::mutate(
+    COD_MUN_R = dplyr::case_when(
+      .data$COD_DPTO_R == 1 ~ .data$COD_PAIS_O, # 1 indicates residence abroad
+      nchar(.data$COD_MUN_R) == 1 ~
+        as.numeric(paste(.data$COD_DPTO_R,
+          .data$COD_MUN_R,
+          sep = "00"
+        )),
+      nchar(.data$COD_MUN_R) == 2 ~
+        as.numeric(paste(.data$COD_DPTO_R,
+          .data$COD_MUN_R,
+          sep = "0"
+        )),
+      nchar(.data$COD_MUN_R) == 3 ~
+        as.numeric(paste0(
+          .data$COD_DPTO_R,
+          .data$COD_MUN_R
+        )),
+      TRUE ~ NA_real_
+    ),
+    COD_MUN_O = dplyr::case_when(
+      # 1 indicates infection occurred abroad
+      .data$COD_DPTO_O == 1 ~ .data$COD_PAIS_O,
+      nchar(.data$COD_MUN_O) == 1 ~
+        as.numeric(paste(.data$COD_DPTO_O,
+          .data$COD_MUN_O,
+          sep = "00"
+        )),
+      nchar(.data$COD_MUN_O) == 2 ~
+        as.numeric(paste(.data$COD_DPTO_O,
+          .data$COD_MUN_O,
+          sep = "0"
+        )),
+      nchar(.data$COD_MUN_O) == 3 ~
+        as.numeric(paste0(
+          .data$COD_DPTO_O,
+          .data$COD_MUN_O
+        )),
+      TRUE ~ NA_real_
+    ),
+    EPI_WEEK = lubridate::epiweek(.data$FEC_NOT),
+    EPI_MONTH = lubridate::month(.data$FEC_NOT),
+    EPI_YEAR = lubridate::epiyear(.data$FEC_NOT)
+  )
+
+  # Cleaning of cases without specified municipalities
+
+  disease_data <- dplyr::filter(disease_data, !is.na(disease_data$COD_MUN_O))
+  disease_data <- dplyr::filter(disease_data, !is.na(disease_data$COD_MUN_R))
+  disease_data <- dplyr::filter(disease_data, !is.na(disease_data$COD_MUN_N))
+
+  # Cleaning of cases out of the years range
+
+  disease_data <- dplyr::filter(
+    disease_data,
+    .data$EPI_YEAR %in% years_to_analyze
+  )
+
+  # Cleaning of cases from abroad
+
+  disease_data <- dplyr::filter(disease_data, .data$COD_PAIS_O == 170)
+
+  # Cleaning of typos
+  path <- system.file("data", "divipola_table.rda", package = "epiCo")
+  load(path)
+  divipola_table <- divipola_table
+
+  typos <- which(disease_data$COD_PAIS_O == 170 &
+    !(disease_data$COD_MUN_O %in% divipola_table$COD_MPIO))
+
+  disease_data <- disease_data[-typos, ]
+
+  #####
+
+
+  disease_data <- dplyr::filter(disease_data, .data$COD_MUN_O == divipola_code)
+
+  interval <- ifelse(method == "unusual_behavior", "1 month", "1 epiweek")
+
+  incidence_historic <- incidence::incidence(disease_data$FEC_NOT,
+    interval = interval
+  )
+
+  endemic_channel(observations, incidence_historic, plot = TRUE)
+}
 #' Returns the endemic channel of a disease
 #'
 #' Function that builds the endemic channel of a disease time series based on
 #' the selected method and windows of observation
 #' @param observations A numeric vector with the current observations
-#' @param incidence_historic An incidence object with the historic observations
+#' @param incidence_historic An incidence object with the historic weekly
+#' observations
 #' @param method A string with the mean calculation method of preference
-#' (median, mean, or geometric)
+#' (median, mean, or geometric) or to use unusual behavior method (Poisson
+#' Distribution Test for hypoendemic settings)
 #' @param geom_method A string with the selected method for geometric mean
 #' calculation, see: geom_mean
-#' @param window A numeric value to specify the number of previous and
-#' posterior periods to include in the calculation of the current period mean
 #' @param outlier_years A numeric vector with the outlier years
 #' @param outliers_handling A string with the handling decision regarding
-#' outlier years
-#' - ignored = data from outlier years will not take into account
-#' - included = data from outlier years will take into account
-#' - replaced_by_median = data from outlier years will be replaced with the
-#' median and take into account
-#' - replaced_by_mean = data from outlier years will be replaced with the
-#' mean and take into account
-#' - replaced_by_geom_mean = data from outlier years will be replaced with the
-#' geometric mean and take into account
-#' @param ci = A numeric value to specify the confidence interval to use
+#' outlier years, see: outliers_handling function
+#' @param ci = 0.95 A numeric value to specify the confidence interval to use
 #' with the geometric method
 #' @param plot A boolean for displaying a plot
 #' @return A dataframe with the observation, historical mean, and confidence
@@ -34,77 +197,78 @@
 #' )
 #' }
 #' @export
-endemic_channel <- function(observations, incidence_historic,
+endemic_channel <- function(incidence_historic, observations = NULL,
                             method = "geometric", geom_method = "shifted",
-                            window = 0, outlier_years = NULL,
-                            outliers_handling = "ignored", ci = 0.95,
+                            outlier_years = NULL, outliers_handling = "ignored",
+                            ci = 0.95,
                             plot = FALSE) {
-  obs <- c(observations, rep(NA, 52 - length(observations)))
+  stopifnot(
+    "`incidence_historic` must be an incidence object" =
+      inherits(incidence_historic, "incidence"),
+    "`observations`must be numeric and positive" =
+      (!is.null(observations) & is.numeric(observations) &
+        sign(observations) != -1),
+    "incidence interval should be `1 month`, `1 week` or `1 epiweek`" =
+      incidence_historic$interval %in%
+        c("1 month", "1 week", "1 epiweek"),
+    "`observations` size doesn't correspond to incidence interval" =
+      (!is.null(observations) & ((incidence_historic$interval == "1 week" &
+        length(observations) == 52) ||
+        (incidence_historic$interval == "1 month" &
+          length(observations) == 12))),
+    "`method` should be `median`, `mean`, `geometric` or `unusual behavior`" =
+      method %in%
+        c("median", "mean", "geometric", "unusual_behavior"),
+    "`ci` must be a number between 0 and 1" =
+      (ci >= 0 & ci <= 1 & is.numeric(ci)),
+    "`plot` must be a boolean" =
+      (is.logical(plot))
+  )
+  ifelse(incidence_historic$interval == "1 month",
+    period <- 12,
+    period <- 52
+  )
+  obs <- c(observations, rep(NA, period - length(observations)))
   years <- unique(lubridate::epiyear(incidence::get_dates(incidence_historic)))
 
   extra_weeks <- which(lubridate::epiweek(incidence_historic$dates) == 53)
 
-  counts_historic <- incidence::get_counts(incidence_historic)[-extra_weeks]
+  ifelse(incidence_historic$interval == "1 month",
+    counts_historic <- as.numeric(incidence::get_counts(
+      incidence_historic
+    )),
+    counts_historic <- as.numeric(incidence::get_counts(
+      incidence_historic
+    )[-extra_weeks])
+  )
 
   historic <- as.data.frame(matrix(counts_historic,
     nrow = length(years),
     byrow = TRUE
   ))
-  colnames(historic) <- seq(1, 52)
+  colnames(historic) <- seq(1, period)
   rownames(historic) <- years
 
-
-  if (outliers_handling == "included") {
-    historic <- historic
-  } else if (outliers_handling == "ignored") {
-    historic <- historic[!(row.names(historic) %in% outlier_years), ]
-  } else if (outliers_handling == "replaced_by_median") {
-    handling <- as.numeric(apply(historic, MARGIN = 2, FUN = stats::median))
-    handling <- t(replicate(length(outlier_years), handling))
-
-    historic[outlier_years, ] <- handling
-  } else if (outliers_handling == "replaced_by_mean") {
-    handling <- as.numeric(apply(historic, MARGIN = 2, FUN = mean))
-    handling <- t(replicate(length(outlier_years), handling))
-
-    historic[outlier_years, ] <- handling
-  } else if (outliers_handling == "replaced_by_geom_mean") {
-    if (geom_method == "optimized") {
-      handling <- apply(historic,
-        MARGIN = 2, FUN = geom_mean,
-        method = geom_method
-      )
-      handling <- as.numeric(handling[1, ])
-    } else {
-      handling <- as.numeric(apply(historic,
-        MARGIN = 2, FUN = geom_mean,
-        method = geom_method
-      ))
-    }
-
-    handling <- t(replicate(length(outlier_years), handling))
-
-    historic[outlier_years, ] <- handling
-  } else {
-    return("Error in outlier years handling")
-  }
-
+  historic <- endemic_outliers(
+    historic, outlier_years, outliers_handling,
+    geom_method
+  )
 
   if (method == "median") {
     central <- as.numeric(apply(historic,
       MARGIN = 2,
-      FUN = stats::quantile, p = c(0.5)
+      FUN = stats::quantile, p = 0.5
     ))
     up_lim <- as.numeric(apply(historic,
       MARGIN = 2,
-      FUN = stats::quantile, p = c(0.75)
+      FUN = stats::quantile, p = 0.75
     ))
     low_lim <- as.numeric(apply(historic,
       MARGIN = 2,
-      FUN = stats::quantile, p = c(0.25)
+      FUN = stats::quantile, p = 0.25
     ))
   } else if (method == "mean") {
-    central <- as.numeric(apply(historic, MARGIN = 2, FUN = mean))
+    central <- as.numeric(colMeans(historic))
     interval <- as.numeric(apply(historic,
       MARGIN = 2, FUN = function(x) {
         stats::qt(
@@ -132,8 +296,20 @@ endemic_channel <- function(observations, incidence_historic,
     ))
     up_lim <- central + abs(interval)
     low_lim <- central - abs(interval)
+  } else if (method == "unusual_behavior") {
+    central <- as.numeric(colMeans(historic))
+    up_lim <- NULL
+    low_lim <- NULL
+    for (c in central) {
+      poiss_test <- stats::poisson.test(round(c),
+        alternative = "two.sided",
+        conf.level = ci
+      )
+      up_lim <- c(up_lim, poiss_test$conf.int[2])
+      low_lim <- c(low_lim, poiss_test$conf.int[1])
+    }
   } else {
-    return("Error in central tendency method")
+    stop("Error in central tendency method")
   }
 
   channel_data <- data.frame(
@@ -145,92 +321,214 @@ endemic_channel <- function(observations, incidence_historic,
 
   channel_data$low_lim[which(channel_data$low_lim < 0)] <- 0
 
-  if (plot == TRUE) {
-    endemic_channel_plot <- ggplot2::ggplot(
-      channel_data,
-      ggplot2::aes(x = as.numeric(
-        row.names(channel_data)
+  if (plot) {
+    endemic_channel_plot <- endemic_plot(
+      channel_data, method,
+      outlier_years, outliers_handling
+    )
+    plot(endemic_channel_plot)
+    endemic_channel_data <- list(
+      endemic_channel_plot = endemic_channel_plot,
+      channel_data = channel_data
+    )
+    return(endemic_channel_data)
+  } else {
+    return(channel_data)
+  }
+}
+
+#' Modifies the historic incidence to handle with the observations of epidemic
+#' years
+#'
+#' @description Function that modifies an historic incidence by including,
+#' ignoring, or replacing the observations of epidemic years
+#'
+#' @param historic Historic incidence counts
+#' @param outlier_years A numeric vector with the outlier years
+#' @param outliers_handling A string with the handling decision regarding
+#' outlier years
+#' - ignored = data from outlier years will not take into account
+#' - included = data from outlier years will take into account
+#' - replaced_by_median = data from outlier years will be replaced with the
+#' median and take into account
+#' - replaced_by_mean = data from outlier years will be replaced with the
+#' mean and take into account
+#' - replaced_by_geom_mean = data from outlier years will be replaced with the
+#' geometric mean and take into account
+#' @param geom_method A string with the selected method for geometric mean
+#' calculation, see: geom_mean
+#'
+#' @return A modified historic incidence
+#'
+#' @examples
+#' \dontrun{
+#' endemic_outliers(historic, outlier_years, outliers_handling,
+#'   geom_method = "shifted"
+#' )
+#' }
+#'
+#' @export
+endemic_outliers <- function(historic, outlier_years, outliers_handling,
+                             geom_method = "shifted") {
+  if (outliers_handling == "included") {
+    historic <- historic
+  } else if (outliers_handling == "ignored") {
+    historic <- historic[!(row.names(historic) %in% outlier_years), ]
+  } else if (outliers_handling == "replaced_by_median") {
+    handling <- as.numeric(apply(historic, MARGIN = 2, FUN = stats::median))
+    handling <- t(replicate(length(outlier_years), handling))
+    historic[outlier_years, ] <- handling
+  } else if (outliers_handling == "replaced_by_mean") {
+    handling <- as.numeric(colMeans(historic))
+    handling <- t(replicate(length(outlier_years), handling))
+    historic[outlier_years, ] <- handling
+  } else if (outliers_handling == "replaced_by_geom_mean") {
+    if (geom_method == "optimized") {
+      handling <- apply(historic,
+        MARGIN = 2, FUN = geom_mean,
+        method = geom_method
+      )
+      handling <- as.numeric(handling[1, ])
+    } else {
+      handling <- as.numeric(apply(historic,
+        MARGIN = 2, FUN = geom_mean,
+        method = geom_method
       ))
+    }
+
+    handling <- t(replicate(length(outlier_years), handling))
+
+    historic[outlier_years, ] <- handling
+  } else {
+    return("Error in outlier years handling")
+  }
+  return(historic)
+}
+
+#' Creates the endemic channel plot
+#'
+#' @description Function creates the endemic channel plot
+#'
+#' @param channel_data Data frame with the central tendency, upper limit,
+#' lower limit, and observations to plot
+#' @param method A string with method used in the endemic channel calculation
+#' @param outlier_years A numeric vector with the outlier years
+#' @param outliers_handling A string with the handling decision regarding
+#' outlier years
+#'
+#' @return The ggplot object with the endemic channel plot
+#'
+#' @examples
+#' \dontrun{
+#' endemic_plot(channel_data, method, outlier_years, outliers_handling)
+#' }
+#'
+#' @export
+endemic_plot <- function(channel_data, method,
+                         outlier_years, outliers_handling) {
+  endemic_channel_plot <- ggplot2::ggplot(
+    channel_data,
+    ggplot2::aes(x = as.numeric(
+      row.names(channel_data)
+    ))
+  ) +
+    ggplot2::geom_area(ggplot2::aes(
+      y = rep(
+        max(c(max(.data$up_lim), .data$obs), na.rm = TRUE) * 1.05,
+        nrow(channel_data)
+      ),
+      fill = "Epidemic"
+    )) +
+    ggplot2::geom_area(ggplot2::aes(
+      y = .data$up_lim,
+      fill = "Warning"
+    )) +
+    ggplot2::geom_area(ggplot2::aes(
+      y = .data$central,
+      fill = "Safety"
+    )) +
+    ggplot2::geom_area(ggplot2::aes(
+      y = .data$low_lim,
+      fill = "Success"
+    )) +
+    ggplot2::geom_vline(
+      xintercept = seq(1, nrow(channel_data), 1),
+      color = "azure2", size = 0.1
     ) +
-      ggplot2::geom_area(ggplot2::aes(
-        y = rep(max(up_lim) * 1.05, 52),
-        filow_lim = "Epidemic"
-      )) +
-      ggplot2::geom_area(ggplot2::aes(
-        y = up_lim,
-        filow_lim = "Warning"
-      )) +
-      ggplot2::geom_area(ggplot2::aes(
-        y = central,
-        filow_lim = "Safety"
-      )) +
-      ggplot2::geom_area(ggplot2::aes(
-        y = low_lim,
-        filow_lim = "Success"
-      )) +
-      ggplot2::geom_vline(
-        xintercept = seq(1, 52, 1),
-        color = "azure2", size = .1
-      ) +
-      ggplot2::geom_hline(
-        yintercept = seq(0, max(up_lim) * 1.05, 5),
-        color = "azure2", size = .1
-      ) +
-      ggplot2::geom_line(ggplot2::aes(y = up_lim),
-        linewidth = 1,
-        color = "brown4"
-      ) +
-      ggplot2::geom_line(ggplot2::aes(y = central),
-        linewidth = 1,
-        color = "darkorange3"
-      ) +
-      ggplot2::geom_line(ggplot2::aes(y = low_lim),
-        linewidth = 1,
-        color = "darkgreen"
-      ) +
-      ggplot2::geom_line(ggplot2::aes(y = obs),
+    ggplot2::geom_hline(
+      yintercept = seq(0, max(c(max(channel_data$up_lim), channel_data$obs),
+        na.rm = TRUE
+      ) * 1.05, length.out = 8),
+      color = "azure2", size = 0.1
+    ) +
+    ggplot2::geom_line(ggplot2::aes(y = channel_data$up_lim),
+      linewidth = 1,
+      color = "brown4"
+    ) +
+    ggplot2::geom_line(ggplot2::aes(y = channel_data$central),
+      linewidth = 1,
+      color = "darkorange3"
+    ) +
+    ggplot2::geom_line(ggplot2::aes(y = channel_data$low_lim),
+      linewidth = 1,
+      color = "darkgreen"
+    ) +
+    ggplot2::scale_y_continuous(
+      breaks = round(seq(0, max(c(max(channel_data$up_lim), channel_data$obs),
+        na.rm = TRUE
+      ) * 1.05, length.out = 8)),
+      limits = c(0, max(c(max(channel_data$up_lim), channel_data$obs),
+        na.rm = TRUE
+      ) * 1.05),
+      expand = c(0, 0)
+    ) +
+    ggplot2::labs(
+      title = "Endemic channel",
+      caption = paste(
+        "Method: ", method, " | Epidemic years: ",
+        paste(outlier_years, colow_limapse = ", "), " are ", outliers_handling
+      )
+    ) +
+    ggplot2::xlab(label = "Epidemiological period") +
+    ggplot2::ylab("Number of cases") +
+    ggplot2::scale_fill_manual("",
+      values = c(
+        Epidemic = "brown3",
+        Warning = "darkorange",
+        Safety = "darkgoldenrod1",
+        Success = "darkolivegreen4"
+      ),
+      limits = c(
+        "Epidemic",
+        "Warning",
+        "Safety",
+        "Success"
+      )
+    ) +
+    ggplot2::theme(
+      plot.background = ggplot2::element_rect(fill = "white"),
+      plot.margin = ggplot2::margin(20, 20, 20, 20),
+      plot.title = ggplot2::element_text(size = 16),
+      axis.title.x = ggplot2::element_text(size = 14),
+      axis.title.y = ggplot2::element_text(size = 14),
+      axis.text = ggplot2::element_text(size = 12),
+      plot.caption = ggplot2::element_text(size = 10, hjust = 0),
+      legend.position = "bottom"
+    )
+
+  if (!anyNA(channel_data$obs)) {
+    endemic_channel_plot <- endemic_channel_plot +
+      ggplot2::geom_line(ggplot2::aes(y = channel_data$obs),
         linetype = "dashed",
         linewidth = 0.75
       ) +
-      ggplot2::geom_point(ggplot2::aes(y = obs), size = 2) +
+      ggplot2::geom_point(ggplot2::aes(y = channel_data$obs), size = 2) +
       ggplot2::scale_x_continuous(
-        breaks = seq(1, 52, 1), limits = c(1, 52),
+        breaks = seq(1, nrow(channel_data), 1),
+        limits = c(1, nrow(channel_data)),
         expand = c(0, 0)
-      ) +
-      ggplot2::scale_y_continuous(
-        breaks = seq(0, max(up_lim) * 1.05, 10),
-        limits = c(0, max(up_lim) * 1.05),
-        expand = c(0, 0)
-      ) +
-      ggplot2::labs(
-        title = "Endemic channel",
-        caption = paste(
-          "Method: ", method, " | Epidemic years: ",
-          paste(outlier_years, colow_limapse = ", "), " are ", outliers_handling
-        )
-      ) +
-      ggplot2::xlab(label = "Epidemiological week") +
-      ggplot2::ylab("Number of cases") +
-      ggplot2::scale_fill_manual("",
-        values = c(
-          Epidemic = "brown3", Warning = "darkorange",
-          Safety = "darkgoldenrod1", Success = "darkolivegreen4"
-        ),
-        limits = c("Epidemic", "Warning", "Safety", "Success")
-      ) +
-      ggplot2::theme(
-        plot.background = ggplot2::element_rect(filow_lim = "white"),
-        plot.margin = ggplot2::margin(20, 20, 20, 20),
-        plot.title = ggplot2::element_text(size = 16),
-        axis.title.x = ggplot2::element_text(size = 14),
-        axis.title.y = ggplot2::element_text(size = 14),
-        axis.text = ggplot2::element_text(size = 12),
-        plot.caption = ggplot2::element_text(size = 10, hjust = 0),
-        legend.position = "bottom"
       )
-
-    plot(endemic_channel_plot)
   }
 
-  return(channel_data)
+  return(endemic_channel_plot)
 }
