@@ -41,7 +41,7 @@ The module allows you to:
     
 In the following vignette you will learn how to:
 
-1. Navigate the Administrative Political Division Coding of Colombia (DIVIPOLA)
+1. Navigate the Codification of the Political Administrative Division of Colombia (DIVIPOLA)
 2. Consult, visualize and interpret Colombian population pyramids at different
 population scales
 3. Interpret the demographic variables reported by the SIVIGILA (as ethnicities,
@@ -53,6 +53,23 @@ risk assessment for a disease
 6. Generate a treemap of reported occupations to estimate an exposure risk
 assessment for a disease
 
+## 1. Navigating the Codification of the Political Administrative Division of Colombia (DIVIPOLA)
+
+DIVIPOLA is a standardized nomenclature, designed by the DANE, for the identification of territorial entities (departments, districts and municipalities), non-municipalized areas and populated centers, by assigning a unique numerical code to each of these territorial units.
+
+Colombia has:
+
+- 32 Departments (Administrative Division Level 1)
+- 1102 Municipalities (Administrative Division Level 2)
+- 1 Island
+- 18 Non-municipalized areas
+- 6678 Populated centers
+
+Two digits are used for the codification of Departments, and five digits are used for the codification of municipalities (the first two being the the department where they are located).
+
+**epiCo** provides the complete list of departments and municipalities codes through a built-in dataset.
+
 ```{r setup}
 library(epiCo)
+data("divipola_table")
 ```
