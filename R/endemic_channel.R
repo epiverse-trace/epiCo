@@ -206,17 +206,22 @@ endemic_channel <- function(incidence_historic, observations = NULL,
     stopifnot(
       "`incidence_historic` must be an incidence object" =
         inherits(incidence_historic, "incidence"),
+      "`incidence_historic` must contain at least one year of data." =
+        ((incidence_historic$interval == "1 week" & 
+            length(incidence_historic$dates) >= 52) ||
+           (incidence_historic$interval == "1 month" &
+              length(incidence_historic$dates) >= 12)),
       "`observations` must be numeric and positive" =
-        (!is.null(observations) && is.numeric(observations) &&
+        (is.numeric(observations) &&
            all(observations >= 0)),
       "incidence interval should be `1 month`, `1 week` or `1 epiweek`" =
         incidence_historic$interval %in%
         c("1 month", "1 week", "1 epiweek"),
       "`observations` size doesn't correspond to incidence interval" =
-        (!is.null(observations) & ((incidence_historic$interval == "1 week" &
-                                      length(observations) == 52) ||
-                                     (incidence_historic$interval == "1 month" &
-                                        length(observations) == 12))),
+        ((incidence_historic$interval == "1 week" & 
+            length(observations) == 52) || 
+           (incidence_historic$interval == "1 month" &
+              length(observations) == 12)),
       "`method` should be `median`, `mean`, `geometric` or `unusual behavior`" =
         method %in%
         c("median", "mean", "geometric", "unusual_behavior"),
@@ -224,11 +229,17 @@ endemic_channel <- function(incidence_historic, observations = NULL,
         (ci >= 0 & ci <= 1 & is.numeric(ci)),
       "`plot` must be a boolean" =
         (is.logical(plot))
+      
     )
   } else{
     stopifnot(
       "`incidence_historic` must be an incidence object" =
         inherits(incidence_historic, "incidence"),
+      "`incidence_historic` must contain at least one year of data." =
+        ((incidence_historic$interval == "1 week" & 
+            length(incidence_historic$dates) >= 52) ||
+           (incidence_historic$interval == "1 month" &
+              length(incidence_historic$dates) >= 12)),
       "incidence interval should be `1 month`, `1 week` or `1 epiweek`" =
         incidence_historic$interval %in%
         c("1 month", "1 week", "1 epiweek"),

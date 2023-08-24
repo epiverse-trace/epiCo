@@ -16,10 +16,12 @@ sample_df <- data.frame(CASES = sample_dates)
 historic_data <- incidence::incidence(sample_df$CASES, interval = "1 epiweek")
 historic_data_mon <- incidence::incidence(sample_df$CASES, interval = "1 month")
 historic_data_day <- incidence::incidence(sample_df$CASES, interval = "1 day")
+historic_data_short <-  historic_data[historic_data$dates <= '2013-05-26', ]
 
 
 test_that("Endemic channel throws expected erors", {
   expect_error(endemic_channel(incidence_historic = c(20, 53, 90, 63)))
+  expect_error(endemic_channel(incidence_historic = historic_data_short))
   expect_error(endemic_channel(
     incidence_historic = historic_data,
     observations = c(0, 0, -1)
