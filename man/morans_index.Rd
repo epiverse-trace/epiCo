@@ -5,21 +5,11 @@
 \title{Calculate spatial correlation of given municipalities in an incidence_rate
 object.}
 \usage{
-morans_index(
-  incidence_historic,
-  level,
-  scale = 1e+05,
-  threshold = 2,
-  plot = TRUE
-)
+morans_index(incidence_rate, threshold = 2, plot = TRUE)
 }
 \arguments{
-\item{incidence_historic}{An incidence object with the historic weekly
-observations}
-
-\item{level}{Administration level at which incidence counts are grouped.}
-
-\item{scale}{Scale to consider when calculating the incidence_rate.}
+\item{incidence_rate}{Incidence rate object with only one observation for a
+group of municipalities.}
 
 \item{threshold}{Maximum traveling time around each municipality.}
 
