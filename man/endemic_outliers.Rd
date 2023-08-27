@@ -48,3 +48,4 @@ endemic_outliers(historic, outlier_years, outliers_handling,
 }
 
 }
+\keyword{internal}

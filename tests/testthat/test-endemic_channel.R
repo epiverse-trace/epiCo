@@ -14,10 +14,16 @@ sample_df <- data.frame(CASES = sample_dates)
 
 # incidence objects
 historic_data <- incidence::incidence(sample_df$CASES, interval = "1 epiweek")
-historic_data_mon <- incidence::incidence(sample_df$CASES, interval = "1 month")
-historic_data_day <- incidence::incidence(sample_df$CASES, interval = "1 day")
-historic_data_short <-  historic_data[historic_data$dates <= '2013-05-26', ]
-
+historic_data_m <- incidence::incidence(sample_df$CASES, interval = "1 month")
+historic_data_d <- incidence::incidence(sample_df$CASES, interval = "1 day")
+historic_data_short <- historic_data[historic_data$dates <= "2013-05-26", ]
+historic_data_w_short <- historic_data[historic_data$dates <= "2017-05-01", ]
+historic_data_w_short <- historic_data_w_short[historic_data_w_short$dates >=
+  "2013-05-01", ]
+historic_data_m_short <- historic_data_m[historic_data_m$dates <=
+  "2017-05-01", ]
+historic_data_m_short <- historic_data_m_short[historic_data_m_short$dates >=
+  "2013-05-01", ]
 
 test_that("Endemic channel throws expected erors", {
   expect_error(endemic_channel(incidence_historic = c(20, 53, 90, 63)))
@@ -27,7 +33,7 @@ test_that("Endemic channel throws expected erors", {
     observations = c(0, 0, -1)
   ))
   expect_error(endemic_channel(
-    incidence_historic = historic_data_day,
+    incidence_historic = historic_data_d,
     observations = seq(1, 52)
   ))
   expect_error(endemic_channel(
@@ -35,28 +41,34 @@ test_that("Endemic channel throws expected erors", {
     observations = seq(1, 54)
   ))
   expect_error(endemic_channel(
-    incidence_historic = historic_data_mon,
+    incidence_historic = historic_data_m,
     observations = seq(1, 14)
   ))
   expect_error(endemic_channel(
-    incidence_historic = historic_data_mon,
+    incidence_historic = historic_data_m,
     observations = seq(1, 14), method = "poisson"
   ))
   expect_error(endemic_channel(
-    incidence_historic = historic_data_mon,
+    incidence_historic = historic_data_m,
     observations = seq(1, 14), ci = "0.95"
   ))
   expect_error(endemic_channel(
-    incidence_historic = historic_data_mon,
+    incidence_historic = historic_data_m,
     observations = seq(1, 14), ci = 1.2
   ))
   expect_error(endemic_channel(
-    incidence_historic = historic_data_mon,
+    incidence_historic = historic_data_m,
     observations = seq(1, 14), plot = "TRUE"
   ))
 })
 
 test_that("Endemic channel works as expected", {
+  expect_type(endemic_channel(
+    incidence_historic = historic_data_m_short
+  ), "list")
+  expect_type(endemic_channel(
+    incidence_historic = historic_data_w_short
+  ), "list")
   expect_type(endemic_channel(
     incidence_historic = historic_data,
     observations = seq(1, 52)
@@ -89,9 +101,9 @@ test_that("Endemic channel works as expected", {
   expect_identical(dim(endemic_channel(
     incidence_historic = historic_data,
     observations = seq(1, 52)
-  )), c(52, 4))
+  )), c(52L, 4L))
   expect_identical(dim(endemic_channel(
-    incidence_historic = historic_data_mon,
+    incidence_historic = historic_data_m,
     observations = seq(1, 12)
-  )), c(12, 4))
+  )), c(12L, 4L))
 })
