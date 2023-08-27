@@ -45,8 +45,10 @@ neighborhoods <- function(query_vector, threshold = 2) {
 #'
 #' @importFrom magrittr %>%
 #'
-#' @param incidence_rate Incidence rate object with only one observation for a
-#' group of municipalities.
+#' @param incidence_historic An incidence object with the historic weekly
+#' observations
+#' @param level Administration level at which incidence counts are grouped.
+#' @param scale Scale to consider when calculating the incidence_rate.
 #' @param threshold Maximum traveling time around each municipality.
 #' @param plot if TRUE, returns a plot of influential observations in the
 #' Moran's plot.
@@ -59,11 +61,18 @@ neighborhoods <- function(query_vector, threshold = 2) {
 #' morans_index(incidence_rate, 2, FALSE)
 #' }
 #' @export
-morans_index <- function(incidence_rate, threshold = 2, plot = TRUE) {
+morans_index <- function(incidence_historic, level, scale = 100000,
+                         threshold = 2, plot = TRUE) {
   stopifnot(
-    "`incidence_rate` must have observations for only one given date" =
-      ncol(incidence_rate$rates) == length(incidence_rate$rates)
+    "`incidence_object` must have incidence class" =
+      (inherits(incidence_historic, "incidence"))
   )
+
+  incidence_rate <- incidence_rate(
+    incidence_object = incidence_historic,
+    level = level, scale = scale
+  )
+
   path_1 <- system.file("data", "divipola_table.rda", package = "epiCo")
   load(path_1)
   divipola_table <- divipola_table
