@@ -31,14 +31,13 @@ The module allows you to:
     department, or the country for a year of interest
 -   Consult the definitions of demographic variables as ethnicities,
     special populations groups, and occupational labels
--   Estimate the incidence rate of a municipality, department, 
+-   Estimate the distribution of occupations reported in the linelist
+    according to the [ISCO 88
+    Standard](https://www.ilo.org/public/english/bureau/stat/isco/isco88/)
+-   Estimate the incidence rate of a municipality, department, or the nation 
 -   Calculate and visualize a relative age risk by normalizing the
     distribution of cases by the specific age structure of the location
     of interest
--   Visualize the distribution of occupations reported in the linelist
-    according to the [ISCO 88
-    Standard](https://www.ilo.org/public/english/bureau/stat/isco/isco88/)
-
     
 In the following vignette you will learn how to:
 
@@ -52,8 +51,6 @@ Epiverse-TRACE package [sivirep](https://github.com/epiverse-trace/sivirep)
 5. Estimate weekly and monthly global incidence rates for a municipality, department or the nation
 6. Integrate age distributions of cases with population pyramids to obtain an age
 risk assessment for a disease
-7. Generate a treemap of reported occupations to estimate an exposure risk
-assessment for a disease
 
 ## 1. Navigating the Codification of the Political Administrative Division of Colombia (DIVIPOLA)
 
@@ -92,10 +89,10 @@ Definition of age ranges, and plotting are also provided for both: total number 
 
 ```{r setup}
 library(epiCo)
-cali_code <- 76001 # DIVIPOLA code for the city of Cali
+ibague_code <- 76001 # DIVIPOLA code for the city of Ibagué
 year <- 2016 # Year to consult
 age_range <- 5 # Age range or window
-cali_pyramid_2016 <- population_pyramid(cali_code, year, range = age_range, total = FALSE, plot = TRUE)
+ibague_pyramid_2016 <- population_pyramid(ibague_code, year, range = age_range, total = FALSE, plot = TRUE)
 ```
 
 ## 3. Demographic variables
@@ -125,9 +122,9 @@ The following analyses use the dengue cases reported in Colombia in 2019.
 library(epiCo)
 library(sivirep)
 
-data_event <-  import_data_event(year = 2019,
+data_event <-  sivirep::import_data_event(year = 2019,
                                  nombre_event = "dengue")
-data_event_clean <- limpiar_data_sivigila(data_event = data_event, year = 2020)
+data_event_clean <- sivirep::limpiar_data_sivigila(data_event = data_event, year = 2020)
 ```
 For additonal features on epidemiological reports, **sivirep** documentation provides more visualization functions.
 
@@ -143,4 +140,15 @@ library(incidence2)
 incidence_object <- incidence(x = data_event_clean, date_index = "fec_not", groups = "cod_mun_o", interval = "1 epiweek")
 incidence_rate_object <- incidence_rate(incidence_object, level = 2)
 ```
-If groups within the incidence object are not within the DIVIPOLA coding for municipalities (level 2) or departments (level 1), or a national estiamtion is intended (level 0), the function will not be able to estimate an incidence rate.
+If groups in the incidence object are not within the DIVIPOLA coding for municipalities (level 2) or departments (level 1), or a national estimation is intended (level 0), the function will not be able to estimate an incidence rate.
+
+## 6. Estimation of risk by age group
+
+Normalization of data is a key aspect on epidemiology. **epiCo** allows to take an age distribution of cases and normalize this data with the age structure of a population to estimate the age risk of a disease according to the age structure of the general population in a municipality, department, or the nation in a certain year.
+
+```{r setup}
+data_event_cali <- sivirep::geo_filtro(data_event = data_event_clean,
+                                  nombre_mpo = "Cali")
+
+age_risk_data <- age_risk(age = data_event_cali$edad, population_pyramid = cali_pyramid_2016, gender = TRUE, plot = TRUE)
+```
