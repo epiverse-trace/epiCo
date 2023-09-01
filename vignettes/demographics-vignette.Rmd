@@ -73,3 +73,37 @@ Two digits are used for the codification of Departments, and five digits are use
 library(epiCo)
 data("divipola_table")
 ```
+## 2. Population pyramids
+
+**epiCo** provides built-in dataset with the population projections of Colombia at national, department, and municipality level (provided by the DANE).
+
+You can perform queries to these data by using the population_pyramid function, providing the DIVIPOLA code of the territory of interest and the year to consult.
+
+```{r setup}
+library(epiCo)
+cali_code <- 76001 # DIVIPOLA code for the city of Cali
+year <- 2016 # Year to consult
+cali_pyramid_2016 <- population_pyramid(cali_code, year) # Population pyramid (dataframe) for the city of Cali in the year 2016 dissagregated by sex
+```
+
+Definition of age ranges, and plotting are also provided for both: total number of individuals or proportion of individuals
+
+```{r setup}
+library(epiCo)
+cali_code <- 76001 # DIVIPOLA code for the city of Cali
+year <- 2016 # Year to consult
+age_range <- 5 # Age range or window
+cali_pyramid_2016 <- population_pyramid(cali_code, year, range = age_range, total = FALSE, plot = TRUE)
+```
+
+## 3. Demographic varibles
+
+Events of epidemiological relevance are reported to the SIVIGILA using an official notification form.
+
+**epiCo** provides function to consult the dictionaries to the etnicity cathegories, special population groups, and occupation codification used by the SIVIGILA.
+
+
+
+
+
+
