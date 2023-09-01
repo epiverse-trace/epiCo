@@ -102,8 +102,16 @@ Events of epidemiological relevance are reported to the SIVIGILA using an offici
 
 **epiCo** provides function to consult the dictionaries to the etnicity cathegories, special population groups, and occupation codification used by the SIVIGILA.
 
+```{r setup}
+library(epiCo)
 
+demog_data = data.frame(id = c(0001,002,003,004,005),
+ethnicity_label = c(3,4,1,2,5),
+occupation_label = c(6111,3221,5113,5133))
 
+describe_ethnicity(demog_data$ethnicity_label) # Description of ethnicities reported in the consulted dataset
+describe_occupation(isco_codes = demog_data$occupation_labels, output_level = "unit") # Description of the occupations reported in the consulted dataset
+```
 
 
 
