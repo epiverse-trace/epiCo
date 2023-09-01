@@ -31,6 +31,7 @@ The module allows you to:
     department, or the country for a year of interest
 -   Consult the definitions of demographic variables as ethnicities,
     special populations groups, and occupational labels
+-   Estimate the incidence rate of a municipality, department, 
 -   Calculate and visualize a relative age risk by normalizing the
     distribution of cases by the specific age structure of the location
     of interest
@@ -48,9 +49,10 @@ population scales
 special population groups, and occupatioanl labels)
 4. Obtain official historic linelist data from SIVIGILA using
 Epiverse-TRACE package [sivirep](https://github.com/epiverse-trace/sivirep)
-5. Integrate age distributions of cases with population pyramids to obtain an age
+5. Estimate weekly and monthly global incidence rates for a municipality, department or the nation
+6. Integrate age distributions of cases with population pyramids to obtain an age
 risk assessment for a disease
-6. Generate a treemap of reported occupations to estimate an exposure risk
+7. Generate a treemap of reported occupations to estimate an exposure risk
 assessment for a disease
 
 ## 1. Navigating the Codification of the Political Administrative Division of Colombia (DIVIPOLA)
@@ -96,7 +98,7 @@ age_range <- 5 # Age range or window
 cali_pyramid_2016 <- population_pyramid(cali_code, year, range = age_range, total = FALSE, plot = TRUE)
 ```
 
-## 3. Demographic varibles
+## 3. Demographic variables
 
 Events of epidemiological relevance are reported to the SIVIGILA using an official notification form (see, [link](https://www.ins.gov.co/buscador-eventos/Paginas/Fichas-y-Protocolos.aspx)).
 
@@ -112,3 +114,33 @@ occupation_label = c(6111,3221,5113,5133))
 describe_ethnicity(demog_data$ethnicity_label) # Description of ethnicities reported in the consulted dataset
 describe_occupation(isco_codes = demog_data$occupation_labels, output_level = "unit") # Description of the occupations reported in the consulted dataset
 ```
+## 4. Using [sivirep](https://github.com/epiverse-trace/sivirep) as data source for **epiCo**
+
+As described through the previous features, **epiCo** requires line list data describing the demographic variables of each case.
+[sivirep](https://github.com/epiverse-trace/sivirep) is an Epiverse-TRACE package that will allow you to download and clean official data from the SIVIGILA to perform retrospective analyses using **epiCo**.
+
+The following analyses use the dengue cases reported in Colombia in 2019.
+
+```{r setup}
+library(epiCo)
+library(sivirep)
+
+data_event <-  import_data_event(year = 2019,
+                                 nombre_event = "dengue")
+data_event_clean <- limpiar_data_sivigila(data_event = data_event, year = 2020)
+```
+For additonal features on epidemiological reports, **sivirep** documentation provides more visualization functions.
+
+## 5. Estimation of incidence rates
+
+The incidence rate feature of **epiCo** requires the [incidence2](https://github.com/reconverse/incidence2) package to produce a modified incidence object where, instead of a count vector (or matrix), it transforms the object to provide a rate element accounting for number of cases in the time period over total number of inhabitants in the region in that year.
+
+**epiCo** uses the DANE population projections as denominators; therefore, it is necessary to provide the administration level at which incidences are calculated.
+
+```{r setup}
+library(incidence2)
+
+incidence_object <- incidence(x = data_event_clean, date_index = "fec_not", groups = "cod_mun_o", interval = "1 epiweek")
+incidence_rate_object <- incidence_rate(incidence_object, level = 2)
+```
+If groups within the incidence object are not within the DIVIPOLA coding for municipalities (level 2) or departments (level 1), or a national estiamtion is intended (level 0), the function will not be able to estimate an incidence rate.
