@@ -66,12 +66,10 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
     "`threshold` must be numeric" = (is.numeric(threshold)),
     "`plot` must be boolean" = (is.logical(plot))
   )
-  
   incidence_rate <- incidence_rate(
     incidence_object = incidence_object,
     level = level, scale = scale
   )
-  
   path_1 <- system.file("data", "divipola_table.rda", package = "epiCo")
   load(path_1)
   divipola_table <- divipola_table
