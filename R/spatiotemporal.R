@@ -59,7 +59,8 @@ neighborhoods <- function(query_vector, threshold = 2) {
 #' morans_index(incidence_rate, 2, FALSE)
 #' }
 #' @export
-morans_index <- function(incidence_object, level, scale = 100000, threshold = 2, plot = TRUE) {
+morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
+                         plot = TRUE) {
   stopifnot(
     "`incidence_object` must have incidence class" =
       (inherits(incidence_object, "incidence")),
