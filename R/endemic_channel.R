@@ -319,7 +319,7 @@ endemic_channel <- function(incidence_historic, observations = NULL,
     geom_method
   )
 
-  result <- switch(method,
+  switch(method,
     median = {
       central <- as.numeric(apply(historic,
         MARGIN = 2,
