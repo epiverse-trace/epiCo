@@ -2,12 +2,9 @@
 title: "epiCo - Demographic module"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{epiCo Demographic Analyses}
-  %\VignetteEncoding{UTF-8}
+  %\VignetteIndexEntry{epiCo - Demographic module}
   %\VignetteEngine{knitr::rmarkdown}
-editor_options: 
-  markdown: 
-    wrap: 72
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r, include = FALSE}
@@ -68,7 +65,7 @@ Two digits are used for the codification of Departments, and five digits are use
 
 **epiCo** provides the complete list of departments and municipalities codes through a built-in dataset.
 
-```{r setup}
+```{r}
 library(epiCo)
 data("divipola_table")
 ```
@@ -78,7 +75,7 @@ data("divipola_table")
 
 You can perform queries to these data by using the population_pyramid function, providing the DIVIPOLA code of the territory of interest and the year to consult.
 
-```{r setup}
+```{r}
 library(epiCo)
 cali_code <- 76001 # DIVIPOLA code for the city of Cali
 year <- 2016 # Year to consult
@@ -87,12 +84,12 @@ cali_pyramid_2016 <- population_pyramid(cali_code, year) # Population pyramid (d
 
 Definition of age ranges, and plotting are also provided for both: total number of individuals or proportion of individuals
 
-```{r setup}
+```{r}
 library(epiCo)
 ibague_code <- 76001 # DIVIPOLA code for the city of Ibagué
 year <- 2016 # Year to consult
 age_range <- 5 # Age range or window
-ibague_pyramid_2016 <- population_pyramid(ibague_code, year, range = age_range, total = FALSE, plot = TRUE)
+#ibague_pyramid_2016 <- population_pyramid(ibague_code, year, range = age_range, total = FALSE, plot = TRUE)
 ```
 
 ## 3. Demographic variables
@@ -101,15 +98,15 @@ Events of epidemiological relevance are reported to the SIVIGILA using an offici
 
 **epiCo** provides function to consult the dictionaries to the etnicity cathegories, special population groups, and occupation codification used by the SIVIGILA.
 
-```{r setup}
+```{r}
 library(epiCo)
 
 demog_data = data.frame(id = c(0001,002,003,004,005),
 ethnicity_label = c(3,4,1,2,5),
-occupation_label = c(6111,3221,5113,5133))
+occupation_label = c(6111,3221,5113,5133,6111))
 
 describe_ethnicity(demog_data$ethnicity_label) # Description of ethnicities reported in the consulted dataset
-describe_occupation(isco_codes = demog_data$occupation_labels, output_level = "unit") # Description of the occupations reported in the consulted dataset
+describe_occupation(isco_codes = demog_data$occupation_label, output_level = "unit")# Description of the occupations reported in the consulted dataset
 ```
 ## 4. Using [sivirep](https://github.com/epiverse-trace/sivirep) as data source for **epiCo**
 
@@ -118,13 +115,13 @@ As described through the previous features, **epiCo** requires line list data de
 
 The following analyses use the dengue cases reported in Colombia in 2019.
 
-```{r setup}
-library(epiCo)
-library(sivirep)
-
-data_event <-  sivirep::import_data_event(year = 2019,
-                                 nombre_event = "dengue")
-data_event_clean <- sivirep::limpiar_data_sivigila(data_event = data_event, year = 2020)
+```{r}
+# library(epiCo)
+# library(sivirep)
+# 
+# data_event <-  sivirep::import_data_event(year = 2019,
+#                                  nombre_event = "dengue")
+# data_event_clean <- sivirep::limpiar_data_sivigila(data_event = data_event, year = 2020)
 ```
 For additonal features on epidemiological reports, **sivirep** documentation provides more visualization functions.
 
@@ -134,11 +131,11 @@ The incidence rate feature of **epiCo** requires the [incidence2](https://github
 
 **epiCo** uses the DANE population projections as denominators; therefore, it is necessary to provide the administration level at which incidences are calculated.
 
-```{r setup}
-library(incidence2)
-
-incidence_object <- incidence(x = data_event_clean, date_index = "fec_not", groups = "cod_mun_o", interval = "1 epiweek")
-incidence_rate_object <- incidence_rate(incidence_object, level = 2)
+```{r}
+# library(incidence2)
+# 
+# incidence_object <- incidence(x = data_event_clean, date_index = "fec_not", groups = "cod_mun_o", interval = "1 epiweek")
+# incidence_rate_object <- incidence_rate(incidence_object, level = 2)
 ```
 If groups in the incidence object are not within the DIVIPOLA coding for municipalities (level 2) or departments (level 1), or a national estimation is intended (level 0), the function will not be able to estimate an incidence rate.
 
@@ -146,9 +143,9 @@ If groups in the incidence object are not within the DIVIPOLA coding for municip
 
 Normalization of data is a key aspect on epidemiology. **epiCo** allows to take an age distribution of cases and normalize this data with the age structure of a population to estimate the age risk of a disease according to the age structure of the general population in a municipality, department, or the nation in a certain year.
 
-```{r setup}
-data_event_cali <- sivirep::geo_filtro(data_event = data_event_clean,
-                                  nombre_mpo = "Cali")
-
-age_risk_data <- age_risk(age = data_event_cali$edad, population_pyramid = cali_pyramid_2016, gender = TRUE, plot = TRUE)
+```{r}
+# data_event_cali <- sivirep::geo_filtro(data_event = data_event_clean,
+#                                   nombre_mpo = "Cali")
+# 
+# age_risk_data <- age_risk(age = data_event_cali$edad, population_pyramid = cali_pyramid_2016, gender = TRUE, plot = TRUE)
 ```
