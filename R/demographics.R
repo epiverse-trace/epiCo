@@ -134,7 +134,8 @@ population_pyramid <- function(divipola_code, year,
           y = .data$population
         )
       ) +
-        ggplot2::geom_bar(stat = "identity")
+        ggplot2::geom_bar(stat = "identity") +
+        ggplot2::coord_flip()
     }
 
     if (total) {
@@ -176,12 +177,14 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
       "`population_pyramid` should include gender" =
         (length(population_pyramid) == 3)
     )
-    ages_female <- age[gender == "F"] ####ACA VOY
+    age_female <- age[gender == "F"]
     pyramid_female <- dplyr::filter(population_pyramid, .data$gender == "F")
-    hist_female <- graphics::hist(ages_female,
-      breaks = c(pyramid_female$age,140),
-      plot = TRUE
-    )
+    hist_female <- graphics::hist(age_female,
+                                  breaks = c(0,
+                                             pyramid_female$age + 
+                                               (pyramid_female$age[2]-
+                                                  pyramid_female$age[1])),
+                                  plot = FALSE)
 
     age_risk_female <- data.frame(
       age = pyramid_female$age,
@@ -190,13 +193,14 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
       stringsAsFactors = FALSE
     )
 
-    ages_male <- age[gender == "M"]
+    age_male <- age[gender == "M"]
     pyramid_male <- dplyr::filter(population_pyramid, .data$gender == "M")
-    hist_male <- graphics::hist(ages_male,
-      breaks = population_pyramid$age,
-      right = FALSE,
-      plot = FALSE
-    )
+    hist_male <- graphics::hist(age_male,
+                                breaks = c(0,
+                                           pyramid_male$age + 
+                                             (pyramid_male$age[2]-
+                                                pyramid_male$age[1])),
+                                plot = FALSE)
 
     age_risk_male <- data.frame(
       age = pyramid_male$age,
@@ -208,10 +212,11 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
     age_risk <- rbind(age_risk_female, age_risk_male) ######
   } else {
     hist_total <- graphics::hist(age,
-      breaks = 0:101,
-      right = FALSE,
-      plot = FALSE
-    )
+                                 breaks = c(0,
+                                            population_pyramid$age + 
+                                              (population_pyramid$age[2]-
+                                                 population_pyramid$age[1])),
+                                 plot = TRUE)
 
     age_risk <- data.frame(
       age = population_pyramid$age,
@@ -246,7 +251,8 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
         x = .data$age,
         y = .data$prob
       )) +
-        ggplot2::geom_bar(stat = "identity")
+        ggplot2::geom_bar(stat = "identity")  +
+        ggplot2::coord_flip()
     }
 
     print(age_risk_plot)
