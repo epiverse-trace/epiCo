@@ -89,7 +89,7 @@ library(epiCo)
 ibague_code <- 76001 # DIVIPOLA code for the city of Ibagué
 year <- 2016 # Year to consult
 age_range <- 5 # Age range or window
-#ibague_pyramid_2016 <- population_pyramid(ibague_code, year, range = age_range, total = FALSE, plot = TRUE)
+ibague_pyramid_2016 <- population_pyramid(ibague_code, year, range = age_range, total = FALSE, plot = TRUE)
 ```
 
 ## 3. Demographic variables
@@ -116,12 +116,12 @@ As described through the previous features, **epiCo** requires line list data de
 The following analyses use the dengue cases reported in Colombia in 2019.
 
 ```{r}
-# library(epiCo)
-# library(sivirep)
-#  
-# data_event <-  sivirep::import_data_event(year = 2019,
-#                                   nombre_event = "dengue")
-# data_event_clean <- sivirep::limpiar_data_sivigila(data_event = data_event, year = 2020)
+library(epiCo)
+library(sivirep)
+  
+data_event <-  sivirep::import_data_event(year = 2019,
+                                   nombre_event = "dengue")
+data_event_clean <- sivirep::limpiar_data_sivigila(data_event = data_event, year = 2019)
 ```
 For additonal features on epidemiological reports, **sivirep** documentation provides more visualization functions.
 
@@ -132,10 +132,10 @@ The incidence rate feature of **epiCo** requires the [incidence2](https://github
 **epiCo** uses the DANE population projections as denominators; therefore, it is necessary to provide the administration level at which incidences are calculated.
 
 ```{r}
-# library(incidence)
-#  
-# incidence_object <- incidence(dates = data_event_clean$fec_not, groups = "cod_mun_o", interval = "1 epiweek")
-# incidence_rate_object <- incidence_rate(incidence_object, level = 2)
+library(incidence)
+
+incidence_object <- incidence(dates = data_event_clean$fec_not, groups = data_event_clean$cod_mun_o, interval = "1 epiweek")
+# incidence_rate_object <- incidence_rate(incidence_object, level = 2) #TO DO
 ```
 If groups in the incidence object are not within the DIVIPOLA coding for municipalities (level 2) or departments (level 1), or a national estimation is intended (level 0), the function will not be able to estimate an incidence rate.
 
@@ -145,7 +145,7 @@ Normalization of data is a key aspect on epidemiology. **epiCo** allows to take 
 
 ```{r}
 # data_event_cali <- sivirep::geo_filtro(data_event = data_event_clean,
-#                                   nombre_mpo = "Cali")
+#                                   nombre_dpto = "Tolima", nombre_mun = "Ibague")
 # 
 # age_risk_data <- age_risk(age = data_event_cali$edad, population_pyramid = cali_pyramid_2016, gender = TRUE, plot = TRUE)
 ```
