@@ -5,16 +5,22 @@
 \title{Calculate spatial correlation of given municipalities in an incidence_rate
 object.}
 \usage{
-morans_index(incidence_rate, threshold = 2, plot = TRUE)
+morans_index(
+  incidence_object,
+  level,
+  scale = 1e+05,
+  threshold = 2,
+  plot = TRUE
+)
 }
 \arguments{
-\item{incidence_rate}{Incidence rate object with only one observation for a
-group of municipalities.}
-
 \item{threshold}{Maximum traveling time around each municipality.}
 
 \item{plot}{if TRUE, returns a plot of influential observations in the
 Moran's plot.}
+
+\item{incidence_rate}{Incidence rate object with only one observation for a
+group of municipalities.}
 }
 \value{
 List of Moran's I clustering analysis, giving the quadrant of each

@@ -29,3 +29,4 @@ endemic_plot(channel_data, method, outlier_years, outliers_handling)
 }
 
 }
+\keyword{internal}

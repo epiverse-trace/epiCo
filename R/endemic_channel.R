@@ -205,17 +205,15 @@ endemic_channel <- function(incidence_historic, observations = NULL,
   stopifnot(
     "`incidence_historic` must be an incidence object" =
       inherits(incidence_historic, "incidence"),
-    "`observations`must be numeric and positive" =
-      (!is.null(observations) & is.numeric(observations) &
-        sign(observations) != -1),
+    "`incidence_historic` must contain at least one complete epidemiological
+    year" =
+      ((incidence_historic$interval == "1 week" &
+        length(incidence_historic$dates) >= 52) ||
+        (incidence_historic$interval == "1 month" &
+          length(incidence_historic$dates) >= 12)),
     "incidence interval should be `1 month`, `1 week` or `1 epiweek`" =
       incidence_historic$interval %in%
         c("1 month", "1 week", "1 epiweek"),
-    "`observations` size doesn't correspond to incidence interval" =
-      (!is.null(observations) & ((incidence_historic$interval == "1 week" &
-        length(observations) == 52) ||
-        (incidence_historic$interval == "1 month" &
-          length(observations) == 12))),
     "`method` should be `median`, `mean`, `geometric` or `unusual behavior`" =
       method %in%
         c("median", "mean", "geometric", "unusual_behavior"),
@@ -224,23 +222,90 @@ endemic_channel <- function(incidence_historic, observations = NULL,
     "`plot` must be a boolean" =
       (is.logical(plot))
   )
-  ifelse(incidence_historic$interval == "1 month",
-    period <- 12,
-    period <- 52
-  )
-  obs <- c(observations, rep(NA, period - length(observations)))
-  years <- unique(lubridate::epiyear(incidence::get_dates(incidence_historic)))
+
+  if (!is.null(observations)) {
+    stopifnot(
+      "`observations` must be numeric and positive" =
+        (is.numeric(observations) &&
+          all(observations >= 0)),
+      "`observations` size doesn't correspond to incidence interval" =
+        ((incidence_historic$interval == "1 week" &
+          length(observations) == 52) ||
+          (incidence_historic$interval == "1 month" &
+            length(observations) == 12))
+    )
+  }
 
   extra_weeks <- which(lubridate::epiweek(incidence_historic$dates) == 53)
-
-  ifelse(incidence_historic$interval == "1 month",
+  if (incidence_historic$interval == "1 month") {
+    period <- 12
+    if (lubridate::month(incidence_historic$dates[1]) != 1) {
+      first_year <- lubridate::year(incidence_historic$dates[1])
+      new_date <- paste(as.character(first_year + 1), "01-01", sep = "-")
+      incidence_historic <- incidence_historic[incidence_historic$dates >=
+        as.Date(new_date)]
+      msg <- paste(
+        "Data prior to", new_date,
+        "were not used for the endemic channel calculation."
+      )
+      warning(msg)
+    }
+    if (lubridate::month(incidence_historic$dates[
+      length(incidence_historic$dates)
+    ]) != 12) {
+      last_year <- lubridate::year(incidence_historic$dates[
+        length(incidence_historic$dates)
+      ])
+      new_date <- paste(as.character(last_year - 1), "12-01", sep = "-")
+      incidence_historic <- incidence_historic[incidence_historic$dates <=
+        as.Date(new_date)]
+      msg <- paste(
+        "Data after", new_date,
+        "were not used for the endemic channel calculation."
+      )
+      warning(msg)
+    }
     counts_historic <- as.numeric(incidence::get_counts(
       incidence_historic
-    )),
+    ))
+  } else if (incidence_historic$interval == "1 week") {
+    period <- 52
+    first_year <- lubridate::epiyear(incidence_historic$dates[1])
+    if (incidence_historic$dates[1] != epiCo::epi_calendar(first_year)[1]) {
+      new_date <- epiCo::epi_calendar(first_year + 1)[1]
+      incidence_historic <- incidence_historic[incidence_historic$dates >=
+        new_date]
+      msg <- paste(
+        "Data prior to", new_date,
+        "were not used for the endemic channel calculation."
+      )
+      warning(msg)
+    }
+    last_year <- lubridate::epiyear(incidence_historic$dates[
+      length(incidence_historic$dates)
+    ])
+    last_epidate <- epiCo::epi_calendar(last_year)[
+      length(epiCo::epi_calendar(last_year))
+    ]
+    if (incidence_historic$dates[length(incidence_historic$dates)] !=
+      last_epidate) {
+      new_date <- epiCo::epi_calendar(last_year - 1)[
+        length(epiCo::epi_calendar(last_year - 1))
+      ]
+      incidence_historic <- incidence_historic[incidence_historic$dates <=
+        as.Date(new_date)]
+      msg <- paste(
+        "Data after", new_date,
+        "were not used for the endemic channel calculation."
+      )
+      warning(msg)
+    }
     counts_historic <- as.numeric(incidence::get_counts(
       incidence_historic
     )[-extra_weeks])
-  )
+  }
+  obs <- c(observations, rep(NA, period - length(observations)))
+  years <- unique(lubridate::epiyear(incidence::get_dates(incidence_historic)))
 
   historic <- as.data.frame(matrix(counts_historic,
     nrow = length(years),
@@ -254,63 +319,66 @@ endemic_channel <- function(incidence_historic, observations = NULL,
     geom_method
   )
 
-  if (method == "median") {
-    central <- as.numeric(apply(historic,
-      MARGIN = 2,
-      FUN = stats::quantile, p = 0.5
-    ))
-    up_lim <- as.numeric(apply(historic,
-      MARGIN = 2,
-      FUN = stats::quantile, p = 0.75
-    ))
-    low_lim <- as.numeric(apply(historic,
-      MARGIN = 2,
-      FUN = stats::quantile, p = 0.25
-    ))
-  } else if (method == "mean") {
-    central <- as.numeric(colMeans(historic))
-    interval <- as.numeric(apply(historic,
-      MARGIN = 2, FUN = function(x) {
-        stats::qt(
-          p = c((1 - ci) / 2),
-          df = length(x) - 1
-        ) *
-          stats::sd(x) / sqrt(length(x))
+  switch(method,
+    median = {
+      central <- as.numeric(apply(historic,
+        MARGIN = 2,
+        FUN = stats::quantile, p = 0.5
+      ))
+      up_lim <- as.numeric(apply(historic,
+        MARGIN = 2,
+        FUN = stats::quantile, p = 0.75
+      ))
+      low_lim <- as.numeric(apply(historic,
+        MARGIN = 2,
+        FUN = stats::quantile, p = 0.25
+      ))
+    },
+    mean = {
+      central <- as.numeric(colMeans(historic))
+      interval <- as.numeric(apply(historic,
+        MARGIN = 2, FUN = function(x) {
+          stats::qt(
+            p = c((1 - ci) / 2),
+            df = length(x) - 1
+          ) *
+            stats::sd(x) / sqrt(length(x))
+        }
+      ))
+      up_lim <- central + abs(interval)
+      low_lim <- central - abs(interval)
+    },
+    geometric = {
+      central <- as.numeric(apply(historic,
+        MARGIN = 2,
+        FUN = geom_mean, method = geom_method
+      ))
+      interval <- as.numeric(apply(historic,
+        MARGIN = 2, FUN = function(x) {
+          stats::qt(
+            p = c((1 - ci) / 2),
+            df = length(x) - 1
+          ) *
+            stats::sd(x) / sqrt(length(x))
+        }
+      ))
+      up_lim <- central + abs(interval)
+      low_lim <- central - abs(interval)
+    },
+    unusual_behavior = {
+      central <- as.numeric(colMeans(historic))
+      up_lim <- NULL
+      low_lim <- NULL
+      for (c in central) {
+        poiss_test <- stats::poisson.test(round(c),
+          alternative = "two.sided",
+          conf.level = ci
+        )
+        up_lim <- c(up_lim, poiss_test$conf.int[2])
+        low_lim <- c(low_lim, poiss_test$conf.int[1])
       }
-    ))
-    up_lim <- central + abs(interval)
-    low_lim <- central - abs(interval)
-  } else if (method == "geometric") {
-    central <- as.numeric(apply(historic,
-      MARGIN = 2,
-      FUN = geom_mean, method = geom_method
-    ))
-    interval <- as.numeric(apply(historic,
-      MARGIN = 2, FUN = function(x) {
-        stats::qt(
-          p = c((1 - ci) / 2),
-          df = length(x) - 1
-        ) *
-          stats::sd(x) / sqrt(length(x))
-      }
-    ))
-    up_lim <- central + abs(interval)
-    low_lim <- central - abs(interval)
-  } else if (method == "unusual_behavior") {
-    central <- as.numeric(colMeans(historic))
-    up_lim <- NULL
-    low_lim <- NULL
-    for (c in central) {
-      poiss_test <- stats::poisson.test(round(c),
-        alternative = "two.sided",
-        conf.level = ci
-      )
-      up_lim <- c(up_lim, poiss_test$conf.int[2])
-      low_lim <- c(low_lim, poiss_test$conf.int[1])
     }
-  } else {
-    stop("Error in central tendency method")
-  }
+  )
 
   channel_data <- data.frame(
     central = central,
@@ -367,7 +435,7 @@ endemic_channel <- function(incidence_historic, observations = NULL,
 #' )
 #' }
 #'
-#' @export
+#' @keywords internal
 endemic_outliers <- function(historic, outlier_years, outliers_handling,
                              geom_method = "shifted") {
   if (outliers_handling == "included") {
@@ -423,7 +491,7 @@ endemic_outliers <- function(historic, outlier_years, outliers_handling,
 #' endemic_plot(channel_data, method, outlier_years, outliers_handling)
 #' }
 #'
-#' @export
+#' @keywords internal
 endemic_plot <- function(channel_data, method,
                          outlier_years, outliers_handling) {
   endemic_channel_plot <- ggplot2::ggplot(

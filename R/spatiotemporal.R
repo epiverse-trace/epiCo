@@ -59,10 +59,17 @@ neighborhoods <- function(query_vector, threshold = 2) {
 #' morans_index(incidence_rate, 2, FALSE)
 #' }
 #' @export
-morans_index <- function(incidence_rate, threshold = 2, plot = TRUE) {
+morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
+                         plot = TRUE) {
   stopifnot(
-    "`incidence_rate` must have observations for only one given date" =
-      ncol(incidence_rate$rates) == length(incidence_rate$rates)
+    "`incidence_object` must have incidence class" =
+      (inherits(incidence_object, "incidence")),
+    "`threshold` must be numeric" = (is.numeric(threshold)),
+    "`plot` must be boolean" = (is.logical(plot))
+  )
+  incidence_rate <- incidence_rate(
+    incidence_object = incidence_object,
+    level = level, scale = scale
   )
   path_1 <- system.file("data", "divipola_table.rda", package = "epiCo")
   load(path_1)
