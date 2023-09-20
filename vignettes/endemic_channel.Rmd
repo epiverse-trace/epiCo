@@ -1,0 +1,100 @@
+---
+title: "Building an Endemic Channel with epiCo"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Building a Endemic Channel with epiCo}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+**epiCo**'s *endemic channel* module is a tool to estimate a central tendency line, and an upper and lower limit for the expected number of cases of a disease, based on the historical data provided by the user and a set of customized parameters.
+
+The `endemic_channel` function allows you to:
+
+- Estimate a central tendency measure (arithmetic mean, geometric mean, or median)
+- Estimate a confidence interval (based on the selected central tendency measure)
+- Select the epidemic (outlier) years in your data and decide how to handle them
+- Plot the estimated endemic channel with the parameters/assumptions displayed
+- Plot the current (observed) cases to evaluate your epidemiological situation (ie. occurrance of an outbreak)
+
+In the following vignette you will learn:
+
+1. What is an endemic channel, its benefits, drawbacks, and cautions 
+2. How to gather the historical data needed to build an endemic channel
+3. How to use the `endemic_channel` function
+4. How to interpret and communicate the results
+
+## 1. What is an endemic channel?
+
+The broader definition and methodology for the endemic channel was provided by [Bormant (1999)](https://iris.paho.org/handle/10665.2/8562).
+
+An endemic channel is a visual strategy to represent the historical behavior of a disease in an specific region on a epidemic curve that defines the central tendency of the cases during a year, and an upper and lower limits where cases are expected to vary. This plot provides four areas known as "$\color{green}{\text{Success}}$", "$\color{Gold}{\text{Safety}}$", "$\color{orange}{\text{Warning}}$", and "$\color{Red}{\text{Epidemic}}$" bands (Figure 1) which are later used to define the epidemiological situation of the region based on the the current (observed) cases.
+
+TO DO: FIGURE 1
+
+The data needed to build an endemic channel is the weekly or monthly incidence of the disease for previous years in the region of interest. The `endemic_channel` function asks for at least one year of data but endemic channels are typically estimated from *5 to 7 years of information*.
+
+It is natural to presume that more years provide better estimations, since the statistical analyses will be more robust, but it is important to have contextual information to asseverate that transmission, surveillance or demographic conditions (among other factors) have not change during this period of time. Regarding the frequency of the data, weekly incidence may provide more useful information about the disease behavior and the moment in which an epidemiological warning should be raised, however it is again up to the experience of the user and its context whether this resolution of data can be achieved.
+
+Data gathering tips and sources are provided later in this vignette.
+
+### The central tendency measure (CTM)
+
+To have a statistical summary of the disease behavior, the endemic channel provides a central tendency measure (CTM) that should describe the typical value of the historical data.
+
+Since the nature of the epidemiological data tends no be not normal, the typically CTM used in the endemic channels is the *geometric mean*. This CTM is known to better represent the expected value of a data set with a skewed distribution and/or susceptible to outliers (previous outbreaks). The `endemic_channel` function uses the geometric mean as default CTM but arithmetic mean or median can be choose according to user's experience and context.
+
+Is important to declare that as the geometric mean performs a multiplication of the data, when zero cases are reported in a moment of time the estimation leads to a zero CTM. To avoid this, the `endemic_channel` function performs a shift on the data to sum up one case (default value) to all observations and then it subtracts this shift to the final calculation. To avoid random selection of the shift, users can ask `endemic_channel` function to find an optimal value based on 
+[de la Cruz & Kreft, 2019](https://doi.org/10.48550/arXiv.1806.06403), or they can also ask to use a weighted method as described by [Habib, 2012](https://www.arpapress.com/volumes/vol11issue3/ijrras_11_3_08.pdf).
+
+Finally, the `endemic_channel` function can perform a Poisson test (unusual behavior method) on the historical data if is requested by the user after taking into the account the pertinence of the test since it is mostly used for scenarios or diseases with very low incidence records. This method uses the arithmetic mean as CTM.
+
+### The upper and lower limits
+
+The upper and lower limits of the endemic channel provide a confidence interval that are used to define the epidemiological bands previously described.
+
+The `endemic_channel` function have the following preset of limits according to the selected CTM:
+
+- Arithmetic or Geometric mean as CTM: mean +/- *t* value for a 95% CI multiplied by variance of the data over the number of observations
+- Median as CTM: quantiles 0.25 and 0.75 as lower and upper limits respectively
+- Poisson test (Unusual behavior method): limits provided by a two sides Poisson test with 0.95% CI
+
+## 2. Gathering the historical data needed to build an endemic channel
+
+This section provides some strategies to obtain, handle and gather the historical data needed to build an endemic channel. It presumes that user have either the linelist or incidence data for the disease of interest, or the need to consult historical data from the Colombian National Surveillance System
+[SIVIGILA](https://www.ins.gov.co/Direcciones/Vigilancia/Paginas/SIVIGILA.aspx).
+
+Independientemente del caso, endemic channel funciona con un objeto tipo incidence que debe estructurarse de la siguiente manera:.... ver incidence....
+
+### Setting up the data from linelist information
+
+### Setting up the data from incidence information
+
+### Setting up historical data from official sources
+
+## 3. Using the `endemic_channel` function
+
+Description of parameters
+
+### First example
+
+### The `auto_endemic_channel` function
+
+## 4. Interpretation and communication of results
+
+### Tips
+
+### Warnings and disclosures
+
+### Exporting the endemic channel plot
+
+```{r setup}
+library(epiCo)
+```
