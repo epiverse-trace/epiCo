@@ -5,7 +5,7 @@
 #' @param divipola_code A numeric code accounting for the territory of interest
 #' @param year A numeric input for year of interest
 #' @param gender A boolean to consult data disaggregated by gender
-#' @param range A numeric value from 1 to 100 for the age range to use 
+#' @param range A numeric value from 1 to 100 for the age range to use
 #' @param total A boolean for returning the total number rather than the
 #' proportion of the country's population
 #' @param plot A boolean for displaying a plot
@@ -20,7 +20,7 @@
 #' @export
 #'
 population_pyramid <- function(divipola_code, year,
-                               gender = TRUE,  range = 5, total = TRUE,
+                               gender = TRUE, range = 5, total = TRUE,
                                plot = FALSE) {
   stopifnot(
     "`year` is only available from 2005 to 2026,
@@ -76,12 +76,12 @@ population_pyramid <- function(divipola_code, year,
   } else {
     stop("There is no location assigned to the consulted DIVIPOLA code")
   }
-  
+
   female_total <- c()
   male_total <- c()
-  for (c in seq(1,length(female_counts)-1,range)){
-    female_total <- c(female_total,sum(female_counts[c:c+range]))
-    male_total <- c(male_total,sum(male_counts[c:c+range]))
+  for (c in seq(1, length(female_counts) - 1, range)) {
+    female_total <- c(female_total, sum(female_counts[c:c + range]))
+    male_total <- c(male_total, sum(male_counts[c:c + range]))
   }
 
   if (!total) {
@@ -91,14 +91,16 @@ population_pyramid <- function(divipola_code, year,
 
   if (gender) {
     pop_pyramid <- data.frame(
-      age = rep(seq(0,length(female_counts)-range,range), 2),
+      age = rep(seq(0, length(female_counts) - range, range), 2),
       population = c(female_total, male_total),
-      gender = c(rep("F", ceiling((length(female_counts)-1)/range)),
-                 rep("M", ceiling((length(male_counts)-1)/range)))
+      gender = c(
+        rep("F", ceiling((length(female_counts) - 1) / range)),
+        rep("M", ceiling((length(male_counts) - 1) / range))
+      )
     )
   } else {
     pop_pyramid <- data.frame(
-      age = seq(1,length(female_counts)-1,range),
+      age = seq(1, length(female_counts) - 1, range),
       population = c(female_total + male_total)
     )
   }
@@ -180,11 +182,14 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
     age_female <- age[gender == "F"]
     pyramid_female <- dplyr::filter(population_pyramid, .data$gender == "F")
     hist_female <- graphics::hist(age_female,
-                                  breaks = c(0,
-                                             pyramid_female$age + 
-                                               (pyramid_female$age[2]-
-                                                  pyramid_female$age[1])),
-                                  plot = FALSE)
+      breaks = c(
+        0,
+        pyramid_female$age +
+          (pyramid_female$age[2] -
+            pyramid_female$age[1])
+      ),
+      plot = FALSE
+    )
 
     age_risk_female <- data.frame(
       age = pyramid_female$age,
@@ -196,11 +201,14 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
     age_male <- age[gender == "M"]
     pyramid_male <- dplyr::filter(population_pyramid, .data$gender == "M")
     hist_male <- graphics::hist(age_male,
-                                breaks = c(0,
-                                           pyramid_male$age + 
-                                             (pyramid_male$age[2]-
-                                                pyramid_male$age[1])),
-                                plot = FALSE)
+      breaks = c(
+        0,
+        pyramid_male$age +
+          (pyramid_male$age[2] -
+            pyramid_male$age[1])
+      ),
+      plot = FALSE
+    )
 
     age_risk_male <- data.frame(
       age = pyramid_male$age,
@@ -212,11 +220,14 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
     age_risk <- rbind(age_risk_female, age_risk_male) ######
   } else {
     hist_total <- graphics::hist(age,
-                                 breaks = c(0,
-                                            population_pyramid$age + 
-                                              (population_pyramid$age[2]-
-                                                 population_pyramid$age[1])),
-                                 plot = TRUE)
+      breaks = c(
+        0,
+        population_pyramid$age +
+          (population_pyramid$age[2] -
+            population_pyramid$age[1])
+      ),
+      plot = TRUE
+    )
 
     age_risk <- data.frame(
       age = population_pyramid$age,
@@ -251,7 +262,7 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
         x = .data$age,
         y = .data$prob
       )) +
-        ggplot2::geom_bar(stat = "identity")  +
+        ggplot2::geom_bar(stat = "identity") +
         ggplot2::coord_flip()
     }
 
@@ -364,11 +375,11 @@ describe_occupation <- function(isco_codes, output_level) {
   isco88_table <- isco88_table
   input_level <- dplyr::case_when(
     isco_codes %in% c(0, 110) ~ "Armed Forces",
-    nchar(isco_codes) == 1    ~ "major",
-    nchar(isco_codes) == 2    ~ "sub_major",
-    nchar(isco_codes) == 3    ~ "minor",
-    nchar(isco_codes) == 4    ~ "unit",
-    TRUE                      ~ NA_character_
+    nchar(isco_codes) == 1 ~ "major",
+    nchar(isco_codes) == 2 ~ "sub_major",
+    nchar(isco_codes) == 3 ~ "minor",
+    nchar(isco_codes) == 4 ~ "unit",
+    TRUE ~ NA_character_
   )
   tryCatch(
     {
