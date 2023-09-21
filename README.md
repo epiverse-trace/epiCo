@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# epiCo <img src="man/figures/logo.png" align="right" width="120"/>
+# epiCo <img src="man/figures/logo.jpg" align="right" width="120"/>
 
 *epiCo* provides statistical tools for the analysis of demographic trends, spatiotemporal behavior, and outbreaks characterization of vector-borne diseases in Colombia. 
 
@@ -52,26 +52,6 @@ These examples illustrate some of the current functionalities:
 
 ``` r
 library(epiCo)
-library(incidence)
-library(qcc)
-
-## Occupation labels
-
-isco_codes <- c(7321, 2411, 4121, 3439, 3431)
-isco_labels <- get_occupationLabels(isco_codes, output_level = "unit_label")
-
-## Incidence rates estimation
-
-data("dengue_orinoquia_2017")
-incidence_object <- incidence(dengue_orinoquia_2017$FEC_NOT, groups = dengue_orinoquia_2017$COD_MUN_O, interval = "1 week")
-incidenceRate_object <- estimate_incidenceRate(incidence_object, level = 2)
-
-## Outbreaks detection
-
-# EWMA method
-
-incidence_arauca <- incidence_object$counts[,"81001"]
-outbreaks_object <- detect_outbreaks_EWMA(incidence_arauca, lambda = 0.2, nsigmas = 2)
 
 ```
 
