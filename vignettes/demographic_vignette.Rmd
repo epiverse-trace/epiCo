@@ -101,12 +101,14 @@ Events of epidemiological relevance are reported to the SIVIGILA using an offici
 ```{r}
 library(epiCo)
 
-demog_data = data.frame(id = c(0001,002,003,004,005),
-ethnicity_label = c(3,4,1,2,5),
-occupation_label = c(6111,3221,5113,5133,6111))
+demog_data <- data.frame(
+  id = c(0001, 002, 003, 004, 005),
+  ethnicity_label = c(3, 4, 1, 2, 5),
+  occupation_label = c(6111, 3221, 5113, 5133, 6111)
+)
 
 describe_ethnicity(demog_data$ethnicity_label) # Description of ethnicities reported in the consulted dataset
-describe_occupation(isco_codes = demog_data$occupation_label, output_level = "unit")# Description of the occupations reported in the consulted dataset
+describe_occupation(isco_codes = demog_data$occupation_label, output_level = "unit") # Description of the occupations reported in the consulted dataset
 ```
 ## 4. Using [sivirep](https://github.com/epiverse-trace/sivirep) as data source for **epiCo**
 
@@ -118,9 +120,11 @@ The following analyses use the dengue cases reported in Colombia in 2019.
 ```{r}
 library(epiCo)
 library(sivirep)
-  
-data_event <-  sivirep::import_data_event(year = 2019,
-                                   nombre_event = "dengue")
+
+data_event <- sivirep::import_data_event(
+  year = 2019,
+  nombre_event = "dengue"
+)
 data_event_clean <- sivirep::limpiar_data_sivigila(data_event = data_event, year = 2019)
 ```
 For additonal features on epidemiological reports, **sivirep** documentation provides more visualization functions.
@@ -146,6 +150,6 @@ Normalization of data is a key aspect on epidemiology. **epiCo** allows to take 
 ```{r}
 # data_event_cali <- sivirep::geo_filtro(data_event = data_event_clean,
 #                                   nombre_dpto = "Tolima", nombre_mun = "Ibague")
-# 
+#
 # age_risk_data <- age_risk(age = data_event_cali$edad, population_pyramid = cali_pyramid_2016, gender = TRUE, plot = TRUE)
 ```
