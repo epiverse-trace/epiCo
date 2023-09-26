@@ -79,9 +79,9 @@ population_pyramid <- function(divipola_code, year,
 
   female_total <- c()
   male_total <- c()
-  for (c in seq(1, length(female_counts) - 1, range)) {
-    female_total <- c(female_total, sum(female_counts[c:c + range]))
-    male_total <- c(male_total, sum(male_counts[c:c + range]))
+  for (h in seq(1, length(female_counts) - range, range)) {
+    female_total <- c(female_total, sum(female_counts[h:h + range]))
+    male_total <- c(male_total, sum(male_counts[h:h + range]))
   }
 
   if (!total) {
@@ -94,13 +94,13 @@ population_pyramid <- function(divipola_code, year,
       age = rep(seq(0, length(female_counts) - range, range), 2),
       population = c(female_total, male_total),
       gender = c(
-        rep("F", ceiling((length(female_counts) - 1) / range)),
-        rep("M", ceiling((length(male_counts) - 1) / range))
+        rep("F", ceiling((length(female_counts) - range) / range)),
+        rep("M", ceiling((length(male_counts) - range) / range))
       )
     )
   } else {
     pop_pyramid <- data.frame(
-      age = seq(1, length(female_counts) - 1, range),
+      age = seq(1, length(female_counts) - range, range),
       population = c(female_total + male_total)
     )
   }
