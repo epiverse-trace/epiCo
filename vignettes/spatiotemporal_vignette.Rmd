@@ -48,9 +48,11 @@ library(epiCo)
 library(tidyverse)
 
 data(divipola_table)
-cundinamarca_data <- dplyr::filter(divipola_table,
-                                              NOM_DPTO == "CUNDINAMARCA") %>%
-                                  select(COD_MPIO, LATITUD, LONGITUD)
+cundinamarca_data <- dplyr::filter(
+  divipola_table,
+  NOM_DPTO == "CUNDINAMARCA"
+) %>%
+  select(COD_MPIO, LATITUD, LONGITUD)
 
 cundinamarca_neighborhood <- neighborhoods(query_vector = cundinamarca_data$COD_MPIO, threshold = 0.5)
 
@@ -70,5 +72,4 @@ It is necessary for the user to provide the administrative level that the groups
 
 ```{r, messages = FALSE, eval = TRUE}
 library(epiCo)
-
 ```

@@ -118,14 +118,14 @@ As described through the previous features, **epiCo** requires line list data de
 The following analyses use the dengue cases reported in Colombia in 2019.
 
 ```{r}
-library(epiCo)
-library(sivirep)
-
-data_event <- sivirep::import_data_event(
-  year = 2019,
-  nombre_event = "dengue"
-)
-data_event_clean <- sivirep::limpiar_data_sivigila(data_event = data_event, year = 2019)
+# library(epiCo)
+# library(sivirep)
+# 
+# data_event <- sivirep::import_data_event(
+#   year = 2019,
+#   nombre_event = "dengue"
+# )
+# data_event_clean <- sivirep::limpiar_data_sivigila(data_event = data_event, year = 2019)
 ```
 For additonal features on epidemiological reports, **sivirep** documentation provides more visualization functions.
 
