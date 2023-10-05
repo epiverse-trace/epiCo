@@ -43,26 +43,24 @@ Since **epiCo** storage all travel times among municipalities in Colombia, the d
 
 The `neighborhoods` function receives as parameters a vector of DIVIPOLA codes accounting for the municipalities to consider as potential neighbors, and a threshold that accounts for the maximum travel time (in hours) that a municipality can be from another.
 
-```{r, messages = FALSE, eval = TRUE}
-# library(epiCo)
-# 
-# data(divipola_table)
-# cundinamarca_data <- dplyr::filter(
-#   divipola_table,
-#   NOM_DPTO == "CUNDINAMARCA"
-# ) %>%
-#   select(COD_MPIO, LATITUD, LONGITUD)
-# 
-# cundinamarca_neighborhood <- neighborhoods(
-#   query_vector = cundinamarca_data$COD_MPIO,
-#   threshold = 0.5
-# )
-# 
-# plot(cundinamarca_neighborhood, cbind(
-#   cundinamarca_data$LATITUD,
-#   cundinamarca_data$LONGITUD
-# ))
-```
+#```{r, messages = FALSE, eval = TRUE}
+ library(epiCo) -->
+ data(divipola_table) -->
+ cundinamarca_data <- dplyr::filter( -->
+   divipola_table, -->
+   NOM_DPTO == "CUNDINAMARCA" -->
+ ) %>% -->
+   select(COD_MPIO, LATITUD, LONGITUD) -->
+
+ cundinamarca_neighborhood <- neighborhoods( -->
+   query_vector = cundinamarca_data$COD_MPIO, -->
+   threshold = 0.5 -->
+
+ plot(cundinamarca_neighborhood, cbind(
+   cundinamarca_data$LATITUD,
+   cundinamarca_data$LONGITUD
+ ))
+#```
 
 ## 3. *epiCo*'s `morans_index` function
 
