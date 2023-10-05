@@ -143,16 +143,16 @@ The incidence rate feature of **epiCo** requires the [incidence2](https://github
 
 **epiCo** uses the DANE population projections as denominators; therefore, it is necessary to provide the administration level at which incidences are calculated.
 
-```{r}
-# library(incidence)
+#```{r}
+ library(incidence)
 
-# incidence_object <- incidence(
-#   dates = data_event_clean$fec_not,
-#   groups = data_event_clean$cod_mun_o,
-#   interval = "1 epiweek"
-# )
-# incidence_rate_object <- incidence_rate(incidence_object, level = 2) #TO DO
-```
+ incidence_object <- incidence(
+   dates = data_event_clean$fec_not,
+   groups = data_event_clean$cod_mun_o,
+   interval = "1 epiweek"
+ )
+ incidence_rate_object <- incidence_rate(incidence_object, level = 2) #TO DO
+#```
 If groups in the incidence object are not within the DIVIPOLA coding for municipalities (level 2) or departments (level 1), or a national estimation is intended (level 0), the function will not be able to estimate an incidence rate.
 
 ## 6. Estimation of risk by age group
