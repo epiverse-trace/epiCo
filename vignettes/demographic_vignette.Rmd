@@ -92,6 +92,7 @@ age_range <- 5 # Age range or window
 ibague_pyramid_2016 <- population_pyramid(ibague_code, year, range = age_range, gender=T, total = FALSE, plot = TRUE)
 ```
 
+
 ## 3. Demographic variables
 
 Events of epidemiological relevance are reported to the SIVIGILA using an official notification form (see, [link](https://www.ins.gov.co/buscador-eventos/Paginas/Fichas-y-Protocolos.aspx)).
@@ -105,16 +106,19 @@ demog_data <- data.frame(
   occupation_label = c(6111, 3221, 5113, 5133, 6111)
 )
 
-describe_ethnicity(demog_data$ethnicity_label) # Description of ethnicities reported in the consulted dataset
-describe_occupation(isco_codes = demog_data$occupation_label, output_level = "unit") # Description of the occupations reported in the consulted dataset
+describe_ethnicity(demog_data$ethnicity_label)
+# Description of ethnicities reported in the consulted dataset
+describe_occupation(
+  isco_codes = demog_data$occupation_label,
+  output_level = "unit"
+) # Description of the occupations
+# reported in the consulted dataset
 ```
 ## 4. Epidemiological data
 
 **epiCo** is a tool that produces analyses based on epidemiological data extracted from SIVIGILA or provided by the user. In the data folder is the epi_data file, which shows an example of the structure used by the package, which is the same as the one reported by SIVIGILA. This file contains the cases of all the municipalities in Tolima for the years 2015–2021.
 
 The following analyses use the dengue cases reported in Tolima in 2019.
-
-
 
 ```{r}
 data("epi_data")
@@ -123,7 +127,6 @@ data_event <- epi_data
 data_tolima <- data_event[lubridate::year(data_event$fec_not)==2019,]
 head(data_tolima)
 ```
-
 
 ## 5. Estimation of incidence rates
 
@@ -136,6 +139,7 @@ incidence_object <- incidence(dates = data_tolima$fec_not, groups = data_tolima$
 incidence_rate_object <- incidence_rate(incidence_object, level = 2) 
 head(incidence_rate_object$counts)
 ```
+
 If groups in the incidence object are not within the DIVIPOLA coding for municipalities (level 2) or departments (level 1), or a national estimation is intended (level 0), the function will not be able to estimate an incidence rate.
 
 ## 6. Estimation of risk by age group
@@ -147,3 +151,4 @@ data_ibague <- data_tolima[data_tolima$cod_mun_o == 73001,]
 
 age_risk_data <- age_risk(age = data_ibague$edad, population_pyramid = ibague_pyramid_2019, gender = TRUE, plot = TRUE)
 ```
+
