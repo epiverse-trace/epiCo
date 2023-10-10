@@ -79,8 +79,8 @@ You can perform queries to these data by using the 'population_pyramid' function
 ```{r}
 ibague_code <- 73001 # DIVIPOLA code for the city of Ibagué
 year <- 2019 # Year to consult
-ibague_pyramid_2019 <- population_pyramid(ibague_code, year) # Population 
-# pyramid (dataframe) for the city of Ibagué in the year 2019 dissagregated 
+ibague_pyramid_2019 <- population_pyramid(ibague_code, year) # Population
+# pyramid (dataframe) for the city of Ibagué in the year 2019 dissagregated
 # by sex
 head(ibague_pyramid_2019)
 ```
@@ -91,8 +91,8 @@ Definition of age ranges, and plotting are also provided for both: total number 
 ibague_code <- 73001 # DIVIPOLA code for the city of Ibagué
 year <- 2016 # Year to consult
 age_range <- 5 # Age range or window
-ibague_pyramid_2016 <- population_pyramid(ibague_code, year, range = age_range, 
-                                          gender=TRUE, total = FALSE, 
+ibague_pyramid_2016 <- population_pyramid(ibague_code, year, range = age_range,
+                                          gender = TRUE, total = FALSE,
                                           plot = TRUE)
 ```
 
@@ -110,9 +110,9 @@ demog_data <- data.frame(
   occupation_label = c(6111, 3221, 5113, 5133, 6111)
 )
 
-describe_ethnicity(demog_data$ethnicity_label) # Description of ethnicities 
+describe_ethnicity(demog_data$ethnicity_label) # Description of ethnicities
 # reported in the consulted dataset
-describe_occupation(isco_codes = demog_data$occupation_label, 
+describe_occupation(isco_codes = demog_data$occupation_label,
                     output_level = "unit") # Description of the occupations
 # reported in the consulted dataset
 ```
@@ -137,10 +137,10 @@ The incidence rate feature of **epiCo** requires the [incidence2](https://github
 **epiCo** uses the DANE population projections as denominators; therefore, it is necessary to provide the administration level at which incidences are calculated.
 
 ```{r}
-incidence_object <- incidence(dates = data_tolima$fec_not, 
-                              groups = data_tolima$cod_mun_o, 
+incidence_object <- incidence(dates = data_tolima$fec_not,
+                              groups = data_tolima$cod_mun_o,
                               interval = "1 epiweek")
-incidence_rate_object <- incidence_rate(incidence_object, level = 2) 
+incidence_rate_object <- incidence_rate(incidence_object, level = 2)
 head(incidence_rate_object$counts)
 ```
 
@@ -153,8 +153,8 @@ Normalization of data is a key aspect on epidemiology. **epiCo** allows to take 
 ```{r}
 data_ibague <- data_tolima[data_tolima$cod_mun_o == 73001, ]
 
-age_risk_data <- age_risk(age = data_ibague$edad, 
-                          population_pyramid = ibague_pyramid_2019, 
+age_risk_data <- age_risk(age = data_ibague$edad,
+                          population_pyramid = ibague_pyramid_2019,
                           gender = TRUE, plot = TRUE)
 ```
 

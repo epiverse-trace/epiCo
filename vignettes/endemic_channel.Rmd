@@ -39,7 +39,10 @@ The broader definition and methodology for the endemic channel was provided by [
 
 ```{r, echo = FALSE, out.width = '100%'}
 # TODO: Fix figure path
-knitr::include_graphics(path = "~/GitHub/epiCo/man/figures/endemic_channel_figure.png", error = FALSE)
+knitr::include_graphics(
+  path = "~/GitHub/epiCo/man/figures/endemic_channel_figure.png", 
+  error = FALSE
+  )
 ```
 
 The data needed to build an endemic channel is the weekly or monthly incidence of the disease for previous years in the region of interest. **epiCo** asks for at least one year of data but endemic channels are typically estimated from *5 to 7 years of information*.
@@ -137,7 +140,7 @@ The following example uses the previously historic incidence accessed from the S
 
 ```{r, eval = FALSE}
 
-observations <- sample(15:100, 52, replace=FALSE)
+observations <- sample(15:100, 52, replace = FALSE)
 
 outlier_years <- c(2016, 2019)
 
