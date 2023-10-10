@@ -87,17 +87,17 @@ The endemic channel is more useful when data up to the immediate previous year i
 For this example, the data provided in the data folder of the package will be used. These data present the data for dengue cases for all municipalities in Tolima for the years 2015 to 2021. In this case, we will use the cases from the municipality of Ibagué to calculate the respective endemic channel.
 
 ```{r setup, eval = FALSE}
+library(epiCo)
 
 data("epi_data")
 data_event <- epi_data
 
-data_ibague <- data_tolima[data_tolima$cod_mun_o == 73001,]
+data_ibague <- data_event[data_event$cod_mun_o == 73001, ]
 
 ## Building the historic incidence data
 
 incidence_historic <- incidence::incidence(data_ibague$fec_not,
-  interval = "1 epiweek"
-)
+                                           interval = "1 epiweek")
 
 print(incidence_historic)
 ```
@@ -133,15 +133,11 @@ The output of *epiCo*'s `endemic_channel` function is a dataframe with the obser
 
 ### Example
 
-The following example uses the previously historic incidence accessed from the SIVIGILA data source to build the 2023 *endemic channel* for Ibagué city.
+The following example uses the previously historic incidence accessed from the SIVIGILA data source to build the 2021 *endemic channel* for Ibagué city.
 
 ```{r, eval = FALSE}
-library(epiCo)
 
-observations <- c(
-  17, 23, 21, 11, 25, 24, 19, 17, 16, 11, 23, 20, 17, 24, 23, 33, 53, 55,
-  44, 36, 34, 51, 41, 44, 27, 32, 53, 55, 55, 48, 64, 69, 73, 59, 74, 78, 75
-)
+observations <- sample(15:100, 52, replace=FALSE)
 
 outlier_years <- c(2016, 2019)
 
