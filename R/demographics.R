@@ -77,8 +77,10 @@ population_pyramid <- function(divipola_code, year,
     stop("There is no location assigned to the consulted DIVIPOLA code")
   }
 
-  female_total <- vector(length = length(seq(1, length(female_counts) - range, range)))
-  male_total <- vector(length = length(seq(1, length(female_counts) - range, range)))
+  female_total <- vector(length = length(seq(1, length(female_counts) - range, 
+                                             range)))
+  male_total <- vector(length = length(seq(1, length(female_counts) - range, 
+                                           range)))
   for (h in seq(1, length(female_counts) - range, range)) {
     female_total <- c(female_total, sum(female_counts[h:h + range]))
     male_total <- c(male_total, sum(male_counts[h:h + range]))
@@ -353,6 +355,7 @@ describe_ethnicity <- function(ethnic_labels, language = "ES") {
   }
 }
 
+# nolint start
 #' Get ISCO-88 occupation labels from codes
 #'
 #' @description Function that translates a vector of ISCO-88 occupation codes
@@ -446,3 +449,4 @@ describe_occupation <- function(isco_codes, output_level) {
   }
   return(isco88_labels)
 }
+# nolint end
