@@ -77,9 +77,9 @@ population_pyramid <- function(divipola_code, year,
     stop("There is no location assigned to the consulted DIVIPOLA code")
   }
 
-  female_total <- vector(length = length(seq(1, length(female_counts) - range, 
+  female_total <- vector(length = length(seq(1, length(female_counts) - range,
                                              range)))
-  male_total <- vector(length = length(seq(1, length(female_counts) - range, 
+  male_total <- vector(length = length(seq(1, length(female_counts) - range,
                                            range)))
   for (h in seq(1, length(female_counts) - range, range)) {
     female_total <- c(female_total, sum(female_counts[h:h + range]))
