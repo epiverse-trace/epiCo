@@ -38,11 +38,6 @@ An endemic channel is a visual strategy to represent the historical behavior of 
 The broader definition and methodology for the endemic channel was provided by [Bormant (1999)](https://iris.paho.org/handle/10665.2/8562).
 
 ```{r, echo = FALSE, out.width = '100%'}
-# TODO: Fix figure path
-# knitr::include_graphics(
-#   path = "~/GitHub/epiCo/man/figures/endemic_channel_figure.png",
-#   error = FALSE
-#   )
 knitr::include_graphics(
   path = file.path("man", "figures", "endemic_channel_figure.png"),
   error = FALSE
