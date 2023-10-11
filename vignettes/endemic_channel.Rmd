@@ -27,7 +27,7 @@ The `endemic_channel` function allows you to:
 In the following vignette you will learn:
 
 1. What is an endemic channel, its benefits, drawbacks, and cautions 
-2. How to gather the historical data needed to build an endemic channel
+2. An example of the historical data needed to build an endemic channel
 3. How to use the `endemic_channel` function
 4. How to interpret and communicate the results
 
@@ -38,8 +38,10 @@ An endemic channel is a visual strategy to represent the historical behavior of 
 The broader definition and methodology for the endemic channel was provided by [Bormant (1999)](https://iris.paho.org/handle/10665.2/8562).
 
 ```{r, echo = FALSE, out.width = '100%'}
-# TODO: Fix figure path
-knitr::include_graphics(path = "~/GitHub/epiCo/man/figures/endemic_channel_figure.png", error = FALSE)
+knitr::include_graphics(
+  path = file.path("man", "figures", "endemic_channel_figure.png"),
+  error = FALSE
+  )
 ```
 
 The data needed to build an endemic channel is the weekly or monthly incidence of the disease for previous years in the region of interest. **epiCo** asks for at least one year of data but endemic channels are typically estimated from *5 to 7 years of information*.
@@ -69,7 +71,7 @@ The upper and lower limits of the endemic channel provide a confidence interval 
 - Median as CTM: quantiles 0.25 and 0.75 as lower and upper limits respectively
 - Poisson test (Unusual behavior method): limits provided by a two sides Poisson test with 0.95% CI
 
-## 2. Gathering the historical data needed to build an endemic channel
+## 2. Historical data needed to build an endemic channel
 
 This section provides some strategies to obtain, handle and gather the historical data needed to build an endemic channel. It presumes that user have either the linelist or incidence data for the disease of interest, or the need to consult historical data from the Colombian National Surveillance System
 [SIVIGILA](https://www.ins.gov.co/Direcciones/Vigilancia/Paginas/SIVIGILA.aspx).
@@ -82,125 +84,22 @@ To have a broader understanding of the `incidence` package please refer to its [
 
 The endemic channel is more useful when data up to the immediate previous year is available, however this is not always possible for users out of the surveillance institutions. As an option, users can access to SIVIGILA's linelist data that is typically published until the second semester of the year (ie. data for 2022 was published in the second semester of 2023).
 
-To have a broader understanding on SIVIGILA data manipulation please refer to [`sivirep`](https://epiverse-trace.github.io/sivirep/) vignettes. In future versions an **automatic endemic channel** function may be released in this package, performing the following data handling:
+<!-- To have a broader understanding on SIVIGILA data manipulation please refer to [`sivirep`](https://epiverse-trace.github.io/sivirep/) vignettes. In future versions an **automatic endemic channel** function may be released in this package, performing the following data handling: -->
+
+For this example, the data provided in the data folder of the package will be used. These data present the data for dengue cases for all municipalities in Tolima for the years 2015 to 2021. In this case, we will use the cases from the municipality of Ibagué to calculate the respective endemic channel.
 
 ```{r setup, eval = FALSE}
-# TODO: Check sivirep usage
-
 library(epiCo)
-library(sivirep)
 
-## Parameters
+data("epi_data")
+data_event <- epi_data
 
-disease_name <- "DENGUE"
-divipola_code <- "73001"
-year <- 2021
-window <- 7
-
-### Data import and cleaning
-
-years_to_analyze <- seq(year - window + 1, year)
-
-tags_to_analyze <- c("FEC_NOT", "COD_PAIS_O", "COD_DPTO_O", "COD_MUN_O", "COD_DPTO_R", "COD_MUN_R", "COD_DPTO_N", "COD_MUN_N")
-
-disease_data <- data.frame(matrix(ncol = length(tags_to_analyze), nrow = 0))
-colnames(disease_data) <- tags_to_analyze
-
-for (y in years_to_analyze) {
-  temp_data <- sivirep::import_data_event(y, disease_name)
-  temp_data$FEC_NOT <- as.character(temp_data$FEC_NOT)
-
-  ## Dates cleaning
-  temp_data <- disease_name::format_fecha(temp_data,
-    format_fecha = "%AAAA-%MM-%DD",
-    nombres_col = "FEC_NOT"
-  )
-  disease_data <- rbind(
-    disease_data,
-    dplyr::select(temp_data, tags_to_analyze)
-  )
-}
-
-## DIVIPOLA codes cleaning and dates handling
-
-disease_data <- sivirep::limpiar_encabezado(disease_data)
-disease_data <- sivirep::estandarizar_geo_cods(disease_data)
-
-data_event <- data_event %>% dplyr::mutate(
-  cod_mun_r = dplyr::case_when(
-    .data$cod_dpto_r == 1 ~ .data$cod_pais_o, # 1 indicates residence abroad
-    nchar(.data$cod_mun_r) == 1 ~
-      as.numeric(paste(.data$cod_dpto_r,
-        .data$cod_mun_r,
-        sep = "00"
-      )),
-    nchar(.data$cod_mun_r) == 2 ~
-      as.numeric(paste(.data$cod_dpto_r,
-        .data$cod_mun_r,
-        sep = "0"
-      )),
-    nchar(.data$cod_mun_r) == 3 ~
-      as.numeric(paste0(
-        .data$cod_dpto_r,
-        .data$cod_mun_r
-      )),
-    TRUE ~ NA_real_
-  ),
-  cod_mun_o = dplyr::case_when(
-    # 1 indicates infection occurred abroad
-    .data$cod_dpto_o == 1 ~ .data$cod_pais_o,
-    nchar(.data$cod_mun_o) == 1 ~
-      as.numeric(paste(.data$cod_dpto_o,
-        .data$cod_mun_o,
-        sep = "00"
-      )),
-    nchar(.data$cod_mun_o) == 2 ~
-      as.numeric(paste(.data$cod_dpto_o,
-        .data$cod_mun_o,
-        sep = "0"
-      )),
-    nchar(.data$cod_mun_o) == 3 ~
-      as.numeric(paste0(
-        .data$cod_dpto_o,
-        .data$cod_mun_o
-      )),
-    TRUE ~ NA_real_
-  )
-)
-
-## Cleaning of cases without specified municipalities
-
-data_event <- dplyr::filter(data_event, !is.na(data_event$cod_mun_o))
-data_event <- dplyr::filter(data_event, !is.na(data_event$cod_mun_r))
-data_event <- dplyr::filter(data_event, !is.na(data_event$cod_mun_n))
-
-## Cleaning of cases out of the years range
-
-data_event <- dplyr::filter(data_event, .data$epi_year %in% years_to_analyze)
-
-## Cleaning of cases from abroad
-
-data_event <- dplyr::filter(data_event, .data$cod_pais_o == 170)
-
-## Cleaning of typos
-
-path <- system.file("data", "divipola_table.rda", package = "epiCo")
-load(path)
-divipola_table <- divipola_table
-
-typos <- which(!(data_event$cod_mun_o %in% divipola_table$COD_MPIO))
-
-data_event <- data_event[-typos, ]
-
-## Filtering data for the municipality of interest
-
-data_event <- dplyr::filter(data_event, .data$cod_mun_o == divipola_code)
+data_ibague <- data_event[data_event$cod_mun_o == 73001, ]
 
 ## Building the historic incidence data
 
-incidence_historic <- incidence::incidence(disease_data$fec_not,
-  interval = "1 epiweek"
-)
+incidence_historic <- incidence::incidence(data_ibague$fec_not,
+                                           interval = "1 epiweek")
 
 print(incidence_historic)
 ```
@@ -236,15 +135,11 @@ The output of *epiCo*'s `endemic_channel` function is a dataframe with the obser
 
 ### Example
 
-The following example uses the previously historic incidence accessed from the SIVIGILA data source to build the 2023 *endemic channel* for Ibagué city.
+The following example uses the previously historic incidence accessed from the SIVIGILA data source to build the 2021 *endemic channel* for Ibagué city.
 
 ```{r, eval = FALSE}
-library(epiCo)
 
-observations <- c(
-  17, 23, 21, 11, 25, 24, 19, 17, 16, 11, 23, 20, 17, 24, 23, 33, 53, 55,
-  44, 36, 34, 51, 41, 44, 27, 32, 53, 55, 55, 48, 64, 69, 73, 59, 74, 78, 75
-)
+observations <- sample(15:100, 52, replace = FALSE)
 
 outlier_years <- c(2016, 2019)
 

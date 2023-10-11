@@ -41,8 +41,8 @@ population_pyramid <- function(divipola_code, year,
     population_projection_col_0 <- population_projection_col_0
     pop_data_dpto <- dplyr::filter(
       population_projection_col_0,
-      population_projection_col_0$DP == divipola_code &
-        population_projection_col_0$ANO == year
+      ((population_projection_col_0$DP == divipola_code) &
+        (population_projection_col_0$ANO == year))
     )
 
     female_counts <- as.numeric(pop_data_dpto[104:204])
@@ -55,7 +55,7 @@ population_pyramid <- function(divipola_code, year,
     population_projection_col_1 <- population_projection_col_1
     pop_data_dpto <- dplyr::filter(
       population_projection_col_1,
-      .data$DP == divipola_code & .data$ANO == year
+      ((.data$DP == divipola_code) & (.data$ANO == year))
     )
 
     female_counts <- as.numeric(pop_data_dpto[104:204])
@@ -68,7 +68,7 @@ population_pyramid <- function(divipola_code, year,
     population_projection_col_2 <- population_projection_col_2
     pop_data_mun <- dplyr::filter(
       population_projection_col_2,
-      .data$DPMP == divipola_code & .data$ANO == year
+      ((.data$DPMP == divipola_code) & (.data$ANO == year))
     )
 
     female_counts <- as.numeric(pop_data_mun[104:204])
@@ -77,11 +77,13 @@ population_pyramid <- function(divipola_code, year,
     stop("There is no location assigned to the consulted DIVIPOLA code")
   }
 
-  female_total <- c()
-  male_total <- c()
-  for (c in seq(1, length(female_counts) - 1, range)) {
-    female_total <- c(female_total, sum(female_counts[c:c + range]))
-    male_total <- c(male_total, sum(male_counts[c:c + range]))
+  female_total <- vector(length = length(seq(1, length(female_counts) - range,
+                                             range)))
+  male_total <- vector(length = length(seq(1, length(female_counts) - range,
+                                           range)))
+  for (h in seq(1, length(female_counts) - range, range)) {
+    female_total <- c(female_total, sum(female_counts[h:h + range]))
+    male_total <- c(male_total, sum(male_counts[h:h + range]))
   }
 
   if (!total) {
@@ -94,13 +96,13 @@ population_pyramid <- function(divipola_code, year,
       age = rep(seq(0, length(female_counts) - range, range), 2),
       population = c(female_total, male_total),
       gender = c(
-        rep("F", ceiling((length(female_counts) - 1) / range)),
-        rep("M", ceiling((length(male_counts) - 1) / range))
+        rep("F", ceiling((length(female_counts) - range) / range)),
+        rep("M", ceiling((length(male_counts) - range) / range))
       )
     )
   } else {
     pop_pyramid <- data.frame(
-      age = seq(1, length(female_counts) - 1, range),
+      age = seq(1, length(female_counts) - range, range),
       population = c(female_total + male_total)
     )
   }
@@ -353,6 +355,7 @@ describe_ethnicity <- function(ethnic_labels, language = "ES") {
   }
 }
 
+# nolint start
 #' Get ISCO-88 occupation labels from codes
 #'
 #' @description Function that translates a vector of ISCO-88 occupation codes
@@ -446,3 +449,4 @@ describe_occupation <- function(isco_codes, output_level) {
   }
   return(isco88_labels)
 }
+# nolint end
