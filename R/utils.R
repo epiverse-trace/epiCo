@@ -123,7 +123,8 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
   # } else {
   populations <- dplyr::filter(
     populations,
-    .data$code %in% groups & .data$ANO %in% years
+    .data$code %in% groups,
+    .data$ANO %in% years
   )
   incidence_rates <- incidence_object$counts
 
