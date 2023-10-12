@@ -225,6 +225,10 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
 
     age_risk <- rbind(age_risk_female, age_risk_male) ######
   } else {
+    if (length(population_pyramid) == 3){
+      population_pyramid <- aggregate(population ~ age, population_pyramid, sum)
+    }
+    
     hist_total <- graphics::hist(age,
       breaks = c(
         0,
