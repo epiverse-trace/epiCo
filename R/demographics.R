@@ -77,10 +77,14 @@ population_pyramid <- function(divipola_code, year,
     stop("There is no location assigned to the consulted DIVIPOLA code")
   }
 
-  female_total <- vector(length = length(seq(1, length(female_counts) - range,
-                                             range)))
-  male_total <- vector(length = length(seq(1, length(female_counts) - range,
-                                           range)))
+  female_total <- vector(length = length(seq(
+    1, length(female_counts) - range,
+    range
+  )))
+  male_total <- vector(length = length(seq(
+    1, length(female_counts) - range,
+    range
+  )))
   cont <- 1
   for (h in seq(1, length(female_counts) - range, range)) {
     female_total[cont] <- sum(female_counts[h:h + range])
@@ -180,6 +184,8 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
   stopifnot("`age` must be a numeric vector" = is.numeric(age))
   if (!is.null(gender)) {
     stopifnot(
+      "`gender` does not have the same number of elements as `age`" =
+        (length(gender) == length(age)),
       "`population_pyramid` should include gender" =
         (length(population_pyramid) == 3)
     )
@@ -223,6 +229,9 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
 
     age_risk <- rbind(age_risk_female, age_risk_male) ######
   } else {
+    if (length(population_pyramid) == 3) {
+      population_pyramid <- aggregate(population ~ age, population_pyramid, sum)
+    }
     hist_total <- graphics::hist(age,
       breaks = c(
         0,
@@ -230,7 +239,7 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
           (population_pyramid$age[2] -
             population_pyramid$age[1])
       ),
-      plot = TRUE
+      plot = FALSE
     )
 
     age_risk <- data.frame(
