@@ -46,6 +46,7 @@ The `neighborhoods` function receives as parameters a vector of DIVIPOLA codes a
 ```{r, messages = FALSE, eval = TRUE}
 library(epiCo)
 library(dplyr)
+library(incidence)
 data(divipola_table)
 cundinamarca_data <- dplyr::filter(
   divipola_table,
@@ -75,5 +76,17 @@ Internally, the function reads the `incidence` object's groups as the DIVIPOLA c
 
 It is necessary for the user to provide the administrative level that the groups account for (0 - National level, 1 - Department level, 2 - Municipality level), the scale at which incidence rates should be estimated (cases per number of inhabitants), and the travel time threshold for the neighborhood definition.
 
+The following example uses the cases of the municipalities of Tolima for the year 2019.
 ```{r, messages = FALSE, eval = TRUE}
+
+data("epi_data")
+data_event <- epi_data
+
+data_tolima <- data_event[lubridate::year(data_event$fec_not) == 2019, ]
+incidence_object <- incidence(dates = data_tolima$fec_not,
+                              groups = data_tolima$cod_mun_o,
+                              interval = "12 months")
+
+monrans_tolima <- morans_index(incidence_object = incidence_object, level = 2)
+
 ```
