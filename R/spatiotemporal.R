@@ -144,7 +144,7 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
       warning("There are no influential municipalities to plot")
     } else {
       path_2 <- system.file("extdata", "spatial_polygons_col_2.rda",
-                            package = "epiCo"
+        package = "epiCo"
       )
       load(path_2)
       spatial_polygons_col_2 <- spatial_polygons_col_2
@@ -157,7 +157,7 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
         ordered = TRUE
       )
       shapes <- spatial_polygons_col_2[spatial_polygons_col_2$MPIO_CDPMP %in%
-                                         as.integer(inf_mpios$labels), ]
+        as.integer(inf_mpios$labels), ]
       shapes_plot <- shapes[, order(match(
         as.integer(inf_mpios$labels),
         shapes$MPIO_CDPMP

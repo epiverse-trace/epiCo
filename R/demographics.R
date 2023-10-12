@@ -306,7 +306,7 @@ describe_ethnicity <- function(ethnic_labels, language = "ES") {
   )
   ethnic_labels <- as.data.frame(ethnic_labels)
 
-  #### ESPAÑOL ####
+  #### ESPA<U+00D1>OL ####
   indigena_es <- "Persona de ascendencia amerindia que comparten sentimientos
   de identificacion con su pasado aborigen, manteniendo rasgos y valores
   propios de su cultura tradicional, asi como formas de organizacion

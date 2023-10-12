@@ -17,6 +17,11 @@ morans_index(
 \item{incidence_object}{An object is the incidence of an observation for the
 different locations.}
 
+\item{level}{Administration level at which incidence counts are grouped.
+(0=national, 1=state/department, 2=city/municipality).}
+
+\item{scale}{Scale to consider when calculating the incidence_rate.}
+
 \item{threshold}{Maximum traveling time around each municipality.}
 
 \item{plot}{if TRUE, returns a plot of influential observations in the
