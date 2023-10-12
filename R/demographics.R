@@ -180,6 +180,8 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
   stopifnot("`age` must be a numeric vector" = is.numeric(age))
   if (!is.null(gender)) {
     stopifnot(
+      "`gender` does not have the same number of elements as `age`" =
+        (length(gender) == length(age)),
       "`population_pyramid` should include gender" =
         (length(population_pyramid) == 3)
     )
