@@ -14,13 +14,13 @@ morans_index(
 )
 }
 \arguments{
+\item{incidence_object}{An object is the incidence of an observation for the
+different locations.}
+
 \item{threshold}{Maximum traveling time around each municipality.}
 
 \item{plot}{if TRUE, returns a plot of influential observations in the
 Moran's plot.}
-
-\item{incidence_rate}{Incidence rate object with only one observation for a
-group of municipalities.}
 }
 \value{
 List of Moran's I clustering analysis, giving the quadrant of each
@@ -32,6 +32,6 @@ from a given incidence_rate object grouped by municipality.
 }
 \examples{
 \dontrun{
-morans_index(incidence_rate, 2, FALSE)
+morans_index(incidence_object, 2, FALSE)
 }
 }
