@@ -6,7 +6,6 @@
 #' @param query_vector Codes of the municipalities to consider for the
 #' neighborhoods.
 #' @param threshold Maximum traveling time around each municipality.
-
 #' @return neighborhood object according to the introduced threshold.
 #'
 #' @examples
@@ -18,7 +17,7 @@
 #' @export
 neighborhoods <- function(query_vector, threshold = 2) {
   stopifnot("`query_vector` must be numeric" = (is.numeric(query_vector)))
-  path <- system.file("data", "distance_matrix.rda", package = "epiCo")
+  path <- system.file("extdata", "distance_matrix.rda", package = "epiCo")
   load(path)
   distance_matrix <- distance_matrix
   distance <- distance_matrix[
@@ -45,8 +44,8 @@ neighborhoods <- function(query_vector, threshold = 2) {
 #'
 #' @importFrom magrittr %>%
 #'
-#' @param incidence_rate Incidence rate object with only one observation for a
-#' group of municipalities.
+#' @param incidence_object An object is the incidence of an observation for the
+#' different locations.
 #' @param threshold Maximum traveling time around each municipality.
 #' @param plot if TRUE, returns a plot of influential observations in the
 #' Moran's plot.
@@ -56,7 +55,7 @@ neighborhoods <- function(query_vector, threshold = 2) {
 #'
 #' @examples
 #' \dontrun{
-#' morans_index(incidence_rate, 2, FALSE)
+#' morans_index(incidence_object, 2, FALSE)
 #' }
 #' @export
 morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
@@ -71,7 +70,7 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
     incidence_object = incidence_object,
     level = level, scale = scale
   )
-  path_1 <- system.file("data", "divipola_table.rda", package = "epiCo")
+  path_1 <- system.file("extdata", "divipola_table.rda", package = "epiCo")
   load(path_1)
   divipola_table <- divipola_table
   # Match with DIVIPOLA order
@@ -138,9 +137,11 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
   }
   # Plot
   if (plot) {
-    if (!all(is.na(morans_index$quadrant))) {
-      path_2 <- system.file("data", "spatial_polygons_col_2.rda",
-        package = "epiCo"
+    if (all(is.na(morans_index$quadrant))) {
+      warning("There are no influential municipalities to plot")
+    } else {
+      path_2 <- system.file("extdata", "spatial_polygons_col_2.rda",
+                            package = "epiCo"
       )
       load(path_2)
       spatial_polygons_col_2 <- spatial_polygons_col_2
@@ -155,7 +156,7 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
       pal_test <- pal(c("LL", "HH"))
       rm(pal_test)
       shapes <- spatial_polygons_col_2[spatial_polygons_col_2$MPIO_CDPMP %in%
-        as.integer(inf_mpios$labels), ]
+                                         as.integer(inf_mpios$labels), ]
       shapes_plot <- shapes[, order(match(
         as.integer(inf_mpios$labels),
         shapes$MPIO_CDPMP
@@ -185,8 +186,6 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
           color = "white",
           fillOpacity = 0.75
         )
-    } else {
-      warning("There are no influential municipalities to plot")
     }
   }
   return(morans_index)

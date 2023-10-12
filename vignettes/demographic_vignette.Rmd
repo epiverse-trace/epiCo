@@ -78,21 +78,21 @@ You can perform queries to these data by using the 'population_pyramid' function
 
 ```{r}
 ibague_code <- 73001 # DIVIPOLA code for the city of Ibagué
-year <- 2019 # Year to consult
-ibague_pyramid_2019 <- population_pyramid(ibague_code, year) # Population
+year <- 2016 # Year to consult
+ibague_pyramid_2016 <- population_pyramid(ibague_code, year) # Population
 # pyramid (dataframe) for the city of Ibagué in the year 2019 dissagregated
 # by sex
-head(ibague_pyramid_2019)
+head(ibague_pyramid_2016)
 ```
 
 Definition of age ranges, and plotting are also provided for both: total number of individuals or proportion of individuals
 
 ```{r}
 ibague_code <- 73001 # DIVIPOLA code for the city of Ibagué
-year <- 2016 # Year to consult
+year <- 2019 # Year to consult
 age_range <- 5 # Age range or window
-ibague_pyramid_2016 <- population_pyramid(ibague_code, year, range = age_range,
-                                          gender = TRUE, total = FALSE,
+ibague_pyramid_2019 <- population_pyramid(ibague_code, year, range = age_range,
+                                          gender = TRUE, total = TRUE,
                                           plot = TRUE)
 ```
 
@@ -155,6 +155,6 @@ data_ibague <- data_tolima[data_tolima$cod_mun_o == 73001, ]
 
 age_risk_data <- age_risk(age = data_ibague$edad,
                           population_pyramid = ibague_pyramid_2019,
-                          gender = TRUE, plot = TRUE)
+                          gender = data_ibague$sexo, plot = TRUE)
 ```
 

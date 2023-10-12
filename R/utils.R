@@ -85,7 +85,7 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
   dates <- lubridate::year(incidence_object$dates)
   years <- unique(dates)
   if (level == 0) {
-    path_0 <- system.file("data", "population_projection_col_0.rda",
+    path_0 <- system.file("extdata", "population_projection_col_0.rda",
       package = "epiCo"
     )
     load(path_0)
@@ -94,7 +94,7 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
     populations$code <- population_projection_col_0$DP
     groups <- 0
   } else if (level == 1) {
-    path_1 <- system.file("data", "population_projection_col_1.rda",
+    path_1 <- system.file("extdata", "population_projection_col_1.rda",
       package = "epiCo"
     )
     load(path_1)
@@ -103,7 +103,7 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
     populations$code <- population_projection_col_1$DP
     groups <- as.numeric(colnames(incidence_object$counts))
   } else if (level == 2) {
-    path_2 <- system.file("data", "population_projection_col_2.rda",
+    path_2 <- system.file("extdata", "population_projection_col_2.rda",
       package = "epiCo"
     )
     load(path_2)
@@ -123,7 +123,8 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
   # } else {
   populations <- dplyr::filter(
     populations,
-    .data$code %in% groups & .data$ANO %in% years
+    .data$code %in% groups,
+    .data$ANO %in% years
   )
   incidence_rates <- incidence_object$counts
 

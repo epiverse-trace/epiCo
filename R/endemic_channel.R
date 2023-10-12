@@ -147,7 +147,7 @@ auto_endemic_channel <- function(disease_name, divipola_code, year,
   disease_data <- dplyr::filter(disease_data, .data$COD_PAIS_O == 170)
 
   # Cleaning of typos
-  path <- system.file("data", "divipola_table.rda", package = "epiCo")
+  path <- system.file("extdata", "divipola_table.rda", package = "epiCo")
   load(path)
   divipola_table <- divipola_table
 
