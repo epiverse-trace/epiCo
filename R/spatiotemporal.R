@@ -71,7 +71,7 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
     incidence_object = incidence_object,
     level = level, scale = scale
   )
-  path_1 <- system.file("data", "divipola_table.rda", package = "epiCo")
+  path_1 <- system.file("extdata", "divipola_table.rda", package = "epiCo")
   load(path_1)
   divipola_table <- divipola_table
   # Match with DIVIPOLA order

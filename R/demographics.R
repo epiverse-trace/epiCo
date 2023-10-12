@@ -29,7 +29,7 @@ population_pyramid <- function(divipola_code, year,
       length(divipola_code) == 1),
     "`range` must be a numeric value between 1 and 100" = (is.numeric(range))
   )
-  path <- system.file("data", "divipola_table.rda", package = "epiCo")
+  path <- system.file("extdata", "divipola_table.rda", package = "epiCo")
   load(path)
   divipola_table <- divipola_table
 
