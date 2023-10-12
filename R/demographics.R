@@ -232,7 +232,7 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
           (population_pyramid$age[2] -
             population_pyramid$age[1])
       ),
-      plot = TRUE
+      plot = FALSE
     )
 
     age_risk <- data.frame(
