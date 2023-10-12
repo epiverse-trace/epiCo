@@ -88,5 +88,6 @@ incidence_object <- incidence(dates = data_tolima$fec_not,
                               interval = "12 months")
 
 monrans_tolima <- morans_index(incidence_object = incidence_object, level = 2)
+monrans_tolima$leaflet_map
 
 ```

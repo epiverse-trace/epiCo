@@ -153,8 +153,6 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
         domain = c("HH", "LL", "LH", "HL"),
         ordered = TRUE
       )
-      pal_test <- pal(c("LL", "HH"))
-      rm(pal_test)
       shapes <- spatial_polygons_col_2[spatial_polygons_col_2$MPIO_CDPMP %in%
                                          as.integer(inf_mpios$labels), ]
       shapes_plot <- shapes[, order(match(
@@ -175,7 +173,7 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
         "<b>", "Cluster: ", "</b>",
         shapes_plot$CLUSTER, "<br>"
       )
-      leaflet::leaflet(shapes_plot) %>%
+      clusters_plot <- leaflet::leaflet(shapes_plot) %>%
         leaflet::addTiles() %>%
         leaflet::addPolygons(
           stroke = TRUE,
@@ -186,6 +184,7 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
           color = "white",
           fillOpacity = 0.75
         )
+      return(list(moran_data = morans_index, leaflet_map = clusters_plot))
     }
   }
   return(morans_index)
