@@ -61,9 +61,9 @@ epi_calendar <- function(year, jan_days = 4) {
 #' @description Function that estimates incidence rates from a incidence class
 #' object and population projections.
 #' @param incidence_object An incidence object.
-#' @param level Administration level at which incidence counts are grouped.
+#' @param level Administration level at which incidence counts are grouped
+#' (0 = national, 1 = state/department, 2 = city/municipality).
 #' @param scale Scale to consider when calculating the incidence_rate.
-#' (0=national, 1=state/department, 2=city/municipality).
 #'
 #' @return A modified incidence object where counts are normalized with the
 #' population.

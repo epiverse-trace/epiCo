@@ -46,6 +46,9 @@ neighborhoods <- function(query_vector, threshold = 2) {
 #'
 #' @param incidence_object An object is the incidence of an observation for the
 #' different locations.
+#' @param level Administration level at which incidence counts are grouped.
+#' (0=national, 1=state/department, 2=city/municipality).
+#' @param scale Scale to consider when calculating the incidence_rate.
 #' @param threshold Maximum traveling time around each municipality.
 #' @param plot if TRUE, returns a plot of influential observations in the
 #' Moran's plot.
