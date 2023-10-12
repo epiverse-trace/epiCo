@@ -18,7 +18,7 @@
 #' @export
 neighborhoods <- function(query_vector, threshold = 2) {
   stopifnot("`query_vector` must be numeric" = (is.numeric(query_vector)))
-  path <- system.file("data", "distance_matrix.rda", package = "epiCo")
+  path <- system.file("extdata", "distance_matrix.rda", package = "epiCo")
   load(path)
   distance_matrix <- distance_matrix
   distance <- distance_matrix[
@@ -139,7 +139,7 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
   # Plot
   if (plot) {
     if (!all(is.na(morans_index$quadrant))) {
-      path_2 <- system.file("data", "spatial_polygons_col_2.rda",
+      path_2 <- system.file("extdata", "spatial_polygons_col_2.rda",
         package = "epiCo"
       )
       load(path_2)
