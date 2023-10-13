@@ -148,6 +148,7 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
       )
       load(path_2)
       spatial_polygons_col_2 <- spatial_polygons_col_2
+      # nolint start
       pal <- leaflet::colorFactor(
         palette = c(
           "#ba0001", "#357a38", "#2c7c94",
@@ -156,6 +157,7 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
         domain = c("HH", "LL", "LH", "HL"),
         ordered = TRUE
       )
+      # nolint end
       shapes <- spatial_polygons_col_2[spatial_polygons_col_2$MPIO_CDPMP %in%
         as.integer(inf_mpios$labels), ]
       shapes_plot <- shapes[, order(match(
@@ -176,6 +178,7 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
         "<b>", "Cluster: ", "</b>",
         shapes_plot$CLUSTER, "<br>"
       )
+      # nolint start
       clusters_plot <- leaflet::leaflet(shapes_plot) %>%
         leaflet::addTiles() %>%
         leaflet::addPolygons(
@@ -187,6 +190,7 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
           color = "white",
           fillOpacity = 0.75
         )
+      # nolint end
       return(list(moran_data = morans_index, leaflet_map = clusters_plot))
     }
   }
