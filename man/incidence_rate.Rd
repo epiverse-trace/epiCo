@@ -9,10 +9,10 @@ incidence_rate(incidence_object, level, scale = 1e+05)
 \arguments{
 \item{incidence_object}{An incidence object.}
 
-\item{level}{Administration level at which incidence counts are grouped.}
+\item{level}{Administration level at which incidence counts are grouped
+(0 = national, 1 = state/department, 2 = city/municipality).}
 
-\item{scale}{Scale to consider when calculating the incidence_rate.
-(0=national, 1=state/department, 2=city/municipality).}
+\item{scale}{Scale to consider when calculating the incidence_rate.}
 }
 \value{
 A modified incidence object where counts are normalized with the

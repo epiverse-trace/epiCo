@@ -5,6 +5,7 @@
 #' @param divipola_code A numeric code accounting for the territory of interest
 #' @param year A numeric input for year of interest
 #' @param gender A boolean to consult data disaggregated by gender
+#' @param range A numeric value from 1 to 100 for the age range to use
 #' @param total A boolean for returning the total number rather than the
 #' proportion of the country's population
 #' @param plot A boolean for displaying a plot
@@ -19,59 +20,76 @@
 #' @export
 #'
 population_pyramid <- function(divipola_code, year,
-                               gender = TRUE, total = TRUE, plot = FALSE) {
+                               gender = TRUE, range = 5, total = TRUE,
+                               plot = FALSE) {
   stopifnot(
     "`year` is only available from 2005 to 2026,
             please select a valid year" = (year >= 2005 & year <= 2026),
     "`divipola_code` must be numeric" = (is.numeric(divipola_code) &
-      length(divipola_code) == 1)
+      length(divipola_code) == 1),
+    "`range` must be a numeric value between 1 and 100" = (is.numeric(range))
   )
-  path <- system.file("data", "divipola_table.rda", package = "epiCo")
+  path <- system.file("extdata", "divipola_table.rda", package = "epiCo")
   load(path)
   divipola_table <- divipola_table
 
   if (divipola_code == 0) {
-    path_0 <- system.file("data", "population_projection_col_0.rda",
+    path_0 <- system.file("extdata", "population_projection_col_0.rda",
       package = "epiCo"
     )
     load(path_0)
     population_projection_col_0 <- population_projection_col_0
     pop_data_dpto <- dplyr::filter(
       population_projection_col_0,
-      population_projection_col_0$DP == divipola_code &
-        population_projection_col_0$ANO == year
+      ((population_projection_col_0$DP == divipola_code) &
+        (population_projection_col_0$ANO == year))
     )
 
-    female_total <- as.numeric(pop_data_dpto[104:204])
-    male_total <- as.numeric(pop_data_dpto[3:103])
+    female_counts <- as.numeric(pop_data_dpto[104:204])
+    male_counts <- as.numeric(pop_data_dpto[3:103])
   } else if (divipola_code %in% divipola_table$COD_DPTO) {
-    path_1 <- system.file("data", "population_projection_col_1.rda",
+    path_1 <- system.file("extdata", "population_projection_col_1.rda",
       package = "epiCo"
     )
     load(path_1)
     population_projection_col_1 <- population_projection_col_1
     pop_data_dpto <- dplyr::filter(
       population_projection_col_1,
-      .data$DP == divipola_code & .data$ANO == year
+      ((.data$DP == divipola_code) & (.data$ANO == year))
     )
 
-    female_total <- as.numeric(pop_data_dpto[104:204])
-    male_total <- as.numeric(pop_data_dpto[3:103])
+    female_counts <- as.numeric(pop_data_dpto[104:204])
+    male_counts <- as.numeric(pop_data_dpto[3:103])
   } else if (divipola_code %in% divipola_table$COD_MPIO) {
-    path_2 <- system.file("data", "population_projection_col_2.rda",
+    path_2 <- system.file("extdata", "population_projection_col_2.rda",
       package = "epiCo"
     )
     load(path_2)
     population_projection_col_2 <- population_projection_col_2
     pop_data_mun <- dplyr::filter(
       population_projection_col_2,
-      .data$DPMP == divipola_code & .data$ANO == year
+      ((.data$DPMP == divipola_code) & (.data$ANO == year))
     )
 
-    female_total <- as.numeric(pop_data_mun[104:204])
-    male_total <- as.numeric(pop_data_mun[3:103])
+    female_counts <- as.numeric(pop_data_mun[104:204])
+    male_counts <- as.numeric(pop_data_mun[3:103])
   } else {
     stop("There is no location assigned to the consulted DIVIPOLA code")
+  }
+
+  female_total <- vector(length = length(seq(
+    1, length(female_counts) - range,
+    range
+  )))
+  male_total <- vector(length = length(seq(
+    1, length(female_counts) - range,
+    range
+  )))
+  cont <- 1
+  for (h in seq(1, length(female_counts) - range, range)) {
+    female_total[cont] <- sum(female_counts[h:h + range])
+    male_total[cont] <- sum(male_counts[h:h + range])
+    cont <- cont + 1
   }
 
   if (!total) {
@@ -81,13 +99,16 @@ population_pyramid <- function(divipola_code, year,
 
   if (gender) {
     pop_pyramid <- data.frame(
-      age = rep(0:100, 2),
+      age = rep(seq(0, length(female_counts) - range, range), 2),
       population = c(female_total, male_total),
-      gender = c(rep("F", 101), rep("M", 101))
+      gender = c(
+        rep("F", ceiling((length(female_counts) - range) / range)),
+        rep("M", ceiling((length(male_counts) - range) / range))
+      )
     )
   } else {
     pop_pyramid <- data.frame(
-      age = 0:100,
+      age = seq(1, length(female_counts) - range, range),
       population = c(female_total + male_total)
     )
   }
@@ -123,7 +144,8 @@ population_pyramid <- function(divipola_code, year,
           y = .data$population
         )
       ) +
-        ggplot2::geom_bar(stat = "identity")
+        ggplot2::geom_bar(stat = "identity") +
+        ggplot2::coord_flip()
     }
 
     if (total) {
@@ -162,44 +184,61 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
   stopifnot("`age` must be a numeric vector" = is.numeric(age))
   if (!is.null(gender)) {
     stopifnot(
+      "`gender` does not have the same number of elements as `age`" =
+        (length(gender) == length(age)),
       "`population_pyramid` should include gender" =
         (length(population_pyramid) == 3)
     )
-    ages_female <- age[gender == "F"]
+    age_female <- age[gender == "F"]
     pyramid_female <- dplyr::filter(population_pyramid, .data$gender == "F")
-    hist_female <- graphics::hist(ages_female,
-      breaks = 0:101,
-      right = FALSE,
+    hist_female <- graphics::hist(age_female,
+      breaks = c(
+        0,
+        pyramid_female$age +
+          (pyramid_female$age[2] -
+            pyramid_female$age[1])
+      ),
       plot = FALSE
     )
 
     age_risk_female <- data.frame(
       age = pyramid_female$age,
       prob = hist_female$counts / pyramid_female$population,
-      gender = rep("F", 101),
+      gender = rep("F", length(pyramid_female$age)),
       stringsAsFactors = FALSE
     )
 
-    ages_male <- age[gender == "M"]
+    age_male <- age[gender == "M"]
     pyramid_male <- dplyr::filter(population_pyramid, .data$gender == "M")
-    hist_male <- graphics::hist(ages_male,
-      breaks = 0:101,
-      right = FALSE,
+    hist_male <- graphics::hist(age_male,
+      breaks = c(
+        0,
+        pyramid_male$age +
+          (pyramid_male$age[2] -
+            pyramid_male$age[1])
+      ),
       plot = FALSE
     )
 
     age_risk_male <- data.frame(
       age = pyramid_male$age,
       prob = hist_male$counts / pyramid_male$population,
-      gender = rep("M", 101),
+      gender = rep("M", length(pyramid_male$age)),
       stringsAsFactors = FALSE
     )
 
-    age_risk <- rbind(age_risk_female, age_risk_male)
+    age_risk <- rbind(age_risk_female, age_risk_male) ######
   } else {
+    if (length(population_pyramid) == 3) {
+      population_pyramid <- aggregate(population ~ age, population_pyramid, sum)
+    }
     hist_total <- graphics::hist(age,
-      breaks = 0:101,
-      right = FALSE,
+      breaks = c(
+        0,
+        population_pyramid$age +
+          (population_pyramid$age[2] -
+            population_pyramid$age[1])
+      ),
       plot = FALSE
     )
 
@@ -236,7 +275,8 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
         x = .data$age,
         y = .data$prob
       )) +
-        ggplot2::geom_bar(stat = "identity")
+        ggplot2::geom_bar(stat = "identity") +
+        ggplot2::coord_flip()
     }
 
     print(age_risk_plot)
@@ -266,7 +306,7 @@ describe_ethnicity <- function(ethnic_labels, language = "ES") {
   )
   ethnic_labels <- as.data.frame(ethnic_labels)
 
-  #### ESPAÑOL ####
+  #### ESPA<U+00D1>OL ####
   indigena_es <- "Persona de ascendencia amerindia que comparten sentimientos
   de identificacion con su pasado aborigen, manteniendo rasgos y valores
   propios de su cultura tradicional, asi como formas de organizacion
@@ -326,6 +366,7 @@ describe_ethnicity <- function(ethnic_labels, language = "ES") {
   }
 }
 
+# nolint start
 #' Get ISCO-88 occupation labels from codes
 #'
 #' @description Function that translates a vector of ISCO-88 occupation codes
@@ -343,16 +384,16 @@ describe_ethnicity <- function(ethnic_labels, language = "ES") {
 #' @export
 describe_occupation <- function(isco_codes, output_level) {
   stopifnot("`isco_codes` must be a numeric vector" = is.numeric(isco_codes))
-  path <- system.file("data", "isco88_table.rda", package = "epiCo")
+  path <- system.file("extdata", "isco88_table.rda", package = "epiCo")
   load(path)
   isco88_table <- isco88_table
   input_level <- dplyr::case_when(
     isco_codes %in% c(0, 110) ~ "Armed Forces",
-    nchar(isco_codes) == 1    ~ "major",
-    nchar(isco_codes) == 2    ~ "sub_major",
-    nchar(isco_codes) == 3    ~ "minor",
-    nchar(isco_codes) == 4    ~ "unit",
-    TRUE                      ~ NA_character_
+    nchar(isco_codes) == 1 ~ "major",
+    nchar(isco_codes) == 2 ~ "sub_major",
+    nchar(isco_codes) == 3 ~ "minor",
+    nchar(isco_codes) == 4 ~ "unit",
+    TRUE ~ NA_character_
   )
   tryCatch(
     {
@@ -419,3 +460,4 @@ describe_occupation <- function(isco_codes, output_level) {
   }
   return(isco88_labels)
 }
+# nolint end

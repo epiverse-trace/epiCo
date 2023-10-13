@@ -8,6 +8,7 @@ population_pyramid(
   divipola_code,
   year,
   gender = TRUE,
+  range = 5,
   total = TRUE,
   plot = FALSE
 )
@@ -18,6 +19,8 @@ population_pyramid(
 \item{year}{A numeric input for year of interest}
 
 \item{gender}{A boolean to consult data disaggregated by gender}
+
+\item{range}{A numeric value from 1 to 100 for the age range to use}
 
 \item{total}{A boolean for returning the total number rather than the
 proportion of the country's population}

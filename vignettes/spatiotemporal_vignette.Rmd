@@ -1,0 +1,93 @@
+---
+title: "Spatiotemporal analyses with epiCo"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{spatiotemporal_vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+**epiCo**'s *spatiotemporal* module is a tool to analyze the spatial correlation of cases based on their coordinates of notification and the real travel times within Colombian territory.
+
+The *spatiotemporal* module allows users to:
+
+- Define the neighbors of a municipality based on a travel time threshold that accounts for real connectivity and infrastructure
+- Perform a Moran’s Index autocorrelation analyses on the defined neighborhood and the provided incidence data (internally converted to incidence rate)
+- Plot a heat map with the High (spatial correlation) - High (incidence rate) clusters, as well as Low - Low ones.
+
+In the following vignette you will learn:
+
+1. How real travel times were estimated from Colombian connectivity and infrastructure
+2. To obtain the neighbors of a municipality from real travel times using the `neighborhoods` function
+3. To use **epiCo**’s `morans_index` function
+4. How to interpret and communicate the results
+
+## 1. Real travel times among Colombian municipalities
+
+Several approaches to estimate proximity and neighborhood of a point (or region) are developed in the literature. Some rely on euclidean distances among the centroid of the areas, whereas others rely in contiguity approaches between their boundaries.
+
+**epiCo** aims to propose a new approach on neighborhood estimation by defining the proximities among municipalities based on real available infrastructure in the territory. This is important in countries as Colombia where topology shapes the connectivity and interaction between municipalities, and where euclidean distances and boundaries may lead to an overestimation of nearness when in reality one of the three mountain ranges or on of the several rivers in the country may lead to large travel distances and times.
+
+To estimate real travel times among Colombian municipalities, a travel times matrix was calculated based on [Bravo-Vega C., Santos-Vega M., & Cordovez J.M. (2022)](https://doi.org/10.1371/journal.pntd.0010270) study. The travel times accounts for the fastest path to connect one municipality to all municipalities in a friction map that provides different speeds according to the presence and quality of the roads, fluvial transport, or walking possibilities.
+
+## 2. Defining a neighborhood with **epiCo**
+
+Since **epiCo** storage all travel times among municipalities in Colombia, the definition of a neighborhood has to be based on the expertise and knowledge of the user regarding what is the maximum travel time in which a municipality is considered a neighbor. 
+
+The `neighborhoods` function receives as parameters a vector of DIVIPOLA codes accounting for the municipalities to consider as potential neighbors, and a threshold that accounts for the maximum travel time (in hours) that a municipality can be from another.
+
+```{r, messages = FALSE, eval = TRUE}
+library(epiCo)
+library(dplyr)
+library(incidence)
+data(divipola_table)
+cundinamarca_data <- dplyr::filter(
+  divipola_table,
+  NOM_DPTO == "CUNDINAMARCA"
+) %>%
+  select(COD_MPIO, LATITUD, LONGITUD)
+
+cundinamarca_neighborhood <- neighborhoods(
+  query_vector = cundinamarca_data$COD_MPIO,
+  threshold = 0.5
+)
+
+plot(cundinamarca_neighborhood, cbind(
+  cundinamarca_data$LATITUD,
+  cundinamarca_data$LONGITUD
+))
+```
+
+## 3. *epiCo*'s `morans_index` function
+
+*epiCo* provides a function to perform a [Local Moran's index analysis](https://r-spatial.github.io/spdep/reference/moran.plot.html) from an [`incidence`](https://www.repidemicsconsortium.org/incidence/) object with unique observations for a set of Colombian municipalities.
+
+Internally, the function reads the `incidence` object's groups as the DIVIPOLA codes to:
+
+1) Estimate incidence rates using **epiCo**'s `incidence_rate` function
+2) Evaluate them on the **epiCo**'s `neighborhoods` function
+
+It is necessary for the user to provide the administrative level that the groups account for (0 - National level, 1 - Department level, 2 - Municipality level), the scale at which incidence rates should be estimated (cases per number of inhabitants), and the travel time threshold for the neighborhood definition.
+
+The following example uses the cases of the municipalities of Tolima for the year 2019.
+```{r, messages = FALSE, eval = TRUE}
+data("epi_data")
+data_event <- epi_data
+
+data_tolima <- data_event[lubridate::year(data_event$fec_not) == 2019, ]
+incidence_object <- incidence(
+  dates = data_tolima$fec_not,
+  groups = data_tolima$cod_mun_o,
+  interval = "12 months"
+)
+
+monrans_tolima <- morans_index(incidence_object = incidence_object, level = 2)
+monrans_tolima$leaflet_map
+```

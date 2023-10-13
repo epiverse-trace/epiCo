@@ -19,6 +19,11 @@ test_that("Population pyramid errors are thrown", {
     divipola_code = c(5001, 5044),
     year = 2020
   ))
+  expect_error(population_pyramid(
+    divipola_code = 5001,
+    year = 2020,
+    range = "5"
+  ))
 })
 
 test_that("Population pyramid obtaines data", {
@@ -28,7 +33,7 @@ test_that("Population pyramid obtaines data", {
       divipola_code = 5001,
       year = 2020
     )),
-    c(202L, 3L)
+    c(40L, 3L)
   )
   expect_identical(
     dim(population_pyramid(
@@ -36,7 +41,7 @@ test_that("Population pyramid obtaines data", {
       year = 2020,
       gender = FALSE
     )),
-    c(101L, 2L)
+    c(20L, 2L)
   )
   expect_identical(
     dim(population_pyramid(
@@ -44,7 +49,7 @@ test_that("Population pyramid obtaines data", {
       year = 2020,
       total = FALSE
     )),
-    c(202L, 3L)
+    c(40L, 3L)
   )
   expect_identical(
     dim(population_pyramid(
@@ -53,7 +58,7 @@ test_that("Population pyramid obtaines data", {
       gender = FALSE,
       total = FALSE
     )),
-    c(101L, 2L)
+    c(20L, 2L)
   )
   expect_identical(
     dim(population_pyramid(
@@ -63,22 +68,29 @@ test_that("Population pyramid obtaines data", {
       total = FALSE,
       plot = TRUE
     )),
-    c(101L, 2L)
+    c(20L, 2L)
   )
-
   expect_identical(
     dim(population_pyramid(
       divipola_code = 5,
       year = 2020
     )),
-    c(202L, 3L)
+    c(40L, 3L)
   )
   expect_identical(
     dim(population_pyramid(
       divipola_code = 0,
       year = 2020
     )),
-    c(202L, 3L)
+    c(40L, 3L)
+  )
+  expect_identical(
+    dim(population_pyramid(
+      divipola_code = 5001,
+      year = 2020,
+      range = 20
+    )),
+    c(10L, 3L)
   )
 })
 
@@ -130,6 +142,11 @@ test_that("Population pyramid is not NA", {
     divipola_code = 0,
     year = 2006,
     plot = TRUE
+  )))
+  expect_false(anyNA(population_pyramid(
+    divipola_code = 0,
+    year = 2006,
+    range = 10
   )))
 })
 
