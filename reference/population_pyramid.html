@@ -29,6 +29,14 @@ or department of an specific year"><!-- mathjax --><script src="https://cdnjs.cl
       <ul class="navbar-nav me-auto"><li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/demographic_vignette.html">epiCo - Demographic module</a>
+    <a class="dropdown-item" href="../articles/endemic_channel.html">Building an Endemic Channel with epiCo</a>
+    <a class="dropdown-item" href="../articles/spatiotemporal_vignette.html">Spatiotemporal analyses with epiCo</a>
+  </div>
+</li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
@@ -55,6 +63,7 @@ or department of an specific year</p>
 <span>  <span class="va">divipola_code</span>,</span>
 <span>  <span class="va">year</span>,</span>
 <span>  gender <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  range <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>  total <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  plot <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -72,6 +81,10 @@ or department of an specific year</p>
 
 <dt>gender</dt>
 <dd><p>A boolean to consult data disaggregated by gender</p></dd>
+
+
+<dt>range</dt>
+<dd><p>A numeric value from 1 to 100 for the age range to use</p></dd>
 
 
 <dt>total</dt>

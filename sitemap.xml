@@ -10,6 +10,18 @@
     <loc>https://epiverse-trace.github.io/epiCo/LICENSE.html</loc>
   </url>
   <url>
+    <loc>https://epiverse-trace.github.io/epiCo/articles/demographic_vignette.html</loc>
+  </url>
+  <url>
+    <loc>https://epiverse-trace.github.io/epiCo/articles/endemic_channel.html</loc>
+  </url>
+  <url>
+    <loc>https://epiverse-trace.github.io/epiCo/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://epiverse-trace.github.io/epiCo/articles/spatiotemporal_vignette.html</loc>
+  </url>
+  <url>
     <loc>https://epiverse-trace.github.io/epiCo/authors.html</loc>
   </url>
   <url>
@@ -19,19 +31,13 @@
     <loc>https://epiverse-trace.github.io/epiCo/reference/age_risk.html</loc>
   </url>
   <url>
-    <loc>https://epiverse-trace.github.io/epiCo/reference/auto_endemic_channel.html</loc>
-  </url>
-  <url>
     <loc>https://epiverse-trace.github.io/epiCo/reference/describe_ethnicity.html</loc>
   </url>
   <url>
     <loc>https://epiverse-trace.github.io/epiCo/reference/describe_occupation.html</loc>
   </url>
   <url>
-    <loc>https://epiverse-trace.github.io/epiCo/reference/detect_outbreaks_EWMA.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/epiCo/reference/distance_matrix.html</loc>
+    <loc>https://epiverse-trace.github.io/epiCo/reference/detect_outbreaks_ewma.html</loc>
   </url>
   <url>
     <loc>https://epiverse-trace.github.io/epiCo/reference/divipola_table.html</loc>
@@ -46,13 +52,10 @@
     <loc>https://epiverse-trace.github.io/epiCo/reference/endemic_plot.html</loc>
   </url>
   <url>
-    <loc>https://epiverse-trace.github.io/epiCo/reference/epiCo-population-data.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/epiCo/reference/epiCo-spatial-data.html</loc>
-  </url>
-  <url>
     <loc>https://epiverse-trace.github.io/epiCo/reference/epi_calendar.html</loc>
+  </url>
+  <url>
+    <loc>https://epiverse-trace.github.io/epiCo/reference/epi_data.html</loc>
   </url>
   <url>
     <loc>https://epiverse-trace.github.io/epiCo/reference/ewma.html</loc>
@@ -76,15 +79,6 @@
     <loc>https://epiverse-trace.github.io/epiCo/reference/neighborhoods.html</loc>
   </url>
   <url>
-    <loc>https://epiverse-trace.github.io/epiCo/reference/population_projection_col.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/epiCo/reference/population_projection_col_0.html</loc>
-  </url>
-  <url>
     <loc>https://epiverse-trace.github.io/epiCo/reference/population_pyramid.html</loc>
-  </url>
-  <url>
-    <loc>https://epiverse-trace.github.io/epiCo/reference/spatial_polygons_col.html</loc>
   </url>
 </urlset>

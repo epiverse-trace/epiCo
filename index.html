@@ -44,6 +44,14 @@
 <li class="nav-item">
   <a class="nav-link" href="reference/index.html">Reference</a>
 </li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="articles/demographic_vignette.html">epiCo - Demographic module</a>
+    <a class="dropdown-item" href="articles/endemic_channel.html">Building an Endemic Channel with epiCo</a>
+    <a class="dropdown-item" href="articles/spatiotemporal_vignette.html">Spatiotemporal analyses with epiCo</a>
+  </div>
+</li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="search.json" id="search-input" placeholder="Search for" autocomplete="off">
@@ -57,10 +65,9 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="epico">epiCo<a class="anchor" aria-label="anchor" href="#epico"></a>
+<div class="page-header"><h1 id="epico-">epiCo <img src="reference/figures/logo.jpg" align="right" width="120"><a class="anchor" aria-label="anchor" href="#epico-"></a>
 </h1></div>
-<p><em>epiCo</em> provides functions for clustering, regression, now casting, and sup reporting analyses vector-borne diseases in Colombia.</p>
-<p><strong>R</strong> from common <em>health information systems</em>.</p>
+<p><em>epiCo</em> provides statistical tools for the analysis of demographic trends, spatiotemporal behavior, and outbreaks characterization of vector-borne diseases in Colombia.</p>
 <!-- badges: start -->
 
 <div class="section level2">
@@ -72,31 +79,27 @@
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"epiverse-trace/epiCo"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
+<h2 id="motivation">Motivation<a class="anchor" aria-label="anchor" href="#motivation"></a>
+</h2>
+<p>When reviewing the current epidemiological bulletins published by the local Secretariats of Health in Colombia we identified an opportunity to create a tool to: - Include spatial and demographic risk assesments into their routine epidemiological reports to better identify population groups for potential interventions - Facilitate the understanding of the different epidemiological profiles within a region in Colombia regarding onset, duration, magnitude, and frequency of the outbreaks - Strengthen the transparency of methods used for the outbreaks analyses - Provide more informative context by performing correlation and regression analyses with local socioeconomic and climate data</p>
+<p>The package allows to perform interoperable analyses of linelist data from <a href="https://www.ins.gov.co/Direcciones/Vigilancia/Paginas/SIVIGILA.aspx" class="external-link">SIVIGILA</a> (accesible using Epiverse-TRACE package <a href="https://github.com/epiverse-trace/sivirep" class="external-link">sivirep</a>) with spatial, socioeconomic and climate data (accesible using Epiverse-TRACE package <a href="">ColOpenData</a>.</p>
+<p><em>epiCo</em> can be used to perform the following main tasks at municipality, departmental, or national level:</p>
+<ol style="list-style-type: decimal">
+<li>To identify demographic vulnerabilities from linelist data and socioeconomic census, including risk assesment based on age, gender, occupation, and ethnicity.</li>
+<li>To asses hot-spots analyses (as Local Moran’s index) based on real travel distances in Colombia estimated from <a href="https://doi.org/10.1371/journal.pntd.0010270" class="external-link">Bravo-Vega C., Santos-Vega M., &amp; Cordovez J.M. (2022)</a>.</li>
+<li>To generate automated outbreaks characterization (onset, duration, magnitude, and frequency) using traditional methods as the <a href="https://iris.paho.org/handle/10665.2/8562" class="external-link">endemic channel</a> and poisson tests for unusual behavior, or by Statistical Process Control methods as ARIMA Control Chart for outliers detection.</li>
+<li>To estimate the probability of the effective reproductive number (R<sub>t</sub>) to be higher than one (i.e. outbreak onset) based on work by <a href="https://doi.org/10.1371/journal.pcbi.1010004" class="external-link">Parag, K.V., &amp; Donnelly, C.A. (2022)</a> &amp; <a href="https://doi.org/10.1016/j.epidem.2018.05.011" class="external-link">Codeço, C.T., Villela, D.A., &amp; Coelho, F.C. (2018)</a>.</li>
+<li>To perform correlation analyses between categorial socioeconomic data and climate time series, and epidemiological data to generate a report of potential drivers and trends of VBDs outbreaks.</li>
+<li><em>Future features will include nowcasting assesment as underreport estimation and short term forecasting</em></li>
+</ol>
+<p>All functionalities are performed automatically from epidemiological, demographic, spatial and socioconomic data published by Colombian institutions but methods can also be customized, as well as inputed data, so hipothetical information can be tested within the package.</p>
+</div>
+<div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
 <p>These examples illustrate some of the current functionalities:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">epiCo</span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.repidemicsconsortium.org/incidence/" class="external-link">incidence</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/luca-scr/qcc" class="external-link">qcc</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">## Occupation labels</span></span>
-<span></span>
-<span><span class="va">isco_codes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">7321</span>, <span class="fl">2411</span>, <span class="fl">4121</span>, <span class="fl">3439</span>, <span class="fl">3431</span><span class="op">)</span></span>
-<span><span class="va">isco_labels</span> <span class="op">&lt;-</span> <span class="fu">get_occupationLabels</span><span class="op">(</span><span class="va">isco_codes</span>, output_level <span class="op">=</span> <span class="st">"unit_label"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">## Incidence rates estimation</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"dengue_orinoquia_2017"</span><span class="op">)</span></span>
-<span><span class="va">incidence_object</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://www.repidemicsconsortium.org/incidence/reference/incidence.html" class="external-link">incidence</a></span><span class="op">(</span><span class="va">dengue_orinoquia_2017</span><span class="op">$</span><span class="va">FEC_NOT</span>, groups <span class="op">=</span> <span class="va">dengue_orinoquia_2017</span><span class="op">$</span><span class="va">COD_MUN_O</span>, interval <span class="op">=</span> <span class="st">"1 week"</span><span class="op">)</span></span>
-<span><span class="va">incidenceRate_object</span> <span class="op">&lt;-</span> <span class="fu">estimate_incidenceRate</span><span class="op">(</span><span class="va">incidence_object</span>, level <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">## Outbreaks detection</span></span>
-<span></span>
-<span><span class="co"># EWMA method</span></span>
-<span></span>
-<span><span class="va">incidence_arauca</span> <span class="op">&lt;-</span> <span class="va">incidence_object</span><span class="op">$</span><span class="va">counts</span><span class="op">[</span>,<span class="st">"81001"</span><span class="op">]</span></span>
-<span><span class="va">outbreaks_object</span> <span class="op">&lt;-</span> <span class="fu">detect_outbreaks_EWMA</span><span class="op">(</span><span class="va">incidence_arauca</span>, lambda <span class="op">=</span> <span class="fl">0.2</span>, nsigmas <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">epiCo</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="development">Development<a class="anchor" aria-label="anchor" href="#development"></a>
@@ -173,7 +176,7 @@
 <li><a href="https://opensource.org/licenses/MIT" class="external-link"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a></li>
 <li><a href="https://github.com/epiverse-trace/epico/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/epiverse-trace/epico/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
 <li><a href="https://app.codecov.io/gh/epiverse-trace/epico?branch=main" class="external-link"><img src="https://codecov.io/gh/epiverse-trace/epico/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
-<li><a href="https://www.reconverse.org/lifecycle.html#concept" class="external-link"><img src="https://raw.githubusercontent.com/reconverse/reconverse.github.io/master/images/badge-concept.svg" alt="lifecycle-concept"></a></li>
+<li><a href="https://www.reconverse.org/lifecycle.html#experimental" class="external-link"><img src="https://raw.githubusercontent.com/reconverse/reconverse.github.io/master/images/badge-experimental.svg" alt="lifecycle-experimental"></a></li>
 </ul>
 </div>
 
