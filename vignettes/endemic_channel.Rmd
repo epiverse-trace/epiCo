@@ -39,7 +39,7 @@ The broader definition and methodology for the endemic channel was provided by [
 
 ```{r, echo = FALSE, out.width = '100%'}
 knitr::include_graphics(
-  path = file.path("man", "figures", "endemic_channel_figure.png"),
+  path = file.path("..", "man", "figures", "endemic_channel_figure.png"),
   error = FALSE
 )
 ```
