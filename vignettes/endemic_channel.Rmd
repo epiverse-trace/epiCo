@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 **epiCo**'s *endemic channel* module is a tool to estimate a central tendency line and upper and lower limits for the expected number of cases of a disease based on the historical data provided by the user and a set of customized parameters.
 
-The `endemic_channel` function allows you to:
+The `endemic_channel` function allows users to:
 
 - Estimate a central tendency measure (arithmetic mean, geometric mean, or median).
 - Estimate a confidence interval (based on the selected central tendency measure).
@@ -24,7 +24,7 @@ The `endemic_channel` function allows you to:
 - Plot the estimated endemic channel with the parameters and/or assumptions displayed.
 - Plot the current (observed) cases to evaluate your epidemiological situation (i.e., the occurrence of an outbreak).
 
-In the following vignette, you will learn:
+In the following vignette, users will learn:
 
 1. What is an endemic channel and what are its benefits, drawbacks, and cautions. 
 2. An example of the historical data needed to build an endemic channel.
@@ -143,20 +143,20 @@ observations <- sample(15:100, 52, replace = FALSE)
 
 outlier_years <- c(2016, 2019)
 
-endemic_channel(
+ibague_endemic_chanel <- endemic_channel(
   incidence_historic = incidence_historic,
   observations = observations,
   outlier_years = outlier_years,
-  plot = TRUE
+  plot = FALSE
 )
+
+ibague_endemic_chanel$endemic_channel_plot
 ```
 
 ## 4. Interpretation and communication of results
 
-### Tips
+### Tips (section in development)
 
-### Warnings and disclosures
+### Warnings and disclosures (section in development)
 
-### Exporting the endemic channel plot
-
-
+### Exporting the endemic channel plot (section in development)

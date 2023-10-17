@@ -40,11 +40,11 @@ In the following vignette, you will learn how to:
 
 1. Navigate the Codification of the Political Administrative Division of Colombia (DIVIPOLA).
 2. Consult, visualize, and interpret Colombian population pyramids at different
-population scales.
+administrative levels.
 3. Interpret the demographic variables reported by the SIVIGILA (as ethnicities,
 special population groups, and occupational labels).
-4. Understand the epidemiological data example.
-5. Estimate weekly and monthly global incidence rates for a municipality, department, or country.
+4. Understand the typical SIVIGILA epidemiological data.
+5. Estimate weekly and monthly incidence rates for a municipality, department, or country.
 6. Integrate the age distributions of cases with population pyramids to obtain an age-risk assessment for a disease.
 
 ## 1. Navigating the Codification of the Political Administrative Division of Colombia (DIVIPOLA)
@@ -59,7 +59,7 @@ Colombia has:
 - 18 Non-municipalized areas
 - 6678 Populated centers
 
-Two digits are used for the codification of departments, and five digits are used for the codification of municipalities (the first two being the  department where they are located).
+Two digits are used for the codification of departments, and five digits are used for the codification of municipalities (the first two being the department where they are located).
 
 **epiCo** provides the complete list of departments and municipalities codes through a built-in dataset.
 
@@ -73,14 +73,14 @@ data("divipola_table")
 
 **epiCo** provides a built-in dataset with the population projections of Colombia at the national, departmental, and municipality levels (provided by the DANE).
 
-You can perform queries on these data by using the 'population_pyramid' function, providing the DIVIPOLA code of the territory of interest and the year to consult.
+Users can perform queries on this data by using the `population_pyramid` function, providing the DIVIPOLA code of the territory of interest and the year to consult.
 
 ```{r}
 ibague_code <- 73001 # DIVIPOLA code for the city of Ibagu<U+00E9>
 year <- 2016 # Year to consult
 ibague_pyramid_2016 <- population_pyramid(ibague_code, year) # Population
-# pyramid (dataframe) for the city of Ibagu<U+00E9> in the year 2019 dissagregated
-# by sex
+# pyramid (dataframe) for the city of Ibagu<U+00E9> in the year 2019
+# dissagregated by sex
 head(ibague_pyramid_2016)
 ```
 
@@ -121,7 +121,7 @@ describe_occupation(
 ```
 ## 4. Epidemiological data
 
-**epiCo** is a tool that produces analyses based on epidemiological data extracted from SIVIGILA or provided by the user. In the data folder is the epi_data file, which shows an example of the structure used by the package, which is the same as the one reported by SIVIGILA. This file contains the cases of all the municipalities in Tolima for the years 2015–2021.
+**epiCo** is a tool that produces analyses based on epidemiological data extracted from SIVIGILA or provided by the user. `epi_data` is a built-in file, which shows an example of the structure used by the package, which is the same as the one reported by SIVIGILA. This file contains the cases of all the municipalities in Tolima for the years 2015–2021.
 
 The following analyses use the dengue cases reported in Tolima in 2019.
 
@@ -135,12 +135,12 @@ head(data_tolima)
 
 ## 5. Estimation of incidence rates
 
-The incidence rate feature of **epiCo** requires the [incidence2](https://github.com/reconverse/incidence2) package to produce a modified incidence object instead of a count vector (or matrix). It transforms the object to provide a rate element accounting for the number of cases in the time period divided by the total number of inhabitants in the region and year.
+The incidence rate feature of **epiCo** requires the [incidence](https://www.repidemicsconsortium.org/incidence/) package to produce a modified incidence object. Instead of a count vector (or matrix), it transforms the object to provide a rate element accounting for the number of cases in the time period divided by the total number of inhabitants in the specific region and year.
 
 **epiCo** uses the DANE population projections as denominators; therefore, it is necessary to provide the administration level at which incidences are calculated.
 
 ```{r}
-incidence_object <- incidence(
+incidence_object <- incidence::incidence(
   dates = data_tolima$fec_not,
   groups = data_tolima$cod_mun_o,
   interval = "1 epiweek"
