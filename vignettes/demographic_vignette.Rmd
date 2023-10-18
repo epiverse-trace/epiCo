@@ -140,7 +140,7 @@ The incidence rate feature of **epiCo** requires the [incidence](https://www.rep
 **epiCo** uses the DANE population projections as denominators; therefore, it is necessary to provide the administration level at which incidences are calculated.
 
 ```{r}
-incidence_object <- incidence::incidence(
+incidence_object <- incidence(
   dates = data_tolima$fec_not,
   groups = data_tolima$cod_mun_o,
   interval = "1 epiweek"
