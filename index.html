@@ -67,7 +67,7 @@
   <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header"><h1 id="epico-">epiCo <img src="reference/figures/logo.jpg" align="right" width="120"><a class="anchor" aria-label="anchor" href="#epico-"></a>
 </h1></div>
-<p><em>epiCo</em> provides statistical tools for the analysis of demographic trends, spatiotemporal behavior, and outbreaks characterization of vector-borne diseases in Colombia.</p>
+<p>epiCo provides statistical tools for the analysis of demographic trends, spatiotemporal behavior, and outbreak characterization of vector-borne diseases in Colombia.</p>
 <!-- badges: start -->
 
 <div class="section level2">
@@ -81,18 +81,18 @@
 <div class="section level2">
 <h2 id="motivation">Motivation<a class="anchor" aria-label="anchor" href="#motivation"></a>
 </h2>
-<p>When reviewing the current epidemiological bulletins published by the local Secretariats of Health in Colombia we identified an opportunity to create a tool to: - Include spatial and demographic risk assesments into their routine epidemiological reports to better identify population groups for potential interventions - Facilitate the understanding of the different epidemiological profiles within a region in Colombia regarding onset, duration, magnitude, and frequency of the outbreaks - Strengthen the transparency of methods used for the outbreaks analyses - Provide more informative context by performing correlation and regression analyses with local socioeconomic and climate data</p>
-<p>The package allows to perform interoperable analyses of linelist data from <a href="https://www.ins.gov.co/Direcciones/Vigilancia/Paginas/SIVIGILA.aspx" class="external-link">SIVIGILA</a> (accesible using Epiverse-TRACE package <a href="https://github.com/epiverse-trace/sivirep" class="external-link">sivirep</a>) with spatial, socioeconomic and climate data (accesible using Epiverse-TRACE package <a href="">ColOpenData</a>.</p>
-<p><em>epiCo</em> can be used to perform the following main tasks at municipality, departmental, or national level:</p>
+<p>When reviewing the current epidemiological bulletins published by the local Secretariats of Health in Colombia, we identified an opportunity to create a tool to: - Include spatial and demographic risk assessments into their routine epidemiological reports to better identify population groups for potential interventions. - Facilitate the understanding of the different epidemiological profiles within a region in Colombia regarding the onset, duration, magnitude, and frequency of the outbreaks. - Strengthen the transparency of the methods used for the outbreak analysis. - Provide more informative context by performing correlation and regression analysis with local socioeconomic and climate data.</p>
+<p>The package allows for interoperable analyses of linelist data from <a href="https://www.ins.gov.co/Direcciones/Vigilancia/Paginas/SIVIGILA.aspx" class="external-link">SIVIGILA</a> (accessible using Epiverse-TRACE package <a href="https://github.com/epiverse-trace/sivirep" class="external-link">sivirep</a>) with spatial, socioeconomic, and climate data (accessible using Epiverse-TRACE package <a href="">ColOpenData</a>.</p>
+<p><em>epiCo</em> can be used to perform the following main tasks at the municipality, departmental, or national level:</p>
 <ol style="list-style-type: decimal">
-<li>To identify demographic vulnerabilities from linelist data and socioeconomic census, including risk assesment based on age, gender, occupation, and ethnicity.</li>
-<li>To asses hot-spots analyses (as Local Moran’s index) based on real travel distances in Colombia estimated from <a href="https://doi.org/10.1371/journal.pntd.0010270" class="external-link">Bravo-Vega C., Santos-Vega M., &amp; Cordovez J.M. (2022)</a>.</li>
-<li>To generate automated outbreaks characterization (onset, duration, magnitude, and frequency) using traditional methods as the <a href="https://iris.paho.org/handle/10665.2/8562" class="external-link">endemic channel</a> and poisson tests for unusual behavior, or by Statistical Process Control methods as ARIMA Control Chart for outliers detection.</li>
-<li>To estimate the probability of the effective reproductive number (R<sub>t</sub>) to be higher than one (i.e. outbreak onset) based on work by <a href="https://doi.org/10.1371/journal.pcbi.1010004" class="external-link">Parag, K.V., &amp; Donnelly, C.A. (2022)</a> &amp; <a href="https://doi.org/10.1016/j.epidem.2018.05.011" class="external-link">Codeço, C.T., Villela, D.A., &amp; Coelho, F.C. (2018)</a>.</li>
-<li>To perform correlation analyses between categorial socioeconomic data and climate time series, and epidemiological data to generate a report of potential drivers and trends of VBDs outbreaks.</li>
-<li><em>Future features will include nowcasting assesment as underreport estimation and short term forecasting</em></li>
+<li>To identify demographic vulnerabilities from linelist data and the socioeconomic census, including risk assessment based on age, gender, occupation, and ethnicity.</li>
+<li>To assess hot-spot analyses (as Local Moran’s index) based on real travel distances in Colombia estimated from <a href="https://doi.org/10.1371/journal.pntd.0010270" class="external-link">Bravo-Vega C., Santos-Vega M., &amp; Cordovez J.M. (2022)</a>.</li>
+<li>To generate automated outbreak characterization (onset, duration, magnitude, and frequency) using traditional methods as the <a href="https://iris.paho.org/handle/10665.2/8562" class="external-link">endemic channel</a> and poisson tests for unusual behavior, or by statistical process control methods as ARIMA Control Chart for outlier detection.</li>
+<li>To estimate the probability of the effective reproductive number (R<sub>t</sub>) being higher than one (i.e., outbreak onset) based on work by <a href="https://doi.org/10.1371/journal.pcbi.1010004" class="external-link">Parag, K.V., &amp; Donnelly, C.A. (2022)</a> &amp; <a href="https://doi.org/10.1016/j.epidem.2018.05.011" class="external-link">Codeço, C.T., Villela, D.A., &amp; Coelho, F.C. (2018)</a>.</li>
+<li>To perform correlation analyses between categorical socioeconomic data, climate time series and epidemiological data to generate a report of potential drivers and trends of VBDs outbreaks.</li>
+<li><em>Future features will include nowcasting assessment, underreport estimation, and short-term forecasting.</em></li>
 </ol>
-<p>All functionalities are performed automatically from epidemiological, demographic, spatial and socioconomic data published by Colombian institutions but methods can also be customized, as well as inputed data, so hipothetical information can be tested within the package.</p>
+<p>All functionalities are performed automatically from epidemiological, demographic, spatial, and socioeconomic data published by Colombian institutions, but methods can also be customized as well as input data, so hypothetical information can be tested within the package.</p>
 </div>
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>

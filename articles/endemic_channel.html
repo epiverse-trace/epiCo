@@ -80,94 +80,93 @@
     
 <p><strong>epiCo</strong>’s <em>endemic channel</em> module is a tool to
 estimate a central tendency line and upper and lower limits for the
-expected number of cases of a disease, based on the historical data
+expected number of cases of a disease based on the historical data
 provided by the user and a set of customized parameters.</p>
-<p>The <code>endemic_channel</code> function allows you to:</p>
+<p>The <code>endemic_channel</code> function allows users to:</p>
 <ul>
 <li>Estimate a central tendency measure (arithmetic mean, geometric
-mean, or median)</li>
+mean, or median).</li>
 <li>Estimate a confidence interval (based on the selected central
-tendency measure)</li>
+tendency measure).</li>
 <li>Select the epidemic (outlier) years in your data and decide how to
-handle them</li>
-<li>Plot the estimated endemic channel with the parameters/assumptions
-displayed</li>
+handle them.</li>
+<li>Plot the estimated endemic channel with the parameters and/or
+assumptions displayed.</li>
 <li>Plot the current (observed) cases to evaluate your epidemiological
-situation (ie. occurrance of an outbreak)</li>
+situation (i.e., the occurrence of an outbreak).</li>
 </ul>
-<p>In the following vignette you will learn:</p>
+<p>In the following vignette, users will learn:</p>
 <ol style="list-style-type: decimal">
-<li>What is an endemic channel, its benefits, drawbacks, and
-cautions</li>
+<li>What is an endemic channel and what are its benefits, drawbacks, and
+cautions.</li>
 <li>An example of the historical data needed to build an endemic
-channel</li>
-<li>How to use the <code>endemic_channel</code> function</li>
-<li>How to interpret and communicate the results</li>
+channel.</li>
+<li>How to use the <code>endemic_channel</code> function.</li>
+<li>How to interpret and communicate the results.</li>
 </ol>
 <div class="section level2">
 <h2 id="what-is-an-endemic-channel">1. What is an endemic channel?<a class="anchor" aria-label="anchor" href="#what-is-an-endemic-channel"></a>
 </h2>
 <p>Using an endemic channel is a visual strategy to represent the
-historical behavior of a disease in a specific region on a epidemic
-curve that defines the central tendency of the cases during a year, and
-upper and lower limits where cases are expected to vary. This plot
+historical behavior of a disease in a specific region on an epidemic
+curve that defines the central tendency of the cases during a year and
+the upper and lower limits where cases are expected to vary. This plot
 provides four areas known as “<span class="math inline">\(\color{green}{\text{Success}}\)</span>”, “<span class="math inline">\(\color{Gold}{\text{Safety}}\)</span>”, “<span class="math inline">\(\color{orange}{\text{Warning}}\)</span>”, and
 “<span class="math inline">\(\color{Red}{\text{Epidemic}}\)</span>”
-bands (Figure 1) which are later used to define the epidemiological
-situation of the region based on the the current (observed) cases.</p>
-<p>The broader definition and methodology for the endemic channel was
+bands (Figure 1), which are later used to define the epidemiological
+situation of the region based on the current (observed) cases.</p>
+<p>The broader definition and methodology for the endemic channel were
 provided by <a href="https://iris.paho.org/handle/10665.2/8562" class="external-link">Bormant
 (1999)</a>.</p>
-<p><img src="reference/figures/endemic_channel_figure.png" width="100%"></p>
+<p><img src="../reference/figures/endemic_channel_figure.png" width="100%"></p>
 <p>The data needed to build an endemic channel is the weekly or monthly
 incidence of the disease for previous years in the region of interest.
-<strong>epiCo</strong> asks for at least one year of data but endemic
-channels are typically estimated from <em>5 to 7 years of
+<strong>epiCo</strong> asks for at least one year of data, but endemic
+channels are typically estimated at <em>5 to 7 years of
 information</em>.</p>
-<p>It is natural to presume that more years provide better estimations,
+<p>It is natural to presume that more years provide better estimations
 since the statistical analyses will be more robust, but it is important
-to have contextual information to asseverate that transmission,
-surveillance or demographic conditions (among other factors) have not
-change during this period of time. Regarding the frequency of the data,
+to have contextual information to ensure that transmission,
+surveillance, or demographic conditions (among other factors) have not
+changed during this period of time. Regarding the frequency of the data,
 weekly incidence may provide more useful information about the disease
 behavior and the moment in which an epidemiological warning should be
-raised, however it is up to the experience of the users and their
-context whether this resolution of data can be achieved.</p>
-<p>Another common decision while the building of an endemic channel is
-to ignore previous epidemic years to avoid misrepresentation of the
-traditional transmission dynamics. <strong>epiCo</strong> does not
-suggest epidemic years automatically but its
-<code>endemic_channel</code> function does provide the option to
-annotate the outlier years and decide whether to include, ignore, or
-adjust them. More data gathering tips and sources are provided later in
-this vignette.</p>
+raised; however, it is up to the experience of the users and their
+context whether this resolution of the data can be achieved.</p>
+<p>Another common decision while building an endemic channel is to
+ignore previous epidemic years to avoid misrepresenting the traditional
+transmission dynamics. <strong>epiCo</strong> does not suggest epidemic
+years automatically, but its <code>endemic_channel</code> function does
+provide the option to annotate the outlier years and decide whether to
+include, ignore, or adjust them. More data-gathering tips and sources
+are provided later in this vignette.</p>
 <div class="section level3">
 <h3 id="the-central-tendency-measure-ctm">The central tendency measure (CTM)<a class="anchor" aria-label="anchor" href="#the-central-tendency-measure-ctm"></a>
 </h3>
 <p>To have a statistical summary of the disease behavior, the endemic
 channel provides a central tendency measure (CTM) that should describe
 the typical value of the historical data.</p>
-<p>Since the nature of the epidemiological data tends no be not normal,
-the typically CTM used in the endemic channels is the <em>geometric
+<p>Since the nature of the epidemiological data tends not to be normal,
+the typically used CTM in the endemic channels is the <em>geometric
 mean</em>. This CTM is known to better represent the expected value of a
-data set with a skewed distribution and/or susceptible to outliers
+data set with a skewed distribution and/or is susceptible to outliers
 (previous outbreaks). The <code>endemic_channel</code> function uses the
-geometric mean as default CTM but arithmetic mean or median can be
-chosen according to user’s experience and context.</p>
-<p>Is important to note that as the geometric mean performs a
+geometric mean as the default CTM, but the arithmetic mean or median can
+be chosen according to the user’s experience and context.</p>
+<p>It is important to note that as the geometric mean performs a
 multiplication of the data, when zero cases are reported in a moment of
-time the estimation leads to a zero CTM. To avoid this,
+time, the estimation leads to a zero CTM. To avoid this,
 <strong>epiCo</strong>’s <code>endemic_channel</code> function performs
-a shift on the data to sum up one case (default value) to all
-observations and then it subtracts this shift to the final calculation.
-To avoid random selection of the shift, users can ask
+a shift on the data to sum up one case (the default value) for all
+observations, and then it subtracts this shift from the final
+calculation. To avoid random selection of the shift, users can ask the
 <code>endemic_channel</code> function to find an optimal value based on
 <a href="https://doi.org/10.48550/arXiv.1806.06403" class="external-link">de la Cruz &amp;
-Kreft, 2019</a>, or they can also ask to use a weighted method as
-described by <a href="https://www.arpapress.com/volumes/vol11issue3/ijrras_11_3_08.pdf" class="external-link">Habib,
-2012</a>.</p>
+Kreft (2019)</a>, or they can also ask to use a weighted method as
+described by <a href="https://www.arpapress.com/volumes/vol11issue3/ijrras_11_3_08.pdf" class="external-link">Habib
+(2012)</a>.</p>
 <p>Finally, the <code>endemic_channel</code> function can perform a
-Poisson test (unusual behavior method) on the historical data if is
+Poisson test (unusual behavior method) on the historical data if it is
 requested by the user after taking into the account the pertinence of
 the test, since it is mostly used for scenarios or diseases with very
 low incidence records. This method uses the arithmetic mean as CTM.</p>
@@ -176,45 +175,45 @@ low incidence records. This method uses the arithmetic mean as CTM.</p>
 <h3 id="the-upper-and-lower-limits">The upper and lower limits<a class="anchor" aria-label="anchor" href="#the-upper-and-lower-limits"></a>
 </h3>
 <p>The upper and lower limits of the endemic channel provide a
-confidence interval that are used to define the epidemiological bands
+confidence interval that is used to define the epidemiological bands
 previously described.</p>
-<p><strong>epiCo</strong>’s <code>endemic_channel</code> function have
+<p><strong>epiCo</strong>’s <code>endemic_channel</code> function has
 the following preset of limits according to the selected CTM:</p>
 <ul>
-<li>Arithmetic or Geometric mean as CTM: mean +/- <em>t</em> value for a
-95% CI multiplied by variance of the data over the number of
-observations</li>
-<li>Median as CTM: quantiles 0.25 and 0.75 as lower and upper limits
-respectively</li>
-<li>Poisson test (Unusual behavior method): limits provided by a two
-sided Poisson test with 0.95% CI</li>
+<li>Arithmetic or geometric mean as CTM: mean +/- <em>t</em> value for a
+95% CI multiplied by the variance of the data over the number of
+observations.</li>
+<li>Median as CTM: quantiles 0.25 and 0.75 as lower and upper limits,
+respectively.</li>
+<li>Poisson test (unusual behavior method): limits provided by a
+two-sided Poisson test with 0.95% CI</li>
 </ul>
 </div>
 </div>
 <div class="section level2">
 <h2 id="historical-data-needed-to-build-an-endemic-channel">2. Historical data needed to build an endemic channel<a class="anchor" aria-label="anchor" href="#historical-data-needed-to-build-an-endemic-channel"></a>
 </h2>
-<p>This section provides some strategies to obtain, handle and gather
+<p>This section provides some strategies to obtain, handle, and gather
 the historical data needed to build an endemic channel. It presumes that
-user have either the linelist or incidence data for the disease of
-interest, or the need to consult historical data from the Colombian
-National Surveillance System <a href="https://www.ins.gov.co/Direcciones/Vigilancia/Paginas/SIVIGILA.aspx" class="external-link">SIVIGILA</a>.</p>
-<p>Regardless the user´s case, the goal of this section is to create an
-<code>incidence</code> object with the historical data of the
-disease.This object must account for the incidence of a single region
-(no groups are allowed in the <code>endemic_channel</code> function), it
-must have a weekly or monthly interval (epiweeks are also allowed), and
-it must represent at least one year or information.</p>
-<p>To have a broader understanding of the <code>incidence</code> package
-please refer to its <a href="https://www.repidemicsconsortium.org/incidence/" class="external-link">vignettes</a>.</p>
+the user has either the line list or incidence data for the disease of
+interest or the need to consult historical data from the Colombian
+National Surveillance System <a href="https://www.ins.gov.co/Direcciones/Vigilancia/Paginas/SIVIGILA.aspx" class="external-link">(SIVIGILA)</a>.</p>
+<p>Regardless of the user´s case, the goal of this section is to create
+an <code>incidence</code> object with historical data on the disease.
+This object must account for the incidence of a single region (no groups
+are allowed in the <code>endemic_channel</code> function), it must have
+a weekly or monthly interval (epiweeks are also allowed), and it must
+represent at least one year of information.</p>
+<p>To have a broader understanding of the <code>incidence</code>
+package, please refer to its <a href="https://www.repidemicsconsortium.org/incidence/" class="external-link">vignettes</a>.</p>
 <div class="section level3">
-<h3 id="historic-incidence-from-linelist-or-sivigila-data">Historic incidence from linelist or SIVIGILA data<a class="anchor" aria-label="anchor" href="#historic-incidence-from-linelist-or-sivigila-data"></a>
+<h3 id="historic-incidence-from-the-line-list-or-sivigila-data">Historic incidence from the line list or SIVIGILA data<a class="anchor" aria-label="anchor" href="#historic-incidence-from-the-line-list-or-sivigila-data"></a>
 </h3>
 <p>The endemic channel is more useful when data up to the immediate
-previous year is available, however this is not always possible for
-users out of the surveillance institutions. As an option, users can
-access to SIVIGILA’s linelist data that is typically published until the
-second semester of the year (ie. data for 2022 was published in the
+previous year is available; however, this is not always possible for
+users outside of the surveillance institutions. As an option, users can
+access SIVIGILA’s line list data that is typically published until the
+second semester of the year (i.e., data for 2022 was published in the
 second semester of 2023).</p>
 <!-- To have a broader understanding on SIVIGILA data manipulation please refer to [`sivirep`](https://epiverse-trace.github.io/sivirep/) vignettes. In future versions an **automatic endemic channel** function may be released in this package, performing the following data handling: -->
 <p>For this example, the data provided in the data folder of the package
@@ -224,6 +223,7 @@ will use the cases from the municipality of Ibagué to calculate the
 respective endemic channel.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">epiCo</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.repidemicsconsortium.org/incidence/" class="external-link">incidence</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"epi_data"</span><span class="op">)</span></span>
 <span><span class="va">data_event</span> <span class="op">&lt;-</span> <span class="va">epi_data</span></span>
@@ -232,12 +232,12 @@ respective endemic channel.</p>
 <span></span>
 <span><span class="co">## Building the historic incidence data</span></span>
 <span></span>
-<span><span class="va">incidence_historic</span> <span class="op">&lt;-</span> <span class="fu">incidence</span><span class="fu">::</span><span class="fu"><a href="https://www.repidemicsconsortium.org/incidence/reference/incidence.html" class="external-link">incidence</a></span><span class="op">(</span><span class="va">data_ibague</span><span class="op">$</span><span class="va">fec_not</span>,</span>
+<span><span class="va">incidence_historic</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://www.repidemicsconsortium.org/incidence/reference/incidence.html" class="external-link">incidence</a></span><span class="op">(</span><span class="va">data_ibague</span><span class="op">$</span><span class="va">fec_not</span>,</span>
 <span>  interval <span class="op">=</span> <span class="st">"1 epiweek"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">incidence_historic</span><span class="op">)</span></span></code></pre></div>
-<p>When users have their own linelist data the goal is the same: to
+<p>When users have their own line list data, the goal is the same: to
 clean and handle the data to build the <code>incidence</code> object
 (named <code>incidence_historic</code> in the previous example). The key
 message is that a list of dates that account for the event of interest
@@ -251,7 +251,7 @@ package.</p>
 <code>endemic_channel</code> function will allow the users to import a
 table accounting for periods of time (weeks or months) and count of
 cases, so when they do not have specific information on the dates for
-each case and endemic channel can still be builded.</p>
+each case, the endemic channel can still be built.</p>
 </div>
 </div>
 <div class="section level2">
@@ -264,7 +264,7 @@ function<a class="anchor" aria-label="anchor" href="#using-epicos-endemic_channe
 parameters:</p>
 <ul>
 <li><p><code>incidence_historic</code>: An incidence object with the
-cases counts of the previous years</p></li>
+case counts of the previous years</p></li>
 <li><p><code>observations</code>: A numeric vector with the current
 observations <em>(default = NULL)</em></p></li>
 <li><p><code>method</code>: A string with the mean calculation method of
@@ -273,30 +273,29 @@ method (Poisson Distribution Test) <em>(default =
 “geometric”)</em></p></li>
 <li><p><code>geom_method</code>: A string with the selected method for
 geometric mean calculation (see epiCo’s geom_mean function) <em>(default
-= “shifted”)</em></p></li>
+= “shifted”)</em>.</p></li>
 <li><p><code>outlier_years</code>: A numeric vector with the outlier
-(epidemic) years <em>(default = NULL)</em></p></li>
+(epidemic) years <em>(default = NULL)</em>.</p></li>
 <li>
 <p><code>outliers_handling</code>: A string with the handling
 decision regarding outlier years:</p>
 <ul>
-<li>ignored = data from outlier years will not take into account
-<em>(default)</em>
-</li>
-<li>included = data from outlier years will take into account</li>
+<li>ignored = data from outlier years will not be taken into account
+<em>(default)</em>.</li>
+<li>included = data from outlier years will take into account.</li>
 <li>replaced_by_median = data from outlier years will be replaced with
-the median and take into account</li>
+the median and taken into account.</li>
 <li>replaced_by_mean = data from outlier years will be replaced with the
-mean and take into account</li>
+mean and taken into account.</li>
 <li>replaced_by_geom_mean = data from outlier years will be replaced
-with the geometric mean and take into account</li>
+with the geometric mean and taken into account.</li>
 </ul>
 </li>
 <li><p><code>ci</code>: A numeric value to specify the confidence
 interval to use with the geometric method <em>(default =
-0.95)</em></p></li>
+0.95)</em>.</p></li>
 <li><p><code>plot</code>: A boolean for displaying a plot <em>(default =
-FALSE)</em></p></li>
+FALSE)</em>.</p></li>
 </ul>
 <p>The output of <em>epiCo</em>’s <code>endemic_channel</code> function
 is a dataframe with the observation, historical mean, and confidence
@@ -308,33 +307,35 @@ handling set by the user.</p>
 </h3>
 <p>The following example uses the previously historic incidence accessed
 from the SIVIGILA data source to build the 2021 <em>endemic channel</em>
-for Ibagué city.</p>
+for Ibagué City.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">observations</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">15</span><span class="op">:</span><span class="fl">100</span>, <span class="fl">52</span>, replace <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">outlier_years</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2016</span>, <span class="fl">2019</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/endemic_channel.html">endemic_channel</a></span><span class="op">(</span></span>
+<span><span class="va">ibague_endemic_chanel</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/endemic_channel.html">endemic_channel</a></span><span class="op">(</span></span>
 <span>  incidence_historic <span class="op">=</span> <span class="va">incidence_historic</span>,</span>
 <span>  observations <span class="op">=</span> <span class="va">observations</span>,</span>
 <span>  outlier_years <span class="op">=</span> <span class="va">outlier_years</span>,</span>
-<span>  plot <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span>  plot <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">ibague_endemic_chanel</span><span class="op">$</span><span class="va">endemic_channel_plot</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
 <h2 id="interpretation-and-communication-of-results">4. Interpretation and communication of results<a class="anchor" aria-label="anchor" href="#interpretation-and-communication-of-results"></a>
 </h2>
 <div class="section level3">
-<h3 id="tips">Tips<a class="anchor" aria-label="anchor" href="#tips"></a>
+<h3 id="tips-section-in-development">Tips (section in development)<a class="anchor" aria-label="anchor" href="#tips-section-in-development"></a>
 </h3>
 </div>
 <div class="section level3">
-<h3 id="warnings-and-disclosures">Warnings and disclosures<a class="anchor" aria-label="anchor" href="#warnings-and-disclosures"></a>
+<h3 id="warnings-and-disclosures-section-in-development">Warnings and disclosures (section in development)<a class="anchor" aria-label="anchor" href="#warnings-and-disclosures-section-in-development"></a>
 </h3>
 </div>
 <div class="section level3">
-<h3 id="exporting-the-endemic-channel-plot">Exporting the endemic channel plot<a class="anchor" aria-label="anchor" href="#exporting-the-endemic-channel-plot"></a>
+<h3 id="exporting-the-endemic-channel-plot-section-in-development">Exporting the endemic channel plot (section in development)<a class="anchor" aria-label="anchor" href="#exporting-the-endemic-channel-plot-section-in-development"></a>
 </h3>
 </div>
 </div>

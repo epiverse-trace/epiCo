@@ -81,45 +81,45 @@
 <p><strong>epiCo</strong>’s demographic module is a tool for demographic
 descriptive analysis and risk assessment of epidemiological events in
 Colombia. Based on linelist data provided by the Colombian National
-Surveillance System <a href="https://www.ins.gov.co/Direcciones/Vigilancia/Paginas/SIVIGILA.aspx" class="external-link">SIVIGILA</a>
+Surveillance System <a href="https://www.ins.gov.co/Direcciones/Vigilancia/Paginas/SIVIGILA.aspx" class="external-link">(SIVIGILA)</a>
 and demographic data from the Colombian National Administrative
-Department of Statistics <a href="https://microdatos.dane.gov.co/index.php/catalog/central/about" class="external-link">DANE</a>.</p>
+Department of Statistics <a href="https://microdatos.dane.gov.co/index.php/catalog/central/about" class="external-link">(DANE)</a>.</p>
 <p>The module allows you to:</p>
 <ul>
 <li>Consult and visualize the population pyramid of a municipality,
-department, or the country for a year of interest.</li>
+department, or country for a year of interest.</li>
 <li>Consult the definitions of demographic variables as ethnicities,
-special populations groups, and occupational labels.</li>
-<li>Estimate the distribution of occupations reported in the linelist
+special population groups, and occupational labels.</li>
+<li>Estimate the distribution of occupations reported in the line list
 according to the <a href="https://www.ilo.org/public/english/bureau/stat/isco/isco88/" class="external-link">ISCO
 88 Standard</a>.</li>
-<li>Estimate the incidence rate of a municipality, department, or the
+<li>Estimate the incidence rate of a municipality, department, or
 country.</li>
 <li>Calculate and visualize a relative age risk by normalizing the
 distribution of cases by the specific age structure of the location of
 interest.</li>
 </ul>
-<p>In the following vignette you will learn how to:</p>
+<p>In the following vignette, you will learn how to:</p>
 <ol style="list-style-type: decimal">
 <li>Navigate the Codification of the Political Administrative Division
 of Colombia (DIVIPOLA).</li>
-<li>Consult, visualize and interpret Colombian population pyramids at
-different population scales.</li>
+<li>Consult, visualize, and interpret Colombian population pyramids at
+different administrative levels.</li>
 <li>Interpret the demographic variables reported by the SIVIGILA (as
-ethnicities, special population groups, and occupatioanl labels).</li>
-<li>Understand the epidemiological data example.</li>
-<li>Estimate weekly and monthly global incidence rates for a
-municipality, department or the country.</li>
-<li>Integrate age distributions of cases with population pyramids to
-obtain an age risk assessment for a disease.</li>
+ethnicities, special population groups, and occupational labels).</li>
+<li>Understand the typical SIVIGILA epidemiological data.</li>
+<li>Estimate weekly and monthly incidence rates for a municipality,
+department, or country.</li>
+<li>Integrate the age distributions of cases with population pyramids to
+obtain an age-risk assessment for a disease.</li>
 </ol>
 <div class="section level2">
 <h2 id="navigating-the-codification-of-the-political-administrative-division-of-colombia-divipola">1. Navigating the Codification of the Political Administrative
 Division of Colombia (DIVIPOLA)<a class="anchor" aria-label="anchor" href="#navigating-the-codification-of-the-political-administrative-division-of-colombia-divipola"></a>
 </h2>
-<p>DIVIPOLA is a standardized nomenclature, designed by the DANE, for
-the identification of territorial entities (departments, districts and
-municipalities), non-municipalized areas and populated centers, by
+<p>DIVIPOLA is a standardized nomenclature designed by the DANE for the
+identification of territorial entities (departments, districts, and
+municipalities), non-municipalized areas, and populated centers by
 assigning a unique numerical code to each of these territorial
 units.</p>
 <p>Colombia has:</p>
@@ -130,9 +130,9 @@ units.</p>
 <li>18 Non-municipalized areas</li>
 <li>6678 Populated centers</li>
 </ul>
-<p>Two digits are used for the codification of Departments, and five
+<p>Two digits are used for the codification of departments, and five
 digits are used for the codification of municipalities (the first two
-being the the department where they are located).</p>
+being the department where they are located).</p>
 <p><strong>epiCo</strong> provides the complete list of departments and
 municipalities codes through a built-in dataset.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
@@ -144,18 +144,18 @@ municipalities codes through a built-in dataset.</p>
 <div class="section level2">
 <h2 id="population-pyramids">2. Population pyramids<a class="anchor" aria-label="anchor" href="#population-pyramids"></a>
 </h2>
-<p><strong>epiCo</strong> provides built-in dataset with the population
-projections of Colombia at national, department, and municipality level
-(provided by the DANE).</p>
-<p>You can perform queries to these data by using the
-‘population_pyramid’ function, providing the DIVIPOLA code of the
-territory of interest and the year to consult.</p>
+<p><strong>epiCo</strong> provides a built-in dataset with the
+population projections of Colombia at the national, departmental, and
+municipality levels (provided by the DANE).</p>
+<p>Users can perform queries on this data by using the
+<code>population_pyramid</code> function, providing the DIVIPOLA code of
+the territory of interest and the year to consult.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ibague_code</span> <span class="op">&lt;-</span> <span class="fl">73001</span> <span class="co"># DIVIPOLA code for the city of Ibagu&lt;U+00E9&gt;</span></span>
 <span><span class="va">year</span> <span class="op">&lt;-</span> <span class="fl">2016</span> <span class="co"># Year to consult</span></span>
 <span><span class="va">ibague_pyramid_2016</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/population_pyramid.html">population_pyramid</a></span><span class="op">(</span><span class="va">ibague_code</span>, <span class="va">year</span><span class="op">)</span> <span class="co"># Population</span></span>
-<span><span class="co"># pyramid (dataframe) for the city of Ibagu&lt;U+00E9&gt; in the year 2019 dissagregated</span></span>
-<span><span class="co"># by sex</span></span>
+<span><span class="co"># pyramid (dataframe) for the city of Ibagu&lt;U+00E9&gt; in the year 2019</span></span>
+<span><span class="co"># dissagregated by sex</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">ibague_pyramid_2016</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   age population gender</span></span>
 <span><span class="co">#&gt; 1   0       3355      F</span></span>
@@ -164,7 +164,7 @@ territory of interest and the year to consult.</p>
 <span><span class="co">#&gt; 4  15       4605      F</span></span>
 <span><span class="co">#&gt; 5  20       4341      F</span></span>
 <span><span class="co">#&gt; 6  25       3888      F</span></span></code></pre></div>
-<p>Definition of age ranges, and plotting are also provided for both:
+<p>Definitions of age ranges and plotting are also provided for both:
 total number of individuals or proportion of individuals</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ibague_code</span> <span class="op">&lt;-</span> <span class="fl">73001</span> <span class="co"># DIVIPOLA code for the city of Ibagu&lt;U+00E9&gt;</span></span>
@@ -181,10 +181,10 @@ total number of individuals or proportion of individuals</p>
 <h2 id="demographic-variables">3. Demographic variables<a class="anchor" aria-label="anchor" href="#demographic-variables"></a>
 </h2>
 <p>Events of epidemiological relevance are reported to the SIVIGILA
-using an official notification form (see, <a href="https://www.ins.gov.co/buscador-eventos/Paginas/Fichas-y-Protocolos.aspx" class="external-link">link</a>).</p>
-<p><strong>epiCo</strong> provides function to consult the dictionaries
-to the etnicity cathegories, special population groups, and occupation
-codification used by the SIVIGILA.</p>
+using an official notification form (see <a href="https://www.ins.gov.co/buscador-eventos/Paginas/Fichas-y-Protocolos.aspx" class="external-link">link</a>).</p>
+<p><strong>epiCo</strong> provides a function to consult the
+dictionaries for the ethnicity categories, special population groups,
+and occupation codifications used by the SIVIGILA.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">demog_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0001</span>, <span class="fl">002</span>, <span class="fl">003</span>, <span class="fl">004</span>, <span class="fl">005</span><span class="op">)</span>,</span>
@@ -223,8 +223,8 @@ codification used by the SIVIGILA.</p>
 <h2 id="epidemiological-data">4. Epidemiological data<a class="anchor" aria-label="anchor" href="#epidemiological-data"></a>
 </h2>
 <p><strong>epiCo</strong> is a tool that produces analyses based on
-epidemiological data extracted from SIVIGILA or provided by the user. In
-the data folder is the epi_data file, which shows an example of the
+epidemiological data extracted from SIVIGILA or provided by the user.
+<code>epi_data</code> is a built-in file, which shows an example of the
 structure used by the package, which is the same as the one reported by
 SIVIGILA. This file contains the cases of all the municipalities in
 Tolima for the years 2015–2021.</p>
@@ -251,11 +251,11 @@ Tolima for the years 2015–2021.</p>
 <div class="section level2">
 <h2 id="estimation-of-incidence-rates">5. Estimation of incidence rates<a class="anchor" aria-label="anchor" href="#estimation-of-incidence-rates"></a>
 </h2>
-<p>The incidence rate feature of <strong>epiCo</strong> requires the <a href="https://github.com/reconverse/incidence2" class="external-link">incidence2</a> package
-to produce a modified incidence object where, instead of a count vector
-(or matrix). It transforms the object to provide a rate element
+<p>The incidence rate feature of <strong>epiCo</strong> requires the <a href="https://www.repidemicsconsortium.org/incidence/" class="external-link">incidence</a>
+package to produce a modified incidence object. Instead of a count
+vector (or matrix), it transforms the object to provide a rate element
 accounting for the number of cases in the time period divided by the
-total number of inhabitants in the region and year.</p>
+total number of inhabitants in the specific region and year.</p>
 <p><strong>epiCo</strong> uses the DANE population projections as
 denominators; therefore, it is necessary to provide the administration
 level at which incidences are calculated.</p>
@@ -303,12 +303,12 @@ estimate an incidence rate.</p>
 <div class="section level2">
 <h2 id="estimation-of-risk-by-age-group">6. Estimation of risk by age group<a class="anchor" aria-label="anchor" href="#estimation-of-risk-by-age-group"></a>
 </h2>
-<p>Normalization of data is a key aspect on epidemiology.
-<strong>epiCo</strong> allows to take an age distribution of cases and
-normalize the epidemiological data with the age structure of a
-population. This normalization allows to estimate the age risk of a
+<p>Normalization of data is a key aspect of epidemiology.
+<strong>epiCo</strong> allows for the age distribution of cases and
+normalizes the epidemiological data with the age structure of a
+population. This normalization allows us to estimate the age risk of a
 disease according to the age structure of the general population in a
-municipality, department, or the country in a certain year.</p>
+municipality, department, or country in a certain year.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data_ibague</span> <span class="op">&lt;-</span> <span class="va">data_tolima</span><span class="op">[</span><span class="va">data_tolima</span><span class="op">$</span><span class="va">cod_mun_o</span> <span class="op">==</span> <span class="fl">73001</span>, <span class="op">]</span></span>
 <span></span>
