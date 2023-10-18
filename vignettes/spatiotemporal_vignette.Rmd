@@ -18,30 +18,30 @@ knitr::opts_chunk$set(
 
 The *spatiotemporal* module allows users to:
 
-- Define the neighbors of a municipality based on a travel time threshold that accounts for real connectivity and infrastructure
-- Perform a Moran’s Index autocorrelation analyses on the defined neighborhood and the provided incidence data (internally converted to incidence rate)
+- Define the neighbors of a municipality based on a travel time threshold that accounts for real connectivity and infrastructure.
+- Perform a Moran’s Index autocorrelation analysis on the defined neighborhood and the provided incidence data (internally converted to incidence rate).
 - Plot a heat map with the High (spatial correlation) - High (incidence rate) clusters, as well as Low - Low ones.
 
-In the following vignette you will learn:
+In the following vignette, you will learn:
 
-1. How real travel times were estimated from Colombian connectivity and infrastructure
-2. To obtain the neighbors of a municipality from real travel times using the `neighborhoods` function
-3. To use **epiCo**’s `morans_index` function
-4. How to interpret and communicate the results
+1. How real travel times were estimated from Colombian connectivity and infrastructure.
+2. To obtain the neighbors of a municipality from real travel times using the `neighborhoods` function.
+3. To use **epiCo**’s `morans_index` function.
+4. How to interpret and communicate the results.
 
 ## 1. Real travel times among Colombian municipalities
 
-Several approaches to estimate proximity and neighborhood of a point (or region) are developed in the literature. Some rely on euclidean distances among the centroid of the areas, whereas others rely in contiguity approaches between their boundaries.
+Several approaches to estimating the proximity and neighborhood of a point (or region) are developed in the literature. Some rely on euclidean distances among the centroids of the areas, whereas others rely on contiguity approaches between their boundaries.
 
-**epiCo** aims to propose a new approach on neighborhood estimation by defining the proximities among municipalities based on real available infrastructure in the territory. This is important in countries as Colombia where topology shapes the connectivity and interaction between municipalities, and where euclidean distances and boundaries may lead to an overestimation of nearness when in reality one of the three mountain ranges or on of the several rivers in the country may lead to large travel distances and times.
+**epiCo** aims to propose a new approach to neighborhood estimation by defining the proximities among municipalities based on the real available infrastructure in the territory. This is important in countries like Colombia, where topology shapes the connectivity and interaction between municipalities and where Euclidean distances and boundaries may lead to an overestimation of nearness when in reality one of the three mountain ranges or one of the several rivers in the country may lead to large travel distances and times.
 
-To estimate real travel times among Colombian municipalities, a travel times matrix was calculated based on [Bravo-Vega C., Santos-Vega M., & Cordovez J.M. (2022)](https://doi.org/10.1371/journal.pntd.0010270) study. The travel times accounts for the fastest path to connect one municipality to all municipalities in a friction map that provides different speeds according to the presence and quality of the roads, fluvial transport, or walking possibilities.
+To estimate real travel times among Colombian municipalities, a travel times matrix was calculated based on the [Bravo-Vega C., Santos-Vega M., & Cordovez J.M. (2022)](https://doi.org/10.1371/journal.pntd.0010270) study. The travel times account for the fastest path to connect one municipality to all municipalities in a friction map that provides different speeds according to the presence and quality of the roads, fluvial transport, or walking possibilities.
 
 ## 2. Defining a neighborhood with **epiCo**
 
-Since **epiCo** storage all travel times among municipalities in Colombia, the definition of a neighborhood has to be based on the expertise and knowledge of the user regarding what is the maximum travel time in which a municipality is considered a neighbor. 
+Since **epiCo** stores all travel times among municipalities in Colombia, the definition of a neighborhood has to be based on the expertise and knowledge of the user regarding the maximum travel time for which a municipality is considered a neighbor. 
 
-The `neighborhoods` function receives as parameters a vector of DIVIPOLA codes accounting for the municipalities to consider as potential neighbors, and a threshold that accounts for the maximum travel time (in hours) that a municipality can be from another.
+The `neighborhoods` function receives as parameters a vector of DIVIPOLA codes accounting for the municipalities to consider as potential neighbors and a threshold that accounts for the maximum travel time (in hours) that a municipality can be from another.
 
 ```{r, messages = FALSE, eval = TRUE}
 library(epiCo)
@@ -71,10 +71,10 @@ plot(cundinamarca_neighborhood, cbind(
 
 Internally, the function reads the `incidence` object's groups as the DIVIPOLA codes to:
 
-1) Estimate incidence rates using **epiCo**'s `incidence_rate` function
-2) Evaluate them on the **epiCo**'s `neighborhoods` function
+1) Estimate incidence rates using **epiCo**'s `incidence_rate` function.
+2) Evaluate them on the **epiCo**'s `neighborhoods` function.
 
-It is necessary for the user to provide the administrative level that the groups account for (0 - National level, 1 - Department level, 2 - Municipality level), the scale at which incidence rates should be estimated (cases per number of inhabitants), and the travel time threshold for the neighborhood definition.
+It is necessary for the user to provide the administrative level that the groups account for (0: national level, 1: department level, 2: municipality level), the scale at which incidence rates should be estimated (cases per number of inhabitants), and the travel time threshold for the neighborhood definition.
 
 The following example uses the cases of the municipalities of Tolima for the year 2019.
 ```{r, messages = FALSE, eval = TRUE}
