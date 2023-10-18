@@ -90,6 +90,7 @@ For this example, the data provided in the data folder of the package will be us
 
 ```{r setup, eval = FALSE}
 library(epiCo)
+library(incidence)
 
 data("epi_data")
 data_event <- epi_data
@@ -98,7 +99,7 @@ data_ibague <- data_event[data_event$cod_mun_o == 73001, ]
 
 ## Building the historic incidence data
 
-incidence_historic <- incidence::incidence(data_ibague$fec_not,
+incidence_historic <- incidence(data_ibague$fec_not,
   interval = "1 epiweek"
 )
 
