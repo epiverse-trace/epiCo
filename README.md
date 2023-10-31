@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# epiCo <img src="man/figures/logo.jpg" align="right" width="120"/>
+# epiCo <img src="man/figures/logo.svg" align="right" width="120"/>
 
 epiCo provides statistical tools for the analysis of demographic trends, spatiotemporal behavior, and outbreak characterization of vector-borne diseases in Colombia. 
 
