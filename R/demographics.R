@@ -270,7 +270,7 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
           stat = "identity"
         ) +
         ggplot2::coord_flip() +
-        ggplot2::ylab("Cases/Population")
+        ggplot2::ylab("Cases / Population")
     } else {
       age_risk_plot <- ggplot2::ggplot(age_risk, ggplot2::aes(
         x = .data$age,
@@ -278,7 +278,7 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
       )) +
         ggplot2::geom_bar(stat = "identity") +
         ggplot2::coord_flip() +
-        ggplot2::ylab("Cases/Population")
+        ggplot2::ylab("Cases / Population")
     }
 
     print(age_risk_plot)
