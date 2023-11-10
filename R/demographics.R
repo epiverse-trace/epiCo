@@ -19,7 +19,7 @@
 #' }
 #' @export
 #'
-population_pyramid_test <- function(divipola_code, year,
+population_pyramid <- function(divipola_code, year,
                                gender = TRUE, range = 5, total = TRUE,
                                plot = FALSE) {
   stopifnot(
