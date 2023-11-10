@@ -19,15 +19,16 @@
 #' }
 #' @export
 #'
-population_pyramid <- function(divipola_code, year,
+population_pyramid_test <- function(divipola_code, year,
                                gender = TRUE, range = 5, total = TRUE,
                                plot = FALSE) {
   stopifnot(
     "`year` is only available from 2005 to 2026,
-            please select a valid year" = (year >= 2005 & year <= 2026),
+            please select a valid year" = year %in% seq(2005,2026),
     "`divipola_code` must be numeric" = (is.numeric(divipola_code) &
       length(divipola_code) == 1),
-    "`range` must be a numeric value between 1 and 100" = (is.numeric(range))
+    "`range` must be an integer value between 1 and 100" = is.numeric(range) &
+      range %in% seq(1,100)
   )
   path <- system.file("extdata", "divipola_table.rda", package = "epiCo")
   load(path)
@@ -78,17 +79,17 @@ population_pyramid <- function(divipola_code, year,
   }
 
   female_total <- vector(length = length(seq(
-    1, length(female_counts) - range,
+    0, length(female_counts) - range,
     range
   )))
   male_total <- vector(length = length(seq(
-    1, length(female_counts) - range,
+    0, length(female_counts) - range,
     range
   )))
   cont <- 1
   for (h in seq(1, length(female_counts) - range, range)) {
-    female_total[cont] <- sum(female_counts[h:h + range])
-    male_total[cont] <- sum(male_counts[h:h + range])
+    female_total[cont] <- sum(female_counts[h:(h + range - 1)])
+    male_total[cont] <- sum(male_counts[h:(h + range - 1)])
     cont <- cont + 1
   }
 
@@ -102,8 +103,8 @@ population_pyramid <- function(divipola_code, year,
       age = rep(seq(0, length(female_counts) - range, range), 2),
       population = c(female_total, male_total),
       gender = c(
-        rep("F", ceiling((length(female_counts) - range) / range)),
-        rep("M", ceiling((length(male_counts) - range) / range))
+        rep("F", floor((length(female_counts)) / range)),
+        rep("M", floor((length(male_counts)) / range))
       )
     )
   } else {
