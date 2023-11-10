@@ -329,29 +329,6 @@ endemic_plot <- function(channel_data, method,
       row.names(channel_data)
     ))
   ) +
-    ggplot2::geom_area(ggplot2::aes(
-      y = rep(
-        max(c(max(.data$up_lim), .data$obs), na.rm = TRUE) * 1.05,
-        nrow(channel_data)
-      ),
-      fill = "Epidemic"
-    )) +
-    ggplot2::geom_area(ggplot2::aes(
-      y = .data$up_lim,
-      fill = "Warning"
-    )) +
-    ggplot2::geom_area(ggplot2::aes(
-      y = .data$central,
-      fill = "Safety"
-    )) +
-    ggplot2::geom_area(ggplot2::aes(
-      y = .data$low_lim,
-      fill = "Success"
-    )) +
-    ggplot2::geom_vline(
-      xintercept = seq(1, nrow(channel_data), 1),
-      color = "azure2", size = 0.1
-    ) +
     ggplot2::geom_hline(
       yintercept = seq(0, max(c(max(channel_data$up_lim), channel_data$obs),
         na.rm = TRUE
@@ -386,22 +363,8 @@ endemic_plot <- function(channel_data, method,
         paste(outlier_years, colow_limapse = ", "), " are ", outliers_handling
       )
     ) +
-    ggplot2::xlab(label = "Epidemiological period") +
+    ggplot2::xlab(label = "Epidemiological interval") +
     ggplot2::ylab("Number of cases") +
-    ggplot2::scale_fill_manual("",
-      values = c(
-        Epidemic = "brown3",
-        Warning = "darkorange",
-        Safety = "darkgoldenrod1",
-        Success = "darkolivegreen4"
-      ),
-      limits = c(
-        "Epidemic",
-        "Warning",
-        "Safety",
-        "Success"
-      )
-    ) +
     ggplot2::theme(
       plot.background = ggplot2::element_rect(fill = "white"),
       plot.margin = ggplot2::margin(20, 20, 20, 20),
