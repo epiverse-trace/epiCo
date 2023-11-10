@@ -282,7 +282,7 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
         ggplot2::coord_flip() +
         #nolint start
         ggplot2::ylab("Cases / Population")
-        #nolint start
+        #nolint end
     }
 
     print(age_risk_plot)
