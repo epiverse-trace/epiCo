@@ -269,14 +269,16 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
           data = dplyr::filter(age_risk, .data$gender == "M"),
           stat = "identity"
         ) +
-        ggplot2::coord_flip()
+        ggplot2::coord_flip() +
+        ggplot2::ylab("Cases / Population")
     } else {
       age_risk_plot <- ggplot2::ggplot(age_risk, ggplot2::aes(
         x = .data$age,
         y = .data$prob
       )) +
         ggplot2::geom_bar(stat = "identity") +
-        ggplot2::coord_flip()
+        ggplot2::coord_flip() +
+        ggplot2::ylab("Cases / Population")
     }
 
     print(age_risk_plot)
