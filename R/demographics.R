@@ -109,7 +109,7 @@ population_pyramid <- function(divipola_code, year,
     )
   } else {
     pop_pyramid <- data.frame(
-      age = seq(1, length(female_counts) - range, range),
+      age = seq(0, length(female_counts) - range, range),
       population = c(female_total + male_total)
     )
   }
