@@ -24,11 +24,11 @@ population_pyramid <- function(divipola_code, year,
                                plot = FALSE) {
   stopifnot(
     "`year` is only available from 2005 to 2026,
-            please select a valid year" = year %in% seq(2005,2026),
+            please select a valid year" = year %in% seq(2005, 2026),
     "`divipola_code` must be numeric" = (is.numeric(divipola_code) &
       length(divipola_code) == 1),
     "`range` must be an integer value between 1 and 100" = is.numeric(range) &
-      range %in% seq(1,100)
+      range %in% seq(1, 100)
   )
   path <- system.file("extdata", "divipola_table.rda", package = "epiCo")
   load(path)
@@ -117,9 +117,9 @@ population_pyramid <- function(divipola_code, year,
   if (plot) {
     if (gender) {
       pop_pyramid$population <- c(-1 * female_total, male_total)
-      dist_pop_f <- quantile(female_total)[2:5]
-      dist_pop_m <- quantile(male_total)[2:5]
-      dist_pop <- c(rev(-1 * dist_pop_f),0,dist_pop_m)
+      dist_pop_f <- stats::quantile(female_total)[2:5]
+      dist_pop_m <- stats::quantile(male_total)[2:5]
+      dist_pop <- c(rev(-1 * dist_pop_f), 0, dist_pop_m)
 
       pop_pyramid_plot <- ggplot2::ggplot(
         pop_pyramid,
@@ -137,16 +137,20 @@ population_pyramid <- function(divipola_code, year,
           data = dplyr::filter(pop_pyramid, .data$gender == "M"),
           stat = "identity"
         ) +
-        ggplot2::scale_y_continuous(breaks = c(dist_pop),
-                                  labels = c(abs(floor(dist_pop)))) +
-        ggplot2::scale_x_continuous(name = "Age",
-                                    breaks = unique(pop_pyramid$age),
-                                    labels = unique(pop_pyramid$age)) +
+        ggplot2::scale_y_continuous(
+          breaks = c(dist_pop),
+          labels = c(abs(floor(dist_pop)))
+        ) +
+        ggplot2::scale_x_continuous(
+          name = "Age",
+          breaks = unique(pop_pyramid$age),
+          labels = unique(pop_pyramid$age)
+        ) +
         ggplot2::coord_flip()
 
       pop_pyramid$population <- c(female_total, male_total)
     } else {
-      dist_pop <- quantile(pop_pyramid$population)
+      dist_pop <- stats::quantile(pop_pyramid$population)
       pop_pyramid_plot <- ggplot2::ggplot(
         pop_pyramid,
         ggplot2::aes(
@@ -155,11 +159,15 @@ population_pyramid <- function(divipola_code, year,
         )
       ) +
         ggplot2::geom_bar(stat = "identity") +
-        ggplot2::scale_y_continuous(breaks = c(dist_pop),
-                                    labels = c(floor(dist_pop))) +
-        ggplot2::scale_x_continuous(name = "Age",
-                                    breaks = pop_pyramid$age,
-                                    labels = pop_pyramid$age) +
+        ggplot2::scale_y_continuous(
+          breaks = c(dist_pop),
+          labels = c(floor(dist_pop))
+        ) +
+        ggplot2::scale_x_continuous(
+          name = "Age",
+          breaks = pop_pyramid$age,
+          labels = pop_pyramid$age
+        ) +
         ggplot2::coord_flip()
     }
 
@@ -245,7 +253,8 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
     age_risk <- rbind(age_risk_female, age_risk_male) ######
   } else {
     if (length(population_pyramid) == 3) {
-      population_pyramid <- aggregate(population ~ age, population_pyramid, sum)
+      population_pyramid <- stats::aggregate(population ~ age,
+                                             population_pyramid, sum)
     }
     hist_total <- graphics::hist(age,
       breaks = c(
@@ -285,9 +294,9 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
           stat = "identity"
         ) +
         ggplot2::coord_flip() +
-        #nolint start
+        # nolint start
         ggplot2::ylab("Cases / Population")
-        #nolint end
+      # nolint end
     } else {
       age_risk_plot <- ggplot2::ggplot(age_risk, ggplot2::aes(
         x = .data$age,
@@ -295,9 +304,9 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
       )) +
         ggplot2::geom_bar(stat = "identity") +
         ggplot2::coord_flip() +
-        #nolint start
+        # nolint start
         ggplot2::ylab("Cases / Population")
-        #nolint end
+      # nolint end
     }
 
     print(age_risk_plot)
