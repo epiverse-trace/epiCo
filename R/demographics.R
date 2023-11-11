@@ -205,7 +205,7 @@ population_pyramid <- function(divipola_code, year,
 #'
 age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
   stopifnot("`age` must be an integer numeric vector with values
-            between 0 and 100" = !all(age %in% seq(0,100)))
+            between 0 and 100" = all(age %in% seq(0,100)))
   if (!is.null(gender)) {
     stopifnot(
       "`gender` does not have the same number of elements as `age`" =
@@ -299,7 +299,7 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
         ) +
         ggplot2::scale_y_continuous(
           breaks = c(dist_prop),
-          labels = c(abs(dist_prop))
+          labels = c(round(abs(dist_prop),5))
         ) +
         ggplot2::scale_x_continuous(
           name = "Age",
@@ -319,7 +319,7 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
         ggplot2::geom_bar(stat = "identity") +
         ggplot2::scale_y_continuous(
           breaks = c(dist_prop),
-          labels = c(dist_prop)
+          labels = c(round(dist_prop,5))
         ) +
         ggplot2::scale_x_continuous(
           name = "Age",
