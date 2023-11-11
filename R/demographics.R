@@ -516,3 +516,93 @@ describe_occupation <- function(isco_codes, output_level) {
   return(isco88_labels)
 }
 # nolint end
+
+#' Distribution plots for ISCO-88 occupation labels
+#'
+#' @description Function that plot a vector of ISCO-88 occupation codes
+#' @param isco_codes A numeric vector of ISCO-88 occupation codes (unit level)
+#' @param gender A vector with the gender of cases 'F' and 'M'
+#' @return A plot to summarize the distribution of ISCO-88 labels
+#' @examples
+#' \dontrun{
+#' occupation_plot(1111, level = 1)
+#' }
+#' @export
+occupation_plot <- function(isco_codes, gender = NULL) {
+  stopifnot("`isco_codes` must be a numeric vector" = is.numeric(isco_codes))
+  path <- system.file("extdata", "isco88_table.rda", package = "epiCo")
+  load(path)
+  isco88_table <- isco88_table
+  valid_codes <- isco_codes[isco_codes %in% isco88_table$unit]
+  stopifnot("Cannot find a valid `isco_codes`" = length(valid_codes) > 0)
+
+  if (!is.null(gender)) {
+    stopifnot(
+      "`gender` does not have the same number of elements as `isco_codes`" =
+        (length(gender) == length(isco_codes))
+    )
+    gender <- gender[isco_codes %in% isco88_table$unit]
+    occupation_data <- data.frame(
+      ocupation = valid_codes,
+      gender = gender
+    )
+    occupation_data <- merge(occupation_data, isco88_table,
+      by.x = "ocupation", by.y = "unit"
+    )
+    occupation_count <- occupation_data %>%
+      dplyr::count(gender, major_label, minor_label)
+
+    occupation_count <- occupation_count %>% subset(n >= quantile(n, 0.9))
+
+    occupation_treemap <- ggplot(occupation_count, aes(
+      area = n,
+      fill = major_label,
+      label = minor_label,
+      subgroup = gender
+    )) +
+      geom_treemap() +
+      scale_fill_manual(
+        name = "Major Group",
+        values = brewer.pal(n = 8, name = "Set2")
+      ) +
+      geom_treemap_subgroup_border(colour = "white", size = 5) +
+      geom_treemap_subgroup_text(
+        place = "centre", grow = TRUE,
+        alpha = 0.15, colour = "black"
+      ) +
+      geom_treemap_text(
+        colour = "grey16", place = "centre",
+        size = 20, fontface = "italic",
+        grow = TRUE, reflow = TRUE
+      ) +
+      theme(legend.position = "bottom")
+  } else {
+    occupation_data <- data.frame(ocupation = valid_codes)
+    occupation_data <- merge(occupation_data, isco88_table,
+      by.x = "ocupation", by.y = "unit"
+    )
+    occupation_count <- occupation_data %>%
+      dplyr::count(major_label, minor_label)
+
+    occupation_count <- occupation_count %>% subset(n >= quantile(n, 0.9))
+
+    occupation_treemap <- ggplot(occupation_count, aes(
+      area = n,
+      fill = major_label,
+      label = minor_label
+    )) +
+      geom_treemap() +
+      scale_fill_manual(
+        name = "Major Group",
+        values = brewer.pal(n = 8, name = "Set2")
+      ) +
+      geom_treemap_text(
+        colour = "grey16", place = "centre",
+        size = 20, fontface = "italic",
+        grow = TRUE, reflow = TRUE
+      ) +
+      theme(legend.position = "bottom")
+  }
+
+  return(occupation_treemap)
+}

@@ -22,6 +22,8 @@ Imports:
     incidence,
     lubridate,
     ggplot2,
+    treemapify,
+    RColorBrewer,
     leaflet,
     qcc,
     utils,
