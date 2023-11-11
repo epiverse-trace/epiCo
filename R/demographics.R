@@ -226,7 +226,7 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
 
     age_risk_female <- data.frame(
       age = pyramid_female$age,
-      prob = hist_female$counts / pyramid_female$population,
+      prop = hist_female$counts / pyramid_female$population,
       gender = rep("F", length(pyramid_female$age)),
       stringsAsFactors = FALSE
     )
@@ -245,12 +245,12 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
 
     age_risk_male <- data.frame(
       age = pyramid_male$age,
-      prob = hist_male$counts / pyramid_male$population,
+      prop = hist_male$counts / pyramid_male$population,
       gender = rep("M", length(pyramid_male$age)),
       stringsAsFactors = FALSE
     )
 
-    age_risk <- rbind(age_risk_female, age_risk_male) ######
+    age_risk <- rbind(age_risk_female, age_risk_male)
   } else {
     if (length(population_pyramid) == 3) {
       population_pyramid <- stats::aggregate(population ~ age,
@@ -268,14 +268,17 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
 
     age_risk <- data.frame(
       age = population_pyramid$age,
-      prob = hist_total$counts / population_pyramid$population
+      prop = hist_total$counts / population_pyramid$population
     )
   }
 
 
   if (plot) {
     if (!is.null(gender)) {
-      age_risk$prob <- c(-1 * age_risk_female$prob, age_risk_male$prob)
+      age_risk$prop <- c(-1 * age_risk_female$prop, age_risk_male$prop)
+      dist_prop_f <- stats::quantile(age_risk_female$prop)[2:5]
+      dist_prop_m <- stats::quantile(age_risk_male$prop)[2:5]
+      dist_prop <- c(rev(-1 * dist_prop_f), 0, dist_prop_m)
 
       age_risk_plot <- ggplot2::ggplot(
         age_risk,
@@ -292,6 +295,15 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
         ggplot2::geom_bar(
           data = dplyr::filter(age_risk, .data$gender == "M"),
           stat = "identity"
+        ) +
+        ggplot2::scale_y_continuous(
+          breaks = c(dist_prop),
+          labels = c(abs(dist_prop))
+        ) +
+        ggplot2::scale_x_continuous(
+          name = "Age",
+          breaks = unique(population_pyramid$age),
+          labels = unique(population_pyramid$age)
         ) +
         ggplot2::coord_flip() +
         # nolint start
