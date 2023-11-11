@@ -192,7 +192,7 @@ population_pyramid <- function(divipola_code, year,
 #' @description Function that returns the probability of being infected given
 #' age and gender
 #'
-#' @param age A vector with the ages of cases in years
+#' @param age A vector with the ages of cases in years from 0 to 100 years
 #' @param gender A vector with the gender of cases 'F' and 'M'
 #' @param population_pyramid A dataframe with the count of individuals
 #' @param plot A boolean for displaying a plot
@@ -204,7 +204,8 @@ population_pyramid <- function(divipola_code, year,
 #'
 #'
 age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
-  stopifnot("`age` must be a numeric vector" = is.numeric(age))
+  stopifnot("`age` must be an integer numeric vector with values
+            between 0 and 100" = !all(age %in% seq(0,100)))
   if (!is.null(gender)) {
     stopifnot(
       "`gender` does not have the same number of elements as `age`" =
@@ -284,7 +285,7 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
         age_risk,
         ggplot2::aes(
           x = .data$age,
-          y = .data$prob,
+          y = .data$prop,
           fill = .data$gender
         )
       ) +
@@ -310,11 +311,21 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
         ggplot2::ylab("Cases / Population")
       # nolint end
     } else {
+      dist_prop <- stats::quantile(age_risk$prop)
       age_risk_plot <- ggplot2::ggplot(age_risk, ggplot2::aes(
         x = .data$age,
-        y = .data$prob
+        y = .data$prop
       )) +
         ggplot2::geom_bar(stat = "identity") +
+        ggplot2::scale_y_continuous(
+          breaks = c(dist_prop),
+          labels = c(dist_prop)
+        ) +
+        ggplot2::scale_x_continuous(
+          name = "Age",
+          breaks = unique(population_pyramid$age),
+          labels = unique(population_pyramid$age)
+        ) +
         ggplot2::coord_flip() +
         # nolint start
         ggplot2::ylab("Cases / Population")
