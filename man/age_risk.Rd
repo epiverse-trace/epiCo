@@ -7,7 +7,7 @@
 age_risk(age, gender = NULL, population_pyramid, plot = FALSE)
 }
 \arguments{
-\item{age}{A vector with the ages of cases in years}
+\item{age}{A vector with the ages of cases in years from 0 to 100 years}
 
 \item{gender}{A vector with the gender of cases 'F' and 'M'}
 
