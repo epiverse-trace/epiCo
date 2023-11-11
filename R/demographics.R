@@ -117,6 +117,9 @@ population_pyramid <- function(divipola_code, year,
   if (plot) {
     if (gender) {
       pop_pyramid$population <- c(-1 * female_total, male_total)
+      dist_pop_f <- quantile(female_total)[2:5]
+      dist_pop_m <- quantile(male_total)[2:5]
+      dist_pop <- c(rev(-1 * dist_pop_f),0,dist_pop_m)
 
       pop_pyramid_plot <- ggplot2::ggplot(
         pop_pyramid,
@@ -134,10 +137,16 @@ population_pyramid <- function(divipola_code, year,
           data = dplyr::filter(pop_pyramid, .data$gender == "M"),
           stat = "identity"
         ) +
+        ggplot2::scale_y_continuous(breaks = c(dist_pop),
+                                  labels = c(abs(floor(dist_pop)))) +
+        ggplot2::scale_x_continuous(name = "Age",
+                                    breaks = unique(pop_pyramid$age),
+                                    labels = unique(pop_pyramid$age)) +
         ggplot2::coord_flip()
 
       pop_pyramid$population <- c(female_total, male_total)
     } else {
+      dist_pop <- quantile(pop_pyramid$population)
       pop_pyramid_plot <- ggplot2::ggplot(
         pop_pyramid,
         ggplot2::aes(
@@ -146,6 +155,11 @@ population_pyramid <- function(divipola_code, year,
         )
       ) +
         ggplot2::geom_bar(stat = "identity") +
+        ggplot2::scale_y_continuous(breaks = c(dist_pop),
+                                    labels = c(floor(dist_pop))) +
+        ggplot2::scale_x_continuous(name = "Age",
+                                    breaks = pop_pyramid$age,
+                                    labels = pop_pyramid$age) +
         ggplot2::coord_flip()
     }
 
