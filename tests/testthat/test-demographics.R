@@ -218,3 +218,10 @@ test_that("describe occupation works as expected", {
   expect_length(describe_occupation(111, output_level = 4), n = 1)
   expect_length(describe_occupation(c(23, 11), output_level = 4), n = 2)
 })
+
+test_that("occupation plot errors are thrown", {
+  expect_error(occupation_plot(isco_codes = "Worker"))
+  expect_error(occupation_plot(isco_codes = 999999))
+  expect_error(occupation_plot(isco_codes = c(1130,6114,9311),
+                               gender = c("F","F")))
+})
