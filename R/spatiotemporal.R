@@ -67,7 +67,7 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
     "`incidence_object` must have incidence class" =
       (inherits(incidence_object, "incidence")),
     "`incidence_object` must account for a single cumulative observation" =
-      (length(incidence_tolima$dates) == 1),
+      (length(incidence_object$dates) == 1),
     "`level` must be 0, 1, or 2" =
       (level %in% c(0, 1, 2)),
     "`scale` must be numeric" = (is.numeric(scale)),
