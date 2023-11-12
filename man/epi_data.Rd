@@ -5,7 +5,7 @@
 \alias{epi_data}
 \title{epi_data}
 \format{
-An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 31353 rows and 15 columns.
+An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 75970 rows and 16 columns.
 }
 \usage{
 data(epi_data)
