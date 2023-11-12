@@ -24,10 +24,11 @@ population_pyramid <- function(divipola_code, year,
                                plot = FALSE) {
   stopifnot(
     "`year` is only available from 2005 to 2026,
-            please select a valid year" = (year >= 2005 & year <= 2026),
+            please select a valid year" = year %in% seq(2005, 2026),
     "`divipola_code` must be numeric" = (is.numeric(divipola_code) &
       length(divipola_code) == 1),
-    "`range` must be a numeric value between 1 and 100" = (is.numeric(range))
+    "`range` must be an integer value between 1 and 100" = is.numeric(range) &
+      range %in% seq(1, 100)
   )
   path <- system.file("extdata", "divipola_table.rda", package = "epiCo")
   load(path)
@@ -78,17 +79,17 @@ population_pyramid <- function(divipola_code, year,
   }
 
   female_total <- vector(length = length(seq(
-    1, length(female_counts) - range,
+    0, length(female_counts) - range,
     range
   )))
   male_total <- vector(length = length(seq(
-    1, length(female_counts) - range,
+    0, length(female_counts) - range,
     range
   )))
   cont <- 1
   for (h in seq(1, length(female_counts) - range, range)) {
-    female_total[cont] <- sum(female_counts[h:h + range])
-    male_total[cont] <- sum(male_counts[h:h + range])
+    female_total[cont] <- sum(female_counts[h:(h + range - 1)])
+    male_total[cont] <- sum(male_counts[h:(h + range - 1)])
     cont <- cont + 1
   }
 
@@ -102,13 +103,13 @@ population_pyramid <- function(divipola_code, year,
       age = rep(seq(0, length(female_counts) - range, range), 2),
       population = c(female_total, male_total),
       gender = c(
-        rep("F", ceiling((length(female_counts) - range) / range)),
-        rep("M", ceiling((length(male_counts) - range) / range))
+        rep("F", floor((length(female_counts)) / range)),
+        rep("M", floor((length(male_counts)) / range))
       )
     )
   } else {
     pop_pyramid <- data.frame(
-      age = seq(1, length(female_counts) - range, range),
+      age = seq(0, length(female_counts) - range, range),
       population = c(female_total + male_total)
     )
   }
@@ -116,6 +117,9 @@ population_pyramid <- function(divipola_code, year,
   if (plot) {
     if (gender) {
       pop_pyramid$population <- c(-1 * female_total, male_total)
+      dist_pop_f <- stats::quantile(female_total)[2:5]
+      dist_pop_m <- stats::quantile(male_total)[2:5]
+      dist_pop <- c(rev(-1 * dist_pop_f), 0, dist_pop_m)
 
       pop_pyramid_plot <- ggplot2::ggplot(
         pop_pyramid,
@@ -133,10 +137,20 @@ population_pyramid <- function(divipola_code, year,
           data = dplyr::filter(pop_pyramid, .data$gender == "M"),
           stat = "identity"
         ) +
+        ggplot2::scale_y_continuous(
+          breaks = c(dist_pop),
+          labels = c(abs(floor(dist_pop)))
+        ) +
+        ggplot2::scale_x_continuous(
+          name = "Age",
+          breaks = unique(pop_pyramid$age),
+          labels = unique(pop_pyramid$age)
+        ) +
         ggplot2::coord_flip()
 
       pop_pyramid$population <- c(female_total, male_total)
     } else {
+      dist_pop <- stats::quantile(pop_pyramid$population)
       pop_pyramid_plot <- ggplot2::ggplot(
         pop_pyramid,
         ggplot2::aes(
@@ -145,6 +159,15 @@ population_pyramid <- function(divipola_code, year,
         )
       ) +
         ggplot2::geom_bar(stat = "identity") +
+        ggplot2::scale_y_continuous(
+          breaks = c(dist_pop),
+          labels = c(floor(dist_pop))
+        ) +
+        ggplot2::scale_x_continuous(
+          name = "Age",
+          breaks = pop_pyramid$age,
+          labels = pop_pyramid$age
+        ) +
         ggplot2::coord_flip()
     }
 
@@ -169,7 +192,7 @@ population_pyramid <- function(divipola_code, year,
 #' @description Function that returns the probability of being infected given
 #' age and gender
 #'
-#' @param age A vector with the ages of cases in years
+#' @param age A vector with the ages of cases in years from 0 to 100 years
 #' @param gender A vector with the gender of cases 'F' and 'M'
 #' @param population_pyramid A dataframe with the count of individuals
 #' @param plot A boolean for displaying a plot
@@ -181,7 +204,8 @@ population_pyramid <- function(divipola_code, year,
 #'
 #'
 age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
-  stopifnot("`age` must be a numeric vector" = is.numeric(age))
+  stopifnot("`age` must be an integer numeric vector with values
+            between 0 and 100" = all(age %in% seq(0, 100)))
   if (!is.null(gender)) {
     stopifnot(
       "`gender` does not have the same number of elements as `age`" =
@@ -203,7 +227,7 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
 
     age_risk_female <- data.frame(
       age = pyramid_female$age,
-      prob = hist_female$counts / pyramid_female$population,
+      prop = hist_female$counts / pyramid_female$population,
       gender = rep("F", length(pyramid_female$age)),
       stringsAsFactors = FALSE
     )
@@ -222,15 +246,18 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
 
     age_risk_male <- data.frame(
       age = pyramid_male$age,
-      prob = hist_male$counts / pyramid_male$population,
+      prop = hist_male$counts / pyramid_male$population,
       gender = rep("M", length(pyramid_male$age)),
       stringsAsFactors = FALSE
     )
 
-    age_risk <- rbind(age_risk_female, age_risk_male) ######
+    age_risk <- rbind(age_risk_female, age_risk_male)
   } else {
     if (length(population_pyramid) == 3) {
-      population_pyramid <- aggregate(population ~ age, population_pyramid, sum)
+      population_pyramid <- stats::aggregate(
+        population ~ age,
+        population_pyramid, sum
+      )
     }
     hist_total <- graphics::hist(age,
       breaks = c(
@@ -244,20 +271,23 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
 
     age_risk <- data.frame(
       age = population_pyramid$age,
-      prob = hist_total$counts / population_pyramid$population
+      prop = hist_total$counts / population_pyramid$population
     )
   }
 
 
   if (plot) {
     if (!is.null(gender)) {
-      age_risk$prob <- c(-1 * age_risk_female$prob, age_risk_male$prob)
+      age_risk$prop <- c(-1 * age_risk_female$prop, age_risk_male$prop)
+      dist_prop_f <- stats::quantile(age_risk_female$prop)[2:5]
+      dist_prop_m <- stats::quantile(age_risk_male$prop)[2:5]
+      dist_prop <- c(rev(-1 * dist_prop_f), 0, dist_prop_m)
 
       age_risk_plot <- ggplot2::ggplot(
         age_risk,
         ggplot2::aes(
           x = .data$age,
-          y = .data$prob,
+          y = .data$prop,
           fill = .data$gender
         )
       ) +
@@ -269,20 +299,39 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
           data = dplyr::filter(age_risk, .data$gender == "M"),
           stat = "identity"
         ) +
+        ggplot2::scale_y_continuous(
+          breaks = c(dist_prop),
+          labels = c(round(abs(dist_prop), 5))
+        ) +
+        ggplot2::scale_x_continuous(
+          name = "Age",
+          breaks = unique(population_pyramid$age),
+          labels = unique(population_pyramid$age)
+        ) +
         ggplot2::coord_flip() +
-        #nolint start
+        # nolint start
         ggplot2::ylab("Cases / Population")
-        #nolint end
+      # nolint end
     } else {
+      dist_prop <- stats::quantile(age_risk$prop)
       age_risk_plot <- ggplot2::ggplot(age_risk, ggplot2::aes(
         x = .data$age,
-        y = .data$prob
+        y = .data$prop
       )) +
         ggplot2::geom_bar(stat = "identity") +
+        ggplot2::scale_y_continuous(
+          breaks = c(dist_prop),
+          labels = c(round(dist_prop, 5))
+        ) +
+        ggplot2::scale_x_continuous(
+          name = "Age",
+          breaks = unique(population_pyramid$age),
+          labels = unique(population_pyramid$age)
+        ) +
         ggplot2::coord_flip() +
-        #nolint start
+        # nolint start
         ggplot2::ylab("Cases / Population")
-        #nolint end
+      # nolint end
     }
 
     print(age_risk_plot)
@@ -467,3 +516,93 @@ describe_occupation <- function(isco_codes, output_level) {
   return(isco88_labels)
 }
 # nolint end
+
+#' Distribution plots for ISCO-88 occupation labels
+#'
+#' @description Function that plot a vector of ISCO-88 occupation codes
+#' @param isco_codes A numeric vector of ISCO-88 occupation codes (unit level)
+#' @param gender A vector with the gender of cases 'F' and 'M'
+#' @return A plot to summarize the distribution of ISCO-88 labels
+#' @examples
+#' \dontrun{
+#' occupation_plot(1111, level = 1)
+#' }
+#' @export
+occupation_plot <- function(isco_codes, gender = NULL) {
+  stopifnot("`isco_codes` must be a numeric vector" = is.numeric(isco_codes))
+  path <- system.file("extdata", "isco88_table.rda", package = "epiCo")
+  load(path)
+  isco88_table <- isco88_table
+  valid_codes <- isco_codes[isco_codes %in% isco88_table$unit]
+  stopifnot("Cannot find a valid `isco_codes`" = length(valid_codes) > 0)
+
+  if (!is.null(gender)) {
+    stopifnot(
+      "`gender` does not have the same number of elements as `isco_codes`" =
+        (length(gender) == length(isco_codes))
+    )
+    gender <- gender[isco_codes %in% isco88_table$unit]
+    occupation_data <- data.frame(
+      ocupation = valid_codes,
+      gender = gender
+    )
+    occupation_data <- merge(occupation_data, isco88_table,
+      by.x = "ocupation", by.y = "unit"
+    )
+    occupation_count <- occupation_data %>%
+      dplyr::count(gender, major_label, minor_label)
+
+    occupation_count <- occupation_count %>% subset(n >= quantile(n, 0.9))
+
+    occupation_treemap <- ggplot(occupation_count, aes(
+      area = n,
+      fill = major_label,
+      label = minor_label,
+      subgroup = gender
+    )) +
+      geom_treemap() +
+      scale_fill_manual(
+        name = "Major Group",
+        values = brewer.pal(n = 8, name = "Set2")
+      ) +
+      geom_treemap_subgroup_border(colour = "white", size = 5) +
+      geom_treemap_subgroup_text(
+        place = "centre", grow = TRUE,
+        alpha = 0.15, colour = "black"
+      ) +
+      geom_treemap_text(
+        colour = "grey16", place = "centre",
+        size = 20, fontface = "italic",
+        grow = TRUE, reflow = TRUE
+      ) +
+      theme(legend.position = "bottom")
+  } else {
+    occupation_data <- data.frame(ocupation = valid_codes)
+    occupation_data <- merge(occupation_data, isco88_table,
+      by.x = "ocupation", by.y = "unit"
+    )
+    occupation_count <- occupation_data %>%
+      dplyr::count(major_label, minor_label)
+
+    occupation_count <- occupation_count %>% subset(n >= quantile(n, 0.9))
+
+    occupation_treemap <- ggplot(occupation_count, aes(
+      area = n,
+      fill = major_label,
+      label = minor_label
+    )) +
+      geom_treemap() +
+      scale_fill_manual(
+        name = "Major Group",
+        values = brewer.pal(n = 8, name = "Set2")
+      ) +
+      geom_treemap_text(
+        colour = "grey16", place = "centre",
+        size = 20, fontface = "italic",
+        grow = TRUE, reflow = TRUE
+      ) +
+      theme(legend.position = "bottom")
+  }
+
+  return(occupation_treemap)
+}
