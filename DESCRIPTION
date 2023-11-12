@@ -5,12 +5,7 @@ Authors@R:
     c(person("Juan D.", "Umaña", , "jd.umana10@uniandes.edu.co", role = c("aut", "cre")),
       person("Juan", "Montenegro-Torres", , "jf.montenegro@uniandes.edu.co", role = c("aut")),
       person("Julian", "Otero", , "jd.otero10@uniandes.edu.co", role = c("aut")),
-      person("Camila", "Tavera", , "mc.tavera@uniandes.edu.co", role = c("ctb")),
-      person("Natalia", "Niño", , "n.nino58@uniandes.edu.co", role = c("ctb")),
-      person("Miller", "Díaz", , "m.diazvalderrama@uniandes.edu.co", role = c("ctb")),
-      person("Mauricio", "Santos-Vega", , "om.santos@uniandes.edu.co", role = c("aut", "ctb")),
-      person("Catalina", "Gonzalez", , "cgonzalez@uniandes.edu.co", role = c("ctb")),
-      person("Juan", "Cordovez", , "jucordov@uniandes.edu.co", role = c("ctb")))
+      person("Hugo", "Gruson", , "hugo.gruson+R@normasup.org", role = c("ctb")))
 Description: Provides statistical tools for the analysis of demographic trends, spatiotemporal behavior, outbreaks characterization, underreporting estimation, and short-term forecasting of vector-borne diseases in Colombia.
 License: MIT + file LICENSE
 Encoding: UTF-8
