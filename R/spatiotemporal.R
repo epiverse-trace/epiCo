@@ -66,6 +66,9 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
   stopifnot(
     "`incidence_object` must have incidence class" =
       (inherits(incidence_object, "incidence")),
+    "`level` must be 0, 1, or 2" =
+      (level %in% c(0,1,2)),
+    "`scale` must be numeric" = (is.numeric(scale)),
     "`threshold` must be numeric" = (is.numeric(threshold)),
     "`plot` must be boolean" = (is.logical(plot))
   )
