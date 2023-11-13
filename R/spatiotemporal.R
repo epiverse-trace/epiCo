@@ -66,6 +66,11 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
   stopifnot(
     "`incidence_object` must have incidence class" =
       (inherits(incidence_object, "incidence")),
+    "`incidence_object` must account for a single cumulative observation" =
+      (length(incidence_object$dates) == 1),
+    "`level` must be 0, 1, or 2" =
+      (level %in% c(0, 1, 2)),
+    "`scale` must be numeric" = (is.numeric(scale)),
     "`threshold` must be numeric" = (is.numeric(threshold)),
     "`plot` must be boolean" = (is.logical(plot))
   )
@@ -109,7 +114,7 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
         mean(wx) ~ "LH"
     )
   )
-  inf_mpios <- moran_data_frame[which(moran_data_frame$is_inf), ]
+  infl_mpios <- moran_data_frame[which(moran_data_frame$is_inf), ]
   morans_index <- c(
     list(municipios = moran_data_frame$labels),
     list(quadrant = moran_data_frame$cluster),
@@ -120,18 +125,18 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
   if (!all(is.na(morans_index$quadrant))) {
     cat(paste("Influential municipalities are:", "\n"))
     # Influential observations
-    for (i in seq_len(nrow(inf_mpios))) {
-      if (!is.na(inf_mpios$cluster[i])) {
+    for (i in seq_len(nrow(infl_mpios))) {
+      if (!is.na(infl_mpios$cluster[i])) {
         # nolint start: string_boundary_linter
         relative_incidence <- ifelse(substr(
-          inf_mpios$cluster[i], 1, 1
+          infl_mpios$cluster[i], 1, 1
         ) == "H", "high", "low")
         # nolint end: string_boundary_linter
         relative_correlation <- ifelse(substr(
-          inf_mpios$cluster[i], 2, 2
+          infl_mpios$cluster[i], 2, 2
         ) == "H", "high", "low")
         cat(paste(
-          inf_mpios$labels[i], "with", relative_incidence,
+          infl_mpios$labels[i], "with", relative_incidence,
           "incidence and", relative_correlation, "spatial correlation",
           "\n"
         ))
@@ -148,6 +153,29 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
       )
       load(path_2)
       spatial_polygons_col_2 <- spatial_polygons_col_2
+
+      shapes <- spatial_polygons_col_2[spatial_polygons_col_2$MPIO_CDPMP %in%
+        as.integer(morans_index$municipios), ]
+      shapes_order <- match(shapes$MPIO_CDPMP, morans_index$municipios)
+      shapes$MPIO_CDPMP <- morans_index$municipios[shapes_order]
+      shapes$CLUSTER <- morans_index$quadrant[shapes_order]
+      shapes_names <- vector(length = length(morans_index$municipios))
+      for (n in morans_index$municipios[shapes_order]) {
+        s_name <- divipola_table$NOM_MPIO[which(
+          divipola_table$COD_MPIO == n
+        )]
+        shapes_names <- c(shapes_names, s_name)
+      }
+      shapes$NOM_MPIO <- shapes_names
+
+      popup_data <- paste0(
+        "<b>", "Municipality Name: ", "</b>",
+        shapes$NOM_MPIO, "<br>",
+        "<b>", "Municipality Code: ", "</b>",
+        shapes$MPIO_CDPMP, "<br>",
+        "<b>", "Cluster: ", "</b>",
+        shapes$CLUSTER, "<br>"
+      )
       # nolint start
       pal <- leaflet::colorFactor(
         palette = c(
@@ -157,38 +185,26 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
         domain = c("HH", "LL", "LH", "HL"),
         ordered = TRUE
       )
-      # nolint end
-      shapes <- spatial_polygons_col_2[spatial_polygons_col_2$MPIO_CDPMP %in%
-        as.integer(inf_mpios$labels), ]
-      shapes_plot <- shapes[, order(match(
-        as.integer(inf_mpios$labels),
-        shapes$MPIO_CDPMP
-      ))]
-      shapes_plot$CLUSTER <- inf_mpios$cluster
-      shapes_plot$MPIO_CDPMP <- inf_mpios$labels
-      shapes_plot$NOM_MPIO <- divipola_table$NOM_MPIO[
-        divipola_table$COD_MPIO %in% shapes_plot$MPIO_CDPMP
-      ]
-      # shapes_ordered
-      popup_data <- paste0(
-        "<b>", "Municipality Name: ", "</b>",
-        shapes_plot$NOM_MPIO, "<br>",
-        "<b>", "Municipality Code: ", "</b>",
-        shapes_plot$MPIO_CDPMP, "<br>",
-        "<b>", "Cluster: ", "</b>",
-        shapes_plot$CLUSTER, "<br>"
-      )
-      # nolint start
-      clusters_plot <- leaflet::leaflet(shapes_plot) %>%
-        leaflet::addTiles() %>%
+
+      tile_provider <- "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}"
+
+      clusters_plot <- leaflet::leaflet(shapes) %>%
+        leaflet::addTiles(tile_provider) %>%
         leaflet::addPolygons(
           stroke = TRUE,
-          weight = 1,
+          weight = 2,
           smoothFactor = 0.2,
-          fillColor = ~ pal(CLUSTER),
+          fillColor = ~ pal(shapes$CLUSTER),
           popup = popup_data,
-          color = "white",
-          fillOpacity = 0.75
+          color = "black",
+          fillOpacity = ifelse(shapes$CLUSTER == "HH" | shapes$CLUSTER == "LL",
+            0.65, 0
+          )
+        ) %>%
+        leaflet::addLegend("bottomright",
+          pal = pal, values = ~ c("HH", "LL"),
+          title = "Local Moran's Index Clusters",
+          opacity = 1
         )
       # nolint end
       return(list(moran_data = morans_index, leaflet_map = clusters_plot))
