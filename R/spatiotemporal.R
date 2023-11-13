@@ -159,12 +159,14 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
       shapes_order <- match(shapes$MPIO_CDPMP, morans_index$municipios)
       shapes$MPIO_CDPMP <- morans_index$municipios[shapes_order]
       shapes$CLUSTER <- morans_index$quadrant[shapes_order]
-      shapes_names <- vector(length = length(morans_index$municipios))
+      shapes_names <- rep(NA, length(morans_index$municipios))
+      index <- 1
       for (n in morans_index$municipios[shapes_order]) {
         s_name <- divipola_table$NOM_MPIO[which(
           divipola_table$COD_MPIO == n
         )]
-        shapes_names <- c(shapes_names, s_name)
+        shapes_names[index] <- s_name
+        index <- index + 1
       }
       shapes$NOM_MPIO <- shapes_names
 
