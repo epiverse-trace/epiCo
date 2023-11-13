@@ -2,7 +2,7 @@
 title: "Spatiotemporal analyses with epiCo"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{spatiotemporal_vignette}
+  %\VignetteIndexEntry{Spatiotemporal analyses with epiCo}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
