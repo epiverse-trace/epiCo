@@ -79,9 +79,8 @@ It is necessary for the user to provide the administrative level that the groups
 The following example uses the cases of the municipalities of Tolima for the year 2019.
 ```{r, messages = FALSE, eval = TRUE}
 data("epi_data")
-data_event <- epi_data
 
-data_tolima <- data_event[lubridate::year(data_event$fec_not) == 2019, ]
+data_tolima <- epi_data[lubridate::year(epi_data$fec_not) == 2019, ]
 incidence_object <- incidence(
   dates = data_tolima$fec_not,
   groups = data_tolima$cod_mun_o,
