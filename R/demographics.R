@@ -588,7 +588,7 @@ occupation_plot <- function(isco_codes, gender = NULL) {
     occupation_count <- occupation_count %>% 
       subset(.data$n >= quantile(.data$n, 0.9))
 
-    occupation_treemap <- ggplot2::ggplot(occupation_count, aes(
+    occupation_treemap <- ggplot2::ggplot(occupation_count, ggplot2::aes(
       area = .data$n,
       fill = .data$major_label,
       label = .data$minor_label
