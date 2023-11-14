@@ -127,9 +127,8 @@ The following analyses use the dengue cases reported in Tolima in 2019.
 
 ```{r}
 data("epi_data")
-data_event <- epi_data
 
-data_tolima <- data_event[lubridate::year(data_event$fec_not) == 2019, ]
+data_tolima <- epi_data[lubridate::year(epi_data$fec_not) == 2019, ]
 head(data_tolima)
 ```
 
