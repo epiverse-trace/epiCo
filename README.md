@@ -73,13 +73,10 @@ Contributors to the project include:
   - [Juan D. Umaña](https://github.com/juan-umana) (author)
   - [Juan Montenegro-Torres](https://github.com/Juanmontenegro99) (author)
   - [Julian Otero](https://github.com/jd-otero) (author)
-  - [Samuel Torres](https://github.com/samueltof) (contributor)
-  - [Maria Camila Tavera Cifuentes](https://github.com/macataci) (contributor)
-  - [Natalia Niño Machado](n.nino58@uniandes.edu.co) (contributor)
-  - [Miller Diaz Valderrama](m.diazvalderrama@uniandes.edu.co) (contributor)
-  - [Mauricio Santos-Vega](https://github.com/mauricio110785) (author)
-  - [Catalina Gonzalez Uribe](cgonzalez@uniandes.edu.co) (contributor)
-  - [Juan Manuel Cordovez](jucordov@uniandes.edu.co) (contributor)
+  - [Hugo Gruson](https://github.com/Bisaloo) (contributor)
+  - [Mauricio Santos-Vega](https://github.com/mauricio110785) (advisor)
+  - [Catalina Gonzalez Uribe](cgonzalez@uniandes.edu.co) (advisor)
+  - [Juan Manuel Cordovez](jucordov@uniandes.edu.co) (advisor)
 
 ### Code of Conduct
 
