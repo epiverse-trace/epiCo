@@ -37,3 +37,5 @@ Depends:
     R (>= 3.2.0)
 VignetteBuilder: knitr
 LazyData: true
+URL: https://github.com/epiverse-trace/epiCo
+BugReports: https://github.com/epiverse-trace/epiCo/issues
