@@ -361,12 +361,14 @@ endemic_plot <- function(channel_data, method,
     ) +
     ggplot2::xlab(label = "Epidemiological interval") +
     ggplot2::ylab("Number of cases") +
+    #nolint start
     ggplot2::scale_color_manual(
       name = "",
       values = c("Epidemic" = "brown4",
                  "Warning" = "darkorange3", 
                  "Safety" = "darkgreen")
     ) +
+    #nolint end
     ggplot2::theme(
       plot.background = ggplot2::element_rect(fill = "white"),
       plot.margin = ggplot2::margin(20, 20, 20, 20),
