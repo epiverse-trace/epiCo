@@ -550,58 +550,58 @@ occupation_plot <- function(isco_codes, gender = NULL) {
       by.x = "ocupation", by.y = "unit"
     )
     occupation_count <- occupation_data %>%
-      dplyr::count(gender, major_label, minor_label)
+      dplyr::count(.data$gender, .data$major_label, .data$minor_label)
 
-    occupation_count <- occupation_count %>% subset(n >= quantile(n, 0.9))
+    occupation_count <- occupation_count %>% subset(.data$n >= quantile(.data$n, 0.9))
 
-    occupation_treemap <- ggplot(occupation_count, aes(
-      area = n,
-      fill = major_label,
-      label = minor_label,
-      subgroup = gender
+    occupation_treemap <- ggplot2::ggplot(occupation_count, ggplot2::aes(
+      area = .data$n,
+      fill = .data$major_label,
+      label = .data$minor_label,
+      subgroup = .data$gender
     )) +
-      geom_treemap() +
-      scale_fill_manual(
+      treemapify::geom_treemap() +
+      ggplot2::scale_fill_manual(
         name = "Major Group",
-        values = brewer.pal(n = 8, name = "Set2")
+        values = RColorBrewer::brewer.pal(n = 8, name = "Set2")
       ) +
-      geom_treemap_subgroup_border(colour = "white", size = 5) +
-      geom_treemap_subgroup_text(
+      treemapify::geom_treemap_subgroup_border(colour = "white", size = 5) +
+      treemapify::geom_treemap_subgroup_text(
         place = "centre", grow = TRUE,
         alpha = 0.15, colour = "black"
       ) +
-      geom_treemap_text(
+      treemapify::geom_treemap_text(
         colour = "grey16", place = "centre",
         size = 20, fontface = "italic",
         grow = TRUE, reflow = TRUE
       ) +
-      theme(legend.position = "bottom")
+      ggplot2::theme(legend.position = "bottom")
   } else {
     occupation_data <- data.frame(ocupation = valid_codes)
     occupation_data <- merge(occupation_data, isco88_table,
       by.x = "ocupation", by.y = "unit"
     )
     occupation_count <- occupation_data %>%
-      dplyr::count(major_label, minor_label)
+      dplyr::count(.data$major_label, .data$minor_label)
 
-    occupation_count <- occupation_count %>% subset(n >= quantile(n, 0.9))
+    occupation_count <- occupation_count %>% subset(.data$n >= quantile(.data$n, 0.9))
 
-    occupation_treemap <- ggplot(occupation_count, aes(
-      area = n,
-      fill = major_label,
-      label = minor_label
+    occupation_treemap <- ggplot2::ggplot(occupation_count, aes(
+      area = .data$n,
+      fill = .data$major_label,
+      label = .data$minor_label
     )) +
-      geom_treemap() +
-      scale_fill_manual(
+      treemapify::geom_treemap() +
+      ggplot2::scale_fill_manual(
         name = "Major Group",
-        values = brewer.pal(n = 8, name = "Set2")
+        values = RColorBrewer::brewer.pal(n = 8, name = "Set2")
       ) +
-      geom_treemap_text(
+      treemapify::geom_treemap_text(
         colour = "grey16", place = "centre",
         size = 20, fontface = "italic",
         grow = TRUE, reflow = TRUE
       ) +
-      theme(legend.position = "bottom")
+      ggplot2::theme(legend.position = "bottom")
   }
 
   return(occupation_treemap)
