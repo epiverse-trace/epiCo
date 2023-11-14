@@ -127,9 +127,8 @@ The following analyses use the dengue cases reported in Tolima in 2019.
 
 ```{r}
 data("epi_data")
-data_event <- epi_data
 
-data_tolima <- data_event[lubridate::year(data_event$fec_not) == 2019, ]
+data_tolima <- epi_data[lubridate::year(epi_data$fec_not) == 2019, ]
 head(data_tolima)
 ```
 
@@ -158,8 +157,9 @@ Normalization of data is a key aspect of epidemiology. **epiCo** allows for the 
 ```{r}
 data_ibague <- data_tolima[data_tolima$cod_mun_o == 73001, ]
 
+
 age_risk_data <- age_risk(
-  age = data_ibague$edad,
+  age = as.integer(data_ibague$edad),
   population_pyramid = ibague_pyramid_2019,
   gender = data_ibague$sexo, plot = TRUE
 )

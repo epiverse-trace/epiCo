@@ -33,16 +33,15 @@ When reviewing the current epidemiological bulletins published by the local Secr
 - Provide more informative context by performing correlation and regression analysis with local socioeconomic and climate data.
 
 The package allows for interoperable analyses of linelist data from
-[SIVIGILA](https://www.ins.gov.co/Direcciones/Vigilancia/Paginas/SIVIGILA.aspx) (accessible using Epiverse-TRACE package [sivirep](https://github.com/epiverse-trace/sivirep)) with spatial, socioeconomic, and climate data (accessible using Epiverse-TRACE package [ColOpenData](). 
+[SIVIGILA](https://www.ins.gov.co/Direcciones/Vigilancia/Paginas/SIVIGILA.aspx) (accessible using the Epiverse-TRACE package [sivirep](https://github.com/epiverse-trace/sivirep)) with spatial, socioeconomic, and climate data (accessible using the Epiverse-TRACE package [ColOpenData]()). 
 
 *epiCo* can be used to perform the following main tasks at the municipality, departmental, or national level:
 
 1) To identify demographic vulnerabilities from linelist data and the socioeconomic census, including risk assessment based on age, gender, occupation, and ethnicity.
 2) To assess hot-spot analyses (as Local Moran's index) based on real travel distances in Colombia estimated from [Bravo-Vega C., Santos-Vega M., & Cordovez J.M. (2022)](https://doi.org/10.1371/journal.pntd.0010270).
-3) To generate automated outbreak characterization (onset, duration, magnitude, and frequency) using traditional methods as the [endemic channel](https://iris.paho.org/handle/10665.2/8562) and poisson tests for unusual behavior, or by statistical process control methods as ARIMA Control Chart for outlier detection.
-4) To estimate the probability of the effective reproductive number (R<sub>t</sub>) being higher than one (i.e., outbreak onset) based on work by [Parag, K.V., & Donnelly, C.A. (2022)](https://doi.org/10.1371/journal.pcbi.1010004) & [Codeço, C.T., Villela, D.A., & Coelho, F.C. (2018)](https://doi.org/10.1016/j.epidem.2018.05.011).
-5) To perform correlation analyses between categorical socioeconomic data, climate time series and epidemiological data to generate a report of potential drivers and trends of VBDs outbreaks.
-6) *Future features will include nowcasting assessment, underreport estimation, and short-term forecasting.*
+3) To generate automated outbreak characterization (onset, duration, magnitude, and frequency) using traditional methods as the [endemic channel](https://iris.paho.org/handle/10665.2/8562) and poisson tests for unusual behavior.
+4) To perform correlation analyses between categorical socioeconomic data, climate time series and epidemiological data to generate a report of potential drivers, and trends of VBDs outbreaks.
+5) *Future features will include nowcasting assessment, underreport estimation, and short-term forecasting.*
 
 All functionalities are performed automatically from epidemiological, demographic, spatial, and socioeconomic data published by Colombian institutions, but methods can also be customized as well as input data, so hypothetical information can be tested within the package.
 
@@ -72,10 +71,12 @@ requests](https://github.com/epiverse-trace/epiCo/pulls).
 Contributors to the project include:
 
   - [Juan D. Umaña](https://github.com/juan-umana) (author)
-  - [Juan Montenegro](https://github.com/Juanmontenegro99) (author)
+  - [Juan Montenegro-Torres](https://github.com/Juanmontenegro99) (author)
   - [Julian Otero](https://github.com/jd-otero) (author)
-  - [Samuel Torres](https://github.com/samueltof) (contributor)
-  - [Mauricio Santos-Vega](https://github.com/mauricio110785) (author)
+  - [Hugo Gruson](https://github.com/Bisaloo) (contributor)
+  - [Mauricio Santos-Vega](https://github.com/mauricio110785) (advisor)
+  - [Catalina Gonzalez Uribe](cgonzalez@uniandes.edu.co) (advisor)
+  - [Juan Manuel Cordovez](jucordov@uniandes.edu.co) (advisor)
 
 ### Code of Conduct
 

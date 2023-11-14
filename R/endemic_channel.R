@@ -329,23 +329,14 @@ endemic_plot <- function(channel_data, method,
       row.names(channel_data)
     ))
   ) +
-    ggplot2::geom_hline(
-      yintercept = seq(0, max(c(max(channel_data$up_lim), channel_data$obs),
-        na.rm = TRUE
-      ) * 1.05, length.out = 8),
-      color = "azure2", size = 0.1
+    ggplot2::geom_line(ggplot2::aes(y = .data$up_lim, color = "Epidemic"),
+                       linewidth = 1
     ) +
-    ggplot2::geom_line(ggplot2::aes(y = channel_data$up_lim),
-      linewidth = 1,
-      color = "brown4"
+    ggplot2::geom_line(ggplot2::aes(y = .data$central, color = "Warning"),
+                       linewidth = 1
     ) +
-    ggplot2::geom_line(ggplot2::aes(y = channel_data$central),
-      linewidth = 1,
-      color = "darkorange3"
-    ) +
-    ggplot2::geom_line(ggplot2::aes(y = channel_data$low_lim),
-      linewidth = 1,
-      color = "darkgreen"
+    ggplot2::geom_line(ggplot2::aes(y = .data$low_lim, color = "Safety"),
+                       linewidth = 1
     ) +
     ggplot2::scale_y_continuous(
       breaks = round(seq(0, max(c(max(channel_data$up_lim), channel_data$obs),
@@ -358,13 +349,26 @@ endemic_plot <- function(channel_data, method,
     ) +
     ggplot2::labs(
       title = "Endemic channel",
-      caption = paste(
+      caption = ifelse(length(outlier_years) > 1,
+        paste(
         "Method: ", method, " | Epidemic years: ",
-        paste(outlier_years, colow_limapse = ", "), " are ", outliers_handling
-      )
+        toString(outlier_years), " are ", outliers_handling
+      ),
+      paste(
+        "Method: ", method, " | Epidemic year: ",
+        outlier_years, " is ", outliers_handling
+      ))
     ) +
     ggplot2::xlab(label = "Epidemiological interval") +
     ggplot2::ylab("Number of cases") +
+    #nolint start
+    ggplot2::scale_color_manual(
+      name = "",
+      values = c("Epidemic" = "brown4",
+                 "Warning" = "darkorange3",
+                 "Safety" = "darkgreen")
+    ) +
+    #nolint end
     ggplot2::theme(
       plot.background = ggplot2::element_rect(fill = "white"),
       plot.margin = ggplot2::margin(20, 20, 20, 20),
@@ -373,21 +377,22 @@ endemic_plot <- function(channel_data, method,
       axis.title.y = ggplot2::element_text(size = 14),
       axis.text = ggplot2::element_text(size = 12),
       plot.caption = ggplot2::element_text(size = 10, hjust = 0),
-      legend.position = "bottom"
+      legend.position = "bottom",
+      panel.background = ggplot2::element_blank()
+    ) +
+    ggplot2::scale_x_continuous(
+      breaks = seq(0, nrow(channel_data), 2),
+      limits = c(1, nrow(channel_data)),
+      expand = c(0.01, 0.01)
     )
 
   if (!anyNA(channel_data$obs)) {
     endemic_channel_plot <- endemic_channel_plot +
-      ggplot2::geom_line(ggplot2::aes(y = channel_data$obs),
+      ggplot2::geom_line(ggplot2::aes(y = .data$obs),
         linetype = "dashed",
         linewidth = 0.75
       ) +
-      ggplot2::geom_point(ggplot2::aes(y = channel_data$obs), size = 2) +
-      ggplot2::scale_x_continuous(
-        breaks = seq(1, nrow(channel_data), 1),
-        limits = c(1, nrow(channel_data)),
-        expand = c(0, 0)
-      )
+      ggplot2::geom_point(ggplot2::aes(y = .data$obs), size = 2)
   }
 
   return(endemic_channel_plot)

@@ -33,7 +33,7 @@ In the following vignette, users will learn:
 
 ## 1. What is an endemic channel?
 
-Using an endemic channel is a visual strategy to represent the historical behavior of a disease in a specific region on an epidemic curve that defines the central tendency of the cases during a year and the upper and lower limits where cases are expected to vary. This plot provides four areas known as "$\color{green}{\text{Success}}$", "$\color{Gold}{\text{Safety}}$", "$\color{orange}{\text{Warning}}$", and "$\color{Red}{\text{Epidemic}}$" bands (Figure 1), which are later used to define the epidemiological situation of the region based on the current (observed) cases.
+Using an endemic channel is a visual strategy to represent the historical behavior of a disease in a specific region on an epidemic curve that defines the central tendency of the cases during a year and the upper and lower limits where cases are expected to vary. This plot provides three lines known as "$\color{green}{\text{Safety}}$", "$\color{orange}{\text{Warning}}$", and "$\color{Red}{\text{Epidemic}}$" bands (Figure 1), which are later used to define the epidemiological situation of the region based on the current (observed) cases.
 
 The broader definition and methodology for the endemic channel were provided by [Bormant (1999)](https://iris.paho.org/handle/10665.2/8562).
 
@@ -140,7 +140,7 @@ The output of *epiCo*'s `endemic_channel` function is a dataframe with the obser
 The following example uses the previously historic incidence accessed from the SIVIGILA data source to build the 2021 *endemic channel* for Ibagué City.
 
 ```{r, eval = FALSE}
-observations <- sample(15:100, 52, replace = FALSE)
+observations <- sample(5:40, 52, replace = TRUE)
 
 outlier_years <- c(2016, 2019)
 
@@ -148,10 +148,8 @@ ibague_endemic_chanel <- endemic_channel(
   incidence_historic = incidence_historic,
   observations = observations,
   outlier_years = outlier_years,
-  plot = FALSE
+  plot = TRUE
 )
-
-ibague_endemic_chanel$endemic_channel_plot
 ```
 
 ## 4. Interpretation and communication of results
