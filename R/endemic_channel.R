@@ -365,7 +365,7 @@ endemic_plot <- function(channel_data, method,
     ggplot2::scale_color_manual(
       name = "",
       values = c("Epidemic" = "brown4",
-                 "Warning" = "darkorange3", 
+                 "Warning" = "darkorange3",
                  "Safety" = "darkgreen")
     ) +
     #nolint end
