@@ -172,12 +172,12 @@ the territory of interest and the year to consult.</p>
 <span><span class="co"># dissagregated by sex</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">ibague_pyramid_2016</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   age population gender</span></span>
-<span><span class="co">#&gt; 1   0       3355      F</span></span>
-<span><span class="co">#&gt; 2   5       3776      F</span></span>
-<span><span class="co">#&gt; 3  10       4492      F</span></span>
-<span><span class="co">#&gt; 4  15       4605      F</span></span>
-<span><span class="co">#&gt; 5  20       4341      F</span></span>
-<span><span class="co">#&gt; 6  25       3888      F</span></span></code></pre></div>
+<span><span class="co">#&gt; 1   0      15839      F</span></span>
+<span><span class="co">#&gt; 2   5      17539      F</span></span>
+<span><span class="co">#&gt; 3  10      20171      F</span></span>
+<span><span class="co">#&gt; 4  15      23059      F</span></span>
+<span><span class="co">#&gt; 5  20      22659      F</span></span>
+<span><span class="co">#&gt; 6  25      20685      F</span></span></code></pre></div>
 <p>Definitions of age ranges and plotting are also provided for both:
 total number of individuals or proportion of individuals</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -246,21 +246,21 @@ Tolima for the years 2015–2021.</p>
 2019.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"epi_data"</span><span class="op">)</span></span>
-<span><span class="va">data_event</span> <span class="op">&lt;-</span> <span class="va">epi_data</span></span>
 <span></span>
-<span><span class="va">data_tolima</span> <span class="op">&lt;-</span> <span class="va">data_event</span><span class="op">[</span><span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/year.html" class="external-link">year</a></span><span class="op">(</span><span class="va">data_event</span><span class="op">$</span><span class="va">fec_not</span><span class="op">)</span> <span class="op">==</span> <span class="fl">2019</span>, <span class="op">]</span></span>
+<span><span class="va">data_tolima</span> <span class="op">&lt;-</span> <span class="va">epi_data</span><span class="op">[</span><span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/year.html" class="external-link">year</a></span><span class="op">(</span><span class="va">epi_data</span><span class="op">$</span><span class="va">fec_not</span><span class="op">)</span> <span class="op">==</span> <span class="fl">2019</span>, <span class="op">]</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">data_tolima</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 15</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 16</span></span></span>
 <span><span class="co">#&gt;   fec_not    cod_pais_o cod_dpto_o cod_mun_o cod_pais_r cod_dpto_r cod_mun_r</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2019-01-02 170        73         73001     <span style="color: #BB0000;">NA</span>         73         73001    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2019-01-15 170        73         73268     <span style="color: #BB0000;">NA</span>         73         73268    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2019-01-01 170        73         73200     <span style="color: #BB0000;">NA</span>         73         73200    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2019-01-12 170        73         73671     <span style="color: #BB0000;">NA</span>         73         73671    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2019-01-05 170        73         73671     <span style="color: #BB0000;">NA</span>         73         73671    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2019-01-05 170        73         73671     <span style="color: #BB0000;">NA</span>         25         25754    </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 8 more variables: cod_dpto_n &lt;chr&gt;, cod_mun_n &lt;chr&gt;, edad &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   sexo &lt;chr&gt;, per_etn &lt;chr&gt;, uni_med &lt;chr&gt;, ocupacion &lt;chr&gt;, estrato &lt;chr&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2019-01-02        170         73     <span style="text-decoration: underline;">73</span>001        170         73     <span style="text-decoration: underline;">73</span>001</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2019-01-15        170         73     <span style="text-decoration: underline;">73</span>268        170         73     <span style="text-decoration: underline;">73</span>268</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2019-01-01        170         73     <span style="text-decoration: underline;">73</span>200        170         73     <span style="text-decoration: underline;">73</span>200</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2019-01-12        170         73     <span style="text-decoration: underline;">73</span>671        170         73     <span style="text-decoration: underline;">73</span>671</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2019-01-05        170         73     <span style="text-decoration: underline;">73</span>671        170         73     <span style="text-decoration: underline;">73</span>671</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2019-01-05        170         73     <span style="text-decoration: underline;">73</span>671        170         25     <span style="text-decoration: underline;">25</span>754</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 9 more variables: cod_dpto_n &lt;dbl&gt;, cod_mun_n &lt;dbl&gt;, edad &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   sexo &lt;chr&gt;, per_etn &lt;dbl&gt;, ocupacion &lt;chr&gt;, estrato &lt;chr&gt;, ini_sin &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   cod_eve &lt;dbl&gt;</span></span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="estimation-of-incidence-rates">5. Estimation of incidence rates<a class="anchor" aria-label="anchor" href="#estimation-of-incidence-rates"></a>
@@ -282,33 +282,33 @@ level at which incidences are calculated.</p>
 <span><span class="va">incidence_rate_object</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/incidence_rate.html">incidence_rate</a></span><span class="op">(</span><span class="va">incidence_object</span>, level <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">incidence_rate_object</span><span class="op">$</span><span class="va">counts</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      73001 73024 73026 73030 73043 73055 73067 73124 73148 73152 73168 73200</span></span>
-<span><span class="co">#&gt; [1,]     9     0     1     0     0     0     0     0     0     0     0     1</span></span>
-<span><span class="co">#&gt; [2,]     5     0     0     1     0     0     0     0     0     0     7     0</span></span>
-<span><span class="co">#&gt; [3,]     9     0     0     0     0     1     1     0     0     0     3     0</span></span>
-<span><span class="co">#&gt; [4,]     1     0     1     0     0     3     0     0     2     0     5     0</span></span>
-<span><span class="co">#&gt; [5,]    11     0     1     0     0     1     0     0     0     0     8     0</span></span>
-<span><span class="co">#&gt; [6,]    17     0     0     0     0     0     0     0     0     0     3     0</span></span>
+<span><span class="co">#&gt; [1,]    12     1     1     0     0     0     1     0     0     0     1     1</span></span>
+<span><span class="co">#&gt; [2,]    12     0     1     1     0     1     0     0     1     0    16     0</span></span>
+<span><span class="co">#&gt; [3,]    17     1     1     0     0     1     2     0     0     0     4     0</span></span>
+<span><span class="co">#&gt; [4,]    15     0     1     0     0     3     0     0     2     0    10     0</span></span>
+<span><span class="co">#&gt; [5,]    23     0     1     0     0     1     0     0     0     0    15     0</span></span>
+<span><span class="co">#&gt; [6,]    30     0     1     0     0     0     0     0     0     0     9     0</span></span>
 <span><span class="co">#&gt;      73217 73226 73236 73268 73270 73275 73283 73319 73349 73352 73408 73411</span></span>
-<span><span class="co">#&gt; [1,]     0     1     0    10     0     6     1     0     0     0     3     0</span></span>
-<span><span class="co">#&gt; [2,]     1     0     0     6     0    14     1     1     0     0     2     0</span></span>
-<span><span class="co">#&gt; [3,]     0     0     0    16     0    14     0     1     1     0     1     0</span></span>
-<span><span class="co">#&gt; [4,]     0     0     0     9     0    12     1     0     0     0     5     2</span></span>
-<span><span class="co">#&gt; [5,]     3     2     0     6     0    11     0     0     0     0     3     0</span></span>
-<span><span class="co">#&gt; [6,]     2     0     0    16     0     7     0     1     0     0     5     3</span></span>
+<span><span class="co">#&gt; [1,]     0     2     0    21     0     7     3     0     0     0     5     0</span></span>
+<span><span class="co">#&gt; [2,]     1     1     0    18     0    16     2     2     0     0     5     2</span></span>
+<span><span class="co">#&gt; [3,]     1     1     0    30     0    19     1     2     2     0     4     2</span></span>
+<span><span class="co">#&gt; [4,]     0     0     0    14     0    18     1     2     0     0     6     2</span></span>
+<span><span class="co">#&gt; [5,]     3     3     0    30     0    14     0     3     1     0     5     0</span></span>
+<span><span class="co">#&gt; [6,]     4     2     0    36     0    15     1     1     0     0     5     4</span></span>
 <span><span class="co">#&gt;      73443 73449 73461 73483 73504 73520 73547 73555 73563 73585 73616 73622</span></span>
-<span><span class="co">#&gt; [1,]     1     2     0     0     0     0     0     0     0     0     0     0</span></span>
-<span><span class="co">#&gt; [2,]     3     2     0     2     1     1     1     0     0     1     0     0</span></span>
-<span><span class="co">#&gt; [3,]     2     2     0     1     1     0     0     0     0     1     0     0</span></span>
-<span><span class="co">#&gt; [4,]     5     4     0     1     1     0     0     0     0     1     0     0</span></span>
-<span><span class="co">#&gt; [5,]     5     5     0     3     0     0     1     0     0     0     0     0</span></span>
-<span><span class="co">#&gt; [6,]     7     3     0     0     0     1     1     1     0     2     0     0</span></span>
+<span><span class="co">#&gt; [1,]     2     2     0     1     1     0     0     0     0     0     1     0</span></span>
+<span><span class="co">#&gt; [2,]     5     4     0     4     1     1     0     0     0     1     1     0</span></span>
+<span><span class="co">#&gt; [3,]     5     7     0     1     1     0     0     1     0     1     0     0</span></span>
+<span><span class="co">#&gt; [4,]     6    10     0     4     1     0     0     0     0     3     0     0</span></span>
+<span><span class="co">#&gt; [5,]     6    11     0     3     1     0     1     0     0     1     0     0</span></span>
+<span><span class="co">#&gt; [6,]    16     4     0     0     1     2     1     1     0     3     2     0</span></span>
 <span><span class="co">#&gt;      73624 73671 73675 73678 73686 73770 73854 73861 73870 73873</span></span>
-<span><span class="co">#&gt; [1,]     1     9     0     1     0     0     1     0     0     0</span></span>
-<span><span class="co">#&gt; [2,]     0     9     0     0     0     0     0     3     0     0</span></span>
-<span><span class="co">#&gt; [3,]     0     3     0     2     0     0     0     1     0     0</span></span>
-<span><span class="co">#&gt; [4,]     0     5     0     0     0     0     0     0     0     0</span></span>
-<span><span class="co">#&gt; [5,]     0     6     0     0     0     0     0     0     0     0</span></span>
-<span><span class="co">#&gt; [6,]     0     4     0     0     0     0     0     2     0     0</span></span></code></pre></div>
+<span><span class="co">#&gt; [1,]     1     8     0     1     0     1     1     0     0     0</span></span>
+<span><span class="co">#&gt; [2,]     0    13     0     0     0     0     0     1     0     0</span></span>
+<span><span class="co">#&gt; [3,]     2     5     0     2     0     0     0     1     0     0</span></span>
+<span><span class="co">#&gt; [4,]     1     9     0     0     0     0     0     0     0     0</span></span>
+<span><span class="co">#&gt; [5,]     1     9     0     0     0     1     0     0     0     0</span></span>
+<span><span class="co">#&gt; [6,]     0     4     0     1     0     2     0     1     0     0</span></span></code></pre></div>
 <p>If groups in the incidence object are not within the DIVIPOLA coding
 for municipalities (level 2) or departments (level 1), or a national
 estimation is intended (level 0), the function will not be able to
@@ -326,8 +326,9 @@ municipality, department, or country in a certain year.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data_ibague</span> <span class="op">&lt;-</span> <span class="va">data_tolima</span><span class="op">[</span><span class="va">data_tolima</span><span class="op">$</span><span class="va">cod_mun_o</span> <span class="op">==</span> <span class="fl">73001</span>, <span class="op">]</span></span>
 <span></span>
+<span></span>
 <span><span class="va">age_risk_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/age_risk.html">age_risk</a></span><span class="op">(</span></span>
-<span>  age <span class="op">=</span> <span class="va">data_ibague</span><span class="op">$</span><span class="va">edad</span>,</span>
+<span>  age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="va">data_ibague</span><span class="op">$</span><span class="va">edad</span><span class="op">)</span>,</span>
 <span>  population_pyramid <span class="op">=</span> <span class="va">ibague_pyramid_2019</span>,</span>
 <span>  gender <span class="op">=</span> <span class="va">data_ibague</span><span class="op">$</span><span class="va">sexo</span>, plot <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -341,7 +342,7 @@ municipality, department, or country in a certain year.</p>
 
     <footer><div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by Juan D. Umaña, Juan Montenegro, Julian Otero, Mauricio Santos-Vega.</p>
+<p>Developed by Juan D. Umaña, Juan Montenegro-Torres, Julian Otero.</p>
 </div>
 
 <div class="pkgdown-footer-right">

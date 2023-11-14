@@ -125,7 +125,7 @@ channel.</li>
 historical behavior of a disease in a specific region on an epidemic
 curve that defines the central tendency of the cases during a year and
 the upper and lower limits where cases are expected to vary. This plot
-provides four areas known as “<span class="math inline">\(\color{green}{\text{Success}}\)</span>”, “<span class="math inline">\(\color{Gold}{\text{Safety}}\)</span>”, “<span class="math inline">\(\color{orange}{\text{Warning}}\)</span>”, and
+provides three lines known as “<span class="math inline">\(\color{green}{\text{Safety}}\)</span>”, “<span class="math inline">\(\color{orange}{\text{Warning}}\)</span>”, and
 “<span class="math inline">\(\color{Red}{\text{Epidemic}}\)</span>”
 bands (Figure 1), which are later used to define the epidemiological
 situation of the region based on the current (observed) cases.</p>
@@ -323,7 +323,7 @@ handling set by the user.</p>
 from the SIVIGILA data source to build the 2021 <em>endemic channel</em>
 for Ibagué City.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">observations</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">15</span><span class="op">:</span><span class="fl">100</span>, <span class="fl">52</span>, replace <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">observations</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">5</span><span class="op">:</span><span class="fl">40</span>, <span class="fl">52</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">outlier_years</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2016</span>, <span class="fl">2019</span><span class="op">)</span></span>
 <span></span>
@@ -331,10 +331,8 @@ for Ibagué City.</p>
 <span>  incidence_historic <span class="op">=</span> <span class="va">incidence_historic</span>,</span>
 <span>  observations <span class="op">=</span> <span class="va">observations</span>,</span>
 <span>  outlier_years <span class="op">=</span> <span class="va">outlier_years</span>,</span>
-<span>  plot <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">ibague_endemic_chanel</span><span class="op">$</span><span class="va">endemic_channel_plot</span></span></code></pre></div>
+<span>  plot <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -361,7 +359,7 @@ for Ibagué City.</p>
 
     <footer><div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by Juan D. Umaña, Juan Montenegro, Julian Otero, Mauricio Santos-Vega.</p>
+<p>Developed by Juan D. Umaña, Juan Montenegro-Torres, Julian Otero.</p>
 </div>
 
 <div class="pkgdown-footer-right">
