@@ -17,9 +17,6 @@
 #' @export
 neighborhoods <- function(query_vector, threshold = 2) {
   stopifnot("`query_vector` must be numeric" = (is.numeric(query_vector)))
-  path <- system.file("extdata", "distance_matrix.rda", package = "epiCo")
-  load(path)
-  distance_matrix <- distance_matrix
   distance <- distance_matrix[
     which(row.names(distance_matrix) %in%
       query_vector),
@@ -78,9 +75,6 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
     incidence_object = incidence_object,
     level = level, scale = scale
   )
-  path_1 <- system.file("extdata", "divipola_table.rda", package = "epiCo")
-  load(path_1)
-  divipola_table <- divipola_table
   # Match with DIVIPOLA order
   incidence_rate_ordered <- incidence_rate[, order(match(
     colnames(incidence_rate$counts), divipola_table$COD_MPIO
@@ -148,12 +142,6 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
     if (all(is.na(morans_index$quadrant))) {
       warning("There are no influential municipalities to plot")
     } else {
-      path_2 <- system.file("extdata", "spatial_polygons_col_2.rda",
-        package = "epiCo"
-      )
-      load(path_2)
-      spatial_polygons_col_2 <- spatial_polygons_col_2
-
       shapes <- spatial_polygons_col_2[spatial_polygons_col_2$MPIO_CDPMP %in%
         as.integer(morans_index$municipios), ]
       shapes_order <- match(shapes$MPIO_CDPMP, morans_index$municipios)

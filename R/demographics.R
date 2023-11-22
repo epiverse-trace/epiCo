@@ -30,16 +30,8 @@ population_pyramid <- function(divipola_code, year,
     "`range` must be an integer value between 1 and 100" = is.numeric(range) &
       range %in% seq(1, 100)
   )
-  path <- system.file("extdata", "divipola_table.rda", package = "epiCo")
-  load(path)
-  divipola_table <- divipola_table
 
   if (divipola_code == 0) {
-    path_0 <- system.file("extdata", "population_projection_col_0.rda",
-      package = "epiCo"
-    )
-    load(path_0)
-    population_projection_col_0 <- population_projection_col_0
     pop_data_dpto <- dplyr::filter(
       population_projection_col_0,
       ((population_projection_col_0$DP == divipola_code) &
@@ -49,11 +41,6 @@ population_pyramid <- function(divipola_code, year,
     female_counts <- as.numeric(pop_data_dpto[104:204])
     male_counts <- as.numeric(pop_data_dpto[3:103])
   } else if (divipola_code %in% divipola_table$COD_DPTO) {
-    path_1 <- system.file("extdata", "population_projection_col_1.rda",
-      package = "epiCo"
-    )
-    load(path_1)
-    population_projection_col_1 <- population_projection_col_1
     pop_data_dpto <- dplyr::filter(
       population_projection_col_1,
       ((.data$DP == divipola_code) & (.data$ANO == year))
@@ -62,11 +49,6 @@ population_pyramid <- function(divipola_code, year,
     female_counts <- as.numeric(pop_data_dpto[104:204])
     male_counts <- as.numeric(pop_data_dpto[3:103])
   } else if (divipola_code %in% divipola_table$COD_MPIO) {
-    path_2 <- system.file("extdata", "population_projection_col_2.rda",
-      package = "epiCo"
-    )
-    load(path_2)
-    population_projection_col_2 <- population_projection_col_2
     pop_data_mun <- dplyr::filter(
       population_projection_col_2,
       ((.data$DPMP == divipola_code) & (.data$ANO == year))
@@ -439,9 +421,6 @@ describe_ethnicity <- function(ethnic_labels, language = "ES") {
 #' @export
 describe_occupation <- function(isco_codes, output_level) {
   stopifnot("`isco_codes` must be a numeric vector" = is.numeric(isco_codes))
-  path <- system.file("extdata", "isco88_table.rda", package = "epiCo")
-  load(path)
-  isco88_table <- isco88_table
   input_level <- dplyr::case_when(
     isco_codes %in% c(0, 110) ~ "Armed Forces",
     nchar(isco_codes) == 1 ~ "major",
@@ -530,9 +509,6 @@ describe_occupation <- function(isco_codes, output_level) {
 #' @export
 occupation_plot <- function(isco_codes, gender = NULL) {
   stopifnot("`isco_codes` must be a numeric vector" = is.numeric(isco_codes))
-  path <- system.file("extdata", "isco88_table.rda", package = "epiCo")
-  load(path)
-  isco88_table <- isco88_table
   valid_codes <- isco_codes[isco_codes %in% isco88_table$unit]
   stopifnot("Cannot find a valid `isco_codes`" = length(valid_codes) > 0)
 
