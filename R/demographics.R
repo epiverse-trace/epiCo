@@ -139,7 +139,7 @@ population_pyramid <- function(divipola_code, year,
         ) +
         ggplot2::scale_y_continuous(
           breaks = c(dist_pop)[c(1,3,5,7,9)],
-          labels = c(abs(floor(dist_pop)[c(1,3,5,7,9)]))
+          labels = c(abs(round(dist_pop, 5)[c(1,3,5,7,9)]))
         ) +
         ggplot2::scale_x_continuous(
           name = "Age",
@@ -160,8 +160,8 @@ population_pyramid <- function(divipola_code, year,
       ) +
         ggplot2::geom_bar(stat = "identity") +
         ggplot2::scale_y_continuous(
-          breaks = c(dist_pop)[c(1,3,5,7,9)],
-          labels = c(floor(dist_pop)[c(1,3,5,7,9)])
+          breaks = c(dist_pop),
+          labels = c(round(dist_pop, 5))
         ) +
         ggplot2::scale_x_continuous(
           name = "Age",
