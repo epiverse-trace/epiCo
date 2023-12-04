@@ -320,8 +320,8 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
       )) +
         ggplot2::geom_bar(stat = "identity") +
         ggplot2::scale_y_continuous(
-          breaks = c(dist_prop)[c(1,3,5,7,9)],
-          labels = c(round(dist_prop[c(1,3,5,7,9)], 5))
+          breaks = c(dist_prop),
+          labels = c(round(dist_prop, 5))
         ) +
         ggplot2::scale_x_continuous(
           name = "Age",
