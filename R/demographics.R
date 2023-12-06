@@ -138,8 +138,8 @@ population_pyramid <- function(divipola_code, year,
           stat = "identity"
         ) +
         ggplot2::scale_y_continuous(
-          breaks = c(dist_pop)[c(1,3,5,7,9)],
-          labels = c(abs(round(dist_pop, 5)[c(1,3,5,7,9)]))
+          breaks = c(dist_pop)[c(1, 3, 5, 7, 9)],
+          labels = c(abs(round(dist_pop, 5)[c(1, 3, 5, 7, 9)]))
         ) +
         ggplot2::scale_x_continuous(
           name = "Age",
@@ -300,8 +300,8 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
           stat = "identity"
         ) +
         ggplot2::scale_y_continuous(
-          breaks = c(dist_prop)[c(1,3,5,7,9)],
-          labels = c(round(abs(dist_prop)[c(1,3,5,7,9)], 5))
+          breaks = c(dist_prop)[c(1, 3, 5, 7, 9)],
+          labels = c(round(abs(dist_prop)[c(1, 3, 5, 7, 9)], 5))
         ) +
         ggplot2::scale_x_continuous(
           name = "Age",
