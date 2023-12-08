@@ -105,13 +105,13 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
   moran_data_frame <- dplyr::mutate(moran_data_frame,
     cluster = dplyr::case_when(
       x > mean(x) & wx >
-        mean(wx) ~ "HH",
+        mean(wx) ~ "High-High",
       x < mean(x) & wx <
-        mean(wx) ~ "LL",
+        mean(wx) ~ "Low-Low",
       x > mean(x) & wx <
-        mean(wx) ~ "HL",
+        mean(wx) ~ "High-Low",
       x < mean(x) & wx >
-        mean(wx) ~ "LH"
+        mean(wx) ~ "Low-High"
     )
   )
   infl_mpios <- moran_data_frame[which(moran_data_frame$is_inf), ]
@@ -184,7 +184,7 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
           "#ba0001", "#357a38", "#2c7c94",
           "#fbe45b"
         ),
-        domain = c("HH", "LL", "LH", "HL"),
+        domain = c("High-High", "Low-Low", "Low-High", "High-Low"),
         ordered = TRUE
       )
 
@@ -199,12 +199,12 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
           fillColor = ~ pal(shapes$CLUSTER),
           popup = popup_data,
           color = "black",
-          fillOpacity = ifelse(shapes$CLUSTER == "HH" | shapes$CLUSTER == "LL",
-            0.65, 0
+          fillOpacity = ifelse(shapes$CLUSTER == "High-High" | 
+                                 shapes$CLUSTER == "Low-Low", 0.65, 0
           )
         ) %>%
         leaflet::addLegend("bottomright",
-          pal = pal, values = ~ c("HH", "LL"),
+          pal = pal, values = ~ c("High-High", "Low-Low"),
           title = "Local Moran's Index Clusters",
           opacity = 1
         )
