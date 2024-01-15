@@ -183,31 +183,25 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
 #' }
 #'
 #' @export
-geom_mean <- function(x, method = "optimized", shift = 1, epsilon = 1e-5) {
+geom_mean <- function(x, method = "positive", shift = 1, epsilon = 1e-5) {
   stopifnot(
     "`x`must be numeric" = (is.numeric(x)),
     "`method` must be positive, shifted, otimized or wehighted" =
       (method %in% c("positive", "shifted", "optimized", "weighted")),
     "`shift` must be numeric" = (is.numeric(shift)),
-    "`epsilon` must be numeric" = (is.numeric(epsilon))
+    "`epsilon` must be numeric" = (is.numeric(epsilon)),
+    "`x` includes zero or negative values, check the geom_mean methods"
+    = (any(x<=0) & method == "positive")
   )
-  if (any(x==0)){
-    warning("vector `x` includes zero values, geom_mean implements
-            correction methods but input verification is recommended")
-  }
+  
   if (method == "positive") {
-    x_positive <- x[x > 0]
-    if (length(x) != length(x_positive)) {
-      stop("`positive` method cannot be implemented for negative values")
-    }
-
-    gm <- exp(mean(log(x_positive)))
+    gm <- exp(mean(log(x)))
   } else if (method == "shifted") {
-    x_shifted <- x[x >= 0] + shift
-    if (length(x) != length(x_shifted)) {
-      stop("`shifted` method cannot be implemented for negative values")
+    x_shifted <- x + shift
+    if (any(x_shifted<=0)) {
+      stop("shifted `x` still includes zero or negative values,
+              reconsider the shifting parameter")
     }
-
     gm <- exp(mean(log(x_shifted))) - shift
   } else if (method == "weighted") {
     n_x <- length(x)
@@ -219,8 +213,8 @@ geom_mean <- function(x, method = "optimized", shift = 1, epsilon = 1e-5) {
     x_zeros <- x[x == 0]
     w_zeros <- length(x_zeros) / n_x
 
-    gm_positive <- exp(mean(log(x_positive)))
-    gm_negative <- -1 * exp(mean(log(abs(x_negative))))
+    gm_positive <- exp(sum(log(x_positive))/n_x)
+    gm_negative <- -1 * exp(sum(log(abs(x_negative)))/n_x)
     gm_zeros <- 0
 
     gm <- w_positive * gm_positive + w_negative * gm_negative + w_zeros *
