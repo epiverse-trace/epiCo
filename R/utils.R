@@ -161,7 +161,7 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
 #' Description of methods:
 #' - positive = only positive values within x are used in the calculation.
 #' - shifted = positive and zero values within x are used by adding a shift
-#' value before the calculation and subtratcting it to the final result.
+#' value before the calculation and subtracting it to the final result.
 #' - optimized = optimized shifted method. See: De La Cruz, R., & Kreft, J. U.
 #' (2018). Geometric mean extension for data sets with zeros. arXiv preprint
 #' arXiv:1806.06403.
@@ -191,6 +191,10 @@ geom_mean <- function(x, method = "optimized", shift = 1, epsilon = 1e-5) {
     "`shift` must be numeric" = (is.numeric(shift)),
     "`epsilon` must be numeric" = (is.numeric(epsilon))
   )
+  if (any(x==0)){
+    warning("vector `x` includes zero values, geom_mean implements
+            correction methods but input verification is recommended")
+  }
   if (method == "positive") {
     x_positive <- x[x > 0]
     if (length(x) != length(x_positive)) {
