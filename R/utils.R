@@ -268,3 +268,79 @@ geom_mean <- function(x, method = "positive", shift = 1, epsilon = 1e-5) {
   gm <- round(gm, 5)
   return(gm)
 }
+
+#' Returns the geometric standard deviation of a vector of real numbers.
+#'
+#' @description Function that returns the geometric standard deviation of a
+#' vector of real numbers according to the selected method.
+#'
+#' @param x A numeric vector of real values
+#' @param method
+#' Description of methods:
+#' - positive = only positive values within x are used in the calculation.
+#' - shifted = positive and zero values within x are used by adding a shift
+#' value before the calculation and subtracting it to the final result.
+#' - optimized = optimized shifted method. See: De La Cruz, R., & Kreft, J. U.
+#' (2018). Geometric mean extension for data sets with zeros. arXiv preprint
+#' arXiv:1806.06403.
+#' - weighted = a probability weighted calculation of gm for negative, positive,
+#' and zero values. See: Habib, E. A. (2012). Geometric mean for negative and
+#' zero values. International Journal of Research and Reviews in Applied
+#' Sciences, 11(3), 419-432.
+#' @param shift a positive value to use in the shifted method
+#' @param delta an positive value (shift) used in the optimized method.
+#'
+#' @return The geometric mean of the x vector, and the epsilon value if
+#' optimized method is used.
+#'
+#' @examples
+#' \dontrun{
+#' x <- c(4, 5, 3, 7, 8)
+#' geom_sd(x, method = "optimized")
+#' }
+#'
+#' @export
+geom_sd <- function(x, method, shift = 1, delta = 1e-3) {
+  stopifnot(
+    "`x`must be numeric" = (is.numeric(x)),
+    "`method` must be positive, shifted, otimized or wehighted" =
+      (method %in% c("positive", "shifted", "optimized", "weighted")),
+    "`shift` must be numeric" = (is.numeric(shift)),
+    "`epsilon` must be numeric" = (is.numeric(epsilon)),
+    "`x` includes zero or negative values, check the geom_mean methods"
+    = (any(x<=0) & method == "positive")
+  )
+  
+  if (method == "positive") {
+    gsd <- exp(sd(log(x)))
+  } else if (method == "shifted") {
+    x_shifted <- x + shift
+    if (any(x_shifted<=0)) {
+      stop("shifted `x` still includes zero or negative values,
+              reconsider the shifting parameter")
+    }
+    gsd <- exp(sd(log(x_shifted)))
+  } else if (method == "weighted") {
+    n_x <- length(x)
+    
+    x_positive <- x[x > 0]
+    w_positive <- length(x_positive) / n_x
+    x_negative <- x[x < 0]
+    w_negative <- length(x_negative) / n_x
+    x_zeros <- x[x == 0]
+    w_zeros <- length(x_zeros) / n_x
+    
+    gsd_positive <- exp(sd(log(x_positive)))
+    gsd_negative <- -1 * exp(sd(log(x_negative)))
+    gsd_zeros <- 0
+    
+    gsd <- w_positive * gsd_positive + w_negative * gsd_negative + w_zeros *
+      gsd_zeros
+  } else if (method == "optimized") {
+    x_opti <- x + delta
+    
+    gsd <- exp(sd(log(x_opti)))
+  }
+  gsd <- round(gsd, 5)
+  return(gsd)
+}
