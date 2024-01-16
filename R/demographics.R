@@ -357,67 +357,88 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
 describe_ethnicity <- function(ethnic_labels, language = "ES") {
   stopifnot(
     "`ethnic_labels` must be a numeric vector" =
-      is.numeric(ethnic_labels)
+      is.numeric(ethnic_labels),
+    "The only languages allowed are ES and EN" = language %in% c("ES", "EN")
   )
   ethnic_labels <- as.data.frame(ethnic_labels)
-  
+
   #### ESPA<U+00D1>OL ####
-  indigena_es <- paste("Persona de ascendencia amerindia que comparten",
-  "sentimientos de identificacion con su pasado aborigen, manteniendo rasgos y",
-  "valores propios de su cultura tradicional, asi como formas de organizacion",
-  "y control social propios")
+  indigena_es <- paste(
+    "1. Persona de ascendencia amerindia que comparten",
+    "sentimientos de identificacion con su pasado aborigen, manteniendo rasgos y",
+    "valores propios de su cultura tradicional, asi como formas de organizacion",
+    "y control social propios"
+  )
 
-  rom_es <- paste("Son comunidades que tienen una identidad etnica y cultural",
-  "propia; se caracterizan por una tradicion nomada, y tienen su propio idioma",
-  "que es el romanes")
+  rom_es <- paste(
+    "2. Son comunidades que tienen una identidad etnica y cultural",
+    "propia; se caracterizan por una tradicion nomada, y tienen su propio idioma",
+    "que es el romanes"
+  )
 
-  raizal_es <- paste("Poblacion ubicada en el Archipielago de San Andres,",
-  "Providencia y Santa Catalina, con raices culturales afroanglo-antillanas,",
-  "cuyos integrantes tienen rasgos socioculturales y linguisticos claramente",
-  "diferenciados del resto de la poblacion afrocolombiana")
+  raizal_es <- paste(
+    "3. Poblacion ubicada en el Archipielago de San Andres,",
+    "Providencia y Santa Catalina, con raices culturales afroanglo-antillanas,",
+    "cuyos integrantes tienen rasgos socioculturales y linguisticos claramente",
+    "diferenciados del resto de la poblacion afrocolombiana"
+  )
 
-  palenquero_es <- paste("Poblacion ubicada en el municipio de San Basilio de",
-  "Palenque, departamento de Bolivar, donde se habla el palenquero,",
-  "lenguaje criollo")
+  palenquero_es <- paste(
+    "4. Poblacion ubicada en el municipio de San Basilio",
+    "de Palenque, departamento de Bolivar, donde se habla el palenquero,",
+    "lenguaje criollo"
+  )
 
-  afro_es <- paste("Persona de ascendencia afrocolombiana que poseen una",
-  "cultura propia, y tienen sus propias tradiciones y costumbre dentro de la",
-  "relacion campo-poblado")
+  afro_es <- paste(
+    "5. Persona de ascendencia afrocolombiana que poseen una",
+    "cultura propia, y tienen sus propias tradiciones y costumbre dentro de la",
+    "relacion campo-poblado"
+  )
 
   #### ENGLISH ####
-  indigena_en <- paste("A person of Amerindian descent who shares feelings of",
-  "identification with their aboriginal past, maintaining traits and values of",
-  "their traditional culture, as well as their own forms of organization and",
-  "social control")
+  indigena_en <- paste(
+    "1. A person of Amerindian descent who shares feelings",
+    "of identification with their aboriginal past, maintaining traits and values",
+    "of their traditional culture, as well as their own forms of organization",
+    "and social control"
+  )
 
-  rom_en <- paste("They are communities that have their own ethnic and",
-  "cultural identity; They are characterized by a nomadic tradition, and have",
-  "their own language, which is Romanesque")
+  rom_en <- paste(
+    "2. They are communities that have their own ethnic and",
+    "cultural identity; They are characterized by a nomadic tradition, and have",
+    "their own language, which is Romanesque"
+  )
 
-  raizal_en <- paste("Population located in the Archipelago of San Andres,",
-  "Providencia and Santa Catalina, with Afro-Anglo-Antillean cultural roots,",
-  "whose members have clearly differentiated sociocultural and linguistic",
-  "traits from the rest of the Afro-Colombian population")
+  raizal_en <- paste(
+    "3. Population located in the Archipelago of San Andres,",
+    "Providencia and Santa Catalina, with Afro-Anglo-Antillean cultural roots,",
+    "whose members have clearly differentiated sociocultural and linguistic",
+    "traits from the rest of the Afro-Colombian population"
+  )
 
-  palenquero_en <- paste("Population located in the municipality of San",
-  "Basilio de Palenque, department of Bolivar, where palenquero is spoken, a",
-  "Creole language")
+  palenquero_en <- paste(
+    "4. Population located in the municipality of San",
+    "Basilio de Palenque, department of Bolivar, where palenquero is spoken, a",
+    "Creole language"
+  )
 
-  afro_en <- paste("Person of Afro-Colombian descent who have their own",
-  "culture, and have their own traditions and customs within the",
-  "rural-populatedrelationship")
+  afro_en <- paste(
+    "5. Person of Afro-Colombian descent who have their own",
+    "culture, and have their own traditions and customs within the",
+    "rural-populatedrelationship"
+  )
 
- 
+
 
   descriptions_es <- c(indigena_es, rom_es, raizal_es, palenquero_es, afro_es)
-  description_en <- c(indigena_en, rom_en, raizal_en, palenquero_en, afro_en)
+  descriptions_en <- c(indigena_en, rom_en, raizal_en, palenquero_en, afro_en)
 
-  labels <- order(unique(ethnic_labels$ethnic_labels))
+  labels <- sort(unique(ethnic_labels$ethnic_labels))
 
   if (language == "EN") {
-    return(description_en[labels])
+    return(cat(descriptions_en[labels], sep = "\n"))
   } else {
-    return(descriptions_es[labels])
+    return(cat(descriptions_es[labels], sep = "\n"))
   }
 }
 
@@ -552,10 +573,13 @@ occupation_plot <- function(isco_codes, gender = NULL) {
     occupation_count <- occupation_data %>%
       dplyr::count(.data$gender, .data$major_label, .data$minor_label)
 
-    occupation_count <- subset(occupation_count,
-                               occupation_count$n >= quantile(
-                                 occupation_count$n,
-                                 0.9))
+    occupation_count <- subset(
+      occupation_count,
+      occupation_count$n >= quantile(
+        occupation_count$n,
+        0.9
+      )
+    )
 
     occupation_treemap <- ggplot2::ggplot(occupation_count, ggplot2::aes(
       area = .data$n,
@@ -587,10 +611,13 @@ occupation_plot <- function(isco_codes, gender = NULL) {
     occupation_count <- occupation_data %>%
       dplyr::count(.data$major_label, .data$minor_label)
 
-    occupation_count <- subset(occupation_count,
-                               occupation_count$n >= quantile(
-                                 occupation_count$n,
-                                 0.9))
+    occupation_count <- subset(
+      occupation_count,
+      occupation_count$n >= quantile(
+        occupation_count$n,
+        0.9
+      )
+    )
     occupation_treemap <- ggplot2::ggplot(occupation_count, ggplot2::aes(
       area = .data$n,
       fill = .data$major_label,
