@@ -183,7 +183,7 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
 #' }
 #'
 #' @export
-geom_mean <- function(x, method = "positive", shift = 1, epsilon = 1e-5) {
+geom_mean <- function(x, method = "positive", shift = 1, epsilon = 1e-3) {
   stopifnot(
     "`x`must be numeric" = (is.numeric(x)),
     "`method` must be positive, shifted, otimized or wehighted" =
