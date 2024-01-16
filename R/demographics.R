@@ -360,31 +360,54 @@ describe_ethnicity <- function(ethnic_labels, language = "ES") {
       is.numeric(ethnic_labels)
   )
   ethnic_labels <- as.data.frame(ethnic_labels)
-  #nolint start
+  
   #### ESPA<U+00D1>OL ####
-  indigena_es <- "Persona de ascendencia amerindia que comparten sentimientos de identificacion con su pasado aborigen, manteniendo rasgos y valores propios de su cultura tradicional, asi como formas de organizacion y control social propios"
+  indigena_es <- paste("Persona de ascendencia amerindia que comparten",
+  "sentimientos de identificacion con su pasado aborigen, manteniendo rasgos y",
+  "valores propios de su cultura tradicional, asi como formas de organizacion",
+  "y control social propios")
 
-  rom_es <- "Son comunidades que tienen una identidad etnica y cultural propia; se caracterizan por una tradicion nomada, y tienen su propio idioma que es el romanes"
+  rom_es <- paste("Son comunidades que tienen una identidad etnica y cultural",
+  "propia; se caracterizan por una tradicion nomada, y tienen su propio idioma",
+  "que es el romanes")
 
-  raizal_es <- "Poblacion ubicada en el Archipielago de San Andres, Providencia y Santa Catalina, con raices culturales afroanglo-antillanas, cuyos integrantes tienen rasgos socioculturales y linguisticos claramente diferenciados del resto de la poblacion afrocolombiana"
+  raizal_es <- paste("Poblacion ubicada en el Archipielago de San Andres,",
+  "Providencia y Santa Catalina, con raices culturales afroanglo-antillanas,",
+  "cuyos integrantes tienen rasgos socioculturales y linguisticos claramente",
+  "diferenciados del resto de la poblacion afrocolombiana")
 
-  palenquero_es <- "Poblacion ubicada en el municipio de San Basilio de Palenque, departamento de Bolivar, donde se habla el palenquero, lenguaje criollo"
+  palenquero_es <- paste("Poblacion ubicada en el municipio de San Basilio de",
+  "Palenque, departamento de Bolivar, donde se habla el palenquero,",
+  "lenguaje criollo")
 
-  afro_es <- "Persona de ascendencia afrocolombiana que poseen una cultura propia, y tienen sus propias tradiciones y costumbre dentro de la relacion campo-poblado"
+  afro_es <- paste("Persona de ascendencia afrocolombiana que poseen una",
+  "cultura propia, y tienen sus propias tradiciones y costumbre dentro de la",
+  "relacion campo-poblado")
 
   #### ENGLISH ####
-  indigena_en <- "A person of Amerindian descent who shares feelings of identification with their aboriginal past, maintaining traits and values of their traditional culture, as well as their own forms of organization and social control"
+  indigena_en <- paste("A person of Amerindian descent who shares feelings of",
+  "identification with their aboriginal past, maintaining traits and values of",
+  "their traditional culture, as well as their own forms of organization and",
+  "social control")
 
-  rom_en <- "They are communities that have their own ethnic and cultural identity; They are characterized by a nomadic tradition, and have their own language, which is Romanesque"
+  rom_en <- paste("They are communities that have their own ethnic and",
+  "cultural identity; They are characterized by a nomadic tradition, and have",
+  "their own language, which is Romanesque")
 
-  raizal_en <- "Population located in the Archipelago of San Andres, Providencia and Santa Catalina, with Afro-Anglo-Antillean cultural roots, whose members have clearly differentiated sociocultural and linguistic traits from the rest of the Afro-Colombian population"
+  raizal_en <- paste("Population located in the Archipelago of San Andres,",
+  "Providencia and Santa Catalina, with Afro-Anglo-Antillean cultural roots,",
+  "whose members have clearly differentiated sociocultural and linguistic",
+  "traits from the rest of the Afro-Colombian population")
 
-  palenquero_en <- "Population located in the municipality of San Basilio de Palenque, department of Bolivar, where palenquero is spoken, a Creole language"
+  palenquero_en <- paste("Population located in the municipality of San",
+  "Basilio de Palenque, department of Bolivar, where palenquero is spoken, a",
+  "Creole language")
 
-  afro_en <- "Person of Afro-Colombian descent who have their own culture, and have their own traditions and customs within the rural-populated relationship"
+  afro_en <- paste("Person of Afro-Colombian descent who have their own",
+  "culture, and have their own traditions and customs within the",
+  "rural-populatedrelationship")
 
-  #####
-  #nolint end
+ 
 
   descriptions_es <- c(indigena_es, rom_es, raizal_es, palenquero_es, afro_es)
   description_en <- c(indigena_en, rom_en, raizal_en, palenquero_en, afro_en)
