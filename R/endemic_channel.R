@@ -188,7 +188,7 @@ endemic_channel <- function(incidence_historic, observations = NULL,
             p = c((1 - ci) / 2),
             df = length(x) - 1
           ) *
-            stats::sd(x) / sqrt(length(x))
+            geom_sd(x,method = geom_method) / sqrt(length(x))
         }
       ))
       up_lim <- central + abs(interval)
