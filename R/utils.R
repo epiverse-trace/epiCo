@@ -312,14 +312,14 @@ geom_sd <- function(x, method, shift = 1, delta = 1e-3) {
   )
   
   if (method == "positive") {
-    gsd <- exp(sd(log(x)))
+    gsd <- exp(stats::sd()(log(x)))
   } else if (method == "shifted") {
     x_shifted <- x + shift
     if (any(x_shifted<=0)) {
       stop("shifted `x` still includes zero or negative values,
               reconsider the shifting parameter")
     }
-    gsd <- exp(sd(log(x_shifted)))
+    gsd <- exp(stats::sd()(log(x_shifted)))
   } else if (method == "weighted") {
     n_x <- length(x)
     
@@ -330,8 +330,8 @@ geom_sd <- function(x, method, shift = 1, delta = 1e-3) {
     x_zeros <- x[x == 0]
     w_zeros <- length(x_zeros) / n_x
     
-    gsd_positive <- exp(sd(log(x_positive)))
-    gsd_negative <- -1 * exp(sd(log(x_negative)))
+    gsd_positive <- exp(stats::sd()(log(x_positive)))
+    gsd_negative <- -1 * exp(stats::sd()(log(x_negative)))
     gsd_zeros <- 0
     
     gsd <- w_positive * gsd_positive + w_negative * gsd_negative + w_zeros *
@@ -339,7 +339,7 @@ geom_sd <- function(x, method, shift = 1, delta = 1e-3) {
   } else if (method == "optimized") {
     x_opti <- x + delta
     
-    gsd <- exp(sd(log(x_opti)))
+    gsd <- exp(stats::sd()(log(x_opti)))
   }
   gsd <- round(gsd, 5)
   return(gsd)
