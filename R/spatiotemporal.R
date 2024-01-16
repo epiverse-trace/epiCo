@@ -199,17 +199,18 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
           fillColor = ~ pal(shapes$CLUSTER),
           popup = popup_data,
           color = "black",
-          fillOpacity = ifelse(shapes$CLUSTER == "High-High" | 
-                                 shapes$CLUSTER == "Low-Low" | 
-                                 shapes$CLUSTER == "Low-High" | 
-                                 shapes$CLUSTER == "High-Low", 0.65, 0
-          )
+          fillOpacity = ifelse(shapes$CLUSTER == "High-High" |
+            shapes$CLUSTER == "Low-Low" |
+            shapes$CLUSTER == "Low-High" |
+            shapes$CLUSTER == "High-Low", 0.65, 0)
         ) %>%
         leaflet::addLegend("bottomright",
-          pal = pal, values = ~ c("High-High",
-                                  "Low-Low",
-                                  "Low-High",
-                                  "High-Low"),
+          pal = pal, values = ~ c(
+            "High-High",
+            "Low-Low",
+            "Low-High",
+            "High-Low"
+          ),
           title = "Local Moran's Index Clusters",
           opacity = 1
         )
