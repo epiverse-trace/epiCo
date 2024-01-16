@@ -181,8 +181,8 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
       # nolint start
       pal <- leaflet::colorFactor(
         palette = c(
-          "#ba0001", "#009929", "#5CCB5F",
-          "#EF2947"
+          "#ba0001", "#00992C", "#80CC96",
+          "#F08E94"
         ),
         domain = c("High-High", "Low-Low", "Low-High", "High-Low"),
         ordered = TRUE
