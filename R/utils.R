@@ -22,37 +22,37 @@ epi_calendar <- function(year, jan_days = 4) {
     "`year` must be numeric" = (is.numeric(year)),
     "`jan_days` must be numeric" = (is.numeric(jan_days))
   )
-  
+
   # By definition, the first epidemiological week of the year contains at least
   # four days in January.
   epi_calendar <- NULL
-  
+
   sec_day <- 24 * 60 * 60 # seconds in a day
-  
+
   first_date <- as.POSIXlt(paste0("01-01-", toString(year)),
-                           format = "%d-%m-%Y"
+    format = "%d-%m-%Y"
   )
   last_date <- as.POSIXlt(paste0("31-12-", toString(year)),
-                          format = "%d-%m-%Y"
+    format = "%d-%m-%Y"
   )
   first_week_day <- first_date$wday # 0 to 6 starting on Sundays
   last_week_day <- last_date$wday # 0 to 6 starting on Sundays
-  
+
   if (first_week_day < jan_days) {
     temp_date <- first_date - first_week_day * sec_day
   } else {
     temp_date <- first_date + (7 * sec_day - first_week_day * sec_day)
   }
-  
+
   while (as.numeric(format(temp_date, "%Y")) <= year) {
     epi_calendar <- c(epi_calendar, as.character.Date(temp_date))
     temp_date <- temp_date + 7 * sec_day
   }
-  
+
   if (last_week_day < 3) {
     epi_calendar <- utils::head(epi_calendar, -1)
   }
-  
+
   return(as.Date.character(epi_calendar))
 }
 
@@ -86,7 +86,7 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
   years <- unique(dates)
   if (level == 0) {
     path_0 <- system.file("extdata", "population_projection_col_0.rda",
-                          package = "epiCo"
+      package = "epiCo"
     )
     load(path_0)
     population_projection_col_0 <- population_projection_col_0
@@ -95,7 +95,7 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
     groups <- 0
   } else if (level == 1) {
     path_1 <- system.file("extdata", "population_projection_col_1.rda",
-                          package = "epiCo"
+      package = "epiCo"
     )
     load(path_1)
     population_projection_col_1 <- population_projection_col_1
@@ -104,7 +104,7 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
     groups <- as.numeric(colnames(incidence_object$counts))
   } else if (level == 2) {
     path_2 <- system.file("extdata", "population_projection_col_2.rda",
-                          package = "epiCo"
+      package = "epiCo"
     )
     load(path_2)
     population_projection_col_2 <- population_projection_col_2
@@ -114,7 +114,7 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
   } else {
     stop("Error in Administrative Level selection")
   }
-  
+
   # if (sum(!(years %in% unique(populations$ANO))) +
   #     sum(!(groups %in% unique(populations$code))) > 0) {
   #   stop("No population projections found.
@@ -127,7 +127,7 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
     .data$ANO %in% years
   )
   incidence_rates <- incidence_object$counts
-  
+
   for (group in groups) {
     for (year in years) {
       year_population <- dplyr::filter(populations, .data$ANO == year)
@@ -141,11 +141,11 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
       } else {
         incidence_rates[which(dates == year), as.character(group)] <-
           incidence_rates[which(dates == year), as.character(group)] *
-          scale / group_population
+            scale / group_population
       }
     }
   }
-  
+
   incidence_rate_object <- incidence_object
   incidence_rate_object$rates <- incidence_rates
   return(incidence_rate_object)
@@ -190,33 +190,32 @@ geom_mean <- function(x, method = "positive", shift = 1, epsilon = 1e-3) {
       (method %in% c("positive", "shifted", "optimized", "weighted")),
     "`shift` must be numeric" = (is.numeric(shift)),
     "`epsilon` must be numeric" = (is.numeric(epsilon)),
-    "`x` includes zero or negative values, check the geom_mean methods"
-    = (any(x<=0) & method == "positive")
+    "`x` includes zero or negative values, check the geom_mean methods" = (any(x <= 0) & method == "positive")
   )
-  
+
   if (method == "positive") {
     gm <- exp(mean(log(x)))
   } else if (method == "shifted") {
     x_shifted <- x + shift
-    if (any(x_shifted<=0)) {
+    if (any(x_shifted <= 0)) {
       stop("shifted `x` still includes zero or negative values,
               reconsider the shifting parameter")
     }
     gm <- exp(mean(log(x_shifted))) - shift
   } else if (method == "weighted") {
     n_x <- length(x)
-    
+
     x_positive <- x[x > 0]
     w_positive <- length(x_positive) / n_x
     x_negative <- x[x < 0]
     w_negative <- length(x_negative) / n_x
     x_zeros <- x[x == 0]
     w_zeros <- length(x_zeros) / n_x
-    
-    gm_positive <- exp(sum(log(x_positive))/n_x)
-    gm_negative <- -1 * exp(sum(log(abs(x_negative)))/n_x)
+
+    gm_positive <- exp(sum(log(x_positive)) / n_x)
+    gm_negative <- -1 * exp(sum(log(abs(x_negative))) / n_x)
     gm_zeros <- 0
-    
+
     gm <- w_positive * gm_positive + w_negative * gm_negative + w_zeros *
       gm_zeros
   } else if (method == "optimized") {
@@ -225,44 +224,44 @@ geom_mean <- function(x, method = "positive", shift = 1, epsilon = 1e-3) {
     # where delta is the maximum value such that:
     # abs([exp(mean(log(x_positive+delta)))-delta]-geomean(x_positive))<
     # epsilon*geomean(x_positive) (Eq. II)
-    if (any(x<0)) {
+    if (any(x < 0)) {
       stop("`x` includes negative values, check the geom_mean methods")
     }
-    
+
     x_positive <- x[x > 0]
     gm_positive <- exp(mean(log(x_positive)))
     epsilon <- epsilon * gm_positive
-    
+
     # Simple bisection  method to calculate delta: (Eq. I) is increasing as
     # consequence of the Superaddivity of the Geometric Mean
-    
+
     delta_min <- 0
     delta_max <- gm_positive + epsilon
-    
-    while (exp(mean(log(x_positive+delta_max)))-delta_max < epsilon){
+
+    while (exp(mean(log(x_positive + delta_max))) - delta_max < epsilon) {
       delta_min <- delta_max
-      delta_max <- delta_max*2
+      delta_max <- delta_max * 2
     }
-    
+
     delta <- (delta_min + delta_max) / 2
-    
+
     # Define aus_exp to not repeat operations
     aus_exp <- exp(mean(log(x_positive + delta))) - delta
-    
+
     while ((aus_exp - gm_positive) > epsilon) {
       if ((aus_exp < gm_positive)) {
         delta_min <- delta
       } else {
         delta_max <- delta
       }
-      
+
       delta <- (delta_min + delta_max) / 2
       aus_exp <- exp(mean(log(x_positive + delta))) - delta
       print(delta)
     }
     gm <- round(exp(mean(log(x + delta))) - delta, 5)
     delta <- round(delta, 5)
-    
+
     return(c(gm, delta))
   }
   gm <- round(gm, 5)
@@ -307,38 +306,37 @@ geom_sd <- function(x, method, shift = 1, delta = 1e-3) {
       (method %in% c("positive", "shifted", "optimized", "weighted")),
     "`shift` must be numeric" = (is.numeric(shift)),
     "`epsilon` must be numeric" = (is.numeric(epsilon)),
-    "`x` includes zero or negative values, check the geom_mean methods"
-    = (any(x<=0) & method == "positive")
+    "`x` includes zero or negative values, check the geom_mean methods" = (any(x <= 0) & method == "positive")
   )
-  
+
   if (method == "positive") {
     gsd <- exp(stats::sd()(log(x)))
   } else if (method == "shifted") {
     x_shifted <- x + shift
-    if (any(x_shifted<=0)) {
+    if (any(x_shifted <= 0)) {
       stop("shifted `x` still includes zero or negative values,
               reconsider the shifting parameter")
     }
     gsd <- exp(stats::sd()(log(x_shifted)))
   } else if (method == "weighted") {
     n_x <- length(x)
-    
+
     x_positive <- x[x > 0]
     w_positive <- length(x_positive) / n_x
     x_negative <- x[x < 0]
     w_negative <- length(x_negative) / n_x
     x_zeros <- x[x == 0]
     w_zeros <- length(x_zeros) / n_x
-    
+
     gsd_positive <- exp(stats::sd()(log(x_positive)))
     gsd_negative <- -1 * exp(stats::sd()(log(x_negative)))
     gsd_zeros <- 0
-    
+
     gsd <- w_positive * gsd_positive + w_negative * gsd_negative + w_zeros *
       gsd_zeros
   } else if (method == "optimized") {
     x_opti <- x + delta
-    
+
     gsd <- exp(stats::sd()(log(x_opti)))
   }
   gsd <- round(gsd, 5)
