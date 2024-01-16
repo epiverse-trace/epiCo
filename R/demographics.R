@@ -531,7 +531,7 @@ occupation_plot <- function(isco_codes, gender = NULL) {
 
     occupation_count <- subset(
       occupation_count,
-      occupation_count$n >= quantile(
+      occupation_count$n >= stats::quantile(
         occupation_count$n,
         0.9
       )
@@ -569,7 +569,7 @@ occupation_plot <- function(isco_codes, gender = NULL) {
 
     occupation_count <- subset(
       occupation_count,
-      occupation_count$n >= quantile(
+      occupation_count$n >= stats::quantile(
         occupation_count$n,
         0.9
       )
