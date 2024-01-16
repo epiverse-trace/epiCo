@@ -257,7 +257,6 @@ geom_mean <- function(x, method = "positive", shift = 1, epsilon = 1e-3) {
       
       delta <- (delta_min + delta_max) / 2
       aus_exp <- exp(mean(log(x_positive + delta))) - delta
-      print(delta)
     }
     gm <- round(exp(mean(log(x + delta))) - delta, 5)
     delta <- round(delta, 5)
