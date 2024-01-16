@@ -189,11 +189,13 @@ geom_mean <- function(x, method = "positive", shift = 1, epsilon = 1e-3) {
     "`method` must be positive, shifted, otimized or wehighted" =
       (method %in% c("positive", "shifted", "optimized", "weighted")),
     "`shift` must be numeric" = (is.numeric(shift)),
-    "`epsilon` must be numeric" = (is.numeric(epsilon)),
-    "`x` includes zero or negative values, check the geom_mean methods" = (any(x <= 0) & method == "positive")
+    "`epsilon` must be numeric" = (is.numeric(epsilon))
   )
 
   if (method == "positive") {
+    stopifnot("`x` includes zero or negative values,
+              check the geom_mean methods" = any(x <= 0))
+
     gm <- exp(mean(log(x)))
   } else if (method == "shifted") {
     x_shifted <- x + shift
@@ -305,19 +307,20 @@ geom_sd <- function(x, method, shift = 1, delta = 1e-3) {
     "`method` must be positive, shifted, otimized or wehighted" =
       (method %in% c("positive", "shifted", "optimized", "weighted")),
     "`shift` must be numeric" = (is.numeric(shift)),
-    "`epsilon` must be numeric" = (is.numeric(epsilon)),
-    "`x` includes zero or negative values, check the geom_mean methods" = (any(x <= 0) & method == "positive")
+    "`delta` must be numeric" = (is.numeric(delta))
   )
 
   if (method == "positive") {
-    gsd <- exp(stats::sd()(log(x)))
+    stopifnot("`x` includes zero or negative values,
+              check the geom_mean methods" = any(x <= 0))
+    gsd <- stats::sd((log(x)))
   } else if (method == "shifted") {
     x_shifted <- x + shift
     if (any(x_shifted <= 0)) {
       stop("shifted `x` still includes zero or negative values,
               reconsider the shifting parameter")
     }
-    gsd <- exp(stats::sd()(log(x_shifted)))
+    gsd <- stats::sd((log(x_shifted)))
   } else if (method == "weighted") {
     n_x <- length(x)
 
@@ -328,8 +331,8 @@ geom_sd <- function(x, method, shift = 1, delta = 1e-3) {
     x_zeros <- x[x == 0]
     w_zeros <- length(x_zeros) / n_x
 
-    gsd_positive <- exp(stats::sd()(log(x_positive)))
-    gsd_negative <- -1 * exp(stats::sd()(log(x_negative)))
+    gsd_positive <- stats::sd((log(x_positive)))
+    gsd_negative <- -1 * stats::sd((log(x_negative)))
     gsd_zeros <- 0
 
     gsd <- w_positive * gsd_positive + w_negative * gsd_negative + w_zeros *
@@ -337,7 +340,7 @@ geom_sd <- function(x, method, shift = 1, delta = 1e-3) {
   } else if (method == "optimized") {
     x_opti <- x + delta
 
-    gsd <- exp(stats::sd()(log(x_opti)))
+    gsd <- stats::sd((log(x_opti)))
   }
   gsd <- round(gsd, 5)
   return(gsd)
