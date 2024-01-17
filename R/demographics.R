@@ -72,8 +72,8 @@ population_pyramid <- function(divipola_code, year,
       ((.data$DPMP == divipola_code) & (.data$ANO == year))
     )
 
-    female_counts <- as.numeric(pop_data_mun[104:204])
-    male_counts <- as.numeric(pop_data_mun[3:103])
+    female_counts <- as.numeric(pop_data_mun[89:174])
+    male_counts <- as.numeric(pop_data_mun[3:88])
   } else {
     stop("There is no location assigned to the consulted DIVIPOLA code")
   }
@@ -360,7 +360,7 @@ describe_ethnicity <- function(ethnic_labels, language = "ES") {
       is.numeric(ethnic_labels)
   )
   ethnic_labels <- as.data.frame(ethnic_labels)
-  #nolint start
+  # nolint start
   #### ESPA<U+00D1>OL ####
   indigena_es <- "Persona de ascendencia amerindia que comparten sentimientos de identificacion con su pasado aborigen, manteniendo rasgos y valores propios de su cultura tradicional, asi como formas de organizacion y control social propios"
 
@@ -384,7 +384,7 @@ describe_ethnicity <- function(ethnic_labels, language = "ES") {
   afro_en <- "Person of Afro-Colombian descent who have their own culture, and have their own traditions and customs within the rural-populated relationship"
 
   #####
-  #nolint end
+  # nolint end
 
   descriptions_es <- c(indigena_es, rom_es, raizal_es, palenquero_es, afro_es)
   description_en <- c(indigena_en, rom_en, raizal_en, palenquero_en, afro_en)
@@ -529,10 +529,13 @@ occupation_plot <- function(isco_codes, gender = NULL) {
     occupation_count <- occupation_data %>%
       dplyr::count(.data$gender, .data$major_label, .data$minor_label)
 
-    occupation_count <- subset(occupation_count,
-                               occupation_count$n >= quantile(
-                                 occupation_count$n,
-                                 0.9))
+    occupation_count <- subset(
+      occupation_count,
+      occupation_count$n >= quantile(
+        occupation_count$n,
+        0.9
+      )
+    )
 
     occupation_treemap <- ggplot2::ggplot(occupation_count, ggplot2::aes(
       area = .data$n,
@@ -564,10 +567,13 @@ occupation_plot <- function(isco_codes, gender = NULL) {
     occupation_count <- occupation_data %>%
       dplyr::count(.data$major_label, .data$minor_label)
 
-    occupation_count <- subset(occupation_count,
-                               occupation_count$n >= quantile(
-                                 occupation_count$n,
-                                 0.9))
+    occupation_count <- subset(
+      occupation_count,
+      occupation_count$n >= quantile(
+        occupation_count$n,
+        0.9
+      )
+    )
     occupation_treemap <- ggplot2::ggplot(occupation_count, ggplot2::aes(
       area = .data$n,
       fill = .data$major_label,
