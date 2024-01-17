@@ -434,11 +434,13 @@ describe_ethnicity <- function(ethnic_labels, language = "ES") {
   descriptions_en <- c(indigena_en, rom_en, raizal_en, palenquero_en, afro_en)
 
   labels <- sort(unique(ethnic_labels$ethnic_labels))
+  descrip_en <- descriptions_en[labels]
+  descrip_es <- descriptions_es[labels]
 
   if (language == "EN") {
-    return(cat(descriptions_en[labels], sep = "\n"))
+    return(data.frame(Label = labels, Description = descrip_es))
   } else {
-    return(cat(descriptions_es[labels], sep = "\n"))
+    return(data.frame(Etiqueta = labels, Descripcion = descrip_es))
   }
 }
 
@@ -575,7 +577,7 @@ occupation_plot <- function(isco_codes, gender = NULL) {
 
     occupation_count <- subset(
       occupation_count,
-      occupation_count$n >= quantile(
+      occupation_count$n >= stats::quantile(
         occupation_count$n,
         0.9
       )
@@ -613,7 +615,7 @@ occupation_plot <- function(isco_codes, gender = NULL) {
 
     occupation_count <- subset(
       occupation_count,
-      occupation_count$n >= quantile(
+      occupation_count$n >= stats::quantile(
         occupation_count$n,
         0.9
       )
