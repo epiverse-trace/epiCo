@@ -330,13 +330,13 @@ endemic_plot <- function(channel_data, method,
     ))
   ) +
     ggplot2::geom_line(ggplot2::aes(y = .data$up_lim, color = "Epidemic"),
-                       linewidth = 1
+      linewidth = 1
     ) +
     ggplot2::geom_line(ggplot2::aes(y = .data$central, color = "Warning"),
-                       linewidth = 1
+      linewidth = 1
     ) +
     ggplot2::geom_line(ggplot2::aes(y = .data$low_lim, color = "Safety"),
-                       linewidth = 1
+      linewidth = 1
     ) +
     ggplot2::scale_y_continuous(
       breaks = round(seq(0, max(c(max(channel_data$up_lim), channel_data$obs),
@@ -351,24 +351,27 @@ endemic_plot <- function(channel_data, method,
       title = "Endemic channel",
       caption = ifelse(length(outlier_years) > 1,
         paste(
-        "Method: ", method, " | Epidemic years: ",
-        toString(outlier_years), " are ", outliers_handling
-      ),
-      paste(
-        "Method: ", method, " | Epidemic year: ",
-        outlier_years, " is ", outliers_handling
-      ))
+          "Method: ", method, " | Epidemic years: ",
+          toString(outlier_years), " are ", outliers_handling
+        ),
+        paste(
+          "Method: ", method, " | Epidemic year: ",
+          outlier_years, " is ", outliers_handling
+        )
+      )
     ) +
     ggplot2::xlab(label = "Epidemiological interval") +
     ggplot2::ylab("Number of cases") +
-    #nolint start
+    # nolint start
     ggplot2::scale_color_manual(
       name = "",
-      values = c("Epidemic" = "brown4",
-                 "Warning" = "darkorange3",
-                 "Safety" = "darkgreen")
+      values = c(
+        "Epidemic" = "brown4",
+        "Warning" = "darkorange3",
+        "Safety" = "darkgreen"
+      )
     ) +
-    #nolint end
+    # nolint end
     ggplot2::theme(
       plot.background = ggplot2::element_rect(fill = "white"),
       plot.margin = ggplot2::margin(20, 20, 20, 20),
