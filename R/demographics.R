@@ -217,7 +217,7 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
     pyramid_female <- dplyr::filter(population_pyramid, .data$gender == "F")
     hist_female <- graphics::hist(age_female,
       breaks = c(
-        seq(0, tail(pyramid_female$age, n = 1),
+        seq(0, pyramid_female$age[length(pyramid_female$age)],
           by = (pyramid_female$age[2] - pyramid_female$age[1])
         ),
         Inf
@@ -236,7 +236,7 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
     pyramid_male <- dplyr::filter(population_pyramid, .data$gender == "M")
     hist_male <- graphics::hist(age_male,
       breaks = c(
-        seq(0, tail(pyramid_male$age, n = 1),
+        seq(0, pyramid_male$age[length(pyramid_male$age)],
           by = (pyramid_male$age[2] - pyramid_male$age[1])
         ),
         Inf
@@ -531,7 +531,7 @@ occupation_plot <- function(isco_codes, gender = NULL) {
 
     occupation_count <- subset(
       occupation_count,
-      occupation_count$n >= quantile(
+      occupation_count$n >= stats::quantile(
         occupation_count$n,
         0.9
       )
@@ -569,7 +569,7 @@ occupation_plot <- function(isco_codes, gender = NULL) {
 
     occupation_count <- subset(
       occupation_count,
-      occupation_count$n >= quantile(
+      occupation_count$n >= stats::quantile(
         occupation_count$n,
         0.9
       )
