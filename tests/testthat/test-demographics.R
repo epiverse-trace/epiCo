@@ -33,7 +33,7 @@ test_that("Population pyramid obtaines data", {
       divipola_code = 5001,
       year = 2020
     )),
-    c(40L, 3L)
+    c(34L, 3L)
   )
   expect_identical(
     dim(population_pyramid(
@@ -41,7 +41,7 @@ test_that("Population pyramid obtaines data", {
       year = 2020,
       gender = FALSE
     )),
-    c(20L, 2L)
+    c(17L, 2L)
   )
   expect_identical(
     dim(population_pyramid(
@@ -49,7 +49,7 @@ test_that("Population pyramid obtaines data", {
       year = 2020,
       total = FALSE
     )),
-    c(40L, 3L)
+    c(34L, 3L)
   )
   expect_identical(
     dim(population_pyramid(
@@ -58,7 +58,7 @@ test_that("Population pyramid obtaines data", {
       gender = FALSE,
       total = FALSE
     )),
-    c(20L, 2L)
+    c(17L, 2L)
   )
   expect_identical(
     dim(population_pyramid(
@@ -68,21 +68,21 @@ test_that("Population pyramid obtaines data", {
       total = FALSE,
       plot = TRUE
     )),
-    c(20L, 2L)
+    c(17L, 2L)
   )
   expect_identical(
     dim(population_pyramid(
       divipola_code = 5,
       year = 2020
     )),
-    c(40L, 3L)
+    c(34L, 3L)
   )
   expect_identical(
     dim(population_pyramid(
       divipola_code = 0,
       year = 2020
     )),
-    c(40L, 3L)
+    c(34L, 3L)
   )
   expect_identical(
     dim(population_pyramid(
@@ -90,7 +90,7 @@ test_that("Population pyramid obtaines data", {
       year = 2020,
       range = 20
     )),
-    c(10L, 3L)
+    c(8L, 3L)
   )
 })
 
