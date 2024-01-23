@@ -75,14 +75,14 @@ test_that("Population pyramid obtaines data", {
       divipola_code = 5,
       year = 2020
     )),
-    c(34L, 3L)
+    c(40L, 3L)
   )
   expect_identical(
     dim(population_pyramid(
       divipola_code = 0,
       year = 2020
     )),
-    c(34L, 3L)
+    c(40L, 3L)
   )
   expect_identical(
     dim(population_pyramid(
