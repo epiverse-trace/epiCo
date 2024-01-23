@@ -217,10 +217,10 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
     pyramid_female <- dplyr::filter(population_pyramid, .data$gender == "F")
     hist_female <- graphics::hist(age_female,
       breaks = c(
-        0,
-        pyramid_female$age +
-          (pyramid_female$age[2] -
-            pyramid_female$age[1])
+        seq(0, tail(pyramid_female$age, n = 1),
+          by = (pyramid_female$age[2] - pyramid_female$age[1])
+        ),
+        Inf
       ),
       plot = FALSE
     )
@@ -236,10 +236,10 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
     pyramid_male <- dplyr::filter(population_pyramid, .data$gender == "M")
     hist_male <- graphics::hist(age_male,
       breaks = c(
-        0,
-        pyramid_male$age +
-          (pyramid_male$age[2] -
-            pyramid_male$age[1])
+        seq(0, tail(pyramid_male$age, n = 1),
+          by = (pyramid_male$age[2] - pyramid_male$age[1])
+        ),
+        Inf
       ),
       plot = FALSE
     )
