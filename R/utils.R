@@ -137,11 +137,15 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
       ]
       if (level == 0) {
         incidence_rates[which(dates == year)] <-
-          incidence_rates[which(dates == year)] * scale / group_population
+          as.numeric(incidence_rates[which(dates == year)] *
+            scale / group_population)
       } else {
         incidence_rates[which(dates == year), as.character(group)] <-
-          incidence_rates[which(dates == year), as.character(group)] *
-            scale / group_population
+          as.numeric(incidence_rates[
+            which(dates == year),
+            as.character(group)
+          ] *
+            scale / group_population)
       }
     }
   }
