@@ -361,7 +361,7 @@ describe_ethnicity <- function(ethnic_labels, language = "ES") {
     "The only languages allowed are ES and EN" = language %in% c("ES", "EN")
   )
   ethnic_labels <- as.data.frame(ethnic_labels)
-  #nolint start
+  # nolint start
   #### ESPA<U+00D1>OL ####
   indigena_es <- paste(
     "1. Persona de ascendencia amerindia que comparten",
@@ -462,70 +462,79 @@ describe_occupation <- function(isco_codes, output_level) {
   path <- system.file("extdata", "isco88_table.rda", package = "epiCo")
   load(path)
   isco88_table <- isco88_table
-  valid_unit_codes <- isco_codes[isco_codes %in% isco88_table[,7]]
-  valid_minor_codes <- isco_codes[isco_codes %in% isco88_table[,5]]
-  valid_sub_major_codes <- isco_codes[isco_codes %in% isco88_table[,3]]
-  valid_major_codes <- isco_codes[isco_codes %in% isco88_table[,1]]
-  
-  stopifnot("Cannot find a valid `isco_codes`" = length(c(valid_unit_codes,
-                                                          valid_minor_codes,
-                                                          valid_sub_major_codes,
-                                                          valid_major_codes))
-            > 0)
-  
-  occupation_data_unit<- data.frame(
+  valid_unit_codes <- isco_codes[isco_codes %in% isco88_table[, 7]]
+  valid_minor_codes <- isco_codes[isco_codes %in% isco88_table[, 5]]
+  valid_sub_major_codes <- isco_codes[isco_codes %in% isco88_table[, 3]]
+  valid_major_codes <- isco_codes[isco_codes %in% isco88_table[, 1]]
+
+  stopifnot("Cannot find a valid `isco_codes`" = length(c(
+    valid_unit_codes,
+    valid_minor_codes,
+    valid_sub_major_codes,
+    valid_major_codes
+  ))
+  > 0)
+
+  occupation_data_unit <- data.frame(
     occupation = valid_unit_codes,
     gender = gender[isco_codes %in% valid_unit_codes]
   )
-  occupation_data_unit<- unique(merge(occupation_data_unit, isco88_table,
-                                      by.x = "occupation", by.y = "unit"))
+  occupation_data_unit <- unique(merge(occupation_data_unit, isco88_table,
+    by.x = "occupation", by.y = "unit"
+  ))
   occupation_data_minor <- data.frame(
     occupation = valid_minor_codes,
     gender = gender[isco_codes %in% valid_minor_codes]
   )
-  occupation_data_minor <- unique(merge(occupation_data_minor, 
-                                        isco88_table[, seq(1,6)],
-                                        by.x = "occupation", by.y = "minor"))
+  occupation_data_minor <- unique(merge(occupation_data_minor,
+    isco88_table[, seq(1, 6)],
+    by.x = "occupation", by.y = "minor"
+  ))
   occupation_data_sub_major <- data.frame(
     occupation = valid_sub_major_codes,
     gender = gender[isco_codes %in% valid_sub_major_codes]
   )
-  occupation_data_sub_major <- unique(merge(occupation_data_sub_major, 
-                                            isco88_table[, seq(1,4)],
-                                            by.x = "occupation",
-                                            by.y = "sub_major"))
+  occupation_data_sub_major <- unique(merge(occupation_data_sub_major,
+    isco88_table[, seq(1, 4)],
+    by.x = "occupation",
+    by.y = "sub_major"
+  ))
   occupation_data_major <- data.frame(
     occupation = valid_major_codes,
     gender = gender[isco_codes %in% valid_major_codes]
   )
   occupation_data_major <- unique(merge(occupation_data_major,
-                                        isco88_table[, c(1,2)],
-                                        by.x = "occupation", by.y = "major")
+    isco88_table[, c(1, 2)],
+    by.x = "occupation", by.y = "major"
+  ))
+
+  occupation_data <- data.frame(
+    occupation = numeric(0), gender = numeric(0),
+    major = numeric(0), major_label = numeric(0),
+    sub_major = numeric(0),
+    sub_major_label = numeric(0),
+    minor = numeric(0),
+    minor_label = numeric(0),
+    unit_label = numeric(0)
   )
-  
-  occupation_data <- data.frame(occupation = numeric(0), gender = numeric(0), 
-                                major = numeric(0), major_label = numeric(0),
-                                sub_major = numeric(0), 
-                                sub_major_label = numeric(0), 
-                                minor = numeric(0),
-                                minor_label = numeric(0), 
-                                unit_label = numeric(0))
   occupation_data <- merge(occupation_data,
-                           occupation_data_unit, all=T)
+    occupation_data_unit,
+    all = T
+  )
   occupation_data <- merge(occupation_data,
-                           occupation_data_minor, all=T)
+    occupation_data_minor,
+    all = T
+  )
   occupation_data <- merge(occupation_data,
-                           occupation_data_sub_major, all = T)
+    occupation_data_sub_major,
+    all = T
+  )
   occupation_data <- merge(occupation_data,
-                           occupation_data_major, all = T)
-  
-  occupation_count <- occupation_data %>%
-    dplyr::count(.data$gender, .data$major_label, .data$minor_label)
-  
-  occupation_count <- subset(occupation_count,
-                             occupation_count$n >= quantile(
-                               occupation_count$n,
-                               0.9))
+    occupation_data_major,
+    all = T
+  )
+
+
   return(isco88_labels)
 }
 # nolint end
@@ -541,16 +550,34 @@ describe_occupation <- function(isco_codes, output_level) {
 #' occupation_plot(1111, level = 1)
 #' }
 #' @export
-occupation_plot <- function(isco_codes, gender = NULL) {
-  stopifnot("`isco_codes` must be a numeric vector" = is.numeric(isco_codes))
-  
-  
-  if (!is.null(gender)) {
-    stopifnot(
-      "`gender` does not have the same number of elements as `isco_codes`" =
-        (length(gender) == length(isco_codes))
-    )
+occupation_plot <- function(occupation_data, gender = FALSE) {
+  raw_count <- occupation_data %>%
+    dplyr::count(.data$major_label)
 
+  raw_labels <- raw_count[order(raw_count$n, decreasing = TRUE), ]
+  n_labels <- ifelse(nrow(labels) < 12,
+    nrow(labels), 12
+  )
+
+  labels <- raw_labels[1:n_labels, ]
+
+  sub_occupation_data <- subset(
+    occupation_data,
+    major_label %in% labels$major_label
+  )
+
+  occupation_count <- sub_occupation_data %>%
+    dplyr::count(.data$gender, .data$major_label, .data$minor_label)
+
+  occupation_count <- subset(
+    occupation_count,
+    occupation_count$n >= stats::quantile(
+      occupation_count$n,
+      0.75
+    )
+  )
+
+  if (gender) {
     occupation_treemap <- ggplot2::ggplot(occupation_count, ggplot2::aes(
       area = .data$n,
       fill = .data$major_label,
@@ -560,35 +587,20 @@ occupation_plot <- function(isco_codes, gender = NULL) {
       treemapify::geom_treemap() +
       ggplot2::scale_fill_manual(
         name = "Major Group",
-        values = RColorBrewer::brewer.pal(n = 8, name = "Set2")
+        values = RColorBrewer::brewer.pal(n = 12, name = "Set3")
       ) +
-      treemapify::geom_treemap_subgroup_border(colour = "white", size = 5) +
+      treemapify::geom_treemap_subgroup_border(colour = "white", size = 10) +
       treemapify::geom_treemap_subgroup_text(
         place = "centre", grow = TRUE,
-        alpha = 0.15, colour = "black"
+        alpha = 0.1, colour = "black"
       ) +
       treemapify::geom_treemap_text(
         colour = "grey16", place = "centre",
-        size = 20, fontface = "italic",
+        size = 15, fontface = "italic",
         grow = TRUE, reflow = TRUE
       ) +
       ggplot2::theme(legend.position = "bottom")
   } else {
-    occupation_data <- data.frame(ocupation = valid_codes)
-    occupation_data <- merge(occupation_data, isco88_table,
-                             by.x = "ocupation", by.y = "unit"
-    )
-    occupation_count <- occupation_data %>%
-      dplyr::count(.data$major_label, .data$minor_label)
-
-    occupation_count <- subset(
-      occupation_count,
-      occupation_count$n >= stats::quantile(
-        occupation_count$n,
-        0.9
-      )
-    )
-
     occupation_treemap <- ggplot2::ggplot(occupation_count, ggplot2::aes(
       area = .data$n,
       fill = .data$major_label,
@@ -597,7 +609,7 @@ occupation_plot <- function(isco_codes, gender = NULL) {
       treemapify::geom_treemap() +
       ggplot2::scale_fill_manual(
         name = "Major Group",
-        values = RColorBrewer::brewer.pal(n = 8, name = "Set2")
+        values = RColorBrewer::brewer.pal(n = 12, name = "Set3")
       ) +
       treemapify::geom_treemap_text(
         colour = "grey16", place = "centre",
@@ -606,6 +618,6 @@ occupation_plot <- function(isco_codes, gender = NULL) {
       ) +
       ggplot2::theme(legend.position = "bottom")
   }
-  
+
   return(occupation_treemap)
 }
