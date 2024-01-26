@@ -181,6 +181,7 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
       # nolint start
       pal <- leaflet::colorFactor(
         palette = c(
+
           "#ba0001", "#00992C", "#80CC96",
           "#F08E94"
         ),
@@ -200,6 +201,7 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
           popup = popup_data,
           color = "black",
           fillOpacity = ifelse(shapes$CLUSTER == "High-High" |
+
             shapes$CLUSTER == "Low-Low" |
             shapes$CLUSTER == "Low-High" |
             shapes$CLUSTER == "High-Low", 0.65, 0)
