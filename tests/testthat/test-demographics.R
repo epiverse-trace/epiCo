@@ -180,11 +180,12 @@ test_that("age risk works as expected", {
 
 test_that("describe ethnicity errors are thrown", {
   expect_error(describe_ethnicity(c("a", 4)))
+  expect_error(describe_ethnicity(c(1, 2, 4), language = "GE"))
 })
 
 test_that("describe etnicity works as expected", {
-  expect_type(describe_ethnicity(c(1, 2, 3), "EN"), type = "character")
-  expect_type(describe_ethnicity(c(1, 2, 3), "ES"), type = "character")
+  expect_type(describe_ethnicity(c(1, 2, 3), "EN"), type = "list")
+  expect_type(describe_ethnicity(c(1, 2, 3), "ES"), type = "list")
 })
 
 test_that("describe occupation errors are thrown", {
