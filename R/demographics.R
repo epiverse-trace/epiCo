@@ -442,7 +442,6 @@ describe_ethnicity <- function(ethnic_labels, language = "ES") {
   }
 }
 
-# nolint start
 #' Get ISCO-88 occupation labels from codes
 #'
 #' @description Function that translates a vector of ISCO-88 occupation codes
@@ -458,7 +457,7 @@ describe_ethnicity <- function(ethnic_labels, language = "ES") {
 #' describe_occupation(1111, level = 1)
 #' }
 #' @export
-describe_occupation <- function(isco_codes, output_level) {
+describe_occupation <- function(isco_codes, gender = NULL) {
   path <- system.file("extdata", "isco88_table.rda", package = "epiCo")
   load(path)
   isco88_table <- isco88_table
@@ -466,56 +465,70 @@ describe_occupation <- function(isco_codes, output_level) {
   valid_minor_codes <- isco_codes[isco_codes %in% isco88_table[, 5]]
   valid_sub_major_codes <- isco_codes[isco_codes %in% isco88_table[, 3]]
   valid_major_codes <- isco_codes[isco_codes %in% isco88_table[, 1]]
-
-  stopifnot("Cannot find a valid `isco_codes`" = length(c(
-    valid_unit_codes,
-    valid_minor_codes,
-    valid_sub_major_codes,
-    valid_major_codes
-  ))
-  > 0)
+  invalid_codes <- isco_codes[!isco_codes %in% c(
+    isco88_table[, 1], isco88_table[, 3],
+    isco88_table[, 5], isco88_table[, 7]
+  )]
 
   occupation_data_unit <- data.frame(
     occupation = valid_unit_codes,
     gender = gender[isco_codes %in% valid_unit_codes]
   )
+  occupation_data_unit <- occupation_data_unit %>%
+    dplyr::count(.data$gender, .data$occupation)
   occupation_data_unit <- unique(merge(occupation_data_unit, isco88_table,
     by.x = "occupation", by.y = "unit"
   ))
+  names(occupation_data_unit)[names(occupation_data_unit) == "occupation"] <- "unit"
+  names(occupation_data_unit)[names(occupation_data_unit) == "n"] <- "count"
+
+
   occupation_data_minor <- data.frame(
     occupation = valid_minor_codes,
     gender = gender[isco_codes %in% valid_minor_codes]
   )
+  occupation_data_minor <- occupation_data_minor %>%
+    dplyr::count(.data$gender, .data$occupation)
   occupation_data_minor <- unique(merge(occupation_data_minor,
     isco88_table[, seq(1, 6)],
     by.x = "occupation", by.y = "minor"
   ))
+  names(occupation_data_minor)[names(occupation_data_minor) == "occupation"] <- "minor"
+  names(occupation_data_minor)[names(occupation_data_minor) == "n"] <- "count"
+
   occupation_data_sub_major <- data.frame(
     occupation = valid_sub_major_codes,
     gender = gender[isco_codes %in% valid_sub_major_codes]
   )
+  occupation_data_sub_major <- occupation_data_sub_major %>%
+    dplyr::count(.data$gender, .data$occupation)
   occupation_data_sub_major <- unique(merge(occupation_data_sub_major,
     isco88_table[, seq(1, 4)],
     by.x = "occupation",
     by.y = "sub_major"
   ))
+  names(occupation_data_sub_major)[names(occupation_data_sub_major) == "occupation"] <- "sub_major"
+  names(occupation_data_sub_major)[names(occupation_data_sub_major) == "n"] <- "count"
+
   occupation_data_major <- data.frame(
     occupation = valid_major_codes,
     gender = gender[isco_codes %in% valid_major_codes]
   )
+  occupation_data_major <- occupation_data_major %>%
+    dplyr::count(.data$gender, .data$occupation)
   occupation_data_major <- unique(merge(occupation_data_major,
     isco88_table[, c(1, 2)],
     by.x = "occupation", by.y = "major"
   ))
+  names(occupation_data_major)[names(occupation_data_major) == "occupation"] <- "major"
+  names(occupation_data_major)[names(occupation_data_major) == "n"] <- "count"
 
   occupation_data <- data.frame(
-    occupation = numeric(0), gender = numeric(0),
-    major = numeric(0), major_label = numeric(0),
-    sub_major = numeric(0),
-    sub_major_label = numeric(0),
-    minor = numeric(0),
-    minor_label = numeric(0),
-    unit_label = numeric(0)
+    gender = NA, major = NA,
+    major_label = NA, sub_major = NA,
+    sub_major_label = NA, minor = NA,
+    minor_label = NA, unit = NA,
+    unit_label = NA, count = length(invalid_codes)
   )
   occupation_data <- merge(occupation_data,
     occupation_data_unit,
@@ -534,10 +547,14 @@ describe_occupation <- function(isco_codes, output_level) {
     all = T
   )
 
-
-  return(isco88_labels)
+  occupation_data <- occupation_data[, c(
+    "major", "major_label",
+    "sub_major", "sub_major_label", "minor",
+    "minor_label", "unit", "unit_label",
+    "gender", "count"
+  )]
+  return(occupation_data)
 }
-# nolint end
 
 #' Distribution plots for ISCO-88 occupation labels
 #'
