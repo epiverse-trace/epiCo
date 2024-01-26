@@ -92,7 +92,8 @@ test_that("Geometric mean throws errors", {
 
 test_that("Geometric mean works as expected", {
   expect_type(geom_mean(c(45, 20, 1000, 100)), "double")
-  expect_length(geom_mean(c(45, 20, 1000, 100)), 2L)
+  expect_length(geom_mean(c(45, 20, 1000, 100)), 1L)
+  expect_length(geom_mean(c(45, 20, 1000, 100), method = "optimized"), 2L)
 
   expect_gt(geom_mean(c(45, 20, 1000, 100), method = "positive"), 0)
   expect_gt(geom_mean(c(45, 20, 1000, -100), method = "weighted"), 0)

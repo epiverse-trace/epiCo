@@ -72,8 +72,8 @@ population_pyramid <- function(divipola_code, year,
       ((.data$DPMP == divipola_code) & (.data$ANO == year))
     )
 
-    female_counts <- as.numeric(pop_data_mun[104:204])
-    male_counts <- as.numeric(pop_data_mun[3:103])
+    female_counts <- as.numeric(pop_data_mun[89:174])
+    male_counts <- as.numeric(pop_data_mun[3:88])
   } else {
     stop("There is no location assigned to the consulted DIVIPOLA code")
   }
@@ -217,10 +217,10 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
     pyramid_female <- dplyr::filter(population_pyramid, .data$gender == "F")
     hist_female <- graphics::hist(age_female,
       breaks = c(
-        0,
-        pyramid_female$age +
-          (pyramid_female$age[2] -
-            pyramid_female$age[1])
+        seq(0, pyramid_female$age[length(pyramid_female$age)],
+          by = (pyramid_female$age[2] - pyramid_female$age[1])
+        ),
+        Inf
       ),
       plot = FALSE
     )
@@ -236,10 +236,10 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
     pyramid_male <- dplyr::filter(population_pyramid, .data$gender == "M")
     hist_male <- graphics::hist(age_male,
       breaks = c(
-        0,
-        pyramid_male$age +
-          (pyramid_male$age[2] -
-            pyramid_male$age[1])
+        seq(0, pyramid_male$age[length(pyramid_male$age)],
+          by = (pyramid_male$age[2] - pyramid_male$age[1])
+        ),
+        Inf
       ),
       plot = FALSE
     )
@@ -427,8 +427,6 @@ describe_ethnicity <- function(ethnic_labels, language = "ES") {
     "culture, and have their own traditions and customs within the",
     "rural-populatedrelationship"
   )
-
-
 
   descriptions_es <- c(indigena_es, rom_es, raizal_es, palenquero_es, afro_es)
   descriptions_en <- c(indigena_en, rom_en, raizal_en, palenquero_en, afro_en)
