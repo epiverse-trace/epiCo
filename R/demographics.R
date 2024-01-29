@@ -765,47 +765,37 @@ occupation_plot_2 <- function(occupation_data, gender = FALSE, q = 0.9) {
     sub_major_label %in% labels$sub_major_label
   )
   
-  if (gender) {
-    occupation_treemap <- ggplot2::ggplot(occupation_count, ggplot2::aes(
-      area = .data$n,
-      fill = .data$major_label,
-      label = .data$minor_label,
-      subgroup = .data$gender
-    )) +
-      treemapify::geom_treemap() +
-      ggplot2::scale_fill_manual(
-        name = "Major Group",
-        values = RColorBrewer::brewer.pal(n = 12, name = "Set3")
-      ) +
-      treemapify::geom_treemap_subgroup_border(colour = "white", size = 10) +
-      treemapify::geom_treemap_subgroup_text(
-        place = "centre", grow = TRUE,
-        alpha = 0.1, colour = "black"
-      ) +
-      treemapify::geom_treemap_text(
-        colour = "grey16", place = "centre",
-        size = 15, fontface = "italic",
-        grow = TRUE, reflow = TRUE
-      ) +
-      ggplot2::theme(legend.position = "bottom")
-  } else {
-    occupation_treemap <- ggplot2::ggplot(occupation_count, ggplot2::aes(
-      area = .data$n,
-      fill = .data$major_label,
-      label = .data$minor_label
-    )) +
-      treemapify::geom_treemap() +
-      ggplot2::scale_fill_manual(
-        name = "Major Group",
-        values = RColorBrewer::brewer.pal(n = 12, name = "Set3")
-      ) +
-      treemapify::geom_treemap_text(
-        colour = "grey16", place = "centre",
-        size = 20, fontface = "italic",
-        grow = TRUE, reflow = TRUE
-      ) +
-      ggplot2::theme(legend.position = "bottom")
-  }
+  sub_occupation_data <- sub_occupation_data %>% 
+    group_by(sub_major_label,unit_label) %>%
+    summarise(count = sum(count))
   
-  return(occupation_treemap)
+  occupation_data_group <- sub_occupation_data %>% 
+    group_by(sub_major_label) %>%
+    summarise(count = sum(count))
+  
+  circle_edges <- data.frame(from = as.character(sub_occupation_data$sub_major_label),
+                             to = as.character(sub_occupation_data$unit_label))
+  
+  circle_vertices <- data.frame(id = c(unique(as.character(sub_occupation_data$sub_major_label)),
+                                       as.character(sub_occupation_data$unit_label)),
+                                size = c(occupation_data_group$count,
+                                         sub_occupation_data$count),
+                                sub_major = c(unique(as.character(sub_occupation_data$sub_major_label)),
+                                              as.character(sub_occupation_data$sub_major_label)),
+                                unit = c(rep(NA,length(unique(sub_occupation_data$sub_major_label))),
+                                         as.character(sub_occupation_data$unit_label)))
+  
+  mygraph <- graph_from_data_frame(circle_edges, vertices = circle_vertices )
+  
+  p <- ggraph(mygraph, layout = 'circlepack', weight=size) + 
+    geom_node_circle(aes(fill = sub_major)) +
+    ggplot2::scale_fill_manual(
+      name = "Major Group",
+      values = RColorBrewer::brewer.pal(n = 12, name = "Set3"),
+      labels = circle_vertices$sub_major
+    ) +
+    geom_node_text( aes(label=unit)) +
+    theme_void()
+  
+  return(p)
 }
