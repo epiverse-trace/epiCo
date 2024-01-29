@@ -559,41 +559,119 @@ describe_occupation <- function(isco_codes, gender = NULL) {
 #' Distribution plots for ISCO-88 occupation labels
 #'
 #' @description Function that plot a vector of ISCO-88 occupation codes
-#' @param isco_codes A numeric vector of ISCO-88 occupation codes (unit level)
-#' @param gender A vector with the gender of cases 'F' and 'M'
+#' @param occupation_data A dataframe
+#' @param gender A boolean for gender data
 #' @return A plot to summarize the distribution of ISCO-88 labels
 #' @examples
 #' \dontrun{
 #' occupation_plot(1111, level = 1)
 #' }
 #' @export
-occupation_plot <- function(occupation_data, gender = FALSE) {
-  raw_count <- occupation_data %>%
-    dplyr::count(.data$major_label)
-
-  raw_labels <- raw_count[order(raw_count$n, decreasing = TRUE), ]
-  n_labels <- ifelse(nrow(labels) < 12,
-    nrow(labels), 12
-  )
-
-  labels <- raw_labels[1:n_labels, ]
-
-  sub_occupation_data <- subset(
-    occupation_data,
-    major_label %in% labels$major_label
-  )
-
-  occupation_count <- sub_occupation_data %>%
-    dplyr::count(.data$gender, .data$major_label, .data$minor_label)
-
-  occupation_count <- subset(
-    occupation_count,
-    occupation_count$n >= stats::quantile(
-      occupation_count$n,
-      0.75
+occupation_plot <- function(occupation_data, gender = FALSE, q = 0.9) {
+  occupation_data_q <- subset(occupation_data, !is.na(unit_label)) %>%
+    subset(count >= stats::quantile(
+      occupation_data$count,
+        q
+      )
     )
-  )
 
+  label_count <- count(occupation_data_q,.data$sub_major_label)
+  
+  label_count <- label_count[order(label_count$n, decreasing = TRUE), ]
+  n_labels <- ifelse(nrow(label_count) < 12,
+                     nrow(label_count), 12
+  )
+  
+  labels <- label_count[1:n_labels, ]
+  
+  sub_occupation_data <- subset(
+    occupation_data_q,
+    sub_major_label %in% labels$sub_major_label
+  )
+  
+  if (gender) {
+    occupation_treemap <- ggplot2::ggplot(sub_occupation_data, ggplot2::aes(
+      area = .data$count,
+      fill = .data$sub_major_label,
+      label = .data$unit_label,
+      subgroup = .data$gender
+    )) +
+      treemapify::geom_treemap() +
+      ggplot2::scale_fill_manual(
+        name = "Major Group",
+        values = RColorBrewer::brewer.pal(n = 12, name = "Set3")
+      ) +
+      treemapify::geom_treemap_subgroup_border(colour = "white", size = 10) +
+      treemapify::geom_treemap_subgroup_text(
+        place = "centre", grow = TRUE,
+        alpha = 0.1, colour = "black"
+      ) +
+      treemapify::geom_treemap_text(
+        colour = "grey16", place = "centre",
+        size = 15, fontface = "italic",
+        grow = TRUE, reflow = TRUE
+      ) +
+      ggplot2::theme(legend.position = "bottom")
+  } else {
+    
+    sub_occupation_data <- sub_occupation_data %>% 
+      group_by(sub_major_label,unit_label) %>%
+      summarise(count = sum(count))
+    
+    occupation_treemap <- ggplot2::ggplot(sub_occupation_data, ggplot2::aes(
+      area = .data$count,
+      fill = .data$sub_major_label,
+      label = .data$unit_label
+    )) +
+      treemapify::geom_treemap() +
+      ggplot2::scale_fill_manual(
+        name = "Major Group",
+        values = RColorBrewer::brewer.pal(n = 12, name = "Set3")
+      ) +
+      treemapify::geom_treemap_text(
+        colour = "grey16", place = "centre",
+        size = 20, fontface = "italic",
+        grow = TRUE, reflow = TRUE
+      ) +
+      ggplot2::theme(legend.position = "bottom")
+  }
+
+  return(occupation_treemap)
+}
+
+#' Distribution plots for ISCO-88 occupation labels
+#'
+#' @description Function that plot a vector of ISCO-88 occupation codes
+#' @param occupation_data A dataframe
+#' @param gender A boolean for gender data
+#' @return A plot to summarize the distribution of ISCO-88 labels
+#' @examples
+#' \dontrun{
+#' occupation_plot(1111, level = 1)
+#' }
+#' @export
+occupation_plot_2 <- function(occupation_data, gender = FALSE, q = 0.9) {
+  occupation_data_q <- subset(occupation_data, !is.na(unit_label)) %>%
+    subset(count >= stats::quantile(
+      occupation_data$count,
+      q
+    )
+    )
+  
+  label_count <- count(occupation_data_q,.data$sub_major_label)
+  
+  label_count <- label_count[order(label_count$n, decreasing = TRUE), ]
+  n_labels <- ifelse(nrow(label_count) < 12,
+                     nrow(label_count), 12
+  )
+  
+  labels <- label_count[1:n_labels, ]
+  
+  sub_occupation_data <- subset(
+    occupation_data_q,
+    sub_major_label %in% labels$sub_major_label
+  )
+  
   if (gender) {
     occupation_treemap <- ggplot2::ggplot(occupation_count, ggplot2::aes(
       area = .data$n,
@@ -635,6 +713,6 @@ occupation_plot <- function(occupation_data, gender = FALSE) {
       ) +
       ggplot2::theme(legend.position = "bottom")
   }
-
+  
   return(occupation_treemap)
 }
