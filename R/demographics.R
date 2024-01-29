@@ -457,7 +457,7 @@ describe_ethnicity <- function(ethnic_labels, language = "ES") {
 #' describe_occupation(1111, level = 1)
 #' }
 #' @export
-describe_occupation <- function(isco_codes, gender = NULL) {
+describe_occupation <- function(isco_codes, gender = NULL, plot = TRUE) {
   path <- system.file("extdata", "isco88_table.rda", package = "epiCo")
   load(path)
   isco88_table <- isco88_table
@@ -469,90 +469,183 @@ describe_occupation <- function(isco_codes, gender = NULL) {
     isco88_table[, 1], isco88_table[, 3],
     isco88_table[, 5], isco88_table[, 7]
   )]
+  if (!is.null(gender)) {
+    occupation_data_unit <- data.frame(
+      occupation = valid_unit_codes,
+      gender = gender[isco_codes %in% valid_unit_codes]
+    )
+    occupation_data_unit <- occupation_data_unit %>%
+      dplyr::count(.data$gender, .data$occupation)
+    occupation_data_unit <- unique(merge(occupation_data_unit, isco88_table,
+      by.x = "occupation", by.y = "unit"
+    ))
+    names(occupation_data_unit)[names(occupation_data_unit) == "occupation"] <- "unit"
+    names(occupation_data_unit)[names(occupation_data_unit) == "n"] <- "count"
 
-  occupation_data_unit <- data.frame(
-    occupation = valid_unit_codes,
-    gender = gender[isco_codes %in% valid_unit_codes]
-  )
-  occupation_data_unit <- occupation_data_unit %>%
-    dplyr::count(.data$gender, .data$occupation)
-  occupation_data_unit <- unique(merge(occupation_data_unit, isco88_table,
-    by.x = "occupation", by.y = "unit"
-  ))
-  names(occupation_data_unit)[names(occupation_data_unit) == "occupation"] <- "unit"
-  names(occupation_data_unit)[names(occupation_data_unit) == "n"] <- "count"
+
+    occupation_data_minor <- data.frame(
+      occupation = valid_minor_codes,
+      gender = gender[isco_codes %in% valid_minor_codes]
+    )
+    occupation_data_minor <- occupation_data_minor %>%
+      dplyr::count(.data$gender, .data$occupation)
+    occupation_data_minor <- unique(merge(occupation_data_minor,
+      isco88_table[, seq(1, 6)],
+      by.x = "occupation", by.y = "minor"
+    ))
+    names(occupation_data_minor)[names(occupation_data_minor) == "occupation"] <- "minor"
+    names(occupation_data_minor)[names(occupation_data_minor) == "n"] <- "count"
+
+    occupation_data_sub_major <- data.frame(
+      occupation = valid_sub_major_codes,
+      gender = gender[isco_codes %in% valid_sub_major_codes]
+    )
+    occupation_data_sub_major <- occupation_data_sub_major %>%
+      dplyr::count(.data$gender, .data$occupation)
+    occupation_data_sub_major <- unique(merge(occupation_data_sub_major,
+      isco88_table[, seq(1, 4)],
+      by.x = "occupation",
+      by.y = "sub_major"
+    ))
+    names(occupation_data_sub_major)[names(occupation_data_sub_major) == "occupation"] <- "sub_major"
+    names(occupation_data_sub_major)[names(occupation_data_sub_major) == "n"] <- "count"
+
+    occupation_data_major <- data.frame(
+      occupation = valid_major_codes,
+      gender = gender[isco_codes %in% valid_major_codes]
+    )
+    occupation_data_major <- occupation_data_major %>%
+      dplyr::count(.data$gender, .data$occupation)
+    occupation_data_major <- unique(merge(occupation_data_major,
+      isco88_table[, c(1, 2)],
+      by.x = "occupation", by.y = "major"
+    ))
+    names(occupation_data_major)[names(occupation_data_major) == "occupation"] <- "major"
+    names(occupation_data_major)[names(occupation_data_major) == "n"] <- "count"
+
+    occupation_data <- data.frame(
+      gender = NA, major = NA,
+      major_label = NA, sub_major = NA,
+      sub_major_label = NA, minor = NA,
+      minor_label = NA, unit = NA,
+      unit_label = NA, count = length(invalid_codes)
+    )
+    occupation_data <- merge(occupation_data,
+      occupation_data_unit,
+      all = T
+    )
+    occupation_data <- merge(occupation_data,
+      occupation_data_minor,
+      all = T
+    )
+    occupation_data <- merge(occupation_data,
+      occupation_data_sub_major,
+      all = T
+    )
+    occupation_data <- merge(occupation_data,
+      occupation_data_major,
+      all = T
+    )
+    occupation_data <- occupation_data[, c(
+      "major", "major_label",
+      "sub_major", "sub_major_label", "minor",
+      "minor_label", "unit", "unit_label",
+      "gender", "count"
+    )]
+    if (plot) {
+      occupation_plot <- occupation_plot(occupation_data, gender = TRUE)
+      occupation_data <- list(
+        occupation_plot <- occupation_plot,
+        occupation_data <- occupation_data
+      )
+    }
+  } else {
+    occupation_data_unit <- data.frame(
+      occupation = valid_unit_codes
+    )
+    occupation_data_unit <- occupation_data_unit %>%
+      dplyr::count(.data$occupation)
+    occupation_data_unit <- unique(merge(occupation_data_unit, isco88_table,
+      by.x = "occupation", by.y = "unit"
+    ))
+    names(occupation_data_unit)[names(occupation_data_unit) == "occupation"] <- "unit"
+    names(occupation_data_unit)[names(occupation_data_unit) == "n"] <- "count"
 
 
-  occupation_data_minor <- data.frame(
-    occupation = valid_minor_codes,
-    gender = gender[isco_codes %in% valid_minor_codes]
-  )
-  occupation_data_minor <- occupation_data_minor %>%
-    dplyr::count(.data$gender, .data$occupation)
-  occupation_data_minor <- unique(merge(occupation_data_minor,
-    isco88_table[, seq(1, 6)],
-    by.x = "occupation", by.y = "minor"
-  ))
-  names(occupation_data_minor)[names(occupation_data_minor) == "occupation"] <- "minor"
-  names(occupation_data_minor)[names(occupation_data_minor) == "n"] <- "count"
+    occupation_data_minor <- data.frame(
+      occupation = valid_minor_codes
+    )
+    occupation_data_minor <- occupation_data_minor %>%
+      dplyr::count(.data$occupation)
+    occupation_data_minor <- unique(merge(occupation_data_minor,
+      isco88_table[, seq(1, 6)],
+      by.x = "occupation", by.y = "minor"
+    ))
+    names(occupation_data_minor)[names(occupation_data_minor) == "occupation"] <- "minor"
+    names(occupation_data_minor)[names(occupation_data_minor) == "n"] <- "count"
 
-  occupation_data_sub_major <- data.frame(
-    occupation = valid_sub_major_codes,
-    gender = gender[isco_codes %in% valid_sub_major_codes]
-  )
-  occupation_data_sub_major <- occupation_data_sub_major %>%
-    dplyr::count(.data$gender, .data$occupation)
-  occupation_data_sub_major <- unique(merge(occupation_data_sub_major,
-    isco88_table[, seq(1, 4)],
-    by.x = "occupation",
-    by.y = "sub_major"
-  ))
-  names(occupation_data_sub_major)[names(occupation_data_sub_major) == "occupation"] <- "sub_major"
-  names(occupation_data_sub_major)[names(occupation_data_sub_major) == "n"] <- "count"
+    occupation_data_sub_major <- data.frame(
+      occupation = valid_sub_major_codes
+    )
+    occupation_data_sub_major <- occupation_data_sub_major %>%
+      dplyr::count(.data$occupation)
+    occupation_data_sub_major <- unique(merge(occupation_data_sub_major,
+      isco88_table[, seq(1, 4)],
+      by.x = "occupation",
+      by.y = "sub_major"
+    ))
+    names(occupation_data_sub_major)[names(occupation_data_sub_major) == "occupation"] <- "sub_major"
+    names(occupation_data_sub_major)[names(occupation_data_sub_major) == "n"] <- "count"
 
-  occupation_data_major <- data.frame(
-    occupation = valid_major_codes,
-    gender = gender[isco_codes %in% valid_major_codes]
-  )
-  occupation_data_major <- occupation_data_major %>%
-    dplyr::count(.data$gender, .data$occupation)
-  occupation_data_major <- unique(merge(occupation_data_major,
-    isco88_table[, c(1, 2)],
-    by.x = "occupation", by.y = "major"
-  ))
-  names(occupation_data_major)[names(occupation_data_major) == "occupation"] <- "major"
-  names(occupation_data_major)[names(occupation_data_major) == "n"] <- "count"
+    occupation_data_major <- data.frame(
+      occupation = valid_major_codes,
+      gender = gender[isco_codes %in% valid_major_codes]
+    )
+    occupation_data_major <- occupation_data_major %>%
+      dplyr::count(.data$occupation)
+    occupation_data_major <- unique(merge(occupation_data_major,
+      isco88_table[, c(1, 2)],
+      by.x = "occupation", by.y = "major"
+    ))
+    names(occupation_data_major)[names(occupation_data_major) == "occupation"] <- "major"
+    names(occupation_data_major)[names(occupation_data_major) == "n"] <- "count"
 
-  occupation_data <- data.frame(
-    gender = NA, major = NA,
-    major_label = NA, sub_major = NA,
-    sub_major_label = NA, minor = NA,
-    minor_label = NA, unit = NA,
-    unit_label = NA, count = length(invalid_codes)
-  )
-  occupation_data <- merge(occupation_data,
-    occupation_data_unit,
-    all = T
-  )
-  occupation_data <- merge(occupation_data,
-    occupation_data_minor,
-    all = T
-  )
-  occupation_data <- merge(occupation_data,
-    occupation_data_sub_major,
-    all = T
-  )
-  occupation_data <- merge(occupation_data,
-    occupation_data_major,
-    all = T
-  )
-
-  occupation_data <- occupation_data[, c(
-    "major", "major_label",
-    "sub_major", "sub_major_label", "minor",
-    "minor_label", "unit", "unit_label",
-    "gender", "count"
-  )]
+    occupation_data <- data.frame(
+      major = NA,
+      major_label = NA, sub_major = NA,
+      sub_major_label = NA, minor = NA,
+      minor_label = NA, unit = NA,
+      unit_label = NA, count = length(invalid_codes)
+    )
+    occupation_data <- merge(occupation_data,
+      occupation_data_unit,
+      all = T
+    )
+    occupation_data <- merge(occupation_data,
+      occupation_data_minor,
+      all = T
+    )
+    occupation_data <- merge(occupation_data,
+      occupation_data_sub_major,
+      all = T
+    )
+    occupation_data <- merge(occupation_data,
+      occupation_data_major,
+      all = T
+    )
+    occupation_data <- occupation_data[, c(
+      "major", "major_label",
+      "sub_major", "sub_major_label", "minor",
+      "minor_label", "unit", "unit_label", "count"
+    )]
+    if (plot) {
+      occupation_plot <- occupation_plot(occupation_data)
+      return(occupation_data <- list(
+        occupation_plot <- occupation_plot,
+        occupation_data <- occupation_data
+      ))
+    }
+  }
   return(occupation_data)
 }
 
