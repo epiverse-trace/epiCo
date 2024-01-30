@@ -364,66 +364,66 @@ describe_ethnicity <- function(ethnic_labels, language = "ES") {
   # nolint start
   #### ESPA<U+00D1>OL ####
   indigena_es <- paste(
-    "1. Persona de ascendencia amerindia que comparten",
+    "Persona de ascendencia amerindia que comparten",
     "sentimientos de identificacion con su pasado aborigen, manteniendo rasgos y",
     "valores propios de su cultura tradicional, asi como formas de organizacion",
     "y control social propios"
   )
 
   rom_es <- paste(
-    "2. Son comunidades que tienen una identidad etnica y cultural",
+    "Son comunidades que tienen una identidad etnica y cultural",
     "propia; se caracterizan por una tradicion nomada, y tienen su propio idioma",
     "que es el romanes"
   )
 
   raizal_es <- paste(
-    "3. Poblacion ubicada en el Archipielago de San Andres,",
+    "Poblacion ubicada en el Archipielago de San Andres,",
     "Providencia y Santa Catalina, con raices culturales afroanglo-antillanas,",
     "cuyos integrantes tienen rasgos socioculturales y linguisticos claramente",
     "diferenciados del resto de la poblacion afrocolombiana"
   )
 
   palenquero_es <- paste(
-    "4. Poblacion ubicada en el municipio de San Basilio",
+    "Poblacion ubicada en el municipio de San Basilio",
     "de Palenque, departamento de Bolivar, donde se habla el palenquero,",
     "lenguaje criollo"
   )
 
   afro_es <- paste(
-    "5. Persona de ascendencia afrocolombiana que poseen una",
+    "Persona de ascendencia afrocolombiana que poseen una",
     "cultura propia, y tienen sus propias tradiciones y costumbre dentro de la",
     "relacion campo-poblado"
   )
 
   #### ENGLISH ####
   indigena_en <- paste(
-    "1. A person of Amerindian descent who shares feelings",
+    "A person of Amerindian descent who shares feelings",
     "of identification with their aboriginal past, maintaining traits and values",
     "of their traditional culture, as well as their own forms of organization",
     "and social control"
   )
 
   rom_en <- paste(
-    "2. They are communities that have their own ethnic and",
+    "They are communities that have their own ethnic and",
     "cultural identity; They are characterized by a nomadic tradition, and have",
     "their own language, which is Romanesque"
   )
 
   raizal_en <- paste(
-    "3. Population located in the Archipelago of San Andres,",
+    "Population located in the Archipelago of San Andres,",
     "Providencia and Santa Catalina, with Afro-Anglo-Antillean cultural roots,",
     "whose members have clearly differentiated sociocultural and linguistic",
     "traits from the rest of the Afro-Colombian population"
   )
 
   palenquero_en <- paste(
-    "4. Population located in the municipality of San",
+    "Population located in the municipality of San",
     "Basilio de Palenque, department of Bolivar, where palenquero is spoken, a",
     "Creole language"
   )
 
   afro_en <- paste(
-    "5. Person of Afro-Colombian descent who have their own",
+    "Person of Afro-Colombian descent who have their own",
     "culture, and have their own traditions and customs within the",
     "rural-populatedrelationship"
   )
@@ -469,7 +469,26 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = TRUE) {
     isco88_table[, 1], isco88_table[, 3],
     isco88_table[, 5], isco88_table[, 7]
   )]
+  
+  stopifnot(
+    '`isco_codes` must be a numeric vector' = is.numeric(isco_codes),
+    '`plot` must be TRUE or FALSE' = is.logical(plot),
+    '`isco_codes` must have at least one valid code' =
+      (length(isco_codes) != length(invalid_codes))
+  )
+  
+  if (length(invalid_codes) > 0) {
+    msg <- paste(length(invalid_codes),
+      "codes are invalid."
+    )
+    warning(msg)
+  }
+  
   if (!is.null(gender)) {
+    stopifnot(
+      '`gender` must have the same size as `isco_codes`' =
+        (length(gender) == length(isco_codes))
+    )
     occupation_data_unit <- data.frame(
       occupation = valid_unit_codes,
       gender = gender[isco_codes %in% valid_unit_codes]
@@ -546,18 +565,15 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = TRUE) {
       occupation_data_major,
       all = T
     )
-    occupation_data <- occupation_data[, c(
+    occupation_data <- list(occupation_data[, c(
       "major", "major_label",
       "sub_major", "sub_major_label", "minor",
       "minor_label", "unit", "unit_label",
       "gender", "count"
-    )]
+    )])
     if (plot) {
-      occupation_plot <- occupation_plot(occupation_data, gender = TRUE)
-      occupation_data <- list(
-        occupation_plot <- occupation_plot,
-        occupation_data <- occupation_data
-      )
+      occupation_data$occupation_plot <- occupation_plot(occupation_data, gender = TRUE)
+      plot(occupation_data$occupation_plot)
     }
   } else {
     occupation_data_unit <- data.frame(
@@ -633,17 +649,14 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = TRUE) {
       occupation_data_major,
       all = T
     )
-    occupation_data <- occupation_data[, c(
+    occupation_data <- list(occupation_data[, c(
       "major", "major_label",
       "sub_major", "sub_major_label", "minor",
       "minor_label", "unit", "unit_label", "count"
-    )]
+    )])
     if (plot) {
-      occupation_plot <- occupation_plot(occupation_data)
-      return(occupation_data <- list(
-        occupation_plot <- occupation_plot,
-        occupation_data <- occupation_data
-      ))
+      occupation_data$occupation_plot <- occupation_plot(occupation_data)
+      plot(occupation_data$occupation_plot)
     }
   }
   return(occupation_data)
@@ -661,14 +674,16 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = TRUE) {
 #' }
 #' @export
 occupation_plot <- function(occupation_data, gender = FALSE, q = 0.9) {
-  occupation_data_q <- subset(occupation_data, !is.na(unit_label)) %>%
+  occupation_data <- occupation_data[[1]]
+  occupation_data_q <- subset(occupation_data,
+                              !is.na(occupation_data$unit_label)) %>%
     subset(count >= stats::quantile(
       occupation_data$count,
         q
       )
     )
 
-  label_count <- count(occupation_data_q,.data$sub_major_label)
+  label_count <- dplyr::count(occupation_data_q,.data$sub_major_label)
   
   label_count <- label_count[order(label_count$n, decreasing = TRUE), ]
   n_labels <- ifelse(nrow(label_count) < 12,
@@ -708,8 +723,8 @@ occupation_plot <- function(occupation_data, gender = FALSE, q = 0.9) {
   } else {
     
     sub_occupation_data <- sub_occupation_data %>% 
-      group_by(sub_major_label,unit_label) %>%
-      summarise(count = sum(count))
+      dplyr::group_by(sub_major_label, unit_label) %>%
+      dplyr::summarise(count = sum(count))
     
     occupation_treemap <- ggplot2::ggplot(sub_occupation_data, ggplot2::aes(
       area = .data$count,
@@ -744,14 +759,16 @@ occupation_plot <- function(occupation_data, gender = FALSE, q = 0.9) {
 #' }
 #' @export
 occupation_plot_2 <- function(occupation_data, gender = FALSE, q = 0.9) {
-  occupation_data_q <- subset(occupation_data, !is.na(unit_label)) %>%
+  occupation_data <- occupation_data[[1]]
+  occupation_data_q <- subset(occupation_data,
+                              !is.na(occupation_data$unit_label)) %>%
     subset(count >= stats::quantile(
       occupation_data$count,
       q
     )
     )
   
-  label_count <- count(occupation_data_q,.data$sub_major_label)
+  label_count <- dplyr::count(occupation_data_q,.data$sub_major_label)
   
   label_count <- label_count[order(label_count$n, decreasing = TRUE), ]
   n_labels <- ifelse(nrow(label_count) < 12,
