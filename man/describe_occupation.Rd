@@ -4,7 +4,7 @@
 \alias{describe_occupation}
 \title{Get ISCO-88 occupation labels from codes}
 \usage{
-describe_occupation(isco_codes, output_level)
+describe_occupation(isco_codes, gender = NULL, plot = TRUE)
 }
 \arguments{
 \item{isco_codes}{A numeric vector of ISCO-88 occupation codes
