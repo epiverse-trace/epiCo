@@ -195,29 +195,19 @@ test_that("describe occupation errors are thrown", {
 })
 
 test_that("describe occupation works as expected", {
-  expect_type(describe_occupation(c(1111, 4141), output_level = 1),
+  expect_type(describe_occupation(c(1111, 4141)),
     type = "list"
   )
-  expect_type(describe_occupation(c(1111, 4141), output_level = 2),
+  expect_type(describe_occupation(c(1111, 4141), gender = c('F', 'M')),
     type = "list"
   )
-  expect_type(describe_occupation(c(1111, 4141), output_level = 3),
-    type = "list"
-  )
-  expect_type(describe_occupation(c(1111, 23), output_level = 1),
-    type = "list"
-  )
-  expect_type(describe_occupation(c(1111, 23), output_level = 3),
-    type = "list"
-  )
-  expect_type(describe_occupation(c(1111, 23), output_level = 4),
+  expect_type(describe_occupation(c(1111, 4141), plot = FALSE),
     type = "list"
   )
 
-  expect_length(describe_occupation(c(1111, 4141), output_level = 2), n = 2)
-  expect_length(describe_occupation(110, output_level = 2), n = 1)
-  expect_length(describe_occupation(111, output_level = 4), n = 1)
-  expect_length(describe_occupation(c(23, 11), output_level = 4), n = 2)
+  expect_length(describe_occupation(c(1111, 4141)), n = 2)
+  expect_length(describe_occupation(c(1111, 4141), plot = FALSE), n = 1)
+  expect_length(describe_occupation(c(1111, 4141), gender = c('F', 'M')), n = 2)
 })
 
 test_that("occupation plot errors are thrown", {
