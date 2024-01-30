@@ -469,24 +469,25 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = TRUE) {
     isco88_table[, 1], isco88_table[, 3],
     isco88_table[, 5], isco88_table[, 7]
   )]
-  
+
   stopifnot(
-    '`isco_codes` must be a numeric vector' = is.numeric(isco_codes),
-    '`plot` must be TRUE or FALSE' = is.logical(plot),
-    '`isco_codes` must have at least one valid code' =
+    "`isco_codes` must be a numeric vector" = is.numeric(isco_codes),
+    "`plot` must be TRUE or FALSE" = is.logical(plot),
+    "`isco_codes` must have at least one valid code" =
       (length(isco_codes) != length(invalid_codes))
   )
-  
+
   if (length(invalid_codes) > 0) {
-    msg <- paste(length(invalid_codes),
+    msg <- paste(
+      length(invalid_codes),
       "codes are invalid."
     )
     warning(msg)
   }
-  
+
   if (!is.null(gender)) {
     stopifnot(
-      '`gender` must have the same size as `isco_codes`' =
+      "`gender` must have the same size as `isco_codes`" =
         (length(gender) == length(isco_codes))
     )
     occupation_data_unit <- data.frame(
@@ -675,28 +676,29 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = TRUE) {
 #' @export
 occupation_plot <- function(occupation_data, gender = FALSE, q = 0.9) {
   occupation_data <- occupation_data[[1]]
-  occupation_data_q <- subset(occupation_data,
-                              !is.na(occupation_data$unit_label)) %>%
+  occupation_data_q <- subset(
+    occupation_data,
+    !is.na(occupation_data$unit_label)
+  ) %>%
     subset(count >= stats::quantile(
       occupation_data$count,
-        q
-      )
-    )
+      q
+    ))
 
-  label_count <- dplyr::count(occupation_data_q,.data$sub_major_label)
-  
+  label_count <- dplyr::count(occupation_data_q, .data$sub_major_label)
+
   label_count <- label_count[order(label_count$n, decreasing = TRUE), ]
   n_labels <- ifelse(nrow(label_count) < 12,
-                     nrow(label_count), 12
+    nrow(label_count), 12
   )
-  
+
   labels <- label_count[1:n_labels, ]
-  
+
   sub_occupation_data <- subset(
     occupation_data_q,
     sub_major_label %in% labels$sub_major_label
   )
-  
+
   if (gender) {
     occupation_treemap <- ggplot2::ggplot(sub_occupation_data, ggplot2::aes(
       area = .data$count,
@@ -721,11 +723,10 @@ occupation_plot <- function(occupation_data, gender = FALSE, q = 0.9) {
       ) +
       ggplot2::theme(legend.position = "bottom")
   } else {
-    
-    sub_occupation_data <- sub_occupation_data %>% 
+    sub_occupation_data <- sub_occupation_data %>%
       dplyr::group_by(sub_major_label, unit_label) %>%
       dplyr::summarise(count = sum(count))
-    
+
     occupation_treemap <- ggplot2::ggplot(sub_occupation_data, ggplot2::aes(
       area = .data$count,
       fill = .data$sub_major_label,
@@ -760,59 +761,72 @@ occupation_plot <- function(occupation_data, gender = FALSE, q = 0.9) {
 #' @export
 occupation_plot_2 <- function(occupation_data, gender = FALSE, q = 0.9) {
   occupation_data <- occupation_data[[1]]
-  occupation_data_q <- subset(occupation_data,
-                              !is.na(occupation_data$unit_label)) %>%
+  occupation_data_q <- subset(
+    occupation_data,
+    !is.na(occupation_data$unit_label)
+  ) %>%
     subset(count >= stats::quantile(
       occupation_data$count,
       q
-    )
-    )
-  
-  label_count <- dplyr::count(occupation_data_q,.data$sub_major_label)
-  
+    ))
+
+  label_count <- dplyr::count(occupation_data_q, .data$sub_major_label)
+
   label_count <- label_count[order(label_count$n, decreasing = TRUE), ]
   n_labels <- ifelse(nrow(label_count) < 12,
-                     nrow(label_count), 12
+    nrow(label_count), 12
   )
-  
+
   labels <- label_count[1:n_labels, ]
-  
+
   sub_occupation_data <- subset(
     occupation_data_q,
     sub_major_label %in% labels$sub_major_label
   )
-  
-  sub_occupation_data <- sub_occupation_data %>% 
-    group_by(sub_major_label,unit_label) %>%
+
+  sub_occupation_data <- sub_occupation_data %>%
+    group_by(sub_major_label, unit_label) %>%
     summarise(count = sum(count))
-  
-  occupation_data_group <- sub_occupation_data %>% 
+
+  occupation_data_group <- sub_occupation_data %>%
     group_by(sub_major_label) %>%
     summarise(count = sum(count))
-  
-  circle_edges <- data.frame(from = as.character(sub_occupation_data$sub_major_label),
-                             to = as.character(sub_occupation_data$unit_label))
-  
-  circle_vertices <- data.frame(id = c(unique(as.character(sub_occupation_data$sub_major_label)),
-                                       as.character(sub_occupation_data$unit_label)),
-                                size = c(occupation_data_group$count,
-                                         sub_occupation_data$count),
-                                sub_major = c(unique(as.character(sub_occupation_data$sub_major_label)),
-                                              as.character(sub_occupation_data$sub_major_label)),
-                                unit = c(rep(NA,length(unique(sub_occupation_data$sub_major_label))),
-                                         as.character(sub_occupation_data$unit_label)))
-  
-  mygraph <- graph_from_data_frame(circle_edges, vertices = circle_vertices )
-  
-  p <- ggraph(mygraph, layout = 'circlepack', weight=size) + 
+
+  circle_edges <- data.frame(
+    from = as.character(sub_occupation_data$sub_major_label),
+    to = as.character(sub_occupation_data$unit_label)
+  )
+
+  circle_vertices <- data.frame(
+    id = c(
+      unique(as.character(sub_occupation_data$sub_major_label)),
+      as.character(sub_occupation_data$unit_label)
+    ),
+    size = c(
+      occupation_data_group$count,
+      sub_occupation_data$count
+    ),
+    sub_major = c(
+      unique(as.character(sub_occupation_data$sub_major_label)),
+      as.character(sub_occupation_data$sub_major_label)
+    ),
+    unit = c(
+      rep(NA, length(unique(sub_occupation_data$sub_major_label))),
+      as.character(sub_occupation_data$unit_label)
+    )
+  )
+
+  mygraph <- graph_from_data_frame(circle_edges, vertices = circle_vertices)
+
+  p <- ggraph(mygraph, layout = "circlepack", weight = size) +
     geom_node_circle(aes(fill = sub_major)) +
     ggplot2::scale_fill_manual(
       name = "Major Group",
       values = RColorBrewer::brewer.pal(n = 12, name = "Set3"),
       labels = circle_vertices$sub_major
     ) +
-    geom_node_text( aes(label=unit)) +
+    geom_node_text(aes(label = unit)) +
     theme_void()
-  
+
   return(p)
 }
