@@ -35,7 +35,7 @@ Several approaches to estimating the proximity and neighborhood of a point (or r
 
 **epiCo** aims to propose a new approach to neighborhood estimation by defining the proximities among municipalities based on the real available infrastructure in the territory. This is important in countries like Colombia, where topology shapes the connectivity and interaction between municipalities and where Euclidean distances and boundaries may lead to an overestimation of nearness when in reality one of the three mountain ranges or one of the several rivers in the country may lead to large travel distances and times.
 
-To estimate real travel times among Colombian municipalities, a travel times matrix was calculated based on the [Bravo-Vega C., Santos-Vega M., & Cordovez J.M. (2022)](https://doi.org/10.1371/journal.pntd.0010270) study. The travel times account for the fastest path to connect one municipality to all municipalities in a friction map that provides different speeds according to the presence and quality of the roads, fluvial transport, or walking possibilities.
+To estimate real travel times among Colombian municipalities, a travel times matrix was calculated based on the [Bravo-Vega C., Santos-Vega M., & Cordovez J.M. (2022)](https://doi.org/10.1371/journal.pntd.0011117) study. The travel times account for the fastest path to connect one municipality to all municipalities in a friction map that provides different speeds according to the presence and quality of the roads, fluvial transport, or walking possibilities.
 
 ## 2. Defining a neighborhood with **epiCo**
 
