@@ -38,7 +38,7 @@ The package allows for interoperable analyses of linelist data from
 *epiCo* can be used to perform the following main tasks at the municipality, departmental, or national level:
 
 1) To identify demographic vulnerabilities from linelist data and the socioeconomic census, including risk assessment based on age, gender, occupation, and ethnicity.
-2) To assess hot-spot analyses (as Local Moran's index) based on real travel distances in Colombia estimated from [Bravo-Vega C., Santos-Vega M., & Cordovez J.M. (2022)](https://doi.org/10.1371/journal.pntd.0010270).
+2) To assess hot-spot analyses (as Local Moran's index) based on real travel distances in Colombia estimated from [Bravo-Vega C., Santos-Vega M., & Cordovez J.M. (2022)](https://doi.org/10.1371/journal.pntd.0011117).
 3) To generate automated outbreak characterization (onset, duration, magnitude, and frequency) using traditional methods as the [endemic channel](https://iris.paho.org/handle/10665.2/8562) and poisson tests for unusual behavior.
 4) To perform correlation analyses between categorical socioeconomic data, climate time series and epidemiological data to generate a report of potential drivers, and trends of VBDs outbreaks.
 5) *Future features will include nowcasting assessment, underreport estimation, and short-term forecasting.*
