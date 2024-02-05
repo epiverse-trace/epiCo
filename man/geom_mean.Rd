@@ -4,7 +4,7 @@
 \alias{geom_mean}
 \title{Returns the geometric mean of a vector of real numbers.}
 \usage{
-geom_mean(x, method = "optimized", shift = 1, epsilon = 1e-05)
+geom_mean(x, method = "positive", shift = 1, epsilon = 0.001)
 }
 \arguments{
 \item{x}{A numeric vector of real values}
@@ -13,7 +13,7 @@ geom_mean(x, method = "optimized", shift = 1, epsilon = 1e-05)
 \itemize{
 \item positive = only positive values within x are used in the calculation.
 \item shifted = positive and zero values within x are used by adding a shift
-value before the calculation and subtratcting it to the final result.
+value before the calculation and subtracting it to the final result.
 \item optimized = optimized shifted method. See: De La Cruz, R., & Kreft, J. U.
 (2018). Geometric mean extension for data sets with zeros. arXiv preprint
 arXiv:1806.06403.
