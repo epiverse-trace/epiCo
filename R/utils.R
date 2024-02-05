@@ -131,10 +131,10 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
   for (group in groups) {
     for (year in years) {
       year_population <- dplyr::filter(populations, .data$ANO == year)
-      group_population <- year_population[
+      group_population <- as.numeric(year_population[
         year_population$code == group,
         "Total_General"
-      ]
+      ])
       if (level == 0) {
         incidence_rates[which(dates == year)] <-
           incidence_rates[which(dates == year)] * scale / group_population
