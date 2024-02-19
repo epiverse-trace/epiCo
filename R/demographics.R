@@ -457,7 +457,7 @@ describe_ethnicity <- function(ethnic_labels, language = "ES") {
 #' describe_occupation(1111, level = 1)
 #' }
 #' @export
-describe_occupation <- function(isco_codes, gender = NULL, plot = TRUE) {
+describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
   path <- system.file("extdata", "isco88_table.rda", package = "epiCo")
   load(path)
   isco88_table <- isco88_table
@@ -572,9 +572,15 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = TRUE) {
       "minor_label", "unit", "unit_label",
       "gender", "count"
     )])
-    if (plot) {
-      occupation_data$occupation_plot <- occupation_plot(occupation_data, gender = TRUE)
-      plot(occupation_data$occupation_plot)
+    if (!is.null(plot)) {
+      if (plot == 'boxes') {
+        occupation_data$occupation_plot <- occupation_plot(occupation_data, gender = TRUE)
+        plot(occupation_data$occupation_plot)  
+      } else if (plot == 'circular'){
+        occupation_data$occupation_plot <- occupation_plot2(occupation_data, gender = TRUE)
+        plot(occupation_data$occupation_plot)  
+      }
+      
     }
   } else {
     occupation_data_unit <- data.frame(
@@ -655,9 +661,14 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = TRUE) {
       "sub_major", "sub_major_label", "minor",
       "minor_label", "unit", "unit_label", "count"
     )])
-    if (plot) {
-      occupation_data$occupation_plot <- occupation_plot(occupation_data)
-      plot(occupation_data$occupation_plot)
+    if (!is.null(plot)) {
+      if (plot == 'boxes') {
+        occupation_data$occupation_plot <- occupation_plot(occupation_data)
+        plot(occupation_data$occupation_plot)  
+      } else if (plot == 'circular') {
+        occupation_data$occupation_plot <- occupation_plot2(occupation_data)
+        plot(occupation_data$occupation_plot)
+      }
     }
   }
   return(occupation_data)
