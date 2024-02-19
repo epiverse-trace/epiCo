@@ -188,11 +188,11 @@ endemic_channel <- function(incidence_historic, observations = NULL,
             p = c((1 - ci) / 2),
             df = length(x) - 1
           ) *
-            stats::sd(x) / sqrt(length(x))
+            geom_sd(x, method = geom_method) / sqrt(length(x))
         }
       ))
-      up_lim <- central + abs(interval)
-      low_lim <- central - abs(interval)
+      up_lim <- exp(log(central) + abs(interval))
+      low_lim <- exp(log(central) - abs(interval))
     },
     unusual_behavior = {
       central <- as.numeric(colMeans(historic))
