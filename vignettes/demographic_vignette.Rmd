@@ -117,7 +117,7 @@ describe_ethnicity(demog_data$ethnicity_label) # Description of ethnicities
 describe_occupation(
   isco_codes = demog_data$occupation_label,
   gender = demog_data$gender,
-  plot = 'boxes'
+  plot = "boxes"
 ) # Description of the occupations
 # reported in the consulted dataset
 ```

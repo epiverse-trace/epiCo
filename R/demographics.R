@@ -472,7 +472,7 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
 
   stopifnot(
     "`isco_codes` must be a numeric vector" = is.numeric(isco_codes),
-    "`plot` must be circular or boxes" = plot %in% c(NULL, 'circular', 'boxes'),
+    "`plot` must be circular or boxes" = plot %in% c(NULL, "circular", "boxes"),
     "`isco_codes` must have at least one valid code" =
       (length(isco_codes) != length(invalid_codes))
   )
