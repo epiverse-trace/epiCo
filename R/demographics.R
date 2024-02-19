@@ -573,14 +573,13 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
       "gender", "count"
     )])
     if (!is.null(plot)) {
-      if (plot == 'boxes') {
+      if (plot == "boxes") {
         occupation_data$occupation_plot <- occupation_plot(occupation_data, gender = TRUE)
-        plot(occupation_data$occupation_plot)  
-      } else if (plot == 'circular'){
+        plot(occupation_data$occupation_plot)
+      } else if (plot == "circular") {
         occupation_data$occupation_plot <- occupation_plot2(occupation_data, gender = TRUE)
-        plot(occupation_data$occupation_plot)  
+        plot(occupation_data$occupation_plot)
       }
-      
     }
   } else {
     occupation_data_unit <- data.frame(
@@ -662,10 +661,10 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
       "minor_label", "unit", "unit_label", "count"
     )])
     if (!is.null(plot)) {
-      if (plot == 'boxes') {
+      if (plot == "boxes") {
         occupation_data$occupation_plot <- occupation_plot(occupation_data)
-        plot(occupation_data$occupation_plot)  
-      } else if (plot == 'circular') {
+        plot(occupation_data$occupation_plot)
+      } else if (plot == "circular") {
         occupation_data$occupation_plot <- occupation_plot2(occupation_data)
         plot(occupation_data$occupation_plot)
       }
