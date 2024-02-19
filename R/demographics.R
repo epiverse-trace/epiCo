@@ -472,7 +472,7 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
 
   stopifnot(
     "`isco_codes` must be a numeric vector" = is.numeric(isco_codes),
-    "`plot` must be TRUE or FALSE" = is.logical(plot),
+    "`plot` must be circular or boxes" = plot %in% c(NULL, 'circular', 'boxes'),
     "`isco_codes` must have at least one valid code" =
       (length(isco_codes) != length(invalid_codes))
   )
@@ -577,7 +577,7 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
         occupation_data$occupation_plot <- occupation_plot(occupation_data, gender = TRUE)
         plot(occupation_data$occupation_plot)
       } else if (plot == "circular") {
-        occupation_data$occupation_plot <- occupation_plot2(occupation_data, gender = TRUE)
+        occupation_data$occupation_plot <- occupation_plot_2(occupation_data, gender = TRUE)
         plot(occupation_data$occupation_plot)
       }
     }
@@ -665,7 +665,7 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
         occupation_data$occupation_plot <- occupation_plot(occupation_data)
         plot(occupation_data$occupation_plot)
       } else if (plot == "circular") {
-        occupation_data$occupation_plot <- occupation_plot2(occupation_data)
+        occupation_data$occupation_plot <- occupation_plot_2(occupation_data)
         plot(occupation_data$occupation_plot)
       }
     }
@@ -795,12 +795,12 @@ occupation_plot_2 <- function(occupation_data, gender = FALSE, q = 0.9) {
   )
 
   sub_occupation_data <- sub_occupation_data %>%
-    group_by(sub_major_label, unit_label) %>%
-    summarise(count = sum(count))
+    dplyr::group_by(.data$sub_major_label, .data$unit_label) %>%
+    dplyr::summarise(count = sum(.data$count))
 
   occupation_data_group <- sub_occupation_data %>%
-    group_by(sub_major_label) %>%
-    summarise(count = sum(count))
+    dplyr::group_by(.data$sub_major_label) %>%
+    dplyr::summarise(count = sum(.data$count))
 
   circle_edges <- data.frame(
     from = as.character(sub_occupation_data$sub_major_label),
@@ -826,9 +826,9 @@ occupation_plot_2 <- function(occupation_data, gender = FALSE, q = 0.9) {
     )
   )
 
-  mygraph <- graph_from_data_frame(circle_edges, vertices = circle_vertices)
+  mygraph <- igraph::graph_from_data_frame(circle_edges, vertices = circle_vertices)
 
-  p <- ggraph(mygraph, layout = "circlepack", weight = size) +
+  p <- ggraph::ggraph(mygraph, layout = "circlepack", weight = size) +
     geom_node_circle(aes(fill = sub_major)) +
     ggplot2::scale_fill_manual(
       name = "Major Group",

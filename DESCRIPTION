@@ -24,7 +24,8 @@ Imports:
     utils,
     stats,
     magrittr,
-    rlang
+    rlang,
+    igraph
 Suggests: 
     checkmate,
     covr,

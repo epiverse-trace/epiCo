@@ -201,12 +201,12 @@ test_that("describe occupation works as expected", {
   expect_type(describe_occupation(c(1111, 4141), gender = c("F", "M")),
     type = "list"
   )
-  expect_type(describe_occupation(c(1111, 4141), plot = FALSE),
+  expect_type(describe_occupation(c(1111, 4141), plot = NULL),
     type = "list"
   )
 
   expect_length(describe_occupation(c(1111, 4141)), n = 2)
-  expect_length(describe_occupation(c(1111, 4141), plot = FALSE), n = 1)
+  expect_length(describe_occupation(c(1111, 4141), plot = NULL), n = 1)
   expect_length(describe_occupation(c(1111, 4141), gender = c("F", "M")), n = 2)
 })
 
