@@ -829,14 +829,14 @@ occupation_plot_2 <- function(occupation_data, gender = FALSE, q = 0.9) {
   mygraph <- igraph::graph_from_data_frame(circle_edges, vertices = circle_vertices)
 
   p <- ggraph::ggraph(mygraph, layout = "circlepack", weight = size) +
-    geom_node_circle(aes(fill = sub_major)) +
+    ggraph::geom_node_circle(ggplot2::aes(fill = sub_major)) +
     ggplot2::scale_fill_manual(
       name = "Major Group",
       values = RColorBrewer::brewer.pal(n = 12, name = "Set3"),
       labels = circle_vertices$sub_major
     ) +
-    geom_node_text(aes(label = unit)) +
-    theme_void()
+    ggraph::geom_node_text(ggplot2::aes(label = unit)) +
+    ggplot2::theme_void()
 
   return(p)
 }
