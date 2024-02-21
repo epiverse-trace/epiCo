@@ -690,7 +690,7 @@ occupation_plot <- function(occupation_data, gender = FALSE, q = 0.9) {
     occupation_data,
     !is.na(occupation_data$unit_label)
   ) %>%
-    subset(count >= stats::quantile(
+    subset(occupation_data$count >= stats::quantile(
       occupation_data$count,
       q
     ))
@@ -706,7 +706,7 @@ occupation_plot <- function(occupation_data, gender = FALSE, q = 0.9) {
 
   sub_occupation_data <- subset(
     occupation_data_q,
-    sub_major_label %in% labels$sub_major_label
+    occupation_data_q$sub_major_label %in% labels$sub_major_label
   )
 
   if (gender) {
@@ -734,8 +734,8 @@ occupation_plot <- function(occupation_data, gender = FALSE, q = 0.9) {
       ggplot2::theme(legend.position = "bottom")
   } else {
     sub_occupation_data <- sub_occupation_data %>%
-      dplyr::group_by(sub_major_label, unit_label) %>%
-      dplyr::summarise(count = sum(count))
+      dplyr::group_by(.data$sub_major_label, .data$unit_label) %>%
+      dplyr::summarise(count = sum(.data$count))
 
     occupation_treemap <- ggplot2::ggplot(sub_occupation_data, ggplot2::aes(
       area = .data$count,
