@@ -448,9 +448,8 @@ describe_ethnicity <- function(ethnic_labels, language = "ES") {
 #' into a vector of labels
 #' @param isco_codes A numeric vector of ISCO-88 occupation codes
 #' (major, submajor, minor or unit)
-#' @param output_level A string parameter that defines the level of the desired
-#' label (major, submajor, minor or unit)
-#'
+#' @param gender A vector with the gender of the isco_codes vector
+#' @param plot A type of plot between boxes and circular
 #' @return A string vector of ISCO-88 labels
 #' @examples
 #' \dontrun{
@@ -678,6 +677,7 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
 #' @description Function that plot a vector of ISCO-88 occupation codes
 #' @param occupation_data A dataframe
 #' @param gender A boolean for gender data
+#' @param q A number that represents the quantile
 #' @return A plot to summarize the distribution of ISCO-88 labels
 #' @examples
 #' \dontrun{
@@ -690,7 +690,7 @@ occupation_plot <- function(occupation_data, gender = FALSE, q = 0.9) {
     occupation_data,
     !is.na(occupation_data$unit_label)
   ) %>%
-    subset(count >= stats::quantile(
+    subset(occupation_data$count >= stats::quantile(
       occupation_data$count,
       q
     ))
@@ -706,7 +706,7 @@ occupation_plot <- function(occupation_data, gender = FALSE, q = 0.9) {
 
   sub_occupation_data <- subset(
     occupation_data_q,
-    sub_major_label %in% labels$sub_major_label
+    occupation_data_q$sub_major_label %in% labels$sub_major_label
   )
 
   if (gender) {
@@ -734,8 +734,8 @@ occupation_plot <- function(occupation_data, gender = FALSE, q = 0.9) {
       ggplot2::theme(legend.position = "bottom")
   } else {
     sub_occupation_data <- sub_occupation_data %>%
-      dplyr::group_by(sub_major_label, unit_label) %>%
-      dplyr::summarise(count = sum(count))
+      dplyr::group_by(.data$sub_major_label, .data$unit_label) %>%
+      dplyr::summarise(count = sum(.data$count))
 
     occupation_treemap <- ggplot2::ggplot(sub_occupation_data, ggplot2::aes(
       area = .data$count,
@@ -763,6 +763,7 @@ occupation_plot <- function(occupation_data, gender = FALSE, q = 0.9) {
 #' @description Function that plot a vector of ISCO-88 occupation codes
 #' @param occupation_data A dataframe
 #' @param gender A boolean for gender data
+#' @param q A number that represents the quantile
 #' @return A plot to summarize the distribution of ISCO-88 labels
 #' @examples
 #' \dontrun{
@@ -775,7 +776,7 @@ occupation_plot_2 <- function(occupation_data, gender = FALSE, q = 0.9) {
     occupation_data,
     !is.na(occupation_data$unit_label)
   ) %>%
-    subset(count >= stats::quantile(
+    subset(occupation_data$count >= stats::quantile(
       occupation_data$count,
       q
     ))
@@ -791,7 +792,7 @@ occupation_plot_2 <- function(occupation_data, gender = FALSE, q = 0.9) {
 
   sub_occupation_data <- subset(
     occupation_data_q,
-    sub_major_label %in% labels$sub_major_label
+    occupation_data_q$sub_major_label %in% labels$sub_major_label
   )
 
   sub_occupation_data <- sub_occupation_data %>%
@@ -826,16 +827,18 @@ occupation_plot_2 <- function(occupation_data, gender = FALSE, q = 0.9) {
     )
   )
 
-  mygraph <- igraph::graph_from_data_frame(circle_edges, vertices = circle_vertices)
+  mygraph <- igraph::graph_from_data_frame(circle_edges,
+                                           vertices = circle_vertices)
 
-  p <- ggraph::ggraph(mygraph, layout = "circlepack", weight = size) +
-    ggraph::geom_node_circle(ggplot2::aes(fill = sub_major)) +
+  p <- ggraph::ggraph(mygraph, layout = "circlepack",
+                      weight = circle_vertices$size) +
+    ggraph::geom_node_circle(ggplot2::aes(fill = circle_vertices$sub_major)) +
     ggplot2::scale_fill_manual(
       name = "Major Group",
       values = RColorBrewer::brewer.pal(n = 12, name = "Set3"),
       labels = circle_vertices$sub_major
     ) +
-    ggraph::geom_node_text(ggplot2::aes(label = unit)) +
+    ggraph::geom_node_text(ggplot2::aes(label = circle_vertices$unit)) +
     ggplot2::theme_void()
 
   return(p)
