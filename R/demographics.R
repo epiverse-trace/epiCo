@@ -576,7 +576,8 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
         occupation_data$occupation_plot <- occupation_plot(occupation_data, gender = TRUE)
         plot(occupation_data$occupation_plot)
       } else if (plot == "circular") {
-        occupation_data$occupation_plot <- occupation_plot_2(occupation_data, gender = TRUE)
+        warning("Remember that the circular plot does not distinguish by gender.")
+        occupation_data$occupation_plot <- occupation_plot_2(occupation_data)
         plot(occupation_data$occupation_plot)
       }
     }
@@ -762,7 +763,6 @@ occupation_plot <- function(occupation_data, gender = FALSE, q = 0.9) {
 #'
 #' @description Function that plot a vector of ISCO-88 occupation codes
 #' @param occupation_data A dataframe
-#' @param gender A boolean for gender data
 #' @param q A number that represents the quantile
 #' @return A plot to summarize the distribution of ISCO-88 labels
 #' @examples
@@ -770,7 +770,7 @@ occupation_plot <- function(occupation_data, gender = FALSE, q = 0.9) {
 #' occupation_plot(1111, level = 1)
 #' }
 #' @export
-occupation_plot_2 <- function(occupation_data, gender = FALSE, q = 0.9) {
+occupation_plot_2 <- function(occupation_data, q = 0.9) {
   occupation_data <- occupation_data[[1]]
   occupation_data_q <- subset(
     occupation_data,
