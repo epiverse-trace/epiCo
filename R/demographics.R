@@ -828,10 +828,13 @@ occupation_plot_2 <- function(occupation_data, q = 0.9) {
   )
 
   mygraph <- igraph::graph_from_data_frame(circle_edges,
-                                           vertices = circle_vertices)
+    vertices = circle_vertices
+  )
 
-  p <- ggraph::ggraph(mygraph, layout = "circlepack",
-                      weight = .data$size) +
+  p <- ggraph::ggraph(mygraph,
+    layout = "circlepack",
+    weight = .data$size
+  ) +
     ggraph::geom_node_circle(ggplot2::aes(fill = .data$sub_major)) +
     ggplot2::scale_fill_manual(
       name = "Major Group",
