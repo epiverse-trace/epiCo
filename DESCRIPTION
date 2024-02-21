@@ -25,7 +25,8 @@ Imports:
     stats,
     magrittr,
     rlang,
-    igraph
+    igraph,
+    ggraph
 Suggests: 
     checkmate,
     covr,
