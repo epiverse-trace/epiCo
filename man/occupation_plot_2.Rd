@@ -4,12 +4,12 @@
 \alias{occupation_plot_2}
 \title{Distribution plots for ISCO-88 occupation labels}
 \usage{
-occupation_plot_2(occupation_data, gender = FALSE, q = 0.9)
+occupation_plot_2(occupation_data, q = 0.9)
 }
 \arguments{
 \item{occupation_data}{A dataframe}
 
-\item{gender}{A boolean for gender data}
+\item{q}{A number that represents the quantile}
 }
 \value{
 A plot to summarize the distribution of ISCO-88 labels

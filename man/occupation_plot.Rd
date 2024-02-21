@@ -10,6 +10,8 @@ occupation_plot(occupation_data, gender = FALSE, q = 0.9)
 \item{occupation_data}{A dataframe}
 
 \item{gender}{A boolean for gender data}
+
+\item{q}{A number that represents the quantile}
 }
 \value{
 A plot to summarize the distribution of ISCO-88 labels
