@@ -448,9 +448,8 @@ describe_ethnicity <- function(ethnic_labels, language = "ES") {
 #' into a vector of labels
 #' @param isco_codes A numeric vector of ISCO-88 occupation codes
 #' (major, submajor, minor or unit)
-#' @param output_level A string parameter that defines the level of the desired
-#' label (major, submajor, minor or unit)
-#'
+#' @param gender A vector with the isco_codes vector genders
+#' @param plot A type of plot between boxes and circular
 #' @return A string vector of ISCO-88 labels
 #' @examples
 #' \dontrun{
@@ -678,6 +677,7 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
 #' @description Function that plot a vector of ISCO-88 occupation codes
 #' @param occupation_data A dataframe
 #' @param gender A boolean for gender data
+#' @param q A number that represents the quantile
 #' @return A plot to summarize the distribution of ISCO-88 labels
 #' @examples
 #' \dontrun{
@@ -763,6 +763,7 @@ occupation_plot <- function(occupation_data, gender = FALSE, q = 0.9) {
 #' @description Function that plot a vector of ISCO-88 occupation codes
 #' @param occupation_data A dataframe
 #' @param gender A boolean for gender data
+#' @param q A number that represents the quantile
 #' @return A plot to summarize the distribution of ISCO-88 labels
 #' @examples
 #' \dontrun{
