@@ -1,36 +1,36 @@
-#' Returns the endemic channel of a disease
+#' Create and return the endemic channel of a disease from an incidence object
 #'
-#' Function that builds the endemic channel of a disease time series based on
-#' the selected method and windows of observation
-#' @param observations A numeric vector with the current observations
+#' @description Function that builds the endemic channel of a disease time
+#' series based on the selected method and windows of observation
+#' 
 #' @param incidence_historic An incidence object with the historic weekly
 #' observations
+#' @param observations A numeric vector with the current observations
 #' @param method A string with the mean calculation method of preference
-#' (median, mean, or geometric) or to use unusual behavior method (Poisson
-#' Distribution Test for hypoendemic settings)
+#' (median, mean, or geometric) or to use the unusual behavior method (Poisson
+#' Distribution Test for Hypoendemic settings)
 #' @param geom_method A string with the selected method for geometric mean
-#' calculation, see: geom_mean
+#' calculation; see: geom_mean
 #' @param outlier_years A numeric vector with the outlier years
 #' @param outliers_handling A string with the handling decision regarding
 #' outlier years, see: outliers_handling function
 #' @param ci = 0.95 A numeric value to specify the confidence interval to use
 #' with the geometric method
 #' @param plot A boolean for displaying a plot
+#' 
 #' @return A dataframe with the observation, historical mean, and confidence
 #' intervals (or risk areas)
+#' 
 #' @examples
 #' \dontrun{
-#' endemic_channel(observations, incidence_historic,
-#'   method = "geometric",
-#'   outliers_handling = "replace_with_median", plot = TRUE
-#' )
+#' endemic_channel(observations, incidence_historic, method = "geometric",
+#' outliers_handling = "replace_with_median", plot = TRUE)
 #' }
 #' @export
 endemic_channel <- function(incidence_historic, observations = NULL,
                             method = "geometric", geom_method = "shifted",
                             outlier_years = NULL, outliers_handling = "ignored",
-                            ci = 0.95,
-                            plot = FALSE) {
+                            ci = 0.95, plot = FALSE) {
   stopifnot(
     "`incidence_historic` must be an incidence object" =
       inherits(incidence_historic, "incidence"),
@@ -238,7 +238,7 @@ endemic_channel <- function(incidence_historic, observations = NULL,
 #' years
 #'
 #' @description Function that modifies an historic incidence by including,
-#' ignoring, or replacing the observations of epidemic years
+#' ignoring or replacing the observations of epidemic years
 #'
 #' @param historic Historic incidence counts
 #' @param outlier_years A numeric vector with the outlier years
@@ -253,15 +253,14 @@ endemic_channel <- function(incidence_historic, observations = NULL,
 #' - replaced_by_geom_mean = data from outlier years will be replaced with the
 #' geometric mean and take into account
 #' @param geom_method A string with the selected method for geometric mean
-#' calculation, see: geom_mean
+#' calculation; see: geom_mean
 #'
 #' @return A modified historic incidence
 #'
 #' @examples
 #' \dontrun{
 #' endemic_outliers(historic, outlier_years, outliers_handling,
-#'   geom_method = "shifted"
-#' )
+#' geom_method = "shifted")
 #' }
 #'
 #' @keywords internal
@@ -304,11 +303,12 @@ endemic_outliers <- function(historic, outlier_years, outliers_handling,
 
 #' Creates the endemic channel plot
 #'
-#' @description Function creates the endemic channel plot
+#' @description Function that creates the endemic channel plot
 #'
 #' @param channel_data Data frame with the central tendency, upper limit,
 #' lower limit, and observations to plot
-#' @param method A string with method used in the endemic channel calculation
+#' @param method A string with the method used in the endemic channel
+#' calculation
 #' @param outlier_years A numeric vector with the outlier years
 #' @param outliers_handling A string with the handling decision regarding
 #' outlier years

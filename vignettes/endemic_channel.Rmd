@@ -26,7 +26,7 @@ The `endemic_channel` function allows users to:
 
 In the following vignette, users will learn:
 
-1. What is an endemic channel and what are its benefits, drawbacks, and cautions. 
+1. What is an endemic channel, and what are its benefits, drawbacks, and cautions?
 2. An example of the historical data needed to build an endemic channel.
 3. How to use the `endemic_channel` function.
 4. How to interpret and communicate the results.
@@ -59,7 +59,7 @@ Since the nature of the epidemiological data tends not to be normal, the typical
 It is important to note that as the geometric mean performs a multiplication of the data, when zero cases are reported in a moment of time, the estimation leads to a zero CTM. To avoid this, **epiCo**'s `endemic_channel` function performs a shift on the data to sum up one case (the default value) for all observations, and then it subtracts this shift from the final calculation. To avoid random selection of the shift, users can ask the `endemic_channel` function to find an optimal value based on 
 [de la Cruz & Kreft (2019)](https://doi.org/10.48550/arXiv.1806.06403), or they can also ask to use a weighted method as described by [Habib (2012)](https://www.arpapress.com/volumes/vol11issue3/ijrras_11_3_08.pdf).
 
-Finally, the `endemic_channel` function can perform a Poisson test (unusual behavior method) on the historical data if it is requested by the user after taking into the account the pertinence of the test, since it is mostly used for scenarios or diseases with very low incidence records. This method uses the arithmetic mean as CTM.
+Finally, the `endemic_channel` function can perform a Poisson test (unusual behavior method) on the historical data if it is requested by the user after taking into account the pertinence of the test, since it is mostly used for scenarios or diseases with very low incidence records. This method uses the arithmetic mean as CTM.
 
 ### The upper and lower limits
 
@@ -69,7 +69,7 @@ The upper and lower limits of the endemic channel provide a confidence interval 
 
 - Arithmetic or geometric mean as CTM: mean +/- *t* value for a 95% CI multiplied by the variance of the data over the number of observations.
 - Median as CTM: quantiles 0.25 and 0.75 as lower and upper limits, respectively.
-- Poisson test (unusual behavior method): limits provided by a two-sided Poisson test with 0.95% CI
+- Poisson test (unusual behavior method): limits provided by a two-sided Poisson test with a 0.95% CI
 
 ## 2. Historical data needed to build an endemic channel
 
@@ -83,8 +83,6 @@ To have a broader understanding of the `incidence` package, please refer to its 
 ### Historic incidence from the line list or SIVIGILA data
 
 The endemic channel is more useful when data up to the immediate previous year is available; however, this is not always possible for users outside of the surveillance institutions. As an option, users can access SIVIGILA's line list data that is typically published until the second semester of the year (i.e., data for 2022 was published in the second semester of 2023).
-
-<!-- To have a broader understanding on SIVIGILA data manipulation please refer to [`sivirep`](https://epiverse-trace.github.io/sivirep/) vignettes. In future versions an **automatic endemic channel** function may be released in this package, performing the following data handling: -->
 
 For this example, the data provided in the data folder of the package will be used. These data present the data for dengue cases for all municipalities in Tolima for the years 2015 to 2021. In this case, we will use the cases from the municipality of Ibagué to calculate the respective endemic channel.
 
