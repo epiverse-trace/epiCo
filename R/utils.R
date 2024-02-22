@@ -115,12 +115,6 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
     stop("Error in Administrative Level selection")
   }
 
-  # if (sum(!(years %in% unique(populations$ANO))) +
-  #     sum(!(groups %in% unique(populations$code))) > 0) {
-  #   stop("No population projections found.
-  #          Incidence groups and administration level may not match or
-  #          dates may be out of the projections (2005-2023)")
-  # } else {
   populations <- dplyr::filter(
     populations,
     .data$code %in% groups,
