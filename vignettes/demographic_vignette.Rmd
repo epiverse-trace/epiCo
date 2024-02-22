@@ -106,16 +106,18 @@ Events of epidemiological relevance are reported to the SIVIGILA using an offici
 
 ```{r}
 demog_data <- data.frame(
-  id = c(0001, 002, 003, 004, 005),
-  ethnicity_label = c(3, 4, 1, 2, 5),
-  occupation_label = c(6111, 3221, 5113, 5133, 6111)
+  id = c(0001, 002, 003, 004, 005, 006, 007),
+  ethnicity_label = c(3, 4, 2, 3, 3, 3, 2),
+  occupation_label = c(6111, 3221, 5113, 5133, 6111, 23, 25),
+  gender = c("F", "M", "F", "F", "M", "M", "F")
 )
 
 describe_ethnicity(demog_data$ethnicity_label) # Description of ethnicities
 # reported in the consulted dataset
 describe_occupation(
   isco_codes = demog_data$occupation_label,
-  output_level = "unit"
+  gender = demog_data$gender,
+  plot = "boxes"
 ) # Description of the occupations
 # reported in the consulted dataset
 ```
@@ -156,7 +158,6 @@ Normalization of data is a key aspect of epidemiology. **epiCo** allows for the 
 
 ```{r}
 data_ibague <- data_tolima[data_tolima$cod_mun_o == 73001, ]
-
 
 age_risk_data <- age_risk(
   age = as.integer(data_ibague$edad),
