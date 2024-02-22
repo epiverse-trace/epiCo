@@ -1,4 +1,4 @@
-#' Neighborhoods from real travel distances
+#' Neighborhoods from real travel distances in Colombia
 #'
 #' @description Function to build neighborhoods from real travel distances
 #' inside Colombia by land or river transport.
@@ -44,8 +44,8 @@ neighborhoods <- function(query_vector, threshold = 2) {
 #'
 #' @importFrom magrittr %>%
 #'
-#' @param incidence_object An object is the incidence of an observation for the
-#' different locations.
+#' @param incidence_object An incidence object with one observation for the
+#' different locations (groups).
 #' @param level Administration level at which incidence counts are grouped.
 #' (0=national, 1=state/department, 2=city/municipality).
 #' @param scale Scale to consider when calculating the incidence_rate.
