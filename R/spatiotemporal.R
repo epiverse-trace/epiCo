@@ -23,7 +23,7 @@ neighborhoods <- function(query_vector, threshold = 2) {
   distance <- distance_matrix[
     which(row.names(distance_matrix) %in%
       query_vector),
-    which(names(distance_matrix) %in%
+    which(colnames(distance_matrix) %in%
       query_vector)
   ]
   excluded <- query_vector[!query_vector %in% rownames(distance)]
