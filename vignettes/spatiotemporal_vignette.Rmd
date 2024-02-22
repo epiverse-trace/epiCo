@@ -18,9 +18,9 @@ knitr::opts_chunk$set(
 
 The *spatiotemporal* module allows users to:
 
-- Define the neighbors of a municipality based on a travel time threshold that accounts for real connectivity and infrastructure.
+- Define the neighbors of a municipality based on a travel time threshold that accounts for real connectivity and infrastructure in Colombia.
 - Perform a Moran’s Index autocorrelation analysis on the defined neighborhood and the provided incidence data (internally converted to incidence rate).
-- Plot a heat map with the High (spatial correlation) - High (incidence rate) clusters, as well as Low - Low ones.
+- Plot a heat map with the High (spatial correlation) - High (incidence rate) clusters, as well as Low (spatial correlation) - Low (incidence rate) clusters.
 
 In the following vignette, you will learn:
 
@@ -90,3 +90,15 @@ incidence_object <- incidence(
 monrans_tolima <- morans_index(incidence_object = incidence_object, level = 2)
 monrans_tolima$leaflet_map
 ```
+
+## 4. Interpretation and communication of *epiCo*'s `morans_index` results
+
+High-high clusters represent areas with high incidence rate surrounded by other areas with high incidence rates, suggesting a spatial cluster of elevated risk (e.g., a disease hotspot).
+
+Similarly, low-low clusters indicate areas with low incidence rates surrounded by other low incidence rates areas.
+
+High-low or low-high clusters represent areas with dissimilar values neighboring each other and may not lead to significant conclusions regarding spatial behavior of the disease.
+
+Nevertheless, is important to recall that a cluster map (as the one created by the *epiCo*'s `morans_index` function) is a complementary tool to understand the spatiotemporal behavior of a disease, but is limited to provide explicit information regarding (for example) allocation of  resources. Comparisons with other methodologies and with epidemiology experience should be done to address epidemic responses.
+
+In addition, risk communication should share simple and interpretable results. If public opinion may be misleaded or confused by the clusters analysis, simpler visualization of disease behavior as heatmaps should be used.
