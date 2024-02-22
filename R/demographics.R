@@ -775,11 +775,14 @@ occupation_plot_2 <- function(occupation_data, q = 0.9) {
   occupation_data_q <- subset(
     occupation_data,
     !is.na(occupation_data$unit_label)
-  ) %>%
-    subset(count >= stats::quantile(
+  )
+  occupation_data_q <- subset(
+    occupation_data_q,
+    occupation_data_q$count >= stats::quantile(
       occupation_data$count,
       q
-    ))
+    )
+  )
 
   label_count <- dplyr::count(occupation_data_q, .data$sub_major_label)
 
