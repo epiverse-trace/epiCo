@@ -4,21 +4,24 @@
 \alias{occupation_plot}
 \title{Distribution plots for ISCO-88 occupation labels}
 \usage{
-occupation_plot(isco_codes, gender = NULL)
+occupation_plot(occupation_data, gender = FALSE, q = 0.9)
 }
 \arguments{
-\item{isco_codes}{A numeric vector of ISCO-88 occupation codes (unit level)}
+\item{occupation_data}{A dataframe}
 
-\item{gender}{A vector with the gender of cases 'F' and 'M'}
+\item{gender}{A boolean for gender data}
+
+\item{q}{A number that represents the quantile}
 }
 \value{
 A plot to summarize the distribution of ISCO-88 labels
 }
 \description{
-Function that plot a vector of ISCO-88 occupation codes
+Function that makes a treemap plot of a vector of ISCO-88
+occupation codes
 }
 \examples{
 \dontrun{
-occupation_plot(1111, level = 1)
+occupation_plot(occupation_data, gender = TRUE)
 }
 }

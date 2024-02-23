@@ -3,7 +3,7 @@
 
 # epiCo <img src="man/figures/logo.svg" align="right" width="120"/>
 
-epiCo provides statistical tools for the analysis of demographic trends, spatiotemporal behavior, and outbreak characterization of vector-borne diseases in Colombia. 
+**epiCo** provides statistical and visualization tools for the analysis of demographic indicators, and spatio-temporal behavior and characterization of outbreaks of vector-borne diseases (VBDs) in Colombia. 
 
 <!-- badges: start -->
 [![License:
@@ -11,7 +11,7 @@ MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.or
 [![R-CMD-check](https://github.com/epiverse-trace/epico/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/epiverse-trace/epico/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/epiverse-trace/epico/branch/main/graph/badge.svg)](https://app.codecov.io/gh/epiverse-trace/epico?branch=main)
-[![lifecycle-experimental](https://raw.githubusercontent.com/reconverse/reconverse.github.io/master/images/badge-experimental.svg)](https://www.reconverse.org/lifecycle.html#experimental)
+[![lifecycle-maturing](https://raw.githubusercontent.com/reconverse/reconverse.github.io/master/images/badge-maturing.svg)](https://www.reconverse.org/lifecycle.html#experimental)
 <!-- badges: end -->
 
 ## Installation
@@ -30,38 +30,36 @@ When reviewing the current epidemiological bulletins published by the local Secr
 - Include spatial and demographic risk assessments into their routine epidemiological reports to better identify population groups for potential interventions.
 - Facilitate the understanding of the different epidemiological profiles within a region in Colombia regarding the onset, duration, magnitude, and frequency of the outbreaks.
 - Strengthen the transparency of the methods used for the outbreak analysis.
-- Provide more informative context by performing correlation and regression analysis with local socioeconomic and climate data.
+- Provide more informative context by performing spatial correlation analysis.
 
 The package allows for interoperable analyses of linelist data from
-[SIVIGILA](https://www.ins.gov.co/Direcciones/Vigilancia/Paginas/SIVIGILA.aspx) (accessible using the Epiverse-TRACE package [sivirep](https://github.com/epiverse-trace/sivirep)) with spatial, socioeconomic, and climate data (accessible using the Epiverse-TRACE package [ColOpenData]()). 
+[SIVIGILA](https://www.ins.gov.co/Direcciones/Vigilancia/Paginas/SIVIGILA.aspx) (accessible using the Epiverse-TRACE package [sivirep](https://github.com/epiverse-trace/sivirep)) with spatial and demographic data (accessible using the Epiverse-TRACE package [ColOpenData]()). 
 
 *epiCo* can be used to perform the following main tasks at the municipality, departmental, or national level:
 
 1) To identify demographic vulnerabilities from linelist data and the socioeconomic census, including risk assessment based on age, gender, occupation, and ethnicity.
-2) To assess hot-spot analyses (as Local Moran's index) based on real travel distances in Colombia estimated from [Bravo-Vega C., Santos-Vega M., & Cordovez J.M. (2022)](https://doi.org/10.1371/journal.pntd.0010270).
+2) To assess hot-spot analyses (as Local Moran's index) based on real travel distances in Colombia estimated from [Bravo-Vega C., Santos-Vega M., & Cordovez J.M. (2022)](https://doi.org/10.1371/journal.pntd.0011117).
 3) To generate automated outbreak characterization (onset, duration, magnitude, and frequency) using traditional methods as the [endemic channel](https://iris.paho.org/handle/10665.2/8562) and poisson tests for unusual behavior.
-4) To perform correlation analyses between categorical socioeconomic data, climate time series and epidemiological data to generate a report of potential drivers, and trends of VBDs outbreaks.
-5) *Future features will include nowcasting assessment, underreport estimation, and short-term forecasting.*
+5) *Future features will include correlation analyses between categorical socioeconomic data, climate time series and epidemiological data, nowcasting assessment, underreport estimation, and short-term forecasting.*
 
-All functionalities are performed automatically from epidemiological, demographic, spatial, and socioeconomic data published by Colombian institutions, but methods can also be customized as well as input data, so hypothetical information can be tested within the package.
+All features are performed automatically from epidemiological, demographic, spatial, and socioeconomic data published by Colombian institutions, but methods can also be customized as well as input data, so hypothetical information can be tested within the package.
 
-## Example
+## Modules
 
-These examples illustrate some of the current functionalities:
+**epiCo** contains three modules documented in the following vignettes:
 
-``` r
-library(epiCo)
-
-```
+1. [Demographic analyses with epiCo](https://epiverse-trace.github.io/epiCo/articles/demographic_vignette.html)
+2. [Builidng an Endemic Channel with epiCo](https://epiverse-trace.github.io/epiCo/articles/endemic_channel.html)
+3. [Spatiotemporal analyses with epiCo](https://epiverse-trace.github.io/epiCo/articles/spatiotemporal_vignette.html)
 
 ## Development
 
 ### Lifecycle
 
-This package is currently a *concept*, as defined by the [RECON software
+This package is currently a *mature* product, as defined by the [RECON software
 lifecycle](https://www.reconverse.org/lifecycle.html). This means that
-essential features and mechanisms are still being developed, and the
-package is not ready for use outside of the development team.
+essential features and mechanisms are functional, documented, and tested.
+However, is in code review stage and is being socialized with expert users.
 
 ### Contributions
 

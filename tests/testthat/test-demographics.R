@@ -33,7 +33,7 @@ test_that("Population pyramid obtaines data", {
       divipola_code = 5001,
       year = 2020
     )),
-    c(40L, 3L)
+    c(34L, 3L)
   )
   expect_identical(
     dim(population_pyramid(
@@ -41,7 +41,7 @@ test_that("Population pyramid obtaines data", {
       year = 2020,
       gender = FALSE
     )),
-    c(20L, 2L)
+    c(17L, 2L)
   )
   expect_identical(
     dim(population_pyramid(
@@ -49,7 +49,7 @@ test_that("Population pyramid obtaines data", {
       year = 2020,
       total = FALSE
     )),
-    c(40L, 3L)
+    c(34L, 3L)
   )
   expect_identical(
     dim(population_pyramid(
@@ -58,7 +58,7 @@ test_that("Population pyramid obtaines data", {
       gender = FALSE,
       total = FALSE
     )),
-    c(20L, 2L)
+    c(17L, 2L)
   )
   expect_identical(
     dim(population_pyramid(
@@ -68,7 +68,7 @@ test_that("Population pyramid obtaines data", {
       total = FALSE,
       plot = TRUE
     )),
-    c(20L, 2L)
+    c(17L, 2L)
   )
   expect_identical(
     dim(population_pyramid(
@@ -90,7 +90,7 @@ test_that("Population pyramid obtaines data", {
       year = 2020,
       range = 20
     )),
-    c(10L, 3L)
+    c(8L, 3L)
   )
 })
 
@@ -180,11 +180,12 @@ test_that("age risk works as expected", {
 
 test_that("describe ethnicity errors are thrown", {
   expect_error(describe_ethnicity(c("a", 4)))
+  expect_error(describe_ethnicity(c(1, 2, 4), language = "GE"))
 })
 
 test_that("describe etnicity works as expected", {
-  expect_type(describe_ethnicity(c(1, 2, 3), "EN"), type = "character")
-  expect_type(describe_ethnicity(c(1, 2, 3), "ES"), type = "character")
+  expect_type(describe_ethnicity(c(1, 2, 3), "EN"), type = "list")
+  expect_type(describe_ethnicity(c(1, 2, 3), "ES"), type = "list")
 })
 
 test_that("describe occupation errors are thrown", {
@@ -194,29 +195,22 @@ test_that("describe occupation errors are thrown", {
 })
 
 test_that("describe occupation works as expected", {
-  expect_type(describe_occupation(c(1111, 4141), output_level = 1),
+  expect_type(describe_occupation(c(1111, 4141)),
     type = "list"
   )
-  expect_type(describe_occupation(c(1111, 4141), output_level = 2),
+  expect_type(describe_occupation(c(1111, 4141), gender = c("F", "M")),
     type = "list"
   )
-  expect_type(describe_occupation(c(1111, 4141), output_level = 3),
-    type = "list"
-  )
-  expect_type(describe_occupation(c(1111, 23), output_level = 1),
-    type = "list"
-  )
-  expect_type(describe_occupation(c(1111, 23), output_level = 3),
-    type = "list"
-  )
-  expect_type(describe_occupation(c(1111, 23), output_level = 4),
+  expect_type(describe_occupation(c(1111, 4141), plot = NULL),
     type = "list"
   )
 
-  expect_length(describe_occupation(c(1111, 4141), output_level = 2), n = 2)
-  expect_length(describe_occupation(110, output_level = 2), n = 1)
-  expect_length(describe_occupation(111, output_level = 4), n = 1)
-  expect_length(describe_occupation(c(23, 11), output_level = 4), n = 2)
+  expect_length(describe_occupation(c(1111, 4141), plot = "treemap"), n = 2)
+  expect_length(describe_occupation(c(1111, 4141), plot = NULL), n = 1)
+  expect_length(describe_occupation(c(1111, 4141),
+    gender = c("F", "M"),
+    plot = "circular"
+  ), n = 2)
 })
 
 test_that("occupation plot errors are thrown", {

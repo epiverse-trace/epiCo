@@ -18,9 +18,9 @@ knitr::opts_chunk$set(
 
 The *spatiotemporal* module allows users to:
 
-- Define the neighbors of a municipality based on a travel time threshold that accounts for real connectivity and infrastructure.
+- Define the neighbors of a municipality based on a travel time threshold that accounts for real connectivity and infrastructure in Colombia.
 - Perform a Moran’s Index autocorrelation analysis on the defined neighborhood and the provided incidence data (internally converted to incidence rate).
-- Plot a heat map with the High (spatial correlation) - High (incidence rate) clusters, as well as Low - Low ones.
+- Plot a heat map with the High (spatial correlation) - High (incidence rate) clusters, as well as Low (spatial correlation) - Low (incidence rate) clusters.
 
 In the following vignette, you will learn:
 
@@ -35,7 +35,7 @@ Several approaches to estimating the proximity and neighborhood of a point (or r
 
 **epiCo** aims to propose a new approach to neighborhood estimation by defining the proximities among municipalities based on the real available infrastructure in the territory. This is important in countries like Colombia, where topology shapes the connectivity and interaction between municipalities and where Euclidean distances and boundaries may lead to an overestimation of nearness when in reality one of the three mountain ranges or one of the several rivers in the country may lead to large travel distances and times.
 
-To estimate real travel times among Colombian municipalities, a travel times matrix was calculated based on the [Bravo-Vega C., Santos-Vega M., & Cordovez J.M. (2022)](https://doi.org/10.1371/journal.pntd.0010270) study. The travel times account for the fastest path to connect one municipality to all municipalities in a friction map that provides different speeds according to the presence and quality of the roads, fluvial transport, or walking possibilities.
+To estimate real travel times among Colombian municipalities, a travel times matrix was calculated based on the [Bravo-Vega C., Santos-Vega M., & Cordovez J.M. (2022)](https://doi.org/10.1371/journal.pntd.0011117) study. The travel times account for the fastest path to connect one municipality to all municipalities in a friction map that provides different speeds according to the presence and quality of the roads, fluvial transport, or walking possibilities.
 
 ## 2. Defining a neighborhood with **epiCo**
 
@@ -90,3 +90,15 @@ incidence_object <- incidence(
 monrans_tolima <- morans_index(incidence_object = incidence_object, level = 2)
 monrans_tolima$leaflet_map
 ```
+
+## 4. Interpretation and communication of *epiCo*'s `morans_index` results
+
+High-high clusters represent areas with high incidence rate surrounded by other areas with high incidence rates, suggesting a spatial cluster of elevated risk (e.g., a disease hotspot).
+
+Similarly, low-low clusters indicate areas with low incidence rates surrounded by other low incidence rates areas.
+
+High-low or low-high clusters represent areas with dissimilar values neighboring each other and may not lead to significant conclusions regarding spatial behavior of the disease.
+
+Nevertheless, is important to recall that a cluster map (as the one created by the *epiCo*'s `morans_index` function) is a complementary tool to understand the spatiotemporal behavior of a disease, but is limited to provide explicit information regarding (for example) allocation of  resources. Comparisons with other methodologies and with epidemiology experience should be done to address epidemic responses.
+
+In addition, risk communication should share simple and interpretable results. If public opinion may be misleaded or confused by the clusters analysis, simpler visualization of disease behavior as heatmaps should be used.

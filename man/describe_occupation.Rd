@@ -4,14 +4,15 @@
 \alias{describe_occupation}
 \title{Get ISCO-88 occupation labels from codes}
 \usage{
-describe_occupation(isco_codes, output_level)
+describe_occupation(isco_codes, gender = NULL, plot = NULL)
 }
 \arguments{
 \item{isco_codes}{A numeric vector of ISCO-88 occupation codes
-(major, submajor, minor or unit)}
+(major, submajor, minor, or unit)}
 
-\item{output_level}{A string parameter that defines the level of the desired
-label (major, submajor, minor or unit)}
+\item{gender}{A vector with the isco_codes vector genders}
+
+\item{plot}{A type of plot between treemap and circular  packing}
 }
 \value{
 A string vector of ISCO-88 labels
@@ -22,6 +23,6 @@ into a vector of labels
 }
 \examples{
 \dontrun{
-describe_occupation(1111, level = 1)
+describe_occupation(c(3221, 6111), c("F", "M"), plot = "treeemap")
 }
 }

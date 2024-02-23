@@ -14,8 +14,8 @@ morans_index(
 )
 }
 \arguments{
-\item{incidence_object}{An object is the incidence of an observation for the
-different locations.}
+\item{incidence_object}{An incidence object with one observation for the
+different locations (groups).}
 
 \item{level}{Administration level at which incidence counts are grouped.
 (0=national, 1=state/department, 2=city/municipality).}

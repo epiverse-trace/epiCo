@@ -1,4 +1,4 @@
-#' Neighborhoods from real travel distances
+#' Neighborhoods from real travel distances in Colombia
 #'
 #' @description Function to build neighborhoods from real travel distances
 #' inside Colombia by land or river transport.
@@ -23,7 +23,7 @@ neighborhoods <- function(query_vector, threshold = 2) {
   distance <- distance_matrix[
     which(row.names(distance_matrix) %in%
       query_vector),
-    which(names(distance_matrix) %in%
+    which(colnames(distance_matrix) %in%
       query_vector)
   ]
   excluded <- query_vector[!query_vector %in% rownames(distance)]
@@ -44,8 +44,8 @@ neighborhoods <- function(query_vector, threshold = 2) {
 #'
 #' @importFrom magrittr %>%
 #'
-#' @param incidence_object An object is the incidence of an observation for the
-#' different locations.
+#' @param incidence_object An incidence object with one observation for the
+#' different locations (groups).
 #' @param level Administration level at which incidence counts are grouped.
 #' (0=national, 1=state/department, 2=city/municipality).
 #' @param scale Scale to consider when calculating the incidence_rate.
@@ -181,8 +181,8 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
       # nolint start
       pal <- leaflet::colorFactor(
         palette = c(
-          "#ba0001", "#357a38", "#2c7c94",
-          "#fbe45b"
+          "#ba0001", "#00992C", "#80CC96",
+          "#F08E94"
         ),
         domain = c("High-High", "Low-Low", "Low-High", "High-Low"),
         ordered = TRUE
@@ -199,12 +199,18 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
           fillColor = ~ pal(shapes$CLUSTER),
           popup = popup_data,
           color = "black",
-          fillOpacity = ifelse(shapes$CLUSTER == "High-High" | 
-                                 shapes$CLUSTER == "Low-Low", 0.65, 0
-          )
+          fillOpacity = ifelse(shapes$CLUSTER == "High-High" |
+            shapes$CLUSTER == "Low-Low" |
+            shapes$CLUSTER == "Low-High" |
+            shapes$CLUSTER == "High-Low", 0.65, 0)
         ) %>%
         leaflet::addLegend("bottomright",
-          pal = pal, values = ~ c("High-High", "Low-Low"),
+          pal = pal, values = ~ c(
+            "High-High",
+            "Low-Low",
+            "Low-High",
+            "High-Low"
+          ),
           title = "Local Moran's Index Clusters",
           opacity = 1
         )

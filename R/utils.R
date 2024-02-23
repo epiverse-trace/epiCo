@@ -115,12 +115,6 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
     stop("Error in Administrative Level selection")
   }
 
-  # if (sum(!(years %in% unique(populations$ANO))) +
-  #     sum(!(groups %in% unique(populations$code))) > 0) {
-  #   stop("No population projections found.
-  #          Incidence groups and administration level may not match or
-  #          dates may be out of the projections (2005-2023)")
-  # } else {
   populations <- dplyr::filter(
     populations,
     .data$code %in% groups,
@@ -131,10 +125,10 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
   for (group in groups) {
     for (year in years) {
       year_population <- dplyr::filter(populations, .data$ANO == year)
-      group_population <- year_population[
+      group_population <- as.numeric(year_population[
         year_population$code == group,
         "Total_General"
-      ]
+      ])
       if (level == 0) {
         incidence_rates[which(dates == year)] <-
           incidence_rates[which(dates == year)] * scale / group_population
@@ -161,7 +155,7 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
 #' Description of methods:
 #' - positive = only positive values within x are used in the calculation.
 #' - shifted = positive and zero values within x are used by adding a shift
-#' value before the calculation and subtratcting it to the final result.
+#' value before the calculation and subtracting it to the final result.
 #' - optimized = optimized shifted method. See: De La Cruz, R., & Kreft, J. U.
 #' (2018). Geometric mean extension for data sets with zeros. arXiv preprint
 #' arXiv:1806.06403.
@@ -183,7 +177,7 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
 #' }
 #'
 #' @export
-geom_mean <- function(x, method = "optimized", shift = 1, epsilon = 1e-5) {
+geom_mean <- function(x, method = "positive", shift = 1, epsilon = 1e-3) {
   stopifnot(
     "`x`must be numeric" = (is.numeric(x)),
     "`method` must be positive, shifted, otimized or wehighted" =
@@ -191,18 +185,16 @@ geom_mean <- function(x, method = "optimized", shift = 1, epsilon = 1e-5) {
     "`shift` must be numeric" = (is.numeric(shift)),
     "`epsilon` must be numeric" = (is.numeric(epsilon))
   )
-  if (method == "positive") {
-    x_positive <- x[x > 0]
-    if (length(x) != length(x_positive)) {
-      stop("`positive` method cannot be implemented for negative values")
-    }
 
-    gm <- exp(mean(log(x_positive)))
+  if (method == "positive") {
+    stopifnot("`x` includes zero or negative values,
+              check the geom_mean methods" = all(x > 0))
+
+    gm <- exp(mean(log(x)))
   } else if (method == "shifted") {
-    x_shifted <- x[x >= 0] + shift
-    if (length(x) != length(x_shifted)) {
-      stop("`shifted` method cannot be implemented for negative values")
-    }
+    x_shifted <- x + shift
+    stopifnot("shifted `x` still includes zero or negative values,
+              reconsider the shifting parameter" = all(x_shifted > 0))
 
     gm <- exp(mean(log(x_shifted))) - shift
   } else if (method == "weighted") {
@@ -215,8 +207,8 @@ geom_mean <- function(x, method = "optimized", shift = 1, epsilon = 1e-5) {
     x_zeros <- x[x == 0]
     w_zeros <- length(x_zeros) / n_x
 
-    gm_positive <- exp(mean(log(x_positive)))
-    gm_negative <- -1 * exp(mean(log(abs(x_negative))))
+    gm_positive <- exp(sum(log(x_positive)) / n_x)
+    gm_negative <- -1 * exp(sum(log(abs(x_negative))) / n_x)
     gm_zeros <- 0
 
     gm <- w_positive * gm_positive + w_negative * gm_negative + w_zeros *
@@ -227,8 +219,11 @@ geom_mean <- function(x, method = "optimized", shift = 1, epsilon = 1e-5) {
     # where delta is the maximum value such that:
     # abs([exp(mean(log(x_positive+delta)))-delta]-geomean(x_positive))<
     # epsilon*geomean(x_positive) (Eq. II)
+    stopifnot(
+      "`x` includes negative values, check the geom_mean methods" =
+        all(x >= 0)
+    )
 
-    x <- x[x >= 0]
     x_positive <- x[x > 0]
     gm_positive <- exp(mean(log(x_positive)))
     epsilon <- epsilon * gm_positive
@@ -238,6 +233,12 @@ geom_mean <- function(x, method = "optimized", shift = 1, epsilon = 1e-5) {
 
     delta_min <- 0
     delta_max <- gm_positive + epsilon
+
+    while (exp(mean(log(x_positive + delta_max))) - delta_max < epsilon) {
+      delta_min <- delta_max
+      delta_max <- delta_max * 2
+    }
+
     delta <- (delta_min + delta_max) / 2
 
     # Define aus_exp to not repeat operations
@@ -260,4 +261,78 @@ geom_mean <- function(x, method = "optimized", shift = 1, epsilon = 1e-5) {
   }
   gm <- round(gm, 5)
   return(gm)
+}
+
+#' Returns the geometric standard deviation of a vector of real numbers.
+#'
+#' @description Function that returns the geometric standard deviation of a
+#' vector of real numbers according to the selected method.
+#'
+#' @param x A numeric vector of real values
+#' @param method
+#' Description of methods:
+#' - positive = only positive values within x are used in the calculation.
+#' - shifted = positive and zero values within x are used by adding a shift
+#' value before the calculation and subtracting it to the final result.
+#' - optimized = optimized shifted method. See: De La Cruz, R., & Kreft, J. U.
+#' (2018). Geometric mean extension for data sets with zeros. arXiv preprint
+#' arXiv:1806.06403.
+#' - weighted = a probability weighted calculation of gm for negative, positive,
+#' and zero values. See: Habib, E. A. (2012). Geometric mean for negative and
+#' zero values. International Journal of Research and Reviews in Applied
+#' Sciences, 11(3), 419-432.
+#' @param shift a positive value to use in the shifted method
+#' @param delta an positive value (shift) used in the optimized method.
+#'
+#' @return The geometric mean of the x vector, and the epsilon value if
+#' optimized method is used.
+#'
+#' @examples
+#' \dontrun{
+#' x <- c(4, 5, 3, 7, 8)
+#' geom_sd(x, method = "optimized")
+#' }
+#'
+#' @export
+geom_sd <- function(x, method, shift = 1, delta = 1e-3) {
+  stopifnot(
+    "`x`must be numeric" = (is.numeric(x)),
+    "`method` must be positive, shifted, otimized or wehighted" =
+      (method %in% c("positive", "shifted", "optimized", "weighted")),
+    "`shift` must be numeric" = (is.numeric(shift)),
+    "`delta` must be numeric" = (is.numeric(delta))
+  )
+
+  if (method == "positive") {
+    stopifnot("`x` includes zero or negative values,
+              check the geom_mean methods" = any(x <= 0))
+    gsd <- stats::sd((log(x)))
+  } else if (method == "shifted") {
+    x_shifted <- x + shift
+    stopifnot("shifted `x` still includes zero or negative values,
+              reconsider the shifting parameter" = all(x_shifted > 0))
+    gsd <- stats::sd((log(x_shifted)))
+  } else if (method == "weighted") {
+    n_x <- length(x)
+
+    x_positive <- x[x > 0]
+    w_positive <- length(x_positive) / n_x
+    x_negative <- x[x < 0]
+    w_negative <- length(x_negative) / n_x
+    x_zeros <- x[x == 0]
+    w_zeros <- length(x_zeros) / n_x
+
+    gsd_positive <- stats::sd((log(x_positive)))
+    gsd_negative <- -1 * stats::sd((log(x_negative)))
+    gsd_zeros <- 0
+
+    gsd <- w_positive * gsd_positive + w_negative * gsd_negative + w_zeros *
+      gsd_zeros
+  } else if (method == "optimized") {
+    x_opti <- x + delta
+
+    gsd <- stats::sd((log(x_opti)))
+  }
+  gsd <- round(gsd, 5)
+  return(gsd)
 }
