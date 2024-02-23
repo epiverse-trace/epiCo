@@ -198,7 +198,7 @@ population_pyramid <- function(divipola_code, year, gender = TRUE, range = 5,
 #' @importFrom rlang .data
 #'
 #' @return A dataframe with the proportion or total count of individuals
-#' #' @examples
+#' @examples
 #' \dontrun{
 #' age_risk(c(15, 22), c("M", "F"), population_pyramid, plot = TRUE)
 #' }
