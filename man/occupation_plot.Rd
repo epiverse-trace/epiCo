@@ -17,10 +17,11 @@ occupation_plot(occupation_data, gender = FALSE, q = 0.9)
 A plot to summarize the distribution of ISCO-88 labels
 }
 \description{
-Function that plot a vector of ISCO-88 occupation codes
+Function that makes a treemap plot of a vector of ISCO-88
+occupation codes
 }
 \examples{
 \dontrun{
-occupation_plot(1111, level = 1)
+occupation_plot(occupation_data, gender = TRUE)
 }
 }

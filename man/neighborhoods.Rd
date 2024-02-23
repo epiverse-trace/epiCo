@@ -2,7 +2,7 @@
 % Please edit documentation in R/spatiotemporal.R
 \name{neighborhoods}
 \alias{neighborhoods}
-\title{Neighborhoods from real travel distances}
+\title{Neighborhoods from real travel distances in Colombia}
 \usage{
 neighborhoods(query_vector, threshold = 2)
 }

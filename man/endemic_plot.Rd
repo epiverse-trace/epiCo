@@ -10,7 +10,8 @@ endemic_plot(channel_data, method, outlier_years, outliers_handling)
 \item{channel_data}{Data frame with the central tendency, upper limit,
 lower limit, and observations to plot}
 
-\item{method}{A string with method used in the endemic channel calculation}
+\item{method}{A string with the method used in the endemic channel
+calculation}
 
 \item{outlier_years}{A numeric vector with the outlier years}
 
@@ -21,7 +22,7 @@ outlier years}
 The ggplot object with the endemic channel plot
 }
 \description{
-Function creates the endemic channel plot
+Function that creates the endemic channel plot
 }
 \examples{
 \dontrun{

@@ -1,9 +1,9 @@
 #' Returns the population pyramid of the consulted region
 #'
 #' @description Function that returns the population pyramid of the municipality
-#' or department of an specific year
+#' or department of a specific year
 #' @param divipola_code A numeric code accounting for the territory of interest
-#' @param year A numeric input for year of interest
+#' @param year A numeric input for the year of interest
 #' @param gender A boolean to consult data disaggregated by gender
 #' @param range A numeric value from 1 to 100 for the age range to use
 #' @param total A boolean for returning the total number rather than the
@@ -18,10 +18,8 @@
 #' population_pyramid(15001, 2015, total = TRUE, plot = TRUE)
 #' }
 #' @export
-#'
-population_pyramid <- function(divipola_code, year,
-                               gender = TRUE, range = 5, total = TRUE,
-                               plot = FALSE) {
+population_pyramid <- function(divipola_code, year, gender = TRUE, range = 5,
+                               total = TRUE, plot = FALSE) {
   stopifnot(
     "`year` is only available from 2005 to 2026,
             please select a valid year" = year %in% seq(2005, 2026),
@@ -185,8 +183,6 @@ population_pyramid <- function(divipola_code, year,
   return(pop_pyramid)
 }
 
-
-
 #' Returns the probability mass function of being infected given age and gender
 #'
 #' @description Function that returns the probability of being infected given
@@ -200,9 +196,11 @@ population_pyramid <- function(divipola_code, year,
 #' @importFrom rlang .data
 #'
 #' @return A dataframe with the proportion or total count of individuals
+#' @examples
+#' \dontrun{
+#' age_risk(c(15, 22), c("M", "F"), population_pyramid, plot = TRUE)
+#' }
 #' @export
-#'
-#'
 age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
   stopifnot("`age` must be an integer numeric vector with values
             between 0 and 100" = all(age %in% seq(0, 100)))
@@ -343,12 +341,13 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
 
 #' Provides the sociological description of ethnicities in Colombia
 #'
-#' @description Function that returns the description of consulted ethnicities
+#' @description Function that returns the description of the consulted
+#' ethnicities
 #' @param ethnic_labels A numeric vector with the codes of ethnicities to
 #' consult
-#' @param language "ES" for description in spanish "EN" for english
+#' @param language "ES" for description in Spanish "EN" for English
 #'
-#' @return A printed message with the description of the ethnicities
+#' @return A printed message with ethnicities descriptions
 #' @examples
 #' \dontrun{
 #' describe_ethnicity(c(1, 2, 3, 4))
@@ -364,68 +363,64 @@ describe_ethnicity <- function(ethnic_labels, language = "ES") {
   # nolint start
   #### ESPA<U+00D1>OL ####
   indigena_es <- paste(
-    "Persona de ascendencia amerindia que comparten",
-    "sentimientos de identificacion con su pasado aborigen, manteniendo rasgos y",
-    "valores propios de su cultura tradicional, asi como formas de organizacion",
-    "y control social propios"
+    "Persona de ascendencia amerindia que comparten sentimientos de",
+    "identificacion con su pasado aborigen, manteniendo rasgos y valores",
+    "propios de su cultura tradicional, asi como formas de organizacion y",
+    "control social propios"
   )
 
   rom_es <- paste(
-    "Son comunidades que tienen una identidad etnica y cultural",
-    "propia; se caracterizan por una tradicion nomada, y tienen su propio idioma",
-    "que es el romanes"
+    "Son comunidades que tienen una identidad etnica y cultural propia; se",
+    "caracterizan por una tradicion nomada, y tienen su propio idioma que es",
+    "el romanes"
   )
 
   raizal_es <- paste(
-    "Poblacion ubicada en el Archipielago de San Andres,",
-    "Providencia y Santa Catalina, con raices culturales afroanglo-antillanas,",
-    "cuyos integrantes tienen rasgos socioculturales y linguisticos claramente",
-    "diferenciados del resto de la poblacion afrocolombiana"
+    "Poblacion ubicada en el Archipielago de San Andres, Providencia y Santa",
+    "Catalina, con raices culturales afroanglo-antillanas, cuyos integrantes",
+    "tienen rasgos socioculturales y linguisticos claramente diferenciados del",
+    "resto de la poblacion afrocolombiana"
   )
 
   palenquero_es <- paste(
-    "Poblacion ubicada en el municipio de San Basilio",
-    "de Palenque, departamento de Bolivar, donde se habla el palenquero,",
-    "lenguaje criollo"
+    "Poblacion ubicada en el municipio de San Basilio de Palenque,",
+    "departamento de Bolivar, donde se habla el palenquero, lenguaje criollo"
   )
 
   afro_es <- paste(
-    "Persona de ascendencia afrocolombiana que poseen una",
-    "cultura propia, y tienen sus propias tradiciones y costumbre dentro de la",
-    "relacion campo-poblado"
+    "Persona de ascendencia afrocolombiana que poseen una cultura propia, y",
+    "tienen sus propias tradiciones y costumbre dentro de la relacion",
+    "campo-poblado"
   )
 
   #### ENGLISH ####
   indigena_en <- paste(
-    "A person of Amerindian descent who shares feelings",
-    "of identification with their aboriginal past, maintaining traits and values",
-    "of their traditional culture, as well as their own forms of organization",
-    "and social control"
+    "A person of Amerindian descent who shares feelings of identification with",
+    "their aboriginal past, maintaining traits and values of their traditional",
+    "culture, as well as their own forms of organization and social control"
   )
 
   rom_en <- paste(
-    "They are communities that have their own ethnic and",
-    "cultural identity; They are characterized by a nomadic tradition, and have",
-    "their own language, which is Romanesque"
+    "They are communities that have their own ethnic and cultural identity;",
+    "They are characterized by a nomadic tradition, and have their own",
+    "language, which is Romanesque"
   )
 
   raizal_en <- paste(
-    "Population located in the Archipelago of San Andres,",
-    "Providencia and Santa Catalina, with Afro-Anglo-Antillean cultural roots,",
-    "whose members have clearly differentiated sociocultural and linguistic",
-    "traits from the rest of the Afro-Colombian population"
+    "Population located in the Archipelago of San Andres, Providencia and",
+    "Santa Catalina, with Afro-Anglo-Antillean cultural roots, whose members",
+    "have clearly differentiated sociocultural and linguistic traits from the",
+    "rest of the Afro-Colombian population"
   )
 
   palenquero_en <- paste(
-    "Population located in the municipality of San",
-    "Basilio de Palenque, department of Bolivar, where palenquero is spoken, a",
-    "Creole language"
+    "Population located in the municipality of San Basilio de Palenque,",
+    "department of Bolivar, where palenquero is spoken, a Creole language"
   )
 
   afro_en <- paste(
-    "Person of Afro-Colombian descent who have their own",
-    "culture, and have their own traditions and customs within the",
-    "rural-populatedrelationship"
+    "Person of Afro-Colombian descent who have their own culture, and have",
+    "their own traditions and customs within the rural-populatedrelationship"
   )
 
   descriptions_es <- c(indigena_es, rom_es, raizal_es, palenquero_es, afro_es)
@@ -447,13 +442,13 @@ describe_ethnicity <- function(ethnic_labels, language = "ES") {
 #' @description Function that translates a vector of ISCO-88 occupation codes
 #' into a vector of labels
 #' @param isco_codes A numeric vector of ISCO-88 occupation codes
-#' (major, submajor, minor or unit)
+#' (major, submajor, minor, or unit)
 #' @param gender A vector with the isco_codes vector genders
-#' @param plot A type of plot between boxes and circular
+#' @param plot A type of plot between treemap and circular  packing
 #' @return A string vector of ISCO-88 labels
 #' @examples
 #' \dontrun{
-#' describe_occupation(1111, level = 1)
+#' describe_occupation(c(3221, 6111), c("F", "M"), plot = "treeemap")
 #' }
 #' @export
 describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
@@ -471,7 +466,11 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
 
   stopifnot(
     "`isco_codes` must be a numeric vector" = is.numeric(isco_codes),
-    "`plot` must be circular or boxes" = plot %in% c(NULL, "circular", "boxes"),
+    "`plot` must be circular or treemap" = plot %in% c(
+      NULL,
+      "circular",
+      "treemap"
+    ),
     "`isco_codes` must have at least one valid code" =
       (length(isco_codes) != length(invalid_codes))
   )
@@ -498,7 +497,9 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
     occupation_data_unit <- unique(merge(occupation_data_unit, isco88_table,
       by.x = "occupation", by.y = "unit"
     ))
-    names(occupation_data_unit)[names(occupation_data_unit) == "occupation"] <- "unit"
+    names(occupation_data_unit)[
+      names(occupation_data_unit) == "occupation"
+    ] <- "unit"
     names(occupation_data_unit)[names(occupation_data_unit) == "n"] <- "count"
 
 
@@ -512,7 +513,9 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
       isco88_table[, seq(1, 6)],
       by.x = "occupation", by.y = "minor"
     ))
-    names(occupation_data_minor)[names(occupation_data_minor) == "occupation"] <- "minor"
+    names(occupation_data_minor)[
+      names(occupation_data_minor) == "occupation"
+    ] <- "minor"
     names(occupation_data_minor)[names(occupation_data_minor) == "n"] <- "count"
 
     occupation_data_sub_major <- data.frame(
@@ -526,8 +529,12 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
       by.x = "occupation",
       by.y = "sub_major"
     ))
-    names(occupation_data_sub_major)[names(occupation_data_sub_major) == "occupation"] <- "sub_major"
-    names(occupation_data_sub_major)[names(occupation_data_sub_major) == "n"] <- "count"
+    names(occupation_data_sub_major)[
+      names(occupation_data_sub_major) == "occupation"
+    ] <- "sub_major"
+    names(occupation_data_sub_major)[
+      names(occupation_data_sub_major) == "n"
+    ] <- "count"
 
     occupation_data_major <- data.frame(
       occupation = valid_major_codes,
@@ -539,7 +546,9 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
       isco88_table[, c(1, 2)],
       by.x = "occupation", by.y = "major"
     ))
-    names(occupation_data_major)[names(occupation_data_major) == "occupation"] <- "major"
+    names(occupation_data_major)[
+      names(occupation_data_major) == "occupation"
+    ] <- "major"
     names(occupation_data_major)[names(occupation_data_major) == "n"] <- "count"
 
     occupation_data <- data.frame(
@@ -572,11 +581,16 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
       "gender", "count"
     )])
     if (!is.null(plot)) {
-      if (plot == "boxes") {
-        occupation_data$occupation_plot <- occupation_plot(occupation_data, gender = TRUE)
+      if (plot == "treemap") {
+        occupation_data$occupation_plot <- occupation_plot(
+          occupation_data,
+          gender = TRUE
+        )
         plot(occupation_data$occupation_plot)
       } else if (plot == "circular") {
-        warning("Remember that the circular plot does not distinguish by gender.")
+        warning(
+          "Remember that the circular plot does not distinguish by gender."
+        )
         occupation_data$occupation_plot <- occupation_plot_2(occupation_data)
         plot(occupation_data$occupation_plot)
       }
@@ -590,7 +604,9 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
     occupation_data_unit <- unique(merge(occupation_data_unit, isco88_table,
       by.x = "occupation", by.y = "unit"
     ))
-    names(occupation_data_unit)[names(occupation_data_unit) == "occupation"] <- "unit"
+    names(occupation_data_unit)[
+      names(occupation_data_unit) == "occupation"
+    ] <- "unit"
     names(occupation_data_unit)[names(occupation_data_unit) == "n"] <- "count"
 
 
@@ -603,7 +619,9 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
       isco88_table[, seq(1, 6)],
       by.x = "occupation", by.y = "minor"
     ))
-    names(occupation_data_minor)[names(occupation_data_minor) == "occupation"] <- "minor"
+    names(occupation_data_minor)[
+      names(occupation_data_minor) == "occupation"
+    ] <- "minor"
     names(occupation_data_minor)[names(occupation_data_minor) == "n"] <- "count"
 
     occupation_data_sub_major <- data.frame(
@@ -616,8 +634,12 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
       by.x = "occupation",
       by.y = "sub_major"
     ))
-    names(occupation_data_sub_major)[names(occupation_data_sub_major) == "occupation"] <- "sub_major"
-    names(occupation_data_sub_major)[names(occupation_data_sub_major) == "n"] <- "count"
+    names(occupation_data_sub_major)[
+      names(occupation_data_sub_major) == "occupation"
+    ] <- "sub_major"
+    names(occupation_data_sub_major)[
+      names(occupation_data_sub_major) == "n"
+    ] <- "count"
 
     occupation_data_major <- data.frame(
       occupation = valid_major_codes,
@@ -629,7 +651,9 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
       isco88_table[, c(1, 2)],
       by.x = "occupation", by.y = "major"
     ))
-    names(occupation_data_major)[names(occupation_data_major) == "occupation"] <- "major"
+    names(occupation_data_major)[
+      names(occupation_data_major) == "occupation"
+    ] <- "major"
     names(occupation_data_major)[names(occupation_data_major) == "n"] <- "count"
 
     occupation_data <- data.frame(
@@ -661,7 +685,7 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
       "minor_label", "unit", "unit_label", "count"
     )])
     if (!is.null(plot)) {
-      if (plot == "boxes") {
+      if (plot == "treemap") {
         occupation_data$occupation_plot <- occupation_plot(occupation_data)
         plot(occupation_data$occupation_plot)
       } else if (plot == "circular") {
@@ -675,14 +699,15 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
 
 #' Distribution plots for ISCO-88 occupation labels
 #'
-#' @description Function that plot a vector of ISCO-88 occupation codes
+#' @description Function that makes a treemap plot of a vector of ISCO-88
+#' occupation codes
 #' @param occupation_data A dataframe
 #' @param gender A boolean for gender data
 #' @param q A number that represents the quantile
 #' @return A plot to summarize the distribution of ISCO-88 labels
 #' @examples
 #' \dontrun{
-#' occupation_plot(1111, level = 1)
+#' occupation_plot(occupation_data, gender = TRUE)
 #' }
 #' @export
 occupation_plot <- function(occupation_data, gender = FALSE, q = 0.9) {
@@ -761,13 +786,14 @@ occupation_plot <- function(occupation_data, gender = FALSE, q = 0.9) {
 
 #' Distribution plots for ISCO-88 occupation labels
 #'
-#' @description Function that plot a vector of ISCO-88 occupation codes
+#' @description Function that makes a circular packing plot of a vector of
+#' ISCO-88 occupation codes
 #' @param occupation_data A dataframe
 #' @param q A number that represents the quantile
 #' @return A plot to summarize the distribution of ISCO-88 labels
 #' @examples
 #' \dontrun{
-#' occupation_plot(1111, level = 1)
+#' occupation_plot_2(occupation_data)
 #' }
 #' @export
 occupation_plot_2 <- function(occupation_data, q = 0.9) {

@@ -10,13 +10,14 @@ describe_ethnicity(ethnic_labels, language = "ES")
 \item{ethnic_labels}{A numeric vector with the codes of ethnicities to
 consult}
 
-\item{language}{"ES" for description in spanish "EN" for english}
+\item{language}{"ES" for description in Spanish "EN" for English}
 }
 \value{
-A printed message with the description of the ethnicities
+A printed message with ethnicities descriptions
 }
 \description{
-Function that returns the description of consulted ethnicities
+Function that returns the description of the consulted
+ethnicities
 }
 \examples{
 \dontrun{

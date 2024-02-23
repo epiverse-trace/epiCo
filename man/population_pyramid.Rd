@@ -16,7 +16,7 @@ population_pyramid(
 \arguments{
 \item{divipola_code}{A numeric code accounting for the territory of interest}
 
-\item{year}{A numeric input for year of interest}
+\item{year}{A numeric input for the year of interest}
 
 \item{gender}{A boolean to consult data disaggregated by gender}
 
@@ -32,7 +32,7 @@ A dataframe with the proportion or total count of individuals
 }
 \description{
 Function that returns the population pyramid of the municipality
-or department of an specific year
+or department of a specific year
 }
 \examples{
 \dontrun{

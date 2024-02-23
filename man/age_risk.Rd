@@ -22,3 +22,8 @@ A dataframe with the proportion or total count of individuals
 Function that returns the probability of being infected given
 age and gender
 }
+\examples{
+\dontrun{
+age_risk(c(15, 22), c("M", "F"), population_pyramid, plot = TRUE)
+}
+}

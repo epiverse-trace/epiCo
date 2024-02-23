@@ -15,10 +15,11 @@ occupation_plot_2(occupation_data, q = 0.9)
 A plot to summarize the distribution of ISCO-88 labels
 }
 \description{
-Function that plot a vector of ISCO-88 occupation codes
+Function that makes a circular packing plot of a vector of
+ISCO-88 occupation codes
 }
 \examples{
 \dontrun{
-occupation_plot(1111, level = 1)
+occupation_plot_2(occupation_data)
 }
 }
