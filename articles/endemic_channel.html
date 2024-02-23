@@ -40,7 +40,7 @@
     <a href="https://epiverse-trace.github.io/" class="external-link"><img src="../logo_white.svg" id="logo" alt="Epiverse-TRACE"></a>
     <a class="navbar-brand me-2" href="../index.html">epiCo</a>
 
-    <small class="nav-text text-muted me-auto version-number" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2</small>
+    <small class="nav-text text-muted me-auto version-number" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -112,8 +112,8 @@ situation (i.e., the occurrence of an outbreak).</li>
 </ul>
 <p>In the following vignette, users will learn:</p>
 <ol style="list-style-type: decimal">
-<li>What is an endemic channel and what are its benefits, drawbacks, and
-cautions.</li>
+<li>What is an endemic channel, and what are its benefits, drawbacks,
+and cautions?</li>
 <li>An example of the historical data needed to build an endemic
 channel.</li>
 <li>How to use the <code>endemic_channel</code> function.</li>
@@ -182,9 +182,9 @@ described by <a href="https://www.arpapress.com/volumes/vol11issue3/ijrras_11_3_
 (2012)</a>.</p>
 <p>Finally, the <code>endemic_channel</code> function can perform a
 Poisson test (unusual behavior method) on the historical data if it is
-requested by the user after taking into the account the pertinence of
-the test, since it is mostly used for scenarios or diseases with very
-low incidence records. This method uses the arithmetic mean as CTM.</p>
+requested by the user after taking into account the pertinence of the
+test, since it is mostly used for scenarios or diseases with very low
+incidence records. This method uses the arithmetic mean as CTM.</p>
 </div>
 <div class="section level3">
 <h3 id="the-upper-and-lower-limits">The upper and lower limits<a class="anchor" aria-label="anchor" href="#the-upper-and-lower-limits"></a>
@@ -201,7 +201,7 @@ observations.</li>
 <li>Median as CTM: quantiles 0.25 and 0.75 as lower and upper limits,
 respectively.</li>
 <li>Poisson test (unusual behavior method): limits provided by a
-two-sided Poisson test with 0.95% CI</li>
+two-sided Poisson test with a 0.95% CI</li>
 </ul>
 </div>
 </div>
@@ -230,7 +230,6 @@ users outside of the surveillance institutions. As an option, users can
 access SIVIGILA’s line list data that is typically published until the
 second semester of the year (i.e., data for 2022 was published in the
 second semester of 2023).</p>
-<!-- To have a broader understanding on SIVIGILA data manipulation please refer to [`sivirep`](https://epiverse-trace.github.io/sivirep/) vignettes. In future versions an **automatic endemic channel** function may be released in this package, performing the following data handling: -->
 <p>For this example, the data provided in the data folder of the package
 will be used. These data present the data for dengue cases for all
 municipalities in Tolima for the years 2015 to 2021. In this case, we
@@ -251,7 +250,41 @@ respective endemic channel.</p>
 <span>  interval <span class="op">=</span> <span class="st">"1 epiweek"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">incidence_historic</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">incidence_historic</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<thead><tr class="header">
+<th align="left">dates</th>
+<th align="left">weeks</th>
+<th align="right">counts</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">2012-01-01</td>
+<td align="left">2012-W01</td>
+<td align="right">7</td>
+</tr>
+<tr class="even">
+<td align="left">2012-01-08</td>
+<td align="left">2012-W02</td>
+<td align="right">20</td>
+</tr>
+<tr class="odd">
+<td align="left">2012-01-15</td>
+<td align="left">2012-W03</td>
+<td align="right">17</td>
+</tr>
+<tr class="even">
+<td align="left">2012-01-22</td>
+<td align="left">2012-W04</td>
+<td align="right">15</td>
+</tr>
+<tr class="odd">
+<td align="left">2012-01-29</td>
+<td align="left">2012-W05</td>
+<td align="right">18</td>
+</tr>
+</tbody>
+</table>
 <p>When users have their own line list data, the goal is the same: to
 clean and handle the data to build the <code>incidence</code> object
 (named <code>incidence_historic</code> in the previous example). The key
@@ -333,7 +366,11 @@ for Ibagué City.</p>
 <span>  observations <span class="op">=</span> <span class="va">observations</span>,</span>
 <span>  outlier_years <span class="op">=</span> <span class="va">outlier_years</span>,</span>
 <span>  plot <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in endemic_channel(incidence_historic = incidence_historic,</span></span>
+<span><span class="co">#&gt; observations = observations, : Data after 2022-12-25 were not used for the</span></span>
+<span><span class="co">#&gt; endemic channel calculation.</span></span></code></pre></div>
+<p><img src="endemic_channel_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 </div>
 </div>
 <div class="section level2">

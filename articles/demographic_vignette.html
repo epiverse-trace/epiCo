@@ -40,7 +40,7 @@
     <a href="https://epiverse-trace.github.io/" class="external-link"><img src="../logo_white.svg" id="logo" alt="Epiverse-TRACE"></a>
     <a class="navbar-brand me-2" href="../index.html">epiCo</a>
 
-    <small class="nav-text text-muted me-auto version-number" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2</small>
+    <small class="nav-text text-muted me-auto version-number" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -103,8 +103,8 @@ Department of Statistics <a href="https://microdatos.dane.gov.co/index.php/catal
 <ul>
 <li>Consult and visualize the population pyramid of a municipality,
 department, or country for a year of interest.</li>
-<li>Consult the definitions of demographic variables as ethnicities,
-special population groups, and occupational labels.</li>
+<li>Consult the definitions of demographic variables such as
+ethnicities, special population groups, and occupational labels.</li>
 <li>Estimate the distribution of occupations reported in the line list
 according to the <a href="https://www.ilo.org/public/english/bureau/stat/isco/isco88/" class="external-link">ISCO
 88 Standard</a>.</li>
@@ -161,7 +161,10 @@ municipalities codes through a built-in dataset.</p>
 </h2>
 <p><strong>epiCo</strong> provides a built-in dataset with the
 population projections of Colombia at the national, departmental, and
-municipality levels (provided by the DANE).</p>
+municipality levels (provided by the DANE). These datasets present
+population projections from 2005 to 2035 for ages 0 to 100 years.
+However, for the municipal projections it has the ages from 0 to 85
+years old.</p>
 <p>Users can perform queries on this data by using the
 <code>population_pyramid</code> function, providing the DIVIPOLA code of
 the territory of interest and the year to consult.</p>
@@ -180,7 +183,7 @@ the territory of interest and the year to consult.</p>
 <span><span class="co">#&gt; 5  20      22659      F</span></span>
 <span><span class="co">#&gt; 6  25      20685      F</span></span></code></pre></div>
 <p>Definitions of age ranges and plotting are also provided for both:
-total number of individuals or proportion of individuals</p>
+total number of individuals, or proportion of individuals</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ibague_code</span> <span class="op">&lt;-</span> <span class="fl">73001</span> <span class="co"># DIVIPOLA code for the city of Ibagu&lt;U+00E9&gt;</span></span>
 <span><span class="va">year</span> <span class="op">&lt;-</span> <span class="fl">2019</span> <span class="co"># Year to consult</span></span>
@@ -202,50 +205,95 @@ dictionaries for the ethnicity categories, special population groups,
 and occupation codifications used by the SIVIGILA.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">demog_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0001</span>, <span class="fl">002</span>, <span class="fl">003</span>, <span class="fl">004</span>, <span class="fl">005</span><span class="op">)</span>,</span>
-<span>  ethnicity_label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">5</span><span class="op">)</span>,</span>
-<span>  occupation_label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">6111</span>, <span class="fl">3221</span>, <span class="fl">5113</span>, <span class="fl">5133</span>, <span class="fl">6111</span><span class="op">)</span></span>
+<span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0001</span>, <span class="fl">002</span>, <span class="fl">003</span>, <span class="fl">004</span>, <span class="fl">005</span>, <span class="fl">006</span>, <span class="fl">007</span><span class="op">)</span>,</span>
+<span>  ethnicity_label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">3</span>, <span class="fl">3</span>, <span class="fl">2</span><span class="op">)</span>,</span>
+<span>  occupation_label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">6111</span>, <span class="fl">3221</span>, <span class="fl">5113</span>, <span class="fl">5133</span>, <span class="fl">6111</span>, <span class="fl">23</span>, <span class="fl">25</span><span class="op">)</span>,</span>
+<span>  gender <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"F"</span>, <span class="st">"M"</span>, <span class="st">"F"</span>, <span class="st">"F"</span>, <span class="st">"M"</span>, <span class="st">"M"</span>, <span class="st">"F"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/describe_ethnicity.html">describe_ethnicity</a></span><span class="op">(</span><span class="va">demog_data</span><span class="op">$</span><span class="va">ethnicity_label</span><span class="op">)</span> <span class="co"># Description of ethnicities</span></span>
-<span><span class="co">#&gt; [1] "Poblacion ubicada en el Archipielago de San Andres, Providencia y Santa Catalina, con raices culturales afroanglo-antillanas, cuyos integrantes tienen rasgos socioculturales y linguisticos claramente diferenciados del resto de la poblacion afrocolombiana"</span></span>
-<span><span class="co">#&gt; [2] "Poblacion ubicada en el municipio de San Basilio de Palenque, departamento de Bolivar, donde se habla el palenquero, lenguaje criollo"                                                                                                                         </span></span>
-<span><span class="co">#&gt; [3] "Persona de ascendencia amerindia que comparten sentimientos de identificacion con su pasado aborigen, manteniendo rasgos y valores propios de su cultura tradicional, asi como formas de organizacion y control social propios"                                </span></span>
-<span><span class="co">#&gt; [4] "Son comunidades que tienen una identidad etnica y cultural propia; se caracterizan por una tradicion nomada, y tienen su propio idioma que es el romanes"                                                                                                      </span></span>
-<span><span class="co">#&gt; [5] "Persona de ascendencia afrocolombiana que poseen una cultura propia, y tienen sus propias tradiciones y costumbre dentro de la relacion campo-poblado"</span></span>
+<span><span class="co">#&gt;   Etiqueta</span></span>
+<span><span class="co">#&gt; 1        2</span></span>
+<span><span class="co">#&gt; 2        3</span></span>
+<span><span class="co">#&gt; 3        4</span></span>
+<span><span class="co">#&gt;                                                                                                                                                                                                                                                      Descripcion</span></span>
+<span><span class="co">#&gt; 1                                                                                                       Son comunidades que tienen una identidad etnica y cultural propia; se caracterizan por una tradicion nomada, y tienen su propio idioma que es el romanes</span></span>
+<span><span class="co">#&gt; 2 Poblacion ubicada en el Archipielago de San Andres, Providencia y Santa Catalina, con raices culturales afroanglo-antillanas, cuyos integrantes tienen rasgos socioculturales y linguisticos claramente diferenciados del resto de la poblacion afrocolombiana</span></span>
+<span><span class="co">#&gt; 3                                                                                                                          Poblacion ubicada en el municipio de San Basilio de Palenque, departamento de Bolivar, donde se habla el palenquero, lenguaje criollo</span></span>
 <span><span class="co"># reported in the consulted dataset</span></span>
 <span><span class="fu"><a href="../reference/describe_occupation.html">describe_occupation</a></span><span class="op">(</span></span>
 <span>  isco_codes <span class="op">=</span> <span class="va">demog_data</span><span class="op">$</span><span class="va">occupation_label</span>,</span>
-<span>  output_level <span class="op">=</span> <span class="st">"unit"</span></span>
+<span>  gender <span class="op">=</span> <span class="va">demog_data</span><span class="op">$</span><span class="va">gender</span>,</span>
+<span>  plot <span class="op">=</span> <span class="st">"treemap"</span></span>
 <span><span class="op">)</span> <span class="co"># Description of the occupations</span></span>
-<span><span class="co">#&gt; [[1]]</span></span>
-<span><span class="co">#&gt; [1] 6111</span></span>
+<span><span class="co">#&gt; Warning in describe_occupation(isco_codes = demog_data$occupation_label, : 1</span></span>
+<span><span class="co">#&gt; codes are invalid.</span></span>
+<span><span class="co">#&gt; Warning: Removed 2 rows containing missing values (`geom_treemap()`).</span></span>
+<span><span class="co">#&gt; Warning: Removed 2 rows containing missing values</span></span>
+<span><span class="co">#&gt; (`geom_subgroup_border()`).</span></span>
+<span><span class="co">#&gt; Warning: Removed 2 rows containing missing values</span></span>
+<span><span class="co">#&gt; (`geom_subgroup_text()`).</span></span>
+<span><span class="co">#&gt; Warning: Removed 2 rows containing missing values</span></span>
+<span><span class="co">#&gt; (`geom_treemap_text()`).</span></span></code></pre></div>
+<p><img src="demographic_vignette_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
+<pre><code><span><span class="co">#&gt; [[1]]</span></span>
+<span><span class="co">#&gt;   major                                        major_label sub_major</span></span>
+<span><span class="co">#&gt; 1     5 Service Workers and Shop and Market Sales Workers         51</span></span>
+<span><span class="co">#&gt; 2     5 Service Workers and Shop and Market Sales Workers         51</span></span>
+<span><span class="co">#&gt; 3     6          Skilled Agricultural and Fishery Workers         61</span></span>
+<span><span class="co">#&gt; 4     2                                     Professionals         23</span></span>
+<span><span class="co">#&gt; 5     3           Technicians and Associate Professionals         32</span></span>
+<span><span class="co">#&gt; 6     6          Skilled Agricultural and Fishery Workers         61</span></span>
+<span><span class="co">#&gt; 7    NA                                               &lt;NA&gt;        NA</span></span>
+<span><span class="co">#&gt;                                             sub_major_label minor</span></span>
+<span><span class="co">#&gt; 1                 Personal and Protective Services Workers    511</span></span>
+<span><span class="co">#&gt; 2                 Personal and Protective Services Workers    513</span></span>
+<span><span class="co">#&gt; 3 Market-Oriented Skilled Agricultural and Fishery Workers    611</span></span>
+<span><span class="co">#&gt; 4                                   Teaching Professionals     NA</span></span>
+<span><span class="co">#&gt; 5          Life Science and Health Associate Professionals    322</span></span>
+<span><span class="co">#&gt; 6 Market-Oriented Skilled Agricultural and Fishery Workers    611</span></span>
+<span><span class="co">#&gt; 7                                                      &lt;NA&gt;    NA</span></span>
+<span><span class="co">#&gt;                                               minor_label unit</span></span>
+<span><span class="co">#&gt; 1                  Travel Attendants and Related Workers  5113</span></span>
+<span><span class="co">#&gt; 2                      Personal Care and Related Workers  5133</span></span>
+<span><span class="co">#&gt; 3                      Market Gardeners and Crop Growers  6111</span></span>
+<span><span class="co">#&gt; 4                                                    &lt;NA&gt;   NA</span></span>
+<span><span class="co">#&gt; 5 Modern Health Associate Professionals (Except Nursing)  3221</span></span>
+<span><span class="co">#&gt; 6                      Market Gardeners and Crop Growers  6111</span></span>
+<span><span class="co">#&gt; 7                                                    &lt;NA&gt;   NA</span></span>
+<span><span class="co">#&gt;                          unit_label gender count</span></span>
+<span><span class="co">#&gt; 1                    Travel guides       F     1</span></span>
+<span><span class="co">#&gt; 2 Home-based personal care workers       F     1</span></span>
+<span><span class="co">#&gt; 3 Field crop and vegetable growers       F     1</span></span>
+<span><span class="co">#&gt; 4                              &lt;NA&gt;      M     1</span></span>
+<span><span class="co">#&gt; 5               Medical assistants       M     1</span></span>
+<span><span class="co">#&gt; 6 Field crop and vegetable growers       M     1</span></span>
+<span><span class="co">#&gt; 7                              &lt;NA&gt;   &lt;NA&gt;     1</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [[2]]</span></span>
-<span><span class="co">#&gt; [1] 3221</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [[3]]</span></span>
-<span><span class="co">#&gt; [1] 5113</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [[4]]</span></span>
-<span><span class="co">#&gt; [1] 5133</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [[5]]</span></span>
-<span><span class="co">#&gt; [1] 6111</span></span>
-<span><span class="co"># reported in the consulted dataset</span></span></code></pre></div>
+<span><span class="co">#&gt; $occupation_plot</span></span>
+<span><span class="co">#&gt; Warning: Removed 2 rows containing missing values (`geom_treemap()`).</span></span>
+<span><span class="co">#&gt; Warning: Removed 2 rows containing missing values</span></span>
+<span><span class="co">#&gt; (`geom_subgroup_border()`).</span></span>
+<span><span class="co">#&gt; Warning: Removed 2 rows containing missing values</span></span>
+<span><span class="co">#&gt; (`geom_subgroup_text()`).</span></span>
+<span><span class="co">#&gt; Warning: Removed 2 rows containing missing values</span></span>
+<span><span class="co">#&gt; (`geom_treemap_text()`).</span></span></code></pre>
+<p><img src="demographic_vignette_files/figure-html/unnamed-chunk-5-2.png" width="700"></p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># reported in the consulted dataset</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="epidemiological-data">4. Epidemiological data<a class="anchor" aria-label="anchor" href="#epidemiological-data"></a>
 </h2>
 <p><strong>epiCo</strong> is a tool that produces analyses based on
 epidemiological data extracted from SIVIGILA or provided by the user.
-<code>epi_data</code> is a built-in file, which shows an example of the
+<code>epi_data</code> is a built-in file that shows an example of the
 structure used by the package, which is the same as the one reported by
 SIVIGILA. This file contains the cases of all the municipalities in
 Tolima for the years 2015–2021.</p>
 <p>The following analyses use the dengue cases reported in Tolima in
 2019.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"epi_data"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">data_tolima</span> <span class="op">&lt;-</span> <span class="va">epi_data</span><span class="op">[</span><span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/year.html" class="external-link">year</a></span><span class="op">(</span><span class="va">epi_data</span><span class="op">$</span><span class="va">fec_not</span><span class="op">)</span> <span class="op">==</span> <span class="fl">2019</span>, <span class="op">]</span></span>
@@ -274,7 +322,7 @@ total number of inhabitants in the specific region and year.</p>
 <p><strong>epiCo</strong> uses the DANE population projections as
 denominators; therefore, it is necessary to provide the administration
 level at which incidences are calculated.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">incidence_object</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://www.repidemicsconsortium.org/incidence/reference/incidence.html" class="external-link">incidence</a></span><span class="op">(</span></span>
 <span>  dates <span class="op">=</span> <span class="va">data_tolima</span><span class="op">$</span><span class="va">fec_not</span>,</span>
 <span>  groups <span class="op">=</span> <span class="va">data_tolima</span><span class="op">$</span><span class="va">cod_mun_o</span>,</span>
@@ -324,9 +372,8 @@ normalizes the epidemiological data with the age structure of a
 population. This normalization allows us to estimate the age risk of a
 disease according to the age structure of the general population in a
 municipality, department, or country in a certain year.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data_ibague</span> <span class="op">&lt;-</span> <span class="va">data_tolima</span><span class="op">[</span><span class="va">data_tolima</span><span class="op">$</span><span class="va">cod_mun_o</span> <span class="op">==</span> <span class="fl">73001</span>, <span class="op">]</span></span>
-<span></span>
 <span></span>
 <span><span class="va">age_risk_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/age_risk.html">age_risk</a></span><span class="op">(</span></span>
 <span>  age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="va">data_ibague</span><span class="op">$</span><span class="va">edad</span><span class="op">)</span>,</span>
