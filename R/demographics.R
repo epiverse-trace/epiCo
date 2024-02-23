@@ -468,9 +468,11 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
 
   stopifnot(
     "`isco_codes` must be a numeric vector" = is.numeric(isco_codes),
-    "`plot` must be circular or treemap" = plot %in% c(NULL,
-                                                     "circular",
-                                                     "treemap"),
+    "`plot` must be circular or treemap" = plot %in% c(
+      NULL,
+      "circular",
+      "treemap"
+    ),
     "`isco_codes` must have at least one valid code" =
       (length(isco_codes) != length(invalid_codes))
   )
@@ -499,7 +501,7 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
     ))
     names(occupation_data_unit)[
       names(occupation_data_unit) == "occupation"
-      ] <- "unit"
+    ] <- "unit"
     names(occupation_data_unit)[names(occupation_data_unit) == "n"] <- "count"
 
 
@@ -515,7 +517,7 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
     ))
     names(occupation_data_minor)[
       names(occupation_data_minor) == "occupation"
-      ] <- "minor"
+    ] <- "minor"
     names(occupation_data_minor)[names(occupation_data_minor) == "n"] <- "count"
 
     occupation_data_sub_major <- data.frame(
@@ -531,10 +533,10 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
     ))
     names(occupation_data_sub_major)[
       names(occupation_data_sub_major) == "occupation"
-      ] <- "sub_major"
+    ] <- "sub_major"
     names(occupation_data_sub_major)[
       names(occupation_data_sub_major) == "n"
-      ] <- "count"
+    ] <- "count"
 
     occupation_data_major <- data.frame(
       occupation = valid_major_codes,
@@ -548,7 +550,7 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
     ))
     names(occupation_data_major)[
       names(occupation_data_major) == "occupation"
-      ] <- "major"
+    ] <- "major"
     names(occupation_data_major)[names(occupation_data_major) == "n"] <- "count"
 
     occupation_data <- data.frame(
@@ -585,12 +587,12 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
         occupation_data$occupation_plot <- occupation_plot(
           occupation_data,
           gender = TRUE
-          )
+        )
         plot(occupation_data$occupation_plot)
       } else if (plot == "circular") {
         warning(
           "Remember that the circular plot does not distinguish by gender."
-          )
+        )
         occupation_data$occupation_plot <- occupation_plot_2(occupation_data)
         plot(occupation_data$occupation_plot)
       }
@@ -606,7 +608,7 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
     ))
     names(occupation_data_unit)[
       names(occupation_data_unit) == "occupation"
-      ] <- "unit"
+    ] <- "unit"
     names(occupation_data_unit)[names(occupation_data_unit) == "n"] <- "count"
 
 
@@ -621,7 +623,7 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
     ))
     names(occupation_data_minor)[
       names(occupation_data_minor) == "occupation"
-      ] <- "minor"
+    ] <- "minor"
     names(occupation_data_minor)[names(occupation_data_minor) == "n"] <- "count"
 
     occupation_data_sub_major <- data.frame(
@@ -636,10 +638,10 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
     ))
     names(occupation_data_sub_major)[
       names(occupation_data_sub_major) == "occupation"
-      ] <- "sub_major"
+    ] <- "sub_major"
     names(occupation_data_sub_major)[
       names(occupation_data_sub_major) == "n"
-      ] <- "count"
+    ] <- "count"
 
     occupation_data_major <- data.frame(
       occupation = valid_major_codes,
@@ -653,7 +655,7 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
     ))
     names(occupation_data_major)[
       names(occupation_data_major) == "occupation"
-      ] <- "major"
+    ] <- "major"
     names(occupation_data_major)[names(occupation_data_major) == "n"] <- "count"
 
     occupation_data <- data.frame(

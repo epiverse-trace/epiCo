@@ -2,7 +2,7 @@
 #'
 #' @description Function that builds the endemic channel of a disease time
 #' series based on the selected method and windows of observation
-#' 
+#'
 #' @param incidence_historic An incidence object with the historic weekly
 #' observations
 #' @param observations A numeric vector with the current observations
@@ -17,14 +17,16 @@
 #' @param ci = 0.95 A numeric value to specify the confidence interval to use
 #' with the geometric method
 #' @param plot A boolean for displaying a plot
-#' 
+#'
 #' @return A dataframe with the observation, historical mean, and confidence
 #' intervals (or risk areas)
-#' 
+#'
 #' @examples
 #' \dontrun{
-#' endemic_channel(observations, incidence_historic, method = "geometric",
-#' outliers_handling = "replace_with_median", plot = TRUE)
+#' endemic_channel(observations, incidence_historic,
+#'   method = "geometric",
+#'   outliers_handling = "replace_with_median", plot = TRUE
+#' )
 #' }
 #' @export
 endemic_channel <- function(incidence_historic, observations = NULL,
@@ -260,7 +262,8 @@ endemic_channel <- function(incidence_historic, observations = NULL,
 #' @examples
 #' \dontrun{
 #' endemic_outliers(historic, outlier_years, outliers_handling,
-#' geom_method = "shifted")
+#'   geom_method = "shifted"
+#' )
 #' }
 #'
 #' @keywords internal
