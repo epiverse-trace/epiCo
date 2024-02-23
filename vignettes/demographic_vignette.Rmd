@@ -14,35 +14,22 @@ knitr::opts_chunk$set(
 )
 ```
 
-**epiCo**'s demographic module is a tool for demographic descriptive
-analysis and risk assessment of epidemiological events in Colombia.
-Based on linelist data provided by the Colombian National Surveillance System
-[(SIVIGILA)](https://www.ins.gov.co/Direcciones/Vigilancia/Paginas/SIVIGILA.aspx)
-and demographic data from the Colombian National Administrative Department of 
-Statistics 
-[(DANE)](https://microdatos.dane.gov.co/index.php/catalog/central/about).
+**epiCo**'s demographic module is a tool for demographic descriptive analysis and risk assessment of epidemiological events in Colombia.
+Based on linelist data provided by the Colombian National Surveillance System [(SIVIGILA)](https://www.ins.gov.co/Direcciones/Vigilancia/Paginas/SIVIGILA.aspx) and demographic data from the Colombian National Administrative Department of Statistics [(DANE)](https://microdatos.dane.gov.co/index.php/catalog/central/about).
 
 The module allows you to:
 
--   Consult and visualize the population pyramid of a municipality,
-    department, or country for a year of interest.
--   Consult the definitions of demographic variables as ethnicities,
-    special population groups, and occupational labels.
--   Estimate the distribution of occupations reported in the line list
-    according to the [ISCO 88
-    Standard](https://www.ilo.org/public/english/bureau/stat/isco/isco88/).
+-   Consult and visualize the population pyramid of a municipality, department, or country for a year of interest.
+-   Consult the definitions of demographic variables such as ethnicities, special population groups, and occupational labels.
+-   Estimate the distribution of occupations reported in the line list according to the [ISCO 88 Standard](https://www.ilo.org/public/english/bureau/stat/isco/isco88/).
 -   Estimate the incidence rate of a municipality, department, or country. 
--   Calculate and visualize a relative age risk by normalizing the
-    distribution of cases by the specific age structure of the location
-    of interest.
+-   Calculate and visualize a relative age risk by normalizing the distribution of cases by the specific age structure of the location of interest.
     
 In the following vignette, you will learn how to:
 
 1. Navigate the Codification of the Political Administrative Division of Colombia (DIVIPOLA).
-2. Consult, visualize, and interpret Colombian population pyramids at different
-administrative levels.
-3. Interpret the demographic variables reported by the SIVIGILA (as ethnicities,
-special population groups, and occupational labels).
+2. Consult, visualize, and interpret Colombian population pyramids at different administrative levels.
+3. Interpret the demographic variables reported by the SIVIGILA (as ethnicities, special population groups, and occupational labels).
 4. Understand the typical SIVIGILA epidemiological data.
 5. Estimate weekly and monthly incidence rates for a municipality, department, or country.
 6. Integrate the age distributions of cases with population pyramids to obtain an age-risk assessment for a disease.
@@ -84,7 +71,7 @@ ibague_pyramid_2016 <- population_pyramid(ibague_code, year) # Population
 head(ibague_pyramid_2016)
 ```
 
-Definitions of age ranges and plotting are also provided for both: total number of individuals or proportion of individuals
+Definitions of age ranges and plotting are also provided for both: total number of individuals, or proportion of individuals
 
 ```{r}
 ibague_code <- 73001 # DIVIPOLA code for the city of Ibagu<U+00E9>
@@ -117,13 +104,13 @@ describe_ethnicity(demog_data$ethnicity_label) # Description of ethnicities
 describe_occupation(
   isco_codes = demog_data$occupation_label,
   gender = demog_data$gender,
-  plot = "boxes"
+  plot = "treemap"
 ) # Description of the occupations
 # reported in the consulted dataset
 ```
 ## 4. Epidemiological data
 
-**epiCo** is a tool that produces analyses based on epidemiological data extracted from SIVIGILA or provided by the user. `epi_data` is a built-in file, which shows an example of the structure used by the package, which is the same as the one reported by SIVIGILA. This file contains the cases of all the municipalities in Tolima for the years 2015–2021.
+**epiCo** is a tool that produces analyses based on epidemiological data extracted from SIVIGILA or provided by the user. `epi_data` is a built-in file that shows an example of the structure used by the package, which is the same as the one reported by SIVIGILA. This file contains the cases of all the municipalities in Tolima for the years 2015–2021.
 
 The following analyses use the dengue cases reported in Tolima in 2019.
 

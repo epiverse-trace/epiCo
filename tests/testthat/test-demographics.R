@@ -205,7 +205,7 @@ test_that("describe occupation works as expected", {
     type = "list"
   )
 
-  expect_length(describe_occupation(c(1111, 4141), plot = "boxes"), n = 2)
+  expect_length(describe_occupation(c(1111, 4141), plot = "treemap"), n = 2)
   expect_length(describe_occupation(c(1111, 4141), plot = NULL), n = 1)
   expect_length(describe_occupation(c(1111, 4141),
     gender = c("F", "M"),
