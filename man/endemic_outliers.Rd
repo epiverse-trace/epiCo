@@ -31,14 +31,14 @@ geometric mean and take into account
 }}
 
 \item{geom_method}{A string with the selected method for geometric mean
-calculation, see: geom_mean}
+calculation; see: geom_mean}
 }
 \value{
 A modified historic incidence
 }
 \description{
 Function that modifies an historic incidence by including,
-ignoring, or replacing the observations of epidemic years
+ignoring or replacing the observations of epidemic years
 }
 \examples{
 \dontrun{

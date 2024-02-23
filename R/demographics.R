@@ -183,8 +183,6 @@ population_pyramid <- function(divipola_code, year, gender = TRUE, range = 5,
   return(pop_pyramid)
 }
 
-
-
 #' Returns the probability mass function of being infected given age and gender
 #'
 #' @description Function that returns the probability of being infected given

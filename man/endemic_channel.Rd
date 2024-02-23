@@ -2,7 +2,7 @@
 % Please edit documentation in R/endemic_channel.R
 \name{endemic_channel}
 \alias{endemic_channel}
-\title{Returns the endemic channel of a disease}
+\title{Create and return the endemic channel of a disease from an incidence object}
 \usage{
 endemic_channel(
   incidence_historic,
@@ -22,11 +22,11 @@ observations}
 \item{observations}{A numeric vector with the current observations}
 
 \item{method}{A string with the mean calculation method of preference
-(median, mean, or geometric) or to use unusual behavior method (Poisson
-Distribution Test for hypoendemic settings)}
+(median, mean, or geometric) or to use the unusual behavior method (Poisson
+Distribution Test for Hypoendemic settings)}
 
 \item{geom_method}{A string with the selected method for geometric mean
-calculation, see: geom_mean}
+calculation; see: geom_mean}
 
 \item{outlier_years}{A numeric vector with the outlier years}
 
@@ -43,8 +43,8 @@ A dataframe with the observation, historical mean, and confidence
 intervals (or risk areas)
 }
 \description{
-Function that builds the endemic channel of a disease time series based on
-the selected method and windows of observation
+Function that builds the endemic channel of a disease time
+series based on the selected method and windows of observation
 }
 \examples{
 \dontrun{
