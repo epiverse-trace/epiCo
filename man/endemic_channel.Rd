@@ -7,10 +7,11 @@
 endemic_channel(
   incidence_historic,
   observations = NULL,
-  method = "geometric",
+  method = c("mean", "median", "geometric", "unusual_behavior"),
   geometric_method = "shifted",
   outlier_years = NULL,
-  outliers_handling = "ignored",
+  outliers_handling = c("ignored", "included", "replaced_by_median", "replaced_by_mean",
+    "replaced_by_geometric_mean"),
   ci = 0.95,
   plot = FALSE
 )
