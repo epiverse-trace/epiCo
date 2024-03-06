@@ -9,8 +9,8 @@
 #' @param method A string with the mean calculation method of preference
 #' (median, mean, or geometric) or to use the unusual behavior method (Poisson
 #' Distribution Test for Hypoendemic settings)
-#' @param geom_method A string with the selected method for geometric mean
-#' calculation; see: geom_mean
+#' @param geometric_method A string with the selected method for geometric mean
+#' calculation; see: geometric_mean
 #' @param outlier_years A numeric vector with the outlier years
 #' @param outliers_handling A string with the handling decision regarding
 #' outlier years, see: outliers_handling function
@@ -30,7 +30,7 @@
 #' }
 #' @export
 endemic_channel <- function(incidence_historic, observations = NULL,
-                            method = "geometric", geom_method = "shifted",
+                            method = "geometric", geometric_method = "shifted",
                             outlier_years = NULL, outliers_handling = "ignored",
                             ci = 0.95, plot = FALSE) {
   stopifnot(
@@ -147,7 +147,7 @@ endemic_channel <- function(incidence_historic, observations = NULL,
 
   historic <- endemic_outliers(
     historic, outlier_years, outliers_handling,
-    geom_method
+    geometric_method
   )
 
   switch(method,
@@ -182,7 +182,7 @@ endemic_channel <- function(incidence_historic, observations = NULL,
     geometric = {
       central <- as.numeric(apply(historic,
         MARGIN = 2,
-        FUN = geom_mean, method = geom_method
+        FUN = geometric_mean, method = geometric_method
       ))
       interval <- as.numeric(apply(historic,
         MARGIN = 2, FUN = function(x) {
@@ -190,7 +190,7 @@ endemic_channel <- function(incidence_historic, observations = NULL,
             p = c((1 - ci) / 2),
             df = length(x) - 1
           ) *
-            geom_sd(x, method = geom_method) / sqrt(length(x))
+            geometric_sd(x, method = geometric_method) / sqrt(length(x))
         }
       ))
       up_lim <- exp(log(central) + abs(interval))
@@ -252,23 +252,23 @@ endemic_channel <- function(incidence_historic, observations = NULL,
 #' median and take into account
 #' - replaced_by_mean = data from outlier years will be replaced with the
 #' mean and take into account
-#' - replaced_by_geom_mean = data from outlier years will be replaced with the
+#' - replaced_by_geometric_mean = data from outlier years will be replaced with the
 #' geometric mean and take into account
-#' @param geom_method A string with the selected method for geometric mean
-#' calculation; see: geom_mean
+#' @param geometric_method A string with the selected method for geometric mean
+#' calculation; see: geometric_mean
 #'
 #' @return A modified historic incidence
 #'
 #' @examples
 #' \dontrun{
 #' endemic_outliers(historic, outlier_years, outliers_handling,
-#'   geom_method = "shifted"
+#'   geometric_method = "shifted"
 #' )
 #' }
 #'
 #' @keywords internal
 endemic_outliers <- function(historic, outlier_years, outliers_handling,
-                             geom_method = "shifted") {
+                             geometric_method = "shifted") {
   if (outliers_handling == "included") {
     historic <- historic
   } else if (outliers_handling == "ignored") {
@@ -281,17 +281,17 @@ endemic_outliers <- function(historic, outlier_years, outliers_handling,
     handling <- as.numeric(colMeans(historic))
     handling <- t(replicate(length(outlier_years), handling))
     historic[outlier_years, ] <- handling
-  } else if (outliers_handling == "replaced_by_geom_mean") {
-    if (geom_method == "optimized") {
+  } else if (outliers_handling == "replaced_by_geometric_mean") {
+    if (geometric_method == "optimized") {
       handling <- apply(historic,
-        MARGIN = 2, FUN = geom_mean,
-        method = geom_method
+        MARGIN = 2, FUN = geometric_mean,
+        method = geometric_method
       )
       handling <- as.numeric(handling[1, ])
     } else {
       handling <- as.numeric(apply(historic,
-        MARGIN = 2, FUN = geom_mean,
-        method = geom_method
+        MARGIN = 2, FUN = geometric_mean,
+        method = geometric_method
       ))
     }
 
