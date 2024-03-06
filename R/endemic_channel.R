@@ -278,17 +278,14 @@ endemic_outliers <- function(historic, outlier_years, outliers_handling,
     handling <- t(replicate(length(outlier_years), handling))
     historic[outlier_years, ] <- handling
   } else if (outliers_handling == "replaced_by_geom_mean") {
+    handling <- apply(historic,
+      MARGIN = 2, FUN = geom_mean,
+      method = geom_method
+    )
     if (geom_method == "optimized") {
-      handling <- apply(historic,
-        MARGIN = 2, FUN = geom_mean,
-        method = geom_method
-      )
       handling <- as.numeric(handling[1, ])
     } else {
-      handling <- as.numeric(apply(historic,
-        MARGIN = 2, FUN = geom_mean,
-        method = geom_method
-      ))
+      handling <- as.numeric(handling)
     }
 
     handling <- t(replicate(length(outlier_years), handling))
