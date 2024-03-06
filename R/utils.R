@@ -11,9 +11,7 @@
 #' weeks of the given year.
 #'
 #' @examples
-#' \dontrun{
 #' epi_calendar(2016)
-#' }
 #'
 #' @export
 epi_calendar <- function(year, jan_days = 4) {
