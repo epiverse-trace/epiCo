@@ -104,11 +104,10 @@ endemic_channel <- function(incidence_historic, observations = NULL,
       new_date <- epiCo::epi_calendar(first_year + 1)[1]
       incidence_historic <- incidence_historic[incidence_historic$dates >=
         new_date]
-      msg <- paste(
-        "Data prior to", new_date,
-        "were not used for the endemic channel calculation."
+      warning(
+        "Data prior to ", new_date,
+        " were not used for the endemic channel calculation."
       )
-      warning(msg)
     }
     last_year <- lubridate::epiyear(incidence_historic$dates[
       length(incidence_historic$dates)
