@@ -317,15 +317,11 @@ geom_sd <- function(x, method, shift = 1, delta = 1e-3) {
     w_positive <- length(x_positive) / n_x
     x_negative <- x[x < 0]
     w_negative <- length(x_negative) / n_x
-    x_zeros <- x[x == 0]
-    w_zeros <- length(x_zeros) / n_x
 
     gsd_positive <- stats::sd((log(x_positive)))
     gsd_negative <- -1 * stats::sd((log(x_negative)))
-    gsd_zeros <- 0
 
-    gsd <- w_positive * gsd_positive + w_negative * gsd_negative + w_zeros *
-      gsd_zeros
+    gsd <- w_positive * gsd_positive + w_negative * gsd_negative
   } else if (method == "optimized") {
     x_opti <- x + delta
 
