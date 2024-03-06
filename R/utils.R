@@ -177,14 +177,15 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
 #' }
 #'
 #' @export
-geometric_mean <- function(x, method = "positive", shift = 1, epsilon = 1e-3) {
+geometric_mean <- function(x, method = c("positive", "shifted",
+                                         "optimized", "weighted"), 
+                           shift = 1, epsilon = 1e-3) {
   stopifnot(
     "`x`must be numeric" = (is.numeric(x)),
-    "`method` must be positive, shifted, otimized or wehighted" =
-      (method %in% c("positive", "shifted", "optimized", "weighted")),
     "`shift` must be numeric" = (is.numeric(shift)),
     "`epsilon` must be numeric" = (is.numeric(epsilon))
   )
+  method <- match.arg(method)
 
   if (method == "positive") {
     stopifnot("`x` includes zero or negative values,
@@ -294,14 +295,15 @@ geometric_mean <- function(x, method = "positive", shift = 1, epsilon = 1e-3) {
 #' }
 #'
 #' @export
-geometric_sd <- function(x, method, shift = 1, delta = 1e-3) {
+geometric_sd <- function(x, method = c("positive", "shifted",
+                                       "optimized", "weighted"),
+                         shift = 1, delta = 1e-3) {
   stopifnot(
     "`x`must be numeric" = (is.numeric(x)),
-    "`method` must be positive, shifted, otimized or wehighted" =
-      (method %in% c("positive", "shifted", "optimized", "weighted")),
     "`shift` must be numeric" = (is.numeric(shift)),
     "`delta` must be numeric" = (is.numeric(delta))
   )
+  method <- match.arg(method)
 
   if (method == "positive") {
     stopifnot("`x` includes zero or negative values,
