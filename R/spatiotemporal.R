@@ -115,12 +115,12 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
     )
   )
   infl_mpios <- moran_data_frame[which(moran_data_frame$is_inf), ]
-  morans_index <- c(
-    list(municipios = moran_data_frame$labels),
-    list(quadrant = moran_data_frame$cluster),
-    list(influential = moran_data_frame$is_inf),
-    list(logIncidence = moran_data_frame$x),
-    list(lagIncidence = moran_data_frame$wx)
+  morans_index <- list(
+    municipios = moran_data_frame$labels,
+    quadrant = moran_data_frame$cluster,
+    influential = moran_data_frame$is_inf,
+    logIncidence = moran_data_frame$x,
+    lagIncidence = moran_data_frame$wx
   )
   if (!all(is.na(morans_index$quadrant))) {
     cat(paste("Influential municipalities are:", "\n"))
