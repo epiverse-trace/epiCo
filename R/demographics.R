@@ -591,7 +591,7 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
         warning(
           "Remember that the circular plot does not distinguish by gender."
         )
-        occupation_data$occupation_plot <- occupation_plot_2(occupation_data)
+        occupation_data$occupation_plot <- occupation_plot_circular(occupation_data)
         plot(occupation_data$occupation_plot)
       }
     }
@@ -689,7 +689,7 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
         occupation_data$occupation_plot <- occupation_plot(occupation_data)
         plot(occupation_data$occupation_plot)
       } else if (plot == "circular") {
-        occupation_data$occupation_plot <- occupation_plot_2(occupation_data)
+        occupation_data$occupation_plot <- occupation_plot_circular(occupation_data)
         plot(occupation_data$occupation_plot)
       }
     }
@@ -793,10 +793,10 @@ occupation_plot <- function(occupation_data, gender = FALSE, q = 0.9) {
 #' @return A plot to summarize the distribution of ISCO-88 labels
 #' @examples
 #' \dontrun{
-#' occupation_plot_2(occupation_data)
+#' occupation_plot_circular(occupation_data)
 #' }
 #' @export
-occupation_plot_2 <- function(occupation_data, q = 0.9) {
+occupation_plot_circular <- function(occupation_data, q = 0.9) {
   occupation_data <- occupation_data[[1]]
   occupation_data_q <- subset(
     occupation_data,
