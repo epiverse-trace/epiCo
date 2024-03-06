@@ -30,8 +30,14 @@
 #' }
 #' @export
 endemic_channel <- function(incidence_historic, observations = NULL,
-                            method = "geometric", geometric_method = "shifted",
-                            outlier_years = NULL, outliers_handling = "ignored",
+                            method = c("mean", "median", "geometric",
+                                       "unusual_behavior"),
+                            geometric_method = "shifted",
+                            outlier_years = NULL,
+                            outliers_handling = c("ignored", "included",
+                                                  "replaced_by_median",
+                                                  "replaced_by_mean",
+                                                  "replaced_by_geometric_mean"),
                             ci = 0.95, plot = FALSE) {
   stopifnot(
     "`incidence_historic` must be an incidence object" =
@@ -45,14 +51,14 @@ endemic_channel <- function(incidence_historic, observations = NULL,
     "incidence interval should be `1 month`, `1 week` or `1 epiweek`" =
       incidence_historic$interval %in%
         c("1 month", "1 week", "1 epiweek"),
-    "`method` should be `median`, `mean`, `geometric` or `unusual behavior`" =
-      method %in%
-        c("median", "mean", "geometric", "unusual_behavior"),
     "`ci` must be a number between 0 and 1" =
       (ci >= 0 & ci <= 1 & is.numeric(ci)),
     "`plot` must be a boolean" =
       (is.logical(plot))
   )
+  
+  method <- match.arg(method)
+  outliers_handling <- match.arg(outliers_handling)
 
   if (!is.null(observations)) {
     stopifnot(
