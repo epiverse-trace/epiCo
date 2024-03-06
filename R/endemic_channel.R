@@ -123,11 +123,10 @@ endemic_channel <- function(incidence_historic, observations = NULL,
       ]
       incidence_historic <- incidence_historic[incidence_historic$dates <=
         as.Date(new_date)]
-      msg <- paste(
+      warning(
         "Data after", new_date,
         "were not used for the endemic channel calculation."
       )
-      warning(msg)
     }
     counts_historic <- as.numeric(incidence::get_counts(
       incidence_historic
