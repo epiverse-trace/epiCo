@@ -125,23 +125,14 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
   if (!all(is.na(morans_index$quadrant))) {
     cat(paste("Influential municipalities are:", "\n"))
     # Influential observations
-    for (i in seq_len(nrow(infl_mpios))) {
-      if (!is.na(infl_mpios$cluster[i])) {
-        # nolint start: string_boundary_linter
-        relative_incidence <- ifelse(substr(
-          infl_mpios$cluster[i], 1, 1
-        ) == "H", "high", "low")
-        # nolint end: string_boundary_linter
-        relative_correlation <- ifelse(substr(
-          infl_mpios$cluster[i], 2, 2
-        ) == "H", "high", "low")
-        cat(paste(
-          infl_mpios$labels[i], "with", relative_incidence,
-          "incidence and", relative_correlation, "spatial correlation",
-          "\n"
-        ))
-      }
-    }
+    cat(
+      sprintf(
+        "%s with %s incidence and %s spatial correlation",
+        infl_mpios$labels,
+        ifelse(substr(infl_mpios$cluster, 1, 1) == "H", "high", "low"),
+        ifelse(substr(infl_mpios$cluster, 2, 2) == "H", "high", "low")
+      ), 
+    sep = "\n")
   }
   # Plot
   if (plot) {
