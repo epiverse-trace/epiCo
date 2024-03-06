@@ -75,11 +75,10 @@ endemic_channel <- function(incidence_historic, observations = NULL,
       new_date <- paste(as.character(first_year + 1), "01-01", sep = "-")
       incidence_historic <- incidence_historic[incidence_historic$dates >=
         as.Date(new_date)]
-      msg <- paste(
-        "Data prior to", new_date,
-        "were not used for the endemic channel calculation."
+      warning(
+        "Data prior to ", new_date,
+        " were not used for the endemic channel calculation."
       )
-      warning(msg)
     }
     if (lubridate::month(incidence_historic$dates[
       length(incidence_historic$dates)
