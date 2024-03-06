@@ -14,9 +14,7 @@
 #'
 #' @return A dataframe with the proportion or total count of individuals
 #' @examples
-#' \dontrun{
 #' population_pyramid(15001, 2015, total = TRUE, plot = TRUE)
-#' }
 #' @export
 population_pyramid <- function(divipola_code, year, gender = TRUE, range = 5,
                                total = TRUE, plot = FALSE) {
