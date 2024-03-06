@@ -5,7 +5,7 @@ Authors@R:
     c(person("Juan D.", "Umaña", , "jd.umana10@uniandes.edu.co", role = c("aut", "cre")),
       person("Juan", "Montenegro-Torres", , "jf.montenegro@uniandes.edu.co", role = c("aut")),
       person("Julian", "Otero", , "jd.otero10@uniandes.edu.co", role = c("aut")),
-      person("Hugo", "Gruson", , "hugo.gruson+R@normasup.org", role = c("ctb")))
+      person("Hugo", "Gruson", , "hugo@data.org", role = c("ctb")))
 Description: provides statistical and visualization tools for the analysis of demographic indicators, and spatio-temporal behavior and characterization of outbreaks of vector-borne diseases (VBDs) in Colombia
 License: MIT + file LICENSE
 Encoding: UTF-8
