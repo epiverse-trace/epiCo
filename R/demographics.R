@@ -468,11 +468,10 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
   )
 
   if (length(invalid_codes) > 0) {
-    msg <- paste(
+    warning(
       length(invalid_codes),
       "codes are invalid."
     )
-    warning(msg)
   }
 
   if (!is.null(gender)) {
