@@ -4,7 +4,12 @@
 \alias{geometric_mean}
 \title{Returns the geometric mean of a vector of real numbers.}
 \usage{
-geometric_mean(x, method = "positive", shift = 1, epsilon = 0.001)
+geometric_mean(
+  x,
+  method = c("positive", "shifted", "optimized", "weighted"),
+  shift = 1,
+  epsilon = 0.001
+)
 }
 \arguments{
 \item{x}{A numeric vector of real values}

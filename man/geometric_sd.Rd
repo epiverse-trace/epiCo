@@ -4,7 +4,12 @@
 \alias{geometric_sd}
 \title{Returns the geometric standard deviation of a vector of real numbers.}
 \usage{
-geometric_sd(x, method, shift = 1, delta = 0.001)
+geometric_sd(
+  x,
+  method = c("positive", "shifted", "optimized", "weighted"),
+  shift = 1,
+  delta = 0.001
+)
 }
 \arguments{
 \item{x}{A numeric vector of real values}
