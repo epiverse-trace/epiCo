@@ -8,7 +8,7 @@ endemic_channel(
   incidence_historic,
   observations = NULL,
   method = "geometric",
-  geom_method = "shifted",
+  geometric_method = "shifted",
   outlier_years = NULL,
   outliers_handling = "ignored",
   ci = 0.95,
@@ -25,8 +25,8 @@ observations}
 (median, mean, or geometric) or to use the unusual behavior method (Poisson
 Distribution Test for Hypoendemic settings)}
 
-\item{geom_method}{A string with the selected method for geometric mean
-calculation; see: geom_mean}
+\item{geometric_method}{A string with the selected method for geometric mean
+calculation; see: geometric_mean}
 
 \item{outlier_years}{A numeric vector with the outlier years}
 
