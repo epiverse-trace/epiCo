@@ -551,19 +551,19 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
     )
     occupation_data <- merge(occupation_data,
       occupation_data_unit,
-      all = T
+      all = TRUE
     )
     occupation_data <- merge(occupation_data,
       occupation_data_minor,
-      all = T
+      all = TRUE
     )
     occupation_data <- merge(occupation_data,
       occupation_data_sub_major,
-      all = T
+      all = TRUE
     )
     occupation_data <- merge(occupation_data,
       occupation_data_major,
-      all = T
+      all = TRUE
     )
     occupation_data <- list(occupation_data[, c(
       "major", "major_label",
