@@ -305,7 +305,7 @@ endemic_outliers <- function(historic, outlier_years, outliers_handling,
 
     historic[outlier_years, ] <- handling
   } else {
-    return("Error in outlier years handling")
+    stop("Error in outlier years handling")
   }
   return(historic)
 }
