@@ -202,15 +202,11 @@ geom_mean <- function(x, method = "positive", shift = 1, epsilon = 1e-3) {
     w_positive <- length(x_positive) / n_x
     x_negative <- x[x < 0]
     w_negative <- length(x_negative) / n_x
-    x_zeros <- x[x == 0]
-    w_zeros <- length(x_zeros) / n_x
 
     gm_positive <- exp(sum(log(x_positive)) / n_x)
     gm_negative <- -1 * exp(sum(log(abs(x_negative))) / n_x)
-    gm_zeros <- 0
 
-    gm <- w_positive * gm_positive + w_negative * gm_negative + w_zeros *
-      gm_zeros
+    gm <- w_positive * gm_positive + w_negative * gm_negative
   } else if (method == "optimized") {
     # The formula is:
     # exp(mean(log(x+delta)))-delta (Eq. I)
