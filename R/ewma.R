@@ -32,7 +32,7 @@ ewma <- function(x, lambda = 0.2, delta = 1e-3) {
 #' @return A list with Y smoothed values and limits UCL & LCL
 #' @export
 detect_outbreaks_ewma <- function(epidata, lambda, nsigmas) {
-  qcc_list <- qcc::ewma(epidata, lambda = lambda, nsigmas = nsigmas)
+  qcc_list <- qcc::ewma(epidata, lambda = lambda, nsigmas = nsigmas, plot = FALSE)
   outbreaks_ewma <- list(
     epidata = NULL, y = NULL, up_lim = NULL,
     low_lim = NULL, outliers = NULL
