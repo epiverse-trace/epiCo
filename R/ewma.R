@@ -7,15 +7,9 @@
 #' @return The EWMA smoothed vector
 #' @export
 ewma <- function(x, lambda = 0.2, delta = 1e-3) {
-  weights <- rep(0, length(x))
-  weights[1] <- lambda
-
-  n <- 1
-
-  while (n < length(x) && weights[n] > delta) {
-    weights[n + 1] <- lambda * (1 - lambda)^n
-    n <- n + 1
-  }
+    weights <- lambda * (1 - lambda)^(seq_along(x)-1)
+    set_to_zero <- which(weights <= delta)[-1]
+    weights[set_to_zero] <- 0
 
   y <- x
 
