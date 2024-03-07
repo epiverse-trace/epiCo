@@ -1,8 +1,8 @@
 ---
-title: "epiCo - Demographic module"
+title: "Analyzing demographic data with epiCo"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{epiCo - Demographic module}
+  %\VignetteIndexEntry{Analyzing demographic data with epiCo}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
