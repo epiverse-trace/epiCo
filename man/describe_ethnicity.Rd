@@ -20,7 +20,6 @@ Function that returns the description of the consulted
 ethnicities
 }
 \examples{
-\dontrun{
-describe_ethnicity(c(1, 2, 3, 4))
-}
+describe_ethnicity(round(runif(n = 150, min= 1, max = 4)))
+
 }

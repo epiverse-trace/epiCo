@@ -23,7 +23,10 @@ Function that returns the probability of being infected given
 age and gender
 }
 \examples{
-\dontrun{
-age_risk(c(15, 22), c("M", "F"), population_pyramid, plot = TRUE)
-}
+pop_pyramid <- population_pyramid(15001, 2015, gender = TRUE, total = TRUE, 
+plot = TRUE)
+ages <- stats::rpois(150, lambda = 10)
+genders <- c(rep("M",120),rep("F",30))
+age_risk(age = ages, gender = genders, population_pyramid = pop_pyramid, plot = TRUE)
+
 }

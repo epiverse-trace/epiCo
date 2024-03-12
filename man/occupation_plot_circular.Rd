@@ -18,8 +18,4 @@ A plot to summarize the distribution of ISCO-88 labels
 Function that makes a circular packing plot of a vector of
 ISCO-88 occupation codes
 }
-\examples{
-\dontrun{
-occupation_plot_circular(occupation_data)
-}
-}
+\keyword{internal}

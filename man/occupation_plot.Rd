@@ -20,8 +20,4 @@ A plot to summarize the distribution of ISCO-88 labels
 Function that makes a treemap plot of a vector of ISCO-88
 occupation codes
 }
-\examples{
-\dontrun{
-occupation_plot(occupation_data, gender = TRUE)
-}
-}
+\keyword{internal}

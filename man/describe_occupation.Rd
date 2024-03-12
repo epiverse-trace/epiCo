@@ -22,7 +22,10 @@ Function that translates a vector of ISCO-88 occupation codes
 into a vector of labels
 }
 \examples{
-\dontrun{
-describe_occupation(c(3221, 6111), c("F", "M"), plot = "treeemap")
-}
+demog_data <- data.frame(occupation_label =
+c(6111, 3221, 5113, 5133, 6111, 23, 25),
+gender = c("F", "M", "F", "F", "M", "M", "F"))
+describe_occupation(isco_codes = demog_data$occupation_label,
+gender = demog_data$gender, plot = "treemap")
+
 }

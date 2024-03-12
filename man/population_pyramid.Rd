@@ -35,7 +35,6 @@ Function that returns the population pyramid of the municipality
 or department of a specific year
 }
 \examples{
-\dontrun{
-population_pyramid(15001, 2015, total = TRUE, plot = TRUE)
-}
+population_pyramid(15001, 2015, gender = TRUE, total = TRUE, plot = TRUE)
+
 }
