@@ -33,7 +33,7 @@
 #' 
 #' @export
 endemic_channel <- function(incidence_historic, observations = NULL,
-                            method = c("mean", "median", "geometric",
+                            method = c("geometric", "median", "mean",
                                        "unusual_behavior"),
                             geometric_method = "shifted",
                             outlier_years = NULL,
@@ -283,7 +283,7 @@ endemic_outliers <- function(historic, outlier_years, outliers_handling,
     handling <- as.numeric(colMeans(historic))
     handling <- t(replicate(length(outlier_years), handling))
     historic[outlier_years, ] <- handling
-  } else if (outliers_handling == "replaced_by_geometric_mean") {
+  } else {
     if (geometric_method == "optimized") {
       handling <- apply(historic,
         MARGIN = 2, FUN = geometric_mean,
@@ -300,8 +300,6 @@ endemic_outliers <- function(historic, outlier_years, outliers_handling,
     handling <- t(replicate(length(outlier_years), handling))
 
     historic[outlier_years, ] <- handling
-  } else {
-    stop("Error in outlier years handling")
   }
   return(historic)
 }

@@ -201,6 +201,16 @@ test_that("describe occupation works as expected", {
   expect_type(describe_occupation(c(1111, 4141), gender = c("F", "M")),
     type = "list"
   )
+  expect_type(describe_occupation(c(1111, 4141),
+                                  gender = c("F", "M"),
+                                  plot = "treemap"),
+              type = "list"
+  )
+  expect_type(describe_occupation(c(1111, 4141),
+                                  gender = c("F", "M"),
+                                  plot = "circular"),
+              type = "list"
+  )
   expect_type(describe_occupation(c(1111, 4141), plot = NULL),
     type = "list"
   )
