@@ -9,10 +9,8 @@
 #' @return neighborhood object according to the introduced threshold.
 #'
 #' @examples
-#' \dontrun{
 #' query_vector <- c(5001, 5002, 5004, 5021, 5030, 5615, 5607)
-#' neighborhood(query_vector, 2)
-#' }
+#' neighborhoods(query_vector, 2)
 #'
 #' @export
 neighborhoods <- function(query_vector, threshold = 2) {
