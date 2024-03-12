@@ -1,42 +1,51 @@
 Package: epiCo
-Title: Statistical and Visualization Tools for the Analysis of Outbreaks of Vector-Borne Diseases (VBDs) in Colombia
+Title: Statistical and Visualization Tools for the Analysis of
+    Outbreaks of Vector-Borne Diseases (VBDs) in Colombia
 Version: 0.3.0
-Authors@R: 
-    c(person("Juan D.", "Umaña", , "jd.umana10@uniandes.edu.co", role = c("aut", "cre")),
-      person("Juan", "Montenegro-Torres", , "jf.montenegro@uniandes.edu.co", role = c("aut")),
-      person("Julian", "Otero", , "jd.otero10@uniandes.edu.co", role = c("aut")),
-      person("Hugo", "Gruson", , "hugo@data.org", role = c("ctb")))
-Description: Provides statistical and visualization tools for the analysis of demographic indicators, and spatio-temporal behavior and characterization of outbreaks of vector-borne diseases (VBDs) in Colombia. It implements travel times estimated from [Bravo-Vega C., Santos-Vega M., & Cordovez J.M. (2022)](https://doi.org/10.1371/journal.pntd.0011117), and the endemic chanel method [Bortman, M. (1999)](https://iris.paho.org/handle/10665.2/8562).
+Authors@R (parsed):
+    * Juan D. Umaña <jd.umana10@uniandes.edu.co> [aut, cre]
+    * Juan Montenegro-Torres <jf.montenegro@uniandes.edu.co> [aut]
+    * Julian Otero <jd.otero10@uniandes.edu.co> [aut]
+    * Hugo Gruson <hugo@data.org> [ctb]
+Description: Provides statistical and visualization tools for the
+    analysis of demographic indicators, and spatio-temporal behavior and
+    characterization of outbreaks of vector-borne diseases (VBDs) in
+    Colombia. It implements travel times estimated from [Bravo-Vega C.,
+    Santos-Vega M., & Cordovez J.M.
+    (2022)](https://doi.org/10.1371/journal.pntd.0011117), and the endemic
+    chanel method [Bortman, M.
+    (1999)](https://iris.paho.org/handle/10665.2/8562).
 License: MIT + file LICENSE
-Encoding: UTF-8
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+URL: https://github.com/epiverse-trace/epiCo
+BugReports: https://github.com/epiverse-trace/epiCo/issues
+Depends:
+    R (>= 3.2.0)
 Imports:
     dplyr,
-    spdep,
-    incidence,
-    lubridate,
     ggplot2,
-    treemapify,
-    RColorBrewer,
-    leaflet,
-    utils,
-    stats,
-    magrittr,
-    rlang,
+    ggraph,
     igraph,
-    ggraph
-Suggests: 
+    incidence,
+    leaflet,
+    lubridate,
+    magrittr,
+    RColorBrewer,
+    rlang,
+    spdep,
+    stats,
+    treemapify,
+    utils
+Suggests:
     checkmate,
     covr,
     knitr,
     rmarkdown,
     testthat (>= 3.0.0)
-Config/testthat/edition: 3
+VignetteBuilder:
+    knitr
 Config/Needs/website: epiverse-trace/epiversetheme
-Depends: 
-    R (>= 3.2.0)
-VignetteBuilder: knitr
+Config/testthat/edition: 3
+Encoding: UTF-8
 LazyData: true
-URL: https://github.com/epiverse-trace/epiCo
-BugReports: https://github.com/epiverse-trace/epiCo/issues
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
