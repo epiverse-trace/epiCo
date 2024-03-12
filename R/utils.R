@@ -68,6 +68,8 @@ epi_calendar <- function(year, jan_days = 4) {
 #'
 #' @examples
 #' \dontrun{
+#' # To understand this function example refers to the epiCo - Demographic
+#' # module vignette.
 #' incidence_rate(incidence_object, 2)
 #' }
 #'

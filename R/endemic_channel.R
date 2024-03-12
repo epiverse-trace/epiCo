@@ -23,11 +23,14 @@
 #'
 #' @examples
 #' \dontrun{
+#' # To understand how to obtain the incidence object, refer to the Building
+#' # an Endemic Channel with epiCo vignette.
 #' endemic_channel(observations, incidence_historic,
 #'   method = "geometric",
 #'   outliers_handling = "replace_with_median", plot = TRUE
 #' )
 #' }
+#' 
 #' @export
 endemic_channel <- function(incidence_historic, observations = NULL,
                             method = c("mean", "median", "geometric",
@@ -265,13 +268,6 @@ endemic_channel <- function(incidence_historic, observations = NULL,
 #'
 #' @return A modified historic incidence
 #'
-#' @examples
-#' \dontrun{
-#' endemic_outliers(historic, outlier_years, outliers_handling,
-#'   geometric_method = "shifted"
-#' )
-#' }
-#'
 #' @keywords internal
 endemic_outliers <- function(historic, outlier_years, outliers_handling,
                              geometric_method = "shifted") {
@@ -323,11 +319,6 @@ endemic_outliers <- function(historic, outlier_years, outliers_handling,
 #' outlier years
 #'
 #' @return The ggplot object with the endemic channel plot
-#'
-#' @examples
-#' \dontrun{
-#' endemic_plot(channel_data, method, outlier_years, outliers_handling)
-#' }
 #'
 #' @keywords internal
 endemic_plot <- function(channel_data, method,

@@ -56,8 +56,11 @@ neighborhoods <- function(query_vector, threshold = 2) {
 #'
 #' @examples
 #' \dontrun{
+#' # To understand how to obtain the incidence object, refer to the
+#' # Spatiotemporal analyses with epiCo vignette.
 #' morans_index(incidence_object, 2, FALSE)
 #' }
+#' 
 #' @export
 morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
                          plot = TRUE) {
