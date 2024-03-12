@@ -37,6 +37,9 @@ from a given incidence_rate object grouped by municipality.
 }
 \examples{
 \dontrun{
+# To understand how to obtain the incidence object, refer to the
+# Spatiotemporal analyses with epiCo vignette.
 morans_index(incidence_object, 2, FALSE)
 }
+
 }

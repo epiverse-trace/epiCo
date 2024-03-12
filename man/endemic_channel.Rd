@@ -49,9 +49,12 @@ series based on the selected method and windows of observation
 }
 \examples{
 \dontrun{
+# To understand how to obtain the incidence object, refer to the Building
+# an Endemic Channel with epiCo vignette.
 endemic_channel(observations, incidence_historic,
   method = "geometric",
   outliers_handling = "replace_with_median", plot = TRUE
 )
 }
+
 }

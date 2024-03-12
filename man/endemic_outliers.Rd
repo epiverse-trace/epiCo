@@ -40,12 +40,4 @@ A modified historic incidence
 Function that modifies an historic incidence by including,
 ignoring or replacing the observations of epidemic years
 }
-\examples{
-\dontrun{
-endemic_outliers(historic, outlier_years, outliers_handling,
-  geometric_method = "shifted"
-)
-}
-
-}
 \keyword{internal}
