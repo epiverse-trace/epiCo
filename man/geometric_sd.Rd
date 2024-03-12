@@ -41,9 +41,7 @@ Function that returns the geometric standard deviation of a
 vector of real numbers according to the selected method.
 }
 \examples{
-\dontrun{
 x <- c(4, 5, 3, 7, 8)
-geom_sd(x, method = "optimized")
-}
+geometric_sd(x, method = "optimized")
 
 }

@@ -20,9 +20,7 @@ Function to build neighborhoods from real travel distances
 inside Colombia by land or river transport.
 }
 \examples{
-\dontrun{
 query_vector <- c(5001, 5002, 5004, 5021, 5030, 5615, 5607)
-neighborhood(query_vector, 2)
-}
+neighborhoods(query_vector, 2)
 
 }

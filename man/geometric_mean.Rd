@@ -42,9 +42,7 @@ Function that returns the geometric mean of a vector of real
 numbers according to the selected method.
 }
 \examples{
-\dontrun{
 x <- c(4, 5, 3, 7, 8)
-geom_mean(x, method = "optimized")
-}
+geometric_mean(x, method = "optimized")
 
 }
