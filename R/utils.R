@@ -11,9 +11,7 @@
 #' weeks of the given year.
 #'
 #' @examples
-#' \dontrun{
 #' epi_calendar(2016)
-#' }
 #'
 #' @export
 epi_calendar <- function(year, jan_days = 4) {
@@ -70,6 +68,8 @@ epi_calendar <- function(year, jan_days = 4) {
 #'
 #' @examples
 #' \dontrun{
+#' # To understand this function example refers to the epiCo - Demographic
+#' # module vignette.
 #' incidence_rate(incidence_object, 2)
 #' }
 #'
@@ -171,10 +171,8 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
 #' optimized method is used.
 #'
 #' @examples
-#' \dontrun{
 #' x <- c(4, 5, 3, 7, 8)
-#' geom_mean(x, method = "optimized")
-#' }
+#' geometric_mean(x, method = "optimized")
 #'
 #' @export
 geometric_mean <- function(x, method = c("positive", "shifted",
@@ -289,10 +287,8 @@ geometric_mean <- function(x, method = c("positive", "shifted",
 #' optimized method is used.
 #'
 #' @examples
-#' \dontrun{
 #' x <- c(4, 5, 3, 7, 8)
-#' geom_sd(x, method = "optimized")
-#' }
+#' geometric_sd(x, method = "optimized")
 #'
 #' @export
 geometric_sd <- function(x, method = c("positive", "shifted",

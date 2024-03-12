@@ -24,10 +24,4 @@ The ggplot object with the endemic channel plot
 \description{
 Function that creates the endemic channel plot
 }
-\examples{
-\dontrun{
-endemic_plot(channel_data, method, outlier_years, outliers_handling)
-}
-
-}
 \keyword{internal}
