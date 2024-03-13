@@ -84,11 +84,10 @@ endemic_channel <- function(incidence_historic, observations = NULL,
       new_date <- paste(as.character(first_year + 1), "01-01", sep = "-")
       incidence_historic <- incidence_historic[incidence_historic$dates >=
         as.Date(new_date)]
-      msg <- paste(
-        "Data prior to", new_date,
-        "were not used for the endemic channel calculation."
+      warning(
+        "Data prior to ", new_date,
+        " were not used for the endemic channel calculation."
       )
-      warning(msg)
     }
     if (lubridate::month(incidence_historic$dates[
       length(incidence_historic$dates)
@@ -99,11 +98,10 @@ endemic_channel <- function(incidence_historic, observations = NULL,
       new_date <- paste(as.character(last_year - 1), "12-01", sep = "-")
       incidence_historic <- incidence_historic[incidence_historic$dates <=
         as.Date(new_date)]
-      msg <- paste(
-        "Data after", new_date,
-        "were not used for the endemic channel calculation."
+      warning(
+        "Data after ", new_date,
+        " were not used for the endemic channel calculation."
       )
-      warning(msg)
     }
     counts_historic <- as.numeric(incidence::get_counts(
       incidence_historic
@@ -115,11 +113,10 @@ endemic_channel <- function(incidence_historic, observations = NULL,
       new_date <- epiCo::epi_calendar(first_year + 1)[1]
       incidence_historic <- incidence_historic[incidence_historic$dates >=
         new_date]
-      msg <- paste(
-        "Data prior to", new_date,
-        "were not used for the endemic channel calculation."
+      warning(
+        "Data prior to ", new_date,
+        " were not used for the endemic channel calculation."
       )
-      warning(msg)
     }
     last_year <- lubridate::epiyear(incidence_historic$dates[
       length(incidence_historic$dates)
@@ -134,11 +131,10 @@ endemic_channel <- function(incidence_historic, observations = NULL,
       ]
       incidence_historic <- incidence_historic[incidence_historic$dates <=
         as.Date(new_date)]
-      msg <- paste(
+      warning(
         "Data after", new_date,
         "were not used for the endemic channel calculation."
       )
-      warning(msg)
     }
     counts_historic <- as.numeric(incidence::get_counts(
       incidence_historic
@@ -283,18 +279,15 @@ endemic_outliers <- function(historic, outlier_years, outliers_handling,
     handling <- as.numeric(colMeans(historic))
     handling <- t(replicate(length(outlier_years), handling))
     historic[outlier_years, ] <- handling
-  } else {
-    if (geometric_method == "optimized") {
-      handling <- apply(historic,
-        MARGIN = 2, FUN = geometric_mean,
-        method = geometric_method
-      )
+  } else if (outliers_handling == "replaced_by_geom_mean") {
+    handling <- apply(historic,
+      MARGIN = 2, FUN = geom_mean,
+      method = geom_method
+    )
+    if (geom_method == "optimized") {
       handling <- as.numeric(handling[1, ])
     } else {
-      handling <- as.numeric(apply(historic,
-        MARGIN = 2, FUN = geometric_mean,
-        method = geometric_method
-      ))
+      handling <- as.numeric(handling)
     }
 
     handling <- t(replicate(length(outlier_years), handling))

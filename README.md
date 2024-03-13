@@ -56,7 +56,7 @@ All features are performed automatically from epidemiological, demographic, spat
 
 ### Lifecycle
 
-This package is currently a *mature* product, as defined by the [RECON software
+This package is currently a *maturing* product, as defined by the [RECON software
 lifecycle](https://www.reconverse.org/lifecycle.html). This means that
 essential features and mechanisms are functional, documented, and tested.
 However, is in code review stage and is being socialized with expert users.
