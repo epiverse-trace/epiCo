@@ -77,14 +77,8 @@ population_pyramid <- function(divipola_code, year, gender = TRUE, range = 5,
     stop("There is no location assigned to the consulted DIVIPOLA code")
   }
 
-  female_total <- vector(length = length(seq(
-    0, length(female_counts) - range,
-    range
-  )))
-  male_total <- vector(length = length(seq(
-    0, length(female_counts) - range,
-    range
-  )))
+  female_total <- vector("integer", length = length(female_counts) %/% range)
+  male_total <- vector("integer", length = length(male_counts) %/% range)
   cont <- 1
   for (h in seq(1, length(female_counts) - range, range)) {
     female_total[cont] <- sum(female_counts[h:(h + range - 1)])
@@ -488,11 +482,10 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
   )
 
   if (length(invalid_codes) > 0) {
-    msg <- paste(
+    warning(
       length(invalid_codes),
       "codes are invalid."
     )
-    warning(msg)
   }
 
   if (!is.null(gender)) {
@@ -572,19 +565,19 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
     )
     occupation_data <- merge(occupation_data,
       occupation_data_unit,
-      all = T
+      all = TRUE
     )
     occupation_data <- merge(occupation_data,
       occupation_data_minor,
-      all = T
+      all = TRUE
     )
     occupation_data <- merge(occupation_data,
       occupation_data_sub_major,
-      all = T
+      all = TRUE
     )
     occupation_data <- merge(occupation_data,
       occupation_data_major,
-      all = T
+      all = TRUE
     )
     occupation_data <- list(occupation_data[, c(
       "major", "major_label",
@@ -677,19 +670,19 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
     )
     occupation_data <- merge(occupation_data,
       occupation_data_unit,
-      all = T
+      all = TRUE
     )
     occupation_data <- merge(occupation_data,
       occupation_data_minor,
-      all = T
+      all = TRUE
     )
     occupation_data <- merge(occupation_data,
       occupation_data_sub_major,
-      all = T
+      all = TRUE
     )
     occupation_data <- merge(occupation_data,
       occupation_data_major,
-      all = T
+      all = TRUE
     )
     occupation_data <- list(occupation_data[, c(
       "major", "major_label",
