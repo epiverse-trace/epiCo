@@ -360,7 +360,6 @@ describe_ethnicity <- function(ethnic_labels, language = "ES") {
     "The only languages allowed are ES and EN" = language %in% c("ES", "EN")
   )
   ethnic_labels <- as.data.frame(ethnic_labels)
-  # nolint start
   #### ESPA<U+00D1>OL ####
   indigena_es <- paste(
     "Persona de ascendencia amerindia que comparten sentimientos de",
