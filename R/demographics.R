@@ -592,7 +592,7 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
         )
         plot(occupation_data$occupation_plot)
       } else if (plot == "circular") {
-        warning(
+        message(
           "Remember that the circular plot does not distinguish by gender."
         )
         occupation_data$occupation_plot <- occupation_plot_circular(occupation_data)
