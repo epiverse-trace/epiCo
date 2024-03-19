@@ -29,7 +29,7 @@ neighborhoods <- function(query_vector, threshold = 2) {
     warning("municipality ", i, " was not found")
   }
   adjacency_matrix <- as.matrix(distance <= threshold)
-  list_weights <- spdep::mat2listw(adjacency_matrix)
+  list_weights <- spdep::mat2listw(adjacency_matrix, style = "B")
   neighborhoods <- list_weights$neighbours
   return(neighborhoods)
 }

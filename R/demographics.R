@@ -714,7 +714,7 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
 #' 
 #' @keywords internal
 occupation_plot <- function(occupation_data, gender = FALSE, q = 0.9) {
-  occupation_data <- occupation_data[[1]]
+  occupation_data <- na.omit(occupation_data[[1]])
   occupation_data_q <- subset(
     occupation_data,
     !is.na(occupation_data$unit_label)
@@ -799,7 +799,7 @@ occupation_plot <- function(occupation_data, gender = FALSE, q = 0.9) {
 #' 
 #' @keywords internal
 occupation_plot_circular <- function(occupation_data, q = 0.9) {
-  occupation_data <- occupation_data[[1]]
+  occupation_data <- na.omit(occupation_data[[1]])
   occupation_data_q <- subset(
     occupation_data,
     !is.na(occupation_data$unit_label)
@@ -807,7 +807,7 @@ occupation_plot_circular <- function(occupation_data, q = 0.9) {
   occupation_data_q <- subset(
     occupation_data_q,
     occupation_data_q$count >= stats::quantile(
-      occupation_data$count,
+      occupation_data_q$count,
       q
     )
   )

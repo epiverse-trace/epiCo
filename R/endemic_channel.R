@@ -84,7 +84,7 @@ endemic_channel <- function(incidence_historic, observations = NULL,
       new_date <- paste(as.character(first_year + 1), "01-01", sep = "-")
       incidence_historic <- incidence_historic[incidence_historic$dates >=
         as.Date(new_date)]
-      warning(
+      message(
         "Data prior to ", new_date,
         " were not used for the endemic channel calculation."
       )
@@ -98,7 +98,7 @@ endemic_channel <- function(incidence_historic, observations = NULL,
       new_date <- paste(as.character(last_year - 1), "12-01", sep = "-")
       incidence_historic <- incidence_historic[incidence_historic$dates <=
         as.Date(new_date)]
-      warning(
+      message(
         "Data after ", new_date,
         " were not used for the endemic channel calculation."
       )
@@ -113,7 +113,7 @@ endemic_channel <- function(incidence_historic, observations = NULL,
       new_date <- epiCo::epi_calendar(first_year + 1)[1]
       incidence_historic <- incidence_historic[incidence_historic$dates >=
         new_date]
-      warning(
+      message(
         "Data prior to ", new_date,
         " were not used for the endemic channel calculation."
       )
@@ -131,9 +131,9 @@ endemic_channel <- function(incidence_historic, observations = NULL,
       ]
       incidence_historic <- incidence_historic[incidence_historic$dates <=
         as.Date(new_date)]
-      warning(
+      message(
         "Data after", new_date,
-        "were not used for the endemic channel calculation."
+        " were not used for the endemic channel calculation."
       )
     }
     counts_historic <- as.numeric(incidence::get_counts(
