@@ -29,7 +29,7 @@ neighborhoods <- function(query_vector, threshold = 2) {
     warning("municipality ", i, " was not found")
   }
   adjacency_matrix <- as.matrix(distance <= threshold)
-  list_weights <- spdep::mat2listw(adjacency_matrix, style = "B")
+  list_weights <- spdep::mat2listw(adjacency_matrix, style = "W")
   neighborhoods <- list_weights$neighbours
   return(neighborhoods)
 }
@@ -60,7 +60,6 @@ neighborhoods <- function(query_vector, threshold = 2) {
 #' # Spatiotemporal analyses with epiCo vignette.
 #' morans_index(incidence_object, 2, FALSE)
 #' }
-#' 
 #' @export
 morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
                          plot = TRUE) {
@@ -128,11 +127,10 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
     # Influential observations
     cat(
       sprintf(
-        "%s with %s incidence and %s spatial correlation",
+        "%s with %s (incidence - spatial correlation)",
         infl_mpios$labels,
-        ifelse(substr(infl_mpios$cluster, 1, 1) == "H", "high", "low"),
-        ifelse(substr(infl_mpios$cluster, 2, 2) == "H", "high", "low")
-      ), 
+        infl_mpios$cluster
+      ),
     sep = "\n")
   }
   # Plot

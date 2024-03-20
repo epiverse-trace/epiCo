@@ -2,7 +2,6 @@
 #'
 #' @description Function that returns the population pyramid of the municipality
 #' or department of a specific year
-#' 
 #' @param divipola_code A numeric code accounting for the territory of interest
 #' @param year A numeric input for the year of interest
 #' @param gender A boolean to consult data disaggregated by gender
@@ -10,14 +9,10 @@
 #' @param total A boolean for returning the total number rather than the
 #' proportion of the country's population
 #' @param plot A boolean for displaying a plot
-#' 
 #' @importFrom rlang .data
-#' 
 #' @return A dataframe with the proportion or total count of individuals
-#' 
 #' @examples
 #' population_pyramid(15001, 2015, gender = TRUE, total = TRUE, plot = TRUE)
-#' 
 #' @export
 population_pyramid <- function(divipola_code, year, gender = TRUE, range = 5,
                                total = TRUE, plot = FALSE) {
@@ -182,23 +177,19 @@ population_pyramid <- function(divipola_code, year, gender = TRUE, range = 5,
 #'
 #' @description Function that returns the probability of being infected given
 #' age and gender
-#'
 #' @param age A vector with the ages of cases in years from 0 to 100 years
 #' @param gender A vector with the gender of cases 'F' and 'M'
 #' @param population_pyramid A dataframe with the count of individuals
 #' @param plot A boolean for displaying a plot
-#'
 #' @importFrom rlang .data
-#'
 #' @return A dataframe with the proportion or total count of individuals
-#' 
 #' @examples
-#' pop_pyramid <- population_pyramid(15001, 2015, gender = TRUE, total = TRUE, 
+#' pop_pyramid <- population_pyramid(15001, 2015, gender = TRUE, total = TRUE,
 #' plot = TRUE)
 #' ages <- stats::rpois(150, lambda = 10)
 #' genders <- c(rep("M",120),rep("F",30))
-#' age_risk(age = ages, gender = genders, population_pyramid = pop_pyramid, plot = TRUE)
-#' 
+#' age_risk(age = ages, gender = genders, population_pyramid = pop_pyramid,
+#' plot = TRUE)
 #' @export
 age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
   stopifnot("`age` must be an integer numeric vector with values
@@ -342,16 +333,12 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
 #'
 #' @description Function that returns the description of the consulted
 #' ethnicities
-#' 
 #' @param ethnic_labels A numeric vector with the codes of ethnicities to
 #' consult
 #' @param language "ES" for description in Spanish "EN" for English
-#'
 #' @return A printed message with ethnicities descriptions
-#' 
 #' @examples
 #' describe_ethnicity(round(runif(n = 150, min= 1, max = 4)))
-#' 
 #' @export
 describe_ethnicity <- function(ethnic_labels, language = "ES") {
   stopifnot(
@@ -430,7 +417,7 @@ describe_ethnicity <- function(ethnic_labels, language = "ES") {
   descrip_es <- descriptions_es[labels]
 
   if (language == "EN") {
-    return(data.frame(Label = labels, Description = descrip_es))
+    return(data.frame(Label = labels, Description = descrip_en))
   } else {
     return(data.frame(Etiqueta = labels, Descripcion = descrip_es))
   }
@@ -440,21 +427,17 @@ describe_ethnicity <- function(ethnic_labels, language = "ES") {
 #'
 #' @description Function that translates a vector of ISCO-88 occupation codes
 #' into a vector of labels
-#' 
 #' @param isco_codes A numeric vector of ISCO-88 occupation codes
 #' (major, submajor, minor, or unit)
 #' @param gender A vector with the isco_codes vector genders
 #' @param plot A type of plot between treemap and circular  packing
-#' 
 #' @return A string vector of ISCO-88 labels
-#' 
 #' @examples
 #' demog_data <- data.frame(occupation_label =
 #' c(6111, 3221, 5113, 5133, 6111, 23, 25),
 #' gender = c("F", "M", "F", "F", "M", "M", "F"))
 #' describe_occupation(isco_codes = demog_data$occupation_label,
 #' gender = demog_data$gender, plot = "treemap")
-#' 
 #' @export
 describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
   path <- system.file("extdata", "isco88_table.rda", package = "epiCo")
@@ -595,7 +578,9 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
         message(
           "Remember that the circular plot does not distinguish by gender."
         )
-        occupation_data$occupation_plot <- occupation_plot_circular(occupation_data)
+        occupation_data$occupation_plot <- occupation_plot_circular(
+          occupation_data
+          )
         plot(occupation_data$occupation_plot)
       }
     }
@@ -693,7 +678,9 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
         occupation_data$occupation_plot <- occupation_plot(occupation_data)
         plot(occupation_data$occupation_plot)
       } else if (plot == "circular") {
-        occupation_data$occupation_plot <- occupation_plot_circular(occupation_data)
+        occupation_data$occupation_plot <- occupation_plot_circular(
+          occupation_data
+          )
         plot(occupation_data$occupation_plot)
       }
     }
@@ -704,14 +691,11 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
 #' Distribution plots for ISCO-88 occupation labels
 #'
 #' @description Function that makes a treemap plot of a vector of ISCO-88
-#' occupation codes
-#' 
+#' occupation codes}
 #' @param occupation_data A dataframe
 #' @param gender A boolean for gender data
 #' @param q A number that represents the quantile
-#' 
 #' @return A plot to summarize the distribution of ISCO-88 labels
-#' 
 #' @keywords internal
 occupation_plot <- function(occupation_data, gender = FALSE, q = 0.9) {
   occupation_data <- na.omit(occupation_data[[1]])
@@ -727,9 +711,7 @@ occupation_plot <- function(occupation_data, gender = FALSE, q = 0.9) {
   label_count <- dplyr::count(occupation_data_q, .data$sub_major_label)
 
   label_count <- label_count[order(label_count$n, decreasing = TRUE), ]
-  n_labels <- ifelse(nrow(label_count) < 12,
-    nrow(label_count), 12
-  )
+  n_labels <- pmin(nrow(label_count), 12)
 
   labels <- label_count[1:n_labels, ]
 
@@ -791,12 +773,9 @@ occupation_plot <- function(occupation_data, gender = FALSE, q = 0.9) {
 #'
 #' @description Function that makes a circular packing plot of a vector of
 #' ISCO-88 occupation codes
-#' 
 #' @param occupation_data A dataframe
 #' @param q A number that represents the quantile
-#' 
 #' @return A plot to summarize the distribution of ISCO-88 labels
-#' 
 #' @keywords internal
 occupation_plot_circular <- function(occupation_data, q = 0.9) {
   occupation_data <- na.omit(occupation_data[[1]])
@@ -815,9 +794,7 @@ occupation_plot_circular <- function(occupation_data, q = 0.9) {
   label_count <- dplyr::count(occupation_data_q, .data$sub_major_label)
 
   label_count <- label_count[order(label_count$n, decreasing = TRUE), ]
-  n_labels <- ifelse(nrow(label_count) < 12,
-    nrow(label_count), 12
-  )
+  n_labels <- pmin(nrow(label_count), 12)
 
   labels <- label_count[1:n_labels, ]
 
@@ -836,7 +813,8 @@ occupation_plot_circular <- function(occupation_data, q = 0.9) {
 
   circle_edges <- data.frame(
     from = as.character(sub_occupation_data$sub_major_label),
-    to = as.character(sub_occupation_data$unit_label)
+    to = as.character(sub_occupation_data$unit_label),
+    stringsAsFactors = FALSE
   )
 
   circle_vertices <- data.frame(

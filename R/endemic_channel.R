@@ -30,7 +30,6 @@
 #'   outliers_handling = "replace_with_median", plot = TRUE
 #' )
 #' }
-#' 
 #' @export
 endemic_channel <- function(incidence_historic, observations = NULL,
                             method = c("geometric", "median", "mean",
@@ -59,7 +58,6 @@ endemic_channel <- function(incidence_historic, observations = NULL,
     "`plot` must be a boolean" =
       (is.logical(plot))
   )
-  
   method <- match.arg(method)
   outliers_handling <- match.arg(outliers_handling)
 
@@ -257,8 +255,8 @@ endemic_channel <- function(incidence_historic, observations = NULL,
 #' median and take into account
 #' - replaced_by_mean = data from outlier years will be replaced with the
 #' mean and take into account
-#' - replaced_by_geometric_mean = data from outlier years will be replaced with the
-#' geometric mean and take into account
+#' - replaced_by_geometric_mean = data from outlier years will be replaced with
+#' the geometric mean and take into account
 #' @param geometric_method A string with the selected method for geometric mean
 #' calculation; see: geometric_mean
 #'
@@ -281,10 +279,10 @@ endemic_outliers <- function(historic, outlier_years, outliers_handling,
     historic[outlier_years, ] <- handling
   } else if (outliers_handling == "replaced_by_geom_mean") {
     handling <- apply(historic,
-      MARGIN = 2, FUN = geom_mean,
-      method = geom_method
+      MARGIN = 2, FUN = geometric_mean,
+      method = geometric_method
     )
-    if (geom_method == "optimized") {
+    if (geometric_method == "optimized") {
       handling <- as.numeric(handling[1, ])
     } else {
       handling <- as.numeric(handling)

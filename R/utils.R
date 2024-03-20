@@ -176,7 +176,7 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
 #'
 #' @export
 geometric_mean <- function(x, method = c("positive", "shifted",
-                                         "optimized", "weighted"), 
+                                         "optimized", "weighted"),
                            shift = 1, epsilon = 1e-3) {
   stopifnot(
     "`x`must be numeric" = (is.numeric(x)),
