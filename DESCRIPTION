@@ -2,11 +2,11 @@ Package: epiCo
 Title: Statistical and Visualization Tools for the Analysis of
     Outbreaks of Vector-Borne Diseases (VBDs) in Colombia
 Version: 0.3.0
-Authors@R (parsed):
-    * Juan D. Umaña <jd.umana10@uniandes.edu.co> [aut, cre]
-    * Juan Montenegro-Torres <jf.montenegro@uniandes.edu.co> [aut]
-    * Julian Otero <jd.otero10@uniandes.edu.co> [aut]
-    * Hugo Gruson <hugo@data.org> [ctb]
+Authors@R: 
+    c(person("Juan D.", "Umaña", , "jd.umana10@uniandes.edu.co", role = c("aut", "cre")),
+      person("Juan", "Montenegro-Torres", , "jf.montenegro@uniandes.edu.co", role = c("aut")),
+      person("Julian", "Otero", , "jd.otero10@uniandes.edu.co", role = c("aut")),
+      person("Hugo", "Gruson", , "hugo.gruson+R@normasup.org", role = c("ctb")))
 Description: Provides statistical and visualization tools for the
     analysis of demographic indicators, and spatio-temporal behavior and
     characterization of outbreaks of vector-borne diseases (VBDs) in
@@ -31,6 +31,7 @@ Imports:
     magrittr,
     RColorBrewer,
     rlang,
+    scales,
     spdep,
     stats,
     treemapify,

@@ -36,5 +36,4 @@ or department of a specific year
 }
 \examples{
 population_pyramid(15001, 2015, gender = TRUE, total = TRUE, plot = TRUE)
-
 }

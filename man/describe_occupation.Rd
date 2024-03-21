@@ -27,5 +27,4 @@ c(6111, 3221, 5113, 5133, 6111, 23, 25),
 gender = c("F", "M", "F", "F", "M", "M", "F"))
 describe_occupation(isco_codes = demog_data$occupation_label,
 gender = demog_data$gender, plot = "treemap")
-
 }

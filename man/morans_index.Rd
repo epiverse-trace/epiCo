@@ -41,5 +41,4 @@ from a given incidence_rate object grouped by municipality.
 # Spatiotemporal analyses with epiCo vignette.
 morans_index(incidence_object, 2, FALSE)
 }
-
 }

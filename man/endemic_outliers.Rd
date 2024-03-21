@@ -26,8 +26,8 @@ outlier years
 median and take into account
 \item replaced_by_mean = data from outlier years will be replaced with the
 mean and take into account
-\item replaced_by_geometric_mean = data from outlier years will be replaced with the
-geometric mean and take into account
+\item replaced_by_geometric_mean = data from outlier years will be replaced with
+the geometric mean and take into account
 }}
 
 \item{geometric_method}{A string with the selected method for geometric mean
