@@ -362,20 +362,20 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
 #'
 #' @description Function that returns the description of the consulted
 #' ethnicities
-#' @param ethnic_labels A numeric vector with the codes of ethnicities to
+#' @param ethnic_codes A numeric vector with the codes of ethnicities to
 #' consult
 #' @param language "ES" for description in Spanish "EN" for English
 #' @return A printed message with ethnicities descriptions
 #' @examples
 #' describe_ethnicity(round(runif(n = 150, min= 1, max = 4)))
 #' @export
-describe_ethnicity <- function(ethnic_labels, language = "ES") {
+describe_ethnicity <- function(ethnic_codes, language = "ES") {
   stopifnot(
-    "`ethnic_labels` must be a numeric vector" =
-      is.numeric(ethnic_labels),
+    "`ethnic_codes` must be a numeric vector" =
+      is.numeric(ethnic_codes),
     "The only languages allowed are ES and EN" = language %in% c("ES", "EN")
   )
-  ethnic_labels <- as.data.frame(ethnic_labels)
+  ethnic_codes <- as.data.frame(ethnic_codes)
   #### ESPA<U+00D1>OL ####
   indigena_es <- paste(
     "Persona de ascendencia amerindia que comparten sentimientos de",
@@ -441,14 +441,14 @@ describe_ethnicity <- function(ethnic_labels, language = "ES") {
   descriptions_es <- c(indigena_es, rom_es, raizal_es, palenquero_es, afro_es)
   descriptions_en <- c(indigena_en, rom_en, raizal_en, palenquero_en, afro_en)
 
-  labels <- sort(unique(ethnic_labels$ethnic_labels))
-  descrip_en <- descriptions_en[labels]
-  descrip_es <- descriptions_es[labels]
+  codes <- sort(unique(ethnic_codes$ethnic_codes))
+  descrip_en <- descriptions_en[codes]
+  descrip_es <- descriptions_es[codes]
 
   if (language == "EN") {
-    return(data.frame(Label = labels, Description = descrip_en))
+    return(data.frame(code = codes, description = descrip_en))
   } else {
-    return(data.frame(Etiqueta = labels, Descripcion = descrip_es))
+    return(data.frame(codigo = codes, descripcion = descrip_es))
   }
 }
 
