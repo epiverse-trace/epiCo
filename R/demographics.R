@@ -469,18 +469,6 @@ describe_ethnicity <- function(ethnic_codes, language = "ES") {
 #' gender = demog_data$gender, plot = "treemap")
 #' @export
 describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
-  path <- system.file("extdata", "isco88_table.rda", package = "epiCo")
-  load(path)
-  isco88_table <- isco88_table
-  valid_unit_codes <- isco_codes[isco_codes %in% isco88_table[, 7]]
-  valid_minor_codes <- isco_codes[isco_codes %in% isco88_table[, 5]]
-  valid_sub_major_codes <- isco_codes[isco_codes %in% isco88_table[, 3]]
-  valid_major_codes <- isco_codes[isco_codes %in% isco88_table[, 1]]
-  invalid_codes <- isco_codes[!isco_codes %in% c(
-    isco88_table[, 1], isco88_table[, 3],
-    isco88_table[, 5], isco88_table[, 7]
-  )]
-
   stopifnot(
     "`isco_codes` must be a numeric vector" = is.numeric(isco_codes),
     "`plot` must be circular or treemap" = plot %in% c(
@@ -491,13 +479,25 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
     "`isco_codes` must have at least one valid code" =
       (length(isco_codes) != length(invalid_codes))
   )
-
+  path <- system.file("extdata", "isco88_table.rda", package = "epiCo")
+  load(path)
+  isco88_table <- isco88_table
+  invalid_codes <- isco_codes[!isco_codes %in% c(
+    isco88_table$major, isco88_table$sub_major,
+    isco88_table$minor, isco88_table$unit
+  )]
+  
   if (length(invalid_codes) > 0) {
     message(
       length(invalid_codes),
       "codes are invalid."
     )
   }
+  
+  valid_unit_codes <- isco_codes[isco_codes %in% isco88_table$unit]
+  valid_minor_codes <- isco_codes[isco_codes %in% isco88_table$minor]
+  valid_sub_major_codes <- isco_codes[isco_codes %in% isco88_table$sub_major]
+  valid_major_codes <- isco_codes[isco_codes %in% isco88_table$major]
 
   if (!is.null(gender)) {
     stopifnot(
