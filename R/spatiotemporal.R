@@ -136,7 +136,8 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
   # Plot
   if (plot) {
     if (all(is.na(morans_index$quadrant))) {
-      warning("There are no influential municipalities to plot")
+      message("There are no influential municipalities to plot")
+      return(morans_index)
     } else {
       path_2 <- system.file("extdata", "spatial_polygons_col_2.rda",
         package = "epiCo"
@@ -205,8 +206,9 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
           opacity = 1
         )
       # nolint end
-      return(list(moran_data = morans_index, leaflet_map = clusters_plot))
+      return(list(data = morans_index, plot = clusters_plot))
     }
+  } else{
+    return(morans_index) 
   }
-  return(morans_index)
 }

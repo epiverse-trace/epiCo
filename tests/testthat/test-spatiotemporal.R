@@ -61,7 +61,7 @@ test_that("Morans Index errors and warnings are thrown", {
     level = 2,
     threshold = 2, plot = "FALSE"
   ))
-  expect_warning(morans_index(incidence_object,
+  expect_message(morans_index(incidence_object,
     level = 2,
     threshold = 12, plot = TRUE
   ), type = "list")

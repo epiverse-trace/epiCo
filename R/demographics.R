@@ -119,9 +119,10 @@ population_pyramid <- function(divipola_code, year, gender = TRUE, range = 5,
         ggplot2::ylab("Proportion of population")
     }
     print(pop_pyramid_plot)
+    return(list(data = pop_pyramid, plot = pop_pyramid_plot))
+  } else {
+    return(pop_pyramid) 
   }
-
-  return(pop_pyramid)
 }
 
 
@@ -216,7 +217,7 @@ population_pyramid_plot <- function(pop_pyramid, gender = TRUE){
 #' plot = TRUE)
 #' ages <- stats::rpois(150, lambda = 10)
 #' genders <- c(rep("M",120),rep("F",30))
-#' age_risk(age = ages, gender = genders, population_pyramid = pop_pyramid,
+#' age_risk(age = ages, gender = genders, population_pyramid = pop_pyramid$data,
 #' plot = TRUE)
 #' @export
 age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
@@ -291,7 +292,6 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
     )
   }
 
-
   if (plot) {
     if (!is.null(gender)) {
       age_risk_plot <- population_pyramid_plot(age_risk, gender = TRUE)
@@ -307,10 +307,10 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
       # nolint end
     }
     print(age_risk_plot)
+    return(list(data = age_risk, plot = age_risk_plot))
+  } else {
+    return(age_risk) 
   }
-
-
-  return(age_risk)
 }
 
 #' Provides the sociological description of ethnicities in Colombia
@@ -545,28 +545,31 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
       occupation_data_major,
       all = TRUE
     )
-    occupation_data <- list(occupation_data[, c(
+    occupation_data <- occupation_data[, c(
       "major", "major_label",
       "sub_major", "sub_major_label", "minor",
       "minor_label", "unit", "unit_label",
       "gender", "count"
-    )])
+    )]
     if (!is.null(plot)) {
       if (plot == "treemap") {
-        occupation_data$occupation_plot <- occupation_plot(
+        occupation_plot <- occupation_plot(
           occupation_data,
           gender = TRUE
         )
-        plot(occupation_data$occupation_plot)
+        plot(occupation_plot)
       } else if (plot == "circular") {
         message(
           "Remember that the circular plot does not distinguish by gender."
         )
-        occupation_data$occupation_plot <- occupation_plot_circular(
+        occupation_plot <- occupation_plot_circular(
           occupation_data
           )
-        plot(occupation_data$occupation_plot)
+        plot(occupation_plot)
       }
+      return(list(data = occupation_data, plot = occupation_plot))
+    } else {
+      return(occupation_data)
     }
   } else {
     occupation_data_unit <- data.frame(
@@ -652,24 +655,26 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
       occupation_data_major,
       all = TRUE
     )
-    occupation_data <- list(occupation_data[, c(
+    occupation_data <- occupation_data[, c(
       "major", "major_label",
       "sub_major", "sub_major_label", "minor",
       "minor_label", "unit", "unit_label", "count"
-    )])
+    )]
     if (!is.null(plot)) {
       if (plot == "treemap") {
-        occupation_data$occupation_plot <- occupation_plot(occupation_data)
-        plot(occupation_data$occupation_plot)
+        occupation_plot <- occupation_plot(occupation_data)
+        plot(occupation_plot)
       } else if (plot == "circular") {
-        occupation_data$occupation_plot <- occupation_plot_circular(
+        occupation_plot <- occupation_plot_circular(
           occupation_data
           )
-        plot(occupation_data$occupation_plot)
+        plot(occupation_plot)
       }
+      return(list(data = occupation_data, plot = occupation_plot))
+    } else {
+      return(occupation_data)
     }
   }
-  return(occupation_data)
 }
 
 #' Distribution plots for ISCO-88 occupation labels
@@ -682,7 +687,7 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
 #' @return A plot to summarize the distribution of ISCO-88 labels
 #' @keywords internal
 occupation_plot <- function(occupation_data, gender = FALSE, q = 0.9) {
-  occupation_data <- stats::na.omit(occupation_data[[1]])
+  occupation_data <- stats::na.omit(occupation_data)
   occupation_data_q <- subset(
     occupation_data,
     !is.na(occupation_data$unit_label)
@@ -762,7 +767,7 @@ occupation_plot <- function(occupation_data, gender = FALSE, q = 0.9) {
 #' @return A plot to summarize the distribution of ISCO-88 labels
 #' @keywords internal
 occupation_plot_circular <- function(occupation_data, q = 0.9) {
-  occupation_data <- stats::na.omit(occupation_data[[1]])
+  occupation_data <- stats::na.omit(occupation_data)
   occupation_data_q <- subset(
     occupation_data,
     !is.na(occupation_data$unit_label)

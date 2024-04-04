@@ -229,11 +229,7 @@ endemic_channel <- function(incidence_historic, observations = NULL,
       outlier_years, outliers_handling
     )
     plot(endemic_channel_plot)
-    endemic_channel_data <- list(
-      endemic_channel_plot = endemic_channel_plot,
-      channel_data = channel_data
-    )
-    return(endemic_channel_data)
+    return(list(data = channel_data, plot = endemic_channel_plot))
   } else {
     return(channel_data)
   }

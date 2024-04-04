@@ -148,7 +148,7 @@ data_ibague <- data_tolima[data_tolima$cod_mun_o == 73001, ]
 
 age_risk_data <- age_risk(
   age = as.integer(data_ibague$edad),
-  population_pyramid = ibague_pyramid_2019,
+  population_pyramid = ibague_pyramid_2019$data,
   gender = data_ibague$sexo, plot = TRUE
 )
 ```

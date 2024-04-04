@@ -67,7 +67,7 @@ test_that("Population pyramid obtaines data", {
       gender = FALSE,
       total = FALSE,
       plot = TRUE
-    )),
+    )$data),
     c(18L, 2L)
   )
   expect_identical(
@@ -110,7 +110,7 @@ test_that("Population pyramid is not NA", {
     divipola_code = 5001,
     year = 2006,
     plot = TRUE
-  )))
+  )$data))
 
   expect_false(anyNA(population_pyramid(
     divipola_code = 73,
@@ -126,7 +126,7 @@ test_that("Population pyramid is not NA", {
     divipola_code = 73,
     year = 2006,
     plot = TRUE
-  )))
+  )$data))
 
   expect_false(anyNA(population_pyramid(
     divipola_code = 0,
@@ -142,7 +142,7 @@ test_that("Population pyramid is not NA", {
     divipola_code = 0,
     year = 2006,
     plot = TRUE
-  )))
+  )$data))
   expect_false(anyNA(population_pyramid(
     divipola_code = 0,
     year = 2006,
@@ -216,7 +216,8 @@ test_that("describe occupation works as expected", {
   )
 
   expect_length(describe_occupation(c(1110, 4141), plot = "treemap"), n = 2)
-  expect_length(describe_occupation(c(1110, 4141), plot = NULL), n = 1)
+  expect_identical(dim(describe_occupation(c(1110, 4141), plot = NULL)),
+                   c(3L, 9L))
   expect_length(describe_occupation(c(1110, 4141),
     gender = c("F", "M"),
     plot = "circular"
