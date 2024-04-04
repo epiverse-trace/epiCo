@@ -110,7 +110,15 @@ population_pyramid <- function(divipola_code, year, gender = TRUE, range = 5,
   }
 
   if (plot) {
-    population_pyramid_plot(pop_pyramid, gender = gender, total = total)
+    pop_pyramid_plot <- population_pyramid_plot(pop_pyramid, gender = gender)
+    if (total) {
+      pop_pyramid_plot <- pop_pyramid_plot +
+        ggplot2::ylab("Total population")
+    } else {
+      pop_pyramid_plot <- pop_pyramid_plot +
+        ggplot2::ylab("Proportion of population")
+    }
+    print(pop_pyramid_plot)
   }
 
   return(pop_pyramid)
@@ -124,13 +132,11 @@ population_pyramid <- function(divipola_code, year, gender = TRUE, range = 5,
 #'
 #' @param pop_pyramid A dataframe with the age counts
 #' @param gender A boolean to consult data disaggregated by gender
-#' @param total A boolean for returning the total number rather than the
-#' proportion of the country's population
 #'
 #' @return the population pyramid plot
 #'
 #' @keywords internal
-population_pyramid_plot <- function(pop_pyramid, gender = TRUE, total = TRUE){
+population_pyramid_plot <- function(pop_pyramid, gender = TRUE){
   if (gender) {
     female_total <- dplyr::filter(pop_pyramid, .data$gender == "F")$population
     male_total <- dplyr::filter(pop_pyramid, .data$gender == "M")$population
@@ -190,16 +196,6 @@ population_pyramid_plot <- function(pop_pyramid, gender = TRUE, total = TRUE){
       ) +
       ggplot2::coord_flip()
   }
-  
-  if (total) {
-    pop_pyramid_plot <- pop_pyramid_plot +
-      ggplot2::ylab("Total population")
-  } else {
-    pop_pyramid_plot <- pop_pyramid_plot +
-      ggplot2::ylab("Proportion of population")
-  }
-  
-  print(pop_pyramid_plot)
 }
 
 #' Returns the probability mass function of being infected given age and gender
@@ -276,13 +272,13 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
         population_pyramid, sum
       )
     }
-    hist_total <- graphics::hist(age,
+    hist_total <- graphics::hist(
+      age,
       breaks = c(
-        0,
-        population_pyramid$age +
-          (population_pyramid$age[2] -
-            population_pyramid$age[1])
-      ),
+        seq(0, population_pyramid$age[length(population_pyramid$age)],
+            by = (population_pyramid$age[2] - population_pyramid$age[1])),
+        Inf
+        ),
       plot = FALSE
     )
 
