@@ -186,8 +186,10 @@ population_pyramid_plot <- function(pop_pyramid, gender = TRUE){
     ) +
       ggplot2::geom_bar(stat = "identity") +
       ggplot2::scale_y_continuous(
-        breaks = c(dist_pop),
-        labels = c(round(dist_pop, 5))
+        breaks = scales::breaks_extended(n = 8),
+        labels = function(x) {
+          gsub("-", "", x)
+        }
       ) +
       ggplot2::scale_x_continuous(
         name = "Age",
@@ -196,6 +198,7 @@ population_pyramid_plot <- function(pop_pyramid, gender = TRUE){
       ) +
       ggplot2::coord_flip()
   }
+  return(pop_pyramid_plot)
 }
 
 #' Returns the probability mass function of being infected given age and gender
@@ -240,7 +243,7 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
 
     age_risk_female <- data.frame(
       age = pyramid_female$age,
-      prop = hist_female$counts / pyramid_female$population,
+      population = hist_female$counts / pyramid_female$population,
       gender = rep("F", length(pyramid_female$age)),
       stringsAsFactors = FALSE
     )
@@ -259,7 +262,7 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
 
     age_risk_male <- data.frame(
       age = pyramid_male$age,
-      prop = hist_male$counts / pyramid_male$population,
+      population = hist_male$counts / pyramid_male$population,
       gender = rep("M", length(pyramid_male$age)),
       stringsAsFactors = FALSE
     )
@@ -284,69 +287,25 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
 
     age_risk <- data.frame(
       age = population_pyramid$age,
-      prop = hist_total$counts / population_pyramid$population
+      population = hist_total$counts / population_pyramid$population
     )
   }
 
 
   if (plot) {
     if (!is.null(gender)) {
-      age_risk$prop <- c(-1 * age_risk_female$prop, age_risk_male$prop)
-      dist_prop_f <- stats::quantile(age_risk_female$prop)[2:5]
-      dist_prop_m <- stats::quantile(age_risk_male$prop)[2:5]
-      dist_prop <- c(rev(-1 * dist_prop_f), 0, dist_prop_m)
-
-      age_risk_plot <- ggplot2::ggplot(
-        age_risk,
-        ggplot2::aes(
-          x = .data$age,
-          y = .data$prop,
-          fill = .data$gender
-        )
-      ) +
-        ggplot2::geom_bar(
-          data = dplyr::filter(age_risk, .data$gender == "F"),
-          stat = "identity"
-        ) +
-        ggplot2::geom_bar(
-          data = dplyr::filter(age_risk, .data$gender == "M"),
-          stat = "identity"
-        ) +
-        ggplot2::scale_y_continuous(
-          breaks = c(dist_prop)[c(1, 3, 5, 7, 9)],
-          labels = c(round(abs(dist_prop)[c(1, 3, 5, 7, 9)], 5))
-        ) +
-        ggplot2::scale_x_continuous(
-          name = "Age",
-          breaks = unique(population_pyramid$age),
-          labels = unique(population_pyramid$age)
-        ) +
-        ggplot2::coord_flip() +
+      age_risk_plot <- population_pyramid_plot(age_risk, gender = TRUE)
+      age_risk_plot <- age_risk_plot +
         # nolint start
         ggplot2::ylab("Cases / Population")
       # nolint end
     } else {
-      dist_prop <- stats::quantile(age_risk$prop)
-      age_risk_plot <- ggplot2::ggplot(age_risk, ggplot2::aes(
-        x = .data$age,
-        y = .data$prop
-      )) +
-        ggplot2::geom_bar(stat = "identity") +
-        ggplot2::scale_y_continuous(
-          breaks = c(dist_prop),
-          labels = c(round(dist_prop, 5))
-        ) +
-        ggplot2::scale_x_continuous(
-          name = "Age",
-          breaks = unique(population_pyramid$age),
-          labels = unique(population_pyramid$age)
-        ) +
-        ggplot2::coord_flip() +
+      age_risk_plot <- population_pyramid_plot(age_risk, gender = FALSE)
+      age_risk_plot <- age_risk_plot +
         # nolint start
         ggplot2::ylab("Cases / Population")
       # nolint end
     }
-
     print(age_risk_plot)
   }
 
@@ -465,6 +424,13 @@ describe_ethnicity <- function(ethnic_codes, language = "ES") {
 #' gender = demog_data$gender, plot = "treemap")
 #' @export
 describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
+  path <- system.file("extdata", "isco88_table.rda", package = "epiCo")
+  load(path)
+  isco88_table <- isco88_table
+  invalid_codes <- isco_codes[!isco_codes %in% c(
+    isco88_table$major, isco88_table$sub_major,
+    isco88_table$minor, isco88_table$unit
+  )]
   stopifnot(
     "`isco_codes` must be a numeric vector" = is.numeric(isco_codes),
     "`plot` must be circular or treemap" = plot %in% c(
@@ -475,13 +441,6 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
     "`isco_codes` must have at least one valid code" =
       (length(isco_codes) != length(invalid_codes))
   )
-  path <- system.file("extdata", "isco88_table.rda", package = "epiCo")
-  load(path)
-  isco88_table <- isco88_table
-  invalid_codes <- isco_codes[!isco_codes %in% c(
-    isco88_table$major, isco88_table$sub_major,
-    isco88_table$minor, isco88_table$unit
-  )]
   
   if (length(invalid_codes) > 0) {
     message(

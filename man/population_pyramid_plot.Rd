@@ -4,15 +4,12 @@
 \alias{population_pyramid_plot}
 \title{Returns the population pyramid plot}
 \usage{
-population_pyramid_plot(pop_pyramid, gender = TRUE, total = TRUE)
+population_pyramid_plot(pop_pyramid, gender = TRUE)
 }
 \arguments{
 \item{pop_pyramid}{A dataframe with the age counts}
 
 \item{gender}{A boolean to consult data disaggregated by gender}
-
-\item{total}{A boolean for returning the total number rather than the
-proportion of the country's population}
 }
 \value{
 the population pyramid plot
