@@ -1,3 +1,4 @@
 url: https://epiverse-trace.github.io/epiCo/
 template:
+  bootstrap: 5
   package: epiversetheme
