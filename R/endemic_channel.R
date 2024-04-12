@@ -107,8 +107,8 @@ endemic_channel <- function(incidence_historic, observations = NULL,
   } else if (incidence_historic$interval == "1 week") {
     period <- 52
     first_year <- lubridate::epiyear(incidence_historic$dates[1])
-    if (incidence_historic$dates[1] != epiCo::epi_calendar(first_year)[1]) {
-      new_date <- epiCo::epi_calendar(first_year + 1)[1]
+    if (incidence_historic$dates[1] != epi_calendar(first_year)[1]) {
+      new_date <- epi_calendar(first_year + 1)[1]
       incidence_historic <- incidence_historic[incidence_historic$dates >=
         new_date]
       message(
@@ -119,13 +119,13 @@ endemic_channel <- function(incidence_historic, observations = NULL,
     last_year <- lubridate::epiyear(incidence_historic$dates[
       length(incidence_historic$dates)
     ])
-    last_epidate <- epiCo::epi_calendar(last_year)[
-      length(epiCo::epi_calendar(last_year))
+    last_epidate <- epi_calendar(last_year)[
+      length(epi_calendar(last_year))
     ]
     if (incidence_historic$dates[length(incidence_historic$dates)] !=
       last_epidate) {
-      new_date <- epiCo::epi_calendar(last_year - 1)[
-        length(epiCo::epi_calendar(last_year - 1))
+      new_date <- epi_calendar(last_year - 1)[
+        length(epi_calendar(last_year - 1))
       ]
       incidence_historic <- incidence_historic[incidence_historic$dates <=
         as.Date(new_date)]
