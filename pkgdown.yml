@@ -1,11 +1,11 @@
 pandoc: 3.1.11
-pkgdown: 2.0.7
+pkgdown: 2.0.8
 pkgdown_sha: ~
 articles:
   demographic_vignette: demographic_vignette.html
   endemic_channel: endemic_channel.html
   spatiotemporal_vignette: spatiotemporal_vignette.html
-last_built: 2024-03-06T15:59Z
+last_built: 2024-04-12T17:52Z
 urls:
   reference: https://epiverse-trace.github.io/epiCo/reference
   article: https://epiverse-trace.github.io/epiCo/articles
