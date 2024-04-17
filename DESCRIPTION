@@ -3,10 +3,14 @@ Title: Statistical and Visualization Tools for the Analysis of
     Outbreaks of Vector-Borne Diseases (VBDs) in Colombia
 Version: 0.3.0
 Authors@R: 
-    c(person("Juan D.", "Umaña", , "jd.umana10@uniandes.edu.co", role = c("aut", "cre")),
-      person("Juan", "Montenegro-Torres", , "jf.montenegro@uniandes.edu.co", role = c("aut")),
-      person("Julian", "Otero", , "jd.otero10@uniandes.edu.co", role = c("aut")),
-      person("Hugo", "Gruson", , "hugo.gruson+R@normasup.org", role = c("ctb")))
+    c(person("Juan D.", "Umaña", , "jd.umana10@uniandes.edu.co", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0003-0316-6164")),
+      person("Juan", "Montenegro-Torres", , "jf.montenegro@uniandes.edu.co", role = c("aut"),
+           comment = c(ORCID = "0000-0003-2755-4743")),
+      person("Julian", "Otero", , "jd.otero10@uniandes.edu.co", role = c("aut"),
+           comment = c(ORCID = "0009-0006-0429-7747")),
+      person("Hugo", "Gruson", , "hugo.gruson+R@normasup.org", role = c("ctb"),
+           comment = c(ORCID = "0000-0002-4094-1476")))
 Description: Provides statistical and visualization tools for the
     analysis of demographic indicators, and spatio-temporal behavior and
     characterization of outbreaks of vector-borne diseases (VBDs) in

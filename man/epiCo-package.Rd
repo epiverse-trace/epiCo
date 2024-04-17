@@ -17,17 +17,17 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Juan D. Umaña \email{jd.umana10@uniandes.edu.co}
+\strong{Maintainer}: Juan D. Umaña \email{jd.umana10@uniandes.edu.co} (\href{https://orcid.org/0000-0003-0316-6164}{ORCID})
 
 Authors:
 \itemize{
-  \item Juan Montenegro-Torres \email{jf.montenegro@uniandes.edu.co}
-  \item Julian Otero \email{jd.otero10@uniandes.edu.co}
+  \item Juan Montenegro-Torres \email{jf.montenegro@uniandes.edu.co} (\href{https://orcid.org/0000-0003-2755-4743}{ORCID})
+  \item Julian Otero \email{jd.otero10@uniandes.edu.co} (\href{https://orcid.org/0009-0006-0429-7747}{ORCID})
 }
 
 Other contributors:
 \itemize{
-  \item Hugo Gruson \email{hugo.gruson+R@normasup.org} [contributor]
+  \item Hugo Gruson \email{hugo.gruson+R@normasup.org} (\href{https://orcid.org/0000-0002-4094-1476}{ORCID}) [contributor]
 }
 
 }
