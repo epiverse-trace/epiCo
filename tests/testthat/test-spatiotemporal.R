@@ -13,11 +13,11 @@ test_that("Neighborhoods are built as expected", {
     "nb"
   )
   expect_length(
-    neighborhoods(c(5001, 5148, 5206, 5266, 5088, 5440, 5615)),
+    neighborhoods(c(5001, 5148, 5206, 5266, 5088, 5440, 5615))$neighbours,
     7
   )
   expect_length(
-    neighborhoods(c(5001, 500148, 15206, 5266, 5088, 5440, 5615)),
+    neighborhoods(c(5001, 500148, 15206, 5266, 5088, 5440, 5615))$neighbours,
     5
   )
 })
