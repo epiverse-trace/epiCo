@@ -57,7 +57,7 @@ cundinamarca_data <- dplyr::filter(
 cundinamarca_neighborhood <- neighborhoods(
   query_vector = cundinamarca_data$COD_MPIO,
   threshold = 0.5
-)
+)$neighbours
 
 plot(cundinamarca_neighborhood, cbind(
   cundinamarca_data$LATITUD,

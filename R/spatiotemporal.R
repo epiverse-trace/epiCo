@@ -30,8 +30,7 @@ neighborhoods <- function(query_vector, threshold = 2) {
   }
   adjacency_matrix <- as.matrix(distance <= threshold)
   list_weights <- spdep::mat2listw(adjacency_matrix, style = "W")
-  neighborhoods <- list_weights$neighbours
-  return(neighborhoods)
+  return(list_weights)
 }
 
 #' Calculate spatial correlation of given municipalities in an incidence_rate
@@ -93,8 +92,7 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
   incidence_rate_log <- incidence_rate_log[which(incidence_rate_log > -Inf)]
 
   # Neighborhood structure
-  nb <- neighborhoods(mpios_filtered, threshold)
-  weights <- spdep::nb2listw(nb, style = "W")
+  weights <- neighborhoods(mpios_filtered, threshold)
 
   # Moran's I
   morans_i <- spdep::moran.plot(incidence_rate_log,
