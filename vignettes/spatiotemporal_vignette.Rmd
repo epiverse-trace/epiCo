@@ -88,7 +88,7 @@ incidence_object <- incidence(
 )
 
 monrans_tolima <- morans_index(incidence_object = incidence_object, level = 2)
-monrans_tolima$leaflet_map
+monrans_tolima$plot
 ```
 
 ## 4. Interpretation and communication of *epiCo*'s `morans_index` results
