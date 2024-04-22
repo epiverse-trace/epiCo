@@ -17,10 +17,9 @@
 population_pyramid <- function(divipola_code, year, gender = TRUE, range = 5,
                                total = TRUE, plot = FALSE) {
   stopifnot(
-    "`year` must be a unique valid year between 2005 and 2026; please select a
-    unique valid year" = (year %in% seq(2005, 2026) & length(year) == 1),
-    "`divipola_code` must be numeric" = (is.numeric(divipola_code) &
-      length(divipola_code) == 1),
+    "`year` must be an unique value" = (length(year) == 1),
+    "`divipola_code` must be an integer positive" = (is.integer(divipola_code) &
+      length(divipola_code) == 1 & divipola_code >= 0),
     "`range` must be an integer value between 1 and 100" = is.numeric(range) &
       range %in% seq(1, 100)
   )
@@ -34,6 +33,10 @@ population_pyramid <- function(divipola_code, year, gender = TRUE, range = 5,
     )
     load(path_0)
     population_projection_col_0 <- population_projection_col_0
+    stopifnot(
+      "`year` must be a unique valid year between 2005 and 2035; please select a
+    unique valid year" = (year %in% unique(population_projection_col_0$ANO))
+    )
     pop_data_dpto <- dplyr::filter(
       population_projection_col_0,
       ((population_projection_col_0$DP == divipola_code) &
@@ -48,6 +51,10 @@ population_pyramid <- function(divipola_code, year, gender = TRUE, range = 5,
     )
     load(path_1)
     population_projection_col_1 <- population_projection_col_1
+    stopifnot(
+      "`year` must be a unique valid year between 2005 and 2035; please select a
+    unique valid year" = (year %in% unique(population_projection_col_1$ANO))
+    )
     pop_data_dpto <- dplyr::filter(
       population_projection_col_1,
       ((.data$DP == divipola_code) & (.data$ANO == year))
@@ -61,6 +68,10 @@ population_pyramid <- function(divipola_code, year, gender = TRUE, range = 5,
     )
     load(path_2)
     population_projection_col_2 <- population_projection_col_2
+    stopifnot(
+      "`year` must be a unique valid year between 2005 and 2035; please select a
+    unique valid year" = (year %in% unique(population_projection_col_2$ANO))
+    )
     pop_data_mun <- dplyr::filter(
       population_projection_col_2,
       ((.data$DPMP == divipola_code) & (.data$ANO == year))
