@@ -6,17 +6,19 @@
 #' department or municipality. To obtain values at the national level, code 0 is
 #' used
 #' @param year A numeric input for the year of interest
-#' @param gender A boolean to consult data disaggregated by gender
-#' @param range A numeric value from 1 to 100 for the age range to use
+#' @param sex A boolean to consult data disaggregated by sex. The default value
+#' is TRUE
+#' @param range A numeric value from 1 to 100 for the age range to use. The
+#' default value is 5
 #' @param total A boolean for returning the total number rather than the
-#' proportion of the country's population
-#' @param plot A boolean for displaying a plot
+#' proportion of the country's population. The default value is TRUE
+#' @param plot A boolean for displaying a plot. The default value is TRUE
 #' @importFrom rlang .data
 #' @return A dataframe with the proportion or total count of individuals
 #' @examples
-#' population_pyramid(15001L, 2015, gender = TRUE, total = TRUE, plot = TRUE)
+#' population_pyramid(15001L, 2015, sex = TRUE, total = TRUE, plot = TRUE)
 #' @export
-population_pyramid <- function(divipola_code, year, gender = TRUE, range = 5,
+population_pyramid <- function(divipola_code, year, sex = TRUE, range = 5,
                                total = TRUE, plot = FALSE) {
   stopifnot(
     "`year` must be an unique value" = (length(year) == 1),
@@ -106,11 +108,11 @@ population_pyramid <- function(divipola_code, year, gender = TRUE, range = 5,
     male_total <- male_total / sum(male_total)
   }
 
-  if (gender) {
+  if (sex) {
     pop_pyramid <- data.frame(
       age = rep(seq(0, length(female_counts), range), 2),
       population = c(female_total, male_total),
-      gender = c(
+      sex = c(
         rep("F", length(female_total)),
         rep("M", length(male_total))
       )
@@ -123,7 +125,7 @@ population_pyramid <- function(divipola_code, year, gender = TRUE, range = 5,
   }
 
   if (plot) {
-    pop_pyramid_plot <- population_pyramid_plot(pop_pyramid, gender = gender)
+    pop_pyramid_plot <- population_pyramid_plot(pop_pyramid, sex = sex)
     if (total) {
       pop_pyramid_plot <- pop_pyramid_plot +
         ggplot2::ylab("Total population")
@@ -145,15 +147,16 @@ population_pyramid <- function(divipola_code, year, gender = TRUE, range = 5,
 #' municipality or department of a specific year
 #'
 #' @param pop_pyramid A dataframe with the age counts
-#' @param gender A boolean to consult data disaggregated by gender
+#' @param sex A boolean to consult data disaggregated by sex. The default value
+#' is TRUE
 #'
 #' @return the population pyramid plot
 #'
 #' @keywords internal
-population_pyramid_plot <- function(pop_pyramid, gender = TRUE){
-  if (gender) {
-    female_total <- dplyr::filter(pop_pyramid, .data$gender == "F")$population
-    male_total <- dplyr::filter(pop_pyramid, .data$gender == "M")$population
+population_pyramid_plot <- function(pop_pyramid, sex = TRUE){
+  if (sex) {
+    female_total <- dplyr::filter(pop_pyramid, .data$sex == "F")$population
+    male_total <- dplyr::filter(pop_pyramid, .data$sex == "M")$population
     pop_pyramid$population <- c(-1 * female_total, male_total)
     dist_pop_f <- stats::quantile(female_total)[2:5]
     dist_pop_m <- stats::quantile(male_total)[2:5]
@@ -164,15 +167,15 @@ population_pyramid_plot <- function(pop_pyramid, gender = TRUE){
       ggplot2::aes(
         x = .data$age,
         y = .data$population,
-        fill = .data$gender
+        fill = .data$sex
       )
     ) +
       ggplot2::geom_col(
-        data = dplyr::filter(pop_pyramid, .data$gender == "F")#,
+        data = dplyr::filter(pop_pyramid, .data$sex == "F")#,
         #stat = "identity"
       ) +
       ggplot2::geom_col(
-        data = dplyr::filter(pop_pyramid, .data$gender == "M")#,
+        data = dplyr::filter(pop_pyramid, .data$sex == "M")#,
         #stat = "identity"
       ) +
       ggplot2::scale_y_continuous(
@@ -215,72 +218,43 @@ population_pyramid_plot <- function(pop_pyramid, gender = TRUE){
   return(pop_pyramid_plot)
 }
 
-#' Returns the probability mass function of being infected given age and gender
+#' Returns the probability mass function of being infected given age and sex
 #'
 #' @description Function that returns the probability of being infected given
-#' age and gender
+#' age and sex
 #' @param age A vector with the ages of cases in years from 0 to 100 years
-#' @param gender A vector with the gender of cases 'F' and 'M'
+#' @param sex A vector with the sex of cases 'F' and 'M'. The default value
+#' is NULL
 #' @param population_pyramid A dataframe with the count of individuals
-#' @param plot A boolean for displaying a plot
+#' @param plot A boolean for displaying a plot. The default value is FALSE
 #' @importFrom rlang .data
 #' @return A dataframe with the proportion or total count of individuals
 #' @examples
-#' pop_pyramid <- population_pyramid(15001L, 2015, gender = TRUE, total = TRUE,
-#' plot = TRUE)
-#' ages <- stats::rpois(150, lambda = 10)
-#' genders <- c(rep("M",120),rep("F",30))
-#' age_risk(age = ages, gender = genders, population_pyramid = pop_pyramid$data,
+#' pop_pyramid <- population_pyramid(15001L, 2015, sex = TRUE, total = TRUE,
+#' plot = FALSE)
+#' ages <- round(runif(150,0,100))
+#' sex <- c(rep("M",70),rep("F",80))
+#' age_risk(age = ages, sex = sex, population_pyramid = pop_pyramid,
 #' plot = TRUE)
 #' @export
-age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
+age_risk <- function(age, sex = NULL, population_pyramid, plot = FALSE) {
   stopifnot("`age` must be an integer numeric vector with values
             between 0 and 100" = all(age %in% seq(0, 100)))
-  if (!is.null(gender)) {
+  if (class(population_pyramid) == "list") {
+    population_pyramid <- population_pyramid$data
+  }
+  if (!is.null(sex)) {
     stopifnot(
-      "`gender` does not have the same number of elements as `age`" =
-        (length(gender) == length(age)),
-      "`population_pyramid` should include gender" =
-        (length(population_pyramid) == 3)
+      "`sex` does not have the same number of elements as `age`" =
+        (length(sex) == length(age)),
+      "`population_pyramid` should include sex" =
+        ("sex" %in% colnames(population_pyramid))
     )
-    age_female <- age[gender == "F"]
-    pyramid_female <- dplyr::filter(population_pyramid, .data$gender == "F")
-    hist_female <- graphics::hist(age_female,
-      breaks = c(
-        seq(0, pyramid_female$age[length(pyramid_female$age)],
-          by = (pyramid_female$age[2] - pyramid_female$age[1])
-        ),
-        Inf
-      ),
-      plot = FALSE
-    )
-
-    age_risk_female <- data.frame(
-      age = pyramid_female$age,
-      population = hist_female$counts / pyramid_female$population,
-      gender = rep("F", length(pyramid_female$age)),
-      stringsAsFactors = FALSE
-    )
-
-    age_male <- age[gender == "M"]
-    pyramid_male <- dplyr::filter(population_pyramid, .data$gender == "M")
-    hist_male <- graphics::hist(age_male,
-      breaks = c(
-        seq(0, pyramid_male$age[length(pyramid_male$age)],
-          by = (pyramid_male$age[2] - pyramid_male$age[1])
-        ),
-        Inf
-      ),
-      plot = FALSE
-    )
-
-    age_risk_male <- data.frame(
-      age = pyramid_male$age,
-      population = hist_male$counts / pyramid_male$population,
-      gender = rep("M", length(pyramid_male$age)),
-      stringsAsFactors = FALSE
-    )
-
+    
+    age_risk_female <- get_age_risk_sex(age, sex, population_pyramid,
+                                        sex = "F")
+    age_risk_male <- get_age_risk_sex(age, sex, population_pyramid,
+                                      sex = "M")
     age_risk <- rbind(age_risk_female, age_risk_male)
   } else {
     if (length(population_pyramid) == 3) {
@@ -306,14 +280,14 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
   }
 
   if (plot) {
-    if (!is.null(gender)) {
-      age_risk_plot <- population_pyramid_plot(age_risk, gender = TRUE)
+    if (!is.null(sex)) {
+      age_risk_plot <- population_pyramid_plot(age_risk, sex = TRUE)
       age_risk_plot <- age_risk_plot +
         # nolint start
         ggplot2::ylab("Cases / Population")
       # nolint end
     } else {
-      age_risk_plot <- population_pyramid_plot(age_risk, gender = FALSE)
+      age_risk_plot <- population_pyramid_plot(age_risk, sex = FALSE)
       age_risk_plot <- age_risk_plot +
         # nolint start
         ggplot2::ylab("Cases / Population")
@@ -326,13 +300,44 @@ age_risk <- function(age, gender = NULL, population_pyramid, plot = FALSE) {
   }
 }
 
+#' Auxiliary function to calculate the proportion by age according to the total
+#' population and sex
+#' @param age A vector with the ages of cases in years from 0 to 100 years
+#' @param sex_vector A vector with the sex of cases 'F' and 'M' 
+#' @param pyramid A dataframe with the count of individuals
+#' @param sex A string specifying the sex being calculated
+#' @return A dataframe with the proportion by age according to the total
+#' population and sex
+#' @keywords internal
+get_age_risk_sex <- function(age, sex_vector, pyramid, sex) {
+  age_sex <- age[sex_vector == sex]
+  pyramid_sex <- dplyr::filter(pyramid, .data$sex == !!sex)
+  hist_sex <- graphics::hist(age_sex,
+                             breaks = c(
+                               seq(0, pyramid_sex$age[length(pyramid_sex$age)],
+                                   by = (pyramid_sex$age[2] - pyramid_sex$age[1])
+                               ),
+                               Inf
+                             ),
+                             plot = FALSE
+  )
+  age_risk_sex <- data.frame(
+    age = pyramid_sex$age,
+    population = hist_sex$counts / pyramid_sex$population,
+    sex = rep(sex, length(pyramid_sex$age)),
+    stringsAsFactors = FALSE
+  )
+  return(age_risk_sex)
+}
+
 #' Provides the sociological description of ethnicities in Colombia
 #'
 #' @description Function that returns the description of the consulted
 #' ethnicities
 #' @param ethnic_codes A numeric vector with the codes of ethnicities to
 #' consult
-#' @param language "ES" for description in Spanish "EN" for English
+#' @param language "ES" for description in Spanish "EN" for English. The default
+#' value is ES
 #' @return A printed message with ethnicities descriptions
 #' @examples
 #' describe_ethnicity(round(runif(n = 150, min= 1, max = 4)))
@@ -426,17 +431,19 @@ describe_ethnicity <- function(ethnic_codes, language = "ES") {
 #' into a vector of labels
 #' @param isco_codes A numeric vector of ISCO-88 occupation codes
 #' (major, submajor, minor, or unit)
-#' @param gender A vector with the isco_codes vector genders
-#' @param plot A type of plot between treemap and circular  packing
+#' @param sex A vector with the respective sex for isco_codes vector. The
+#' default value is NULL
+#' @param plot A type of plot between treemap and circular  packing. The default
+#' value is NULL
 #' @return A string vector of ISCO-88 labels
 #' @examples
 #' demog_data <- data.frame(occupation_label =
 #' c(6111, 3221, 5113, 5133, 6111, 23, 25),
-#' gender = c("F", "M", "F", "F", "M", "M", "F"))
+#' sex = c("F", "M", "F", "F", "M", "M", "F"))
 #' describe_occupation(isco_codes = demog_data$occupation_label,
-#' gender = demog_data$gender, plot = "treemap")
+#' sex = demog_data$sex, plot = "treemap")
 #' @export
-describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
+describe_occupation <- function(isco_codes, sex = NULL, plot = NULL) {
   path <- system.file("extdata", "isco88_table.rda", package = "epiCo")
   load(path)
   isco88_table <- isco88_table
@@ -467,17 +474,17 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
   valid_sub_major_codes <- isco_codes[isco_codes %in% isco88_table$sub_major]
   valid_major_codes <- isco_codes[isco_codes %in% isco88_table$major]
 
-  if (!is.null(gender)) {
+  if (!is.null(sex)) {
     stopifnot(
-      "`gender` must have the same size as `isco_codes`" =
-        (length(gender) == length(isco_codes))
+      "`sex` must have the same size as `isco_codes`" =
+        (length(sex) == length(isco_codes))
     )
     occupation_data_unit <- data.frame(
       occupation = valid_unit_codes,
-      gender = gender[isco_codes %in% valid_unit_codes]
+      sex = sex[isco_codes %in% valid_unit_codes]
     )
     occupation_data_unit <- occupation_data_unit %>%
-      dplyr::count(.data$gender, .data$occupation)
+      dplyr::count(.data$sex, .data$occupation)
     occupation_data_unit <- unique(merge(occupation_data_unit, isco88_table,
       by.x = "occupation", by.y = "unit"
     ))
@@ -489,10 +496,10 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
 
     occupation_data_minor <- data.frame(
       occupation = valid_minor_codes,
-      gender = gender[isco_codes %in% valid_minor_codes]
+      sex = sex[isco_codes %in% valid_minor_codes]
     )
     occupation_data_minor <- occupation_data_minor %>%
-      dplyr::count(.data$gender, .data$occupation)
+      dplyr::count(.data$sex, .data$occupation)
     occupation_data_minor <- unique(merge(occupation_data_minor,
       isco88_table[, seq(1, 6)],
       by.x = "occupation", by.y = "minor"
@@ -504,10 +511,10 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
 
     occupation_data_sub_major <- data.frame(
       occupation = valid_sub_major_codes,
-      gender = gender[isco_codes %in% valid_sub_major_codes]
+      sex = sex[isco_codes %in% valid_sub_major_codes]
     )
     occupation_data_sub_major <- occupation_data_sub_major %>%
-      dplyr::count(.data$gender, .data$occupation)
+      dplyr::count(.data$sex, .data$occupation)
     occupation_data_sub_major <- unique(merge(occupation_data_sub_major,
       isco88_table[, seq(1, 4)],
       by.x = "occupation",
@@ -522,10 +529,10 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
 
     occupation_data_major <- data.frame(
       occupation = valid_major_codes,
-      gender = gender[isco_codes %in% valid_major_codes]
+      sex = sex[isco_codes %in% valid_major_codes]
     )
     occupation_data_major <- occupation_data_major %>%
-      dplyr::count(.data$gender, .data$occupation)
+      dplyr::count(.data$sex, .data$occupation)
     occupation_data_major <- unique(merge(occupation_data_major,
       isco88_table[, c(1, 2)],
       by.x = "occupation", by.y = "major"
@@ -536,7 +543,7 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
     names(occupation_data_major)[names(occupation_data_major) == "n"] <- "count"
 
     occupation_data <- data.frame(
-      gender = NA, major = NA,
+      sex = NA, major = NA,
       major_label = NA, sub_major = NA,
       sub_major_label = NA, minor = NA,
       minor_label = NA, unit = NA,
@@ -562,18 +569,18 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
       "major", "major_label",
       "sub_major", "sub_major_label", "minor",
       "minor_label", "unit", "unit_label",
-      "gender", "count"
+      "sex", "count"
     )]
     if (!is.null(plot)) {
       if (plot == "treemap") {
         occupation_plot <- occupation_plot(
           occupation_data,
-          gender = TRUE
+          sex = TRUE
         )
         plot(occupation_plot)
       } else if (plot == "circular") {
         message(
-          "Remember that the circular plot does not distinguish by gender."
+          "Remember that the circular plot does not distinguish by sex."
         )
         occupation_plot <- occupation_plot_circular(
           occupation_data
@@ -632,7 +639,7 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
 
     occupation_data_major <- data.frame(
       occupation = valid_major_codes,
-      gender = gender[isco_codes %in% valid_major_codes]
+      sex = sex[isco_codes %in% valid_major_codes]
     )
     occupation_data_major <- occupation_data_major %>%
       dplyr::count(.data$occupation)
@@ -695,11 +702,11 @@ describe_occupation <- function(isco_codes, gender = NULL, plot = NULL) {
 #' @description Function that makes a treemap plot of a vector of ISCO-88
 #' occupation codes
 #' @param occupation_data A dataframe
-#' @param gender A boolean for gender data
-#' @param q A number that represents the quantile
+#' @param sex A boolean for sex data. The default value is FALSE
+#' @param q A number that represents the quantile. The default value is 0.9
 #' @return A plot to summarize the distribution of ISCO-88 labels
 #' @keywords internal
-occupation_plot <- function(occupation_data, gender = FALSE, q = 0.9) {
+occupation_plot <- function(occupation_data, sex = FALSE, q = 0.9) {
   occupation_data <- stats::na.omit(occupation_data)
   occupation_data_q <- subset(
     occupation_data,
@@ -722,12 +729,12 @@ occupation_plot <- function(occupation_data, gender = FALSE, q = 0.9) {
     occupation_data_q$sub_major_label %in% labels$sub_major_label
   )
 
-  if (gender) {
+  if (sex) {
     occupation_treemap <- ggplot2::ggplot(sub_occupation_data, ggplot2::aes(
       area = .data$count,
       fill = .data$sub_major_label,
       label = .data$unit_label,
-      subgroup = .data$gender
+      subgroup = .data$sex
     )) +
       treemapify::geom_treemap() +
       ggplot2::scale_fill_manual(
@@ -776,7 +783,7 @@ occupation_plot <- function(occupation_data, gender = FALSE, q = 0.9) {
 #' @description Function that makes a circular packing plot of a vector of
 #' ISCO-88 occupation codes
 #' @param occupation_data A dataframe
-#' @param q A number that represents the quantile
+#' @param q A number that represents the quantile. The default value is 0.9
 #' @return A plot to summarize the distribution of ISCO-88 labels
 #' @keywords internal
 occupation_plot_circular <- function(occupation_data, q = 0.9) {
