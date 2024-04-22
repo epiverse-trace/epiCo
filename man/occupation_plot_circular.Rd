@@ -9,7 +9,7 @@ occupation_plot_circular(occupation_data, q = 0.9)
 \arguments{
 \item{occupation_data}{A dataframe}
 
-\item{q}{A number that represents the quantile}
+\item{q}{A number that represents the quantile. The default value is 0.9}
 }
 \value{
 A plot to summarize the distribution of ISCO-88 labels

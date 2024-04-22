@@ -7,25 +7,29 @@
 population_pyramid(
   divipola_code,
   year,
-  gender = TRUE,
+  sex = TRUE,
   range = 5,
   total = TRUE,
   plot = FALSE
 )
 }
 \arguments{
-\item{divipola_code}{A numeric code accounting for the territory of interest}
+\item{divipola_code}{A numerical code from the divipola table representing a
+department or municipality. To obtain values at the national level, code 0 is
+used}
 
 \item{year}{A numeric input for the year of interest}
 
-\item{gender}{A boolean to consult data disaggregated by gender}
+\item{sex}{A boolean to consult data disaggregated by sex. The default value
+is TRUE}
 
-\item{range}{A numeric value from 1 to 100 for the age range to use}
+\item{range}{A numeric value from 1 to 100 for the age range to use. The
+default value is 5}
 
 \item{total}{A boolean for returning the total number rather than the
-proportion of the country's population}
+proportion of the country's population. The default value is TRUE}
 
-\item{plot}{A boolean for displaying a plot}
+\item{plot}{A boolean for displaying a plot. The default value is TRUE}
 }
 \value{
 A dataframe with the proportion or total count of individuals
@@ -35,5 +39,5 @@ Function that returns the population pyramid of the municipality
 or department of a specific year
 }
 \examples{
-population_pyramid(15001L, 2015, gender = TRUE, total = TRUE, plot = TRUE)
+population_pyramid(15001L, 2015, sex = TRUE, total = TRUE, plot = TRUE)
 }

@@ -49,7 +49,7 @@ test_that("Population pyramid obtaines data", {
     dim(population_pyramid(
       divipola_code = 5001L,
       year = 2020,
-      gender = FALSE
+      sex = FALSE
     )),
     c(18L, 2L)
   )
@@ -65,7 +65,7 @@ test_that("Population pyramid obtaines data", {
     dim(population_pyramid(
       divipola_code = 5001L,
       year = 2020,
-      gender = FALSE,
+      sex = FALSE,
       total = FALSE
     )),
     c(18L, 2L)
@@ -74,7 +74,7 @@ test_that("Population pyramid obtaines data", {
     dim(population_pyramid(
       divipola_code = 5001L,
       year = 2020,
-      gender = FALSE,
+      sex = FALSE,
       total = FALSE,
       plot = TRUE
     )$data),
@@ -114,7 +114,7 @@ test_that("Population pyramid is not NA", {
     divipola_code = 5001L,
     year = 2006,
     total = FALSE,
-    gender = FALSE
+    sex = FALSE
   )))
   expect_false(anyNA(population_pyramid(
     divipola_code = 5001L,
@@ -130,7 +130,7 @@ test_that("Population pyramid is not NA", {
     divipola_code = 73L,
     year = 2006,
     total = FALSE,
-    gender = FALSE
+    sex = FALSE
   )))
   expect_false(anyNA(population_pyramid(
     divipola_code = 73L,
@@ -146,7 +146,7 @@ test_that("Population pyramid is not NA", {
     divipola_code = 0L,
     year = 2006,
     total = FALSE,
-    gender = FALSE
+    sex = FALSE
   )))
   expect_false(anyNA(population_pyramid(
     divipola_code = 0L,
@@ -164,7 +164,7 @@ test_that("Population pyramid is not NA", {
 age_0 <- c(1, 1, 20, 4, 5, 7, 3, 3, 4, 4, 6, 6, 6, 50, 47, 47, 3, 20, 23, 23)
 age_1 <- c(1, 1, 20, 4, 5, 7, 3, 3, 4, 4, 6, 6, 6, 50, 47, "47", 3, 35, 35, 3)
 
-gender_0 <- c(
+sex_0 <- c(
   "F", "F", "F", "F", "F", "F", "F", "F", "F", "F", "M", "M",
   "M", "M", "M", "M", "M", "M", "M", "M"
 )
@@ -173,14 +173,14 @@ pop_pyramid_0 <- population_pyramid(5001L, 2020, FALSE)
 pop_pyramid_1 <- population_pyramid(5001L, 2020, TRUE)
 
 test_that("age risk errors are thrown", {
-  expect_error(age_risk(age_1, gender_0, pop_pyramid_0))
-  expect_error(age_risk(age_0, gender_0, pop_pyramid_0))
+  expect_error(age_risk(age_1, sex_0, pop_pyramid_0))
+  expect_error(age_risk(age_0, sex_0, pop_pyramid_0))
 })
 
 test_that("age risk works as expected", {
-  expect_length(age_risk(age_0, gender_0, pop_pyramid_1), 3)
+  expect_length(age_risk(age_0, sex_0, pop_pyramid_1), 3)
   expect_length(age_risk(age_0, population_pyramid = pop_pyramid_1), 2)
-  expect_type(age_risk(age_0, gender_0, pop_pyramid_1, TRUE), "list")
+  expect_type(age_risk(age_0, sex_0, pop_pyramid_1, TRUE), "list")
   expect_type(
     age_risk(age_0, population_pyramid = pop_pyramid_1, plot = TRUE),
     "list"
@@ -208,16 +208,16 @@ test_that("describe occupation works as expected", {
   expect_type(describe_occupation(c(1110, 4141)),
     type = "list"
   )
-  expect_type(describe_occupation(c(1110, 4141), gender = c("F", "M")),
+  expect_type(describe_occupation(c(1110, 4141), sex = c("F", "M")),
     type = "list"
   )
   expect_type(describe_occupation(c(1110, 4141),
-                                  gender = c("F", "M"),
+                                  sex = c("F", "M"),
                                   plot = "treemap"),
               type = "list"
   )
   expect_type(describe_occupation(c(1110, 4141),
-                                  gender = c("F", "M"),
+                                  sex = c("F", "M"),
                                   plot = "circular"),
               type = "list"
   )
@@ -229,7 +229,7 @@ test_that("describe occupation works as expected", {
   expect_identical(dim(describe_occupation(c(1110, 4141), plot = NULL)),
                    c(3L, 9L))
   expect_length(describe_occupation(c(1110, 4141),
-    gender = c("F", "M"),
+    sex = c("F", "M"),
     plot = "circular"
   ), n = 2)
 })
@@ -239,6 +239,6 @@ test_that("occupation plot errors are thrown", {
   expect_error(occupation_plot(isco_codes = 999999))
   expect_error(occupation_plot(
     isco_codes = c(1130, 6114, 9311),
-    gender = c("F", "F")
+    sex = c("F", "F")
   ))
 })

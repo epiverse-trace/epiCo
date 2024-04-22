@@ -10,7 +10,8 @@ describe_ethnicity(ethnic_codes, language = "ES")
 \item{ethnic_codes}{A numeric vector with the codes of ethnicities to
 consult}
 
-\item{language}{"ES" for description in Spanish "EN" for English}
+\item{language}{"ES" for description in Spanish "EN" for English. The default
+value is ES}
 }
 \value{
 A printed message with ethnicities descriptions
