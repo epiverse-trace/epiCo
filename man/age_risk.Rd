@@ -23,7 +23,7 @@ Function that returns the probability of being infected given
 age and gender
 }
 \examples{
-pop_pyramid <- population_pyramid(15001, 2015, gender = TRUE, total = TRUE,
+pop_pyramid <- population_pyramid(15001L, 2015, gender = TRUE, total = TRUE,
 plot = TRUE)
 ages <- stats::rpois(150, lambda = 10)
 genders <- c(rep("M",120),rep("F",30))

@@ -8,19 +8,29 @@ test_that("Population pyramid errors are thrown", {
     year = 2010
   ))
   expect_error(population_pyramid(
-    divipola_code = 5001,
+    divipola_code = 5001L,
     year = 2002
   ))
   expect_error(population_pyramid(
-    divipola_code = 500012,
+    divipola_code = 500012L,
     year = 2020
   ))
   expect_error(population_pyramid(
-    divipola_code = c(5001, 5044),
+    divipola_code = c(5001L, 5044L),
     year = 2020
   ))
   expect_error(population_pyramid(
-    divipola_code = 5001,
+    divipola_code = 5001L,
+    year = 2020,
+    range = "5"
+  ))
+  expect_error(population_pyramid(
+    divipola_code = -5001L,
+    year = 2020,
+    range = "5"
+  ))
+  expect_error(population_pyramid(
+    divipola_code = 50,
     year = 2020,
     range = "5"
   ))
@@ -30,14 +40,14 @@ test_that("Population pyramid obtaines data", {
   # dimension
   expect_identical(
     dim(population_pyramid(
-      divipola_code = 5001,
+      divipola_code = 5001L,
       year = 2020
     )),
     c(36L, 3L)
   )
   expect_identical(
     dim(population_pyramid(
-      divipola_code = 5001,
+      divipola_code = 5001L,
       year = 2020,
       gender = FALSE
     )),
@@ -45,7 +55,7 @@ test_that("Population pyramid obtaines data", {
   )
   expect_identical(
     dim(population_pyramid(
-      divipola_code = 5001,
+      divipola_code = 5001L,
       year = 2020,
       total = FALSE
     )),
@@ -53,7 +63,7 @@ test_that("Population pyramid obtaines data", {
   )
   expect_identical(
     dim(population_pyramid(
-      divipola_code = 5001,
+      divipola_code = 5001L,
       year = 2020,
       gender = FALSE,
       total = FALSE
@@ -62,7 +72,7 @@ test_that("Population pyramid obtaines data", {
   )
   expect_identical(
     dim(population_pyramid(
-      divipola_code = 5001,
+      divipola_code = 5001L,
       year = 2020,
       gender = FALSE,
       total = FALSE,
@@ -72,21 +82,21 @@ test_that("Population pyramid obtaines data", {
   )
   expect_identical(
     dim(population_pyramid(
-      divipola_code = 5,
+      divipola_code = 5L,
       year = 2020
     )),
     c(42L, 3L)
   )
   expect_identical(
     dim(population_pyramid(
-      divipola_code = 0,
+      divipola_code = 0L,
       year = 2020
     )),
     c(42L, 3L)
   )
   expect_identical(
     dim(population_pyramid(
-      divipola_code = 5001,
+      divipola_code = 5001L,
       year = 2020,
       range = 20
     )),
@@ -97,54 +107,54 @@ test_that("Population pyramid obtaines data", {
 test_that("Population pyramid is not NA", {
   # dimension
   expect_false(anyNA(population_pyramid(
-    divipola_code = 5001,
+    divipola_code = 5001L,
     year = 2006
   )))
   expect_false(anyNA(population_pyramid(
-    divipola_code = 5001,
+    divipola_code = 5001L,
     year = 2006,
     total = FALSE,
     gender = FALSE
   )))
   expect_false(anyNA(population_pyramid(
-    divipola_code = 5001,
+    divipola_code = 5001L,
     year = 2006,
     plot = TRUE
   )$data))
 
   expect_false(anyNA(population_pyramid(
-    divipola_code = 73,
+    divipola_code = 73L,
     year = 2006
   )))
   expect_false(anyNA(population_pyramid(
-    divipola_code = 73,
+    divipola_code = 73L,
     year = 2006,
     total = FALSE,
     gender = FALSE
   )))
   expect_false(anyNA(population_pyramid(
-    divipola_code = 73,
+    divipola_code = 73L,
     year = 2006,
     plot = TRUE
   )$data))
 
   expect_false(anyNA(population_pyramid(
-    divipola_code = 0,
+    divipola_code = 0L,
     year = 2006
   )))
   expect_false(anyNA(population_pyramid(
-    divipola_code = 0,
+    divipola_code = 0L,
     year = 2006,
     total = FALSE,
     gender = FALSE
   )))
   expect_false(anyNA(population_pyramid(
-    divipola_code = 0,
+    divipola_code = 0L,
     year = 2006,
     plot = TRUE
   )$data))
   expect_false(anyNA(population_pyramid(
-    divipola_code = 0,
+    divipola_code = 0L,
     year = 2006,
     range = 10
   )))
@@ -159,8 +169,8 @@ gender_0 <- c(
   "M", "M", "M", "M", "M", "M", "M", "M"
 )
 
-pop_pyramid_0 <- population_pyramid(5001, 2020, FALSE)
-pop_pyramid_1 <- population_pyramid(5001, 2020, TRUE)
+pop_pyramid_0 <- population_pyramid(5001L, 2020, FALSE)
+pop_pyramid_1 <- population_pyramid(5001L, 2020, TRUE)
 
 test_that("age risk errors are thrown", {
   expect_error(age_risk(age_1, gender_0, pop_pyramid_0))

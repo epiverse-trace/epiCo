@@ -63,7 +63,7 @@ data("divipola_table")
 Users can perform queries on this data by using the `population_pyramid` function, providing the DIVIPOLA code of the territory of interest and the year to consult.
 
 ```{r}
-ibague_code <- 73001 # DIVIPOLA code for the city of Ibagu<U+00E9>
+ibague_code <- 73001L # DIVIPOLA code for the city of Ibagu<U+00E9>
 year <- 2016 # Year to consult
 ibague_pyramid_2016 <- population_pyramid(ibague_code, year) # Population
 # pyramid (dataframe) for the city of Ibagu<U+00E9> in the year 2019
@@ -74,7 +74,7 @@ head(ibague_pyramid_2016)
 Definitions of age ranges and plotting are also provided for both: total number of individuals, or proportion of individuals
 
 ```{r}
-ibague_code <- 73001 # DIVIPOLA code for the city of Ibagu<U+00E9>
+ibague_code <- 73001L # DIVIPOLA code for the city of Ibagu<U+00E9>
 year <- 2019 # Year to consult
 age_range <- 5 # Age range or window
 ibague_pyramid_2019 <- population_pyramid(ibague_code, year,

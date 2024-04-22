@@ -91,7 +91,7 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
     load(path_0)
     population_projection_col_0 <- population_projection_col_0
     populations <- population_projection_col_0
-    populations$code <- population_projection_col_0$DP
+    populations$code <- population_projection_col_0$dp
     groups <- 0
   } else if (level == 1) {
     path_1 <- system.file("extdata", "population_projection_col_1.rda",
@@ -100,7 +100,7 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
     load(path_1)
     population_projection_col_1 <- population_projection_col_1
     populations <- population_projection_col_1
-    populations$code <- population_projection_col_1$DP
+    populations$code <- population_projection_col_1$dp
     groups <- as.numeric(colnames(incidence_object$counts))
   } else if (level == 2) {
     path_2 <- system.file("extdata", "population_projection_col_2.rda",
@@ -109,7 +109,7 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
     load(path_2)
     population_projection_col_2 <- population_projection_col_2
     populations <- population_projection_col_2
-    populations$code <- population_projection_col_2$DPMP
+    populations$code <- population_projection_col_2$dpmp
     groups <- as.numeric(colnames(incidence_object$counts))
   } else {
     stop("Error in Administrative Level selection")
@@ -118,16 +118,16 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
   populations <- dplyr::filter(
     populations,
     .data$code %in% groups,
-    .data$ANO %in% years
+    .data$ano %in% years
   )
   incidence_rates <- incidence_object$counts
 
   for (group in groups) {
     for (year in years) {
-      year_population <- dplyr::filter(populations, .data$ANO == year)
+      year_population <- dplyr::filter(populations, .data$ano == year)
       group_population <- as.numeric(year_population[
         year_population$code == group,
-        "Total_General"
+        "total_general"
       ])
       if (level == 0) {
         incidence_rates[which(dates == year)] <-

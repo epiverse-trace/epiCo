@@ -12,7 +12,7 @@
 #' @importFrom rlang .data
 #' @return A dataframe with the proportion or total count of individuals
 #' @examples
-#' population_pyramid(15001, 2015, gender = TRUE, total = TRUE, plot = TRUE)
+#' population_pyramid(15001L, 2015, gender = TRUE, total = TRUE, plot = TRUE)
 #' @export
 population_pyramid <- function(divipola_code, year, gender = TRUE, range = 5,
                                total = TRUE, plot = FALSE) {
@@ -35,12 +35,12 @@ population_pyramid <- function(divipola_code, year, gender = TRUE, range = 5,
     population_projection_col_0 <- population_projection_col_0
     stopifnot(
       "`year` must be a unique valid year between 2005 and 2035; please select a
-    unique valid year" = (year %in% unique(population_projection_col_0$ANO))
+    unique valid year" = (year %in% unique(population_projection_col_0$ano))
     )
     pop_data_dpto <- dplyr::filter(
       population_projection_col_0,
-      ((population_projection_col_0$DP == divipola_code) &
-        (population_projection_col_0$ANO == year))
+      ((population_projection_col_0$dp == divipola_code) &
+        (population_projection_col_0$ano == year))
     )
 
     female_counts <- as.numeric(pop_data_dpto[104:204])
@@ -53,11 +53,11 @@ population_pyramid <- function(divipola_code, year, gender = TRUE, range = 5,
     population_projection_col_1 <- population_projection_col_1
     stopifnot(
       "`year` must be a unique valid year between 2005 and 2035; please select a
-    unique valid year" = (year %in% unique(population_projection_col_1$ANO))
+    unique valid year" = (year %in% unique(population_projection_col_1$ano))
     )
     pop_data_dpto <- dplyr::filter(
       population_projection_col_1,
-      ((.data$DP == divipola_code) & (.data$ANO == year))
+      ((.data$dp == divipola_code) & (.data$ano == year))
     )
 
     female_counts <- as.numeric(pop_data_dpto[104:204])
@@ -70,11 +70,11 @@ population_pyramid <- function(divipola_code, year, gender = TRUE, range = 5,
     population_projection_col_2 <- population_projection_col_2
     stopifnot(
       "`year` must be a unique valid year between 2005 and 2035; please select a
-    unique valid year" = (year %in% unique(population_projection_col_2$ANO))
+    unique valid year" = (year %in% unique(population_projection_col_2$ano))
     )
     pop_data_mun <- dplyr::filter(
       population_projection_col_2,
-      ((.data$DPMP == divipola_code) & (.data$ANO == year))
+      ((.data$dpmp == divipola_code) & (.data$ano == year))
     )
 
     female_counts <- as.numeric(pop_data_mun[89:174])
@@ -224,7 +224,7 @@ population_pyramid_plot <- function(pop_pyramid, gender = TRUE){
 #' @importFrom rlang .data
 #' @return A dataframe with the proportion or total count of individuals
 #' @examples
-#' pop_pyramid <- population_pyramid(15001, 2015, gender = TRUE, total = TRUE,
+#' pop_pyramid <- population_pyramid(15001L, 2015, gender = TRUE, total = TRUE,
 #' plot = TRUE)
 #' ages <- stats::rpois(150, lambda = 10)
 #' genders <- c(rep("M",120),rep("F",30))
