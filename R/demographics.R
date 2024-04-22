@@ -704,22 +704,11 @@ occupation_plot <- function(occupation_data, sex = FALSE, q = 0.9) {
       label = .data$unit_label,
       subgroup = .data$sex
     )) +
-      treemapify::geom_treemap() +
-      ggplot2::scale_fill_manual(
-        name = "Major Group",
-        values = RColorBrewer::brewer.pal(n = 12, name = "Set3")
-      ) +
       treemapify::geom_treemap_subgroup_border(colour = "white", size = 10) +
       treemapify::geom_treemap_subgroup_text(
         place = "centre", grow = TRUE,
         alpha = 0.1, colour = "black"
-      ) +
-      treemapify::geom_treemap_text(
-        colour = "grey16", place = "centre",
-        size = 15, fontface = "italic",
-        grow = TRUE, reflow = TRUE
-      ) +
-      ggplot2::theme(legend.position = "bottom")
+      )
   } else {
     sub_occupation_data <- sub_occupation_data %>%
       dplyr::group_by(.data$sub_major_label, .data$unit_label) %>%
@@ -729,20 +718,20 @@ occupation_plot <- function(occupation_data, sex = FALSE, q = 0.9) {
       area = .data$count,
       fill = .data$sub_major_label,
       label = .data$unit_label
-    )) +
-      treemapify::geom_treemap() +
-      ggplot2::scale_fill_manual(
-        name = "Major Group",
-        values = RColorBrewer::brewer.pal(n = 12, name = "Set3")
-      ) +
-      treemapify::geom_treemap_text(
-        colour = "grey16", place = "centre",
-        size = 20, fontface = "italic",
-        grow = TRUE, reflow = TRUE
-      ) +
-      ggplot2::theme(legend.position = "bottom")
+    ))
   }
-
+  occupation_treemap <- occupation_treemap +
+    treemapify::geom_treemap() +
+    ggplot2::scale_fill_manual(
+      name = "Major Group",
+      values = RColorBrewer::brewer.pal(n = 12, name = "Set3")
+    ) +
+    treemapify::geom_treemap_text(
+      colour = "grey16", place = "centre",
+      size = 20, fontface = "italic",
+      grow = TRUE, reflow = TRUE
+    ) +
+    ggplot2::theme(legend.position = "bottom")
   return(occupation_treemap)
 }
 
