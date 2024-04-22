@@ -2,7 +2,9 @@
 #'
 #' @description Function that returns the population pyramid of the municipality
 #' or department of a specific year
-#' @param divipola_code A numeric code accounting for the territory of interest
+#' @param divipola_code A numerical code from the divipola table representing a
+#' department or municipality. To obtain values at the national level, code 0 is
+#' used
 #' @param year A numeric input for the year of interest
 #' @param gender A boolean to consult data disaggregated by gender
 #' @param range A numeric value from 1 to 100 for the age range to use
