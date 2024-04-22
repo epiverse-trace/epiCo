@@ -24,7 +24,7 @@ Function that returns the probability of being infected given
 age and sex
 }
 \examples{
-pop_pyramid <- population_pyramid(15001L, 2015, sex = TRUE, total = TRUE,
+pop_pyramid <- population_pyramid(15001, 2015, sex = TRUE, total = TRUE,
 plot = FALSE)
 ages <- round(runif(150,0,100))
 sex <- c(rep("M",70),rep("F",80))
