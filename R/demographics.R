@@ -240,7 +240,7 @@ population_pyramid_plot <- function(pop_pyramid, sex = TRUE){
 age_risk <- function(age, sex = NULL, population_pyramid, plot = FALSE) {
   stopifnot("`age` must be an integer numeric vector with values
             between 0 and 100" = all(age %in% seq(0, 100)))
-  if (class(population_pyramid) == "list") {
+  if (inherits(population_pyramid, what = "list")) {
     population_pyramid <- population_pyramid$data
   }
   if (!is.null(sex)) {
@@ -479,68 +479,29 @@ describe_occupation <- function(isco_codes, sex = NULL, plot = NULL) {
       "`sex` must have the same size as `isco_codes`" =
         (length(sex) == length(isco_codes))
     )
-    occupation_data_unit <- data.frame(
-      occupation = valid_unit_codes,
-      sex = sex[isco_codes %in% valid_unit_codes]
-    )
-    occupation_data_unit <- occupation_data_unit %>%
-      dplyr::count(.data$sex, .data$occupation)
-    occupation_data_unit <- unique(merge(occupation_data_unit, isco88_table,
-      by.x = "occupation", by.y = "unit"
-    ))
-    names(occupation_data_unit)[
-      names(occupation_data_unit) == "occupation"
-    ] <- "unit"
-    names(occupation_data_unit)[names(occupation_data_unit) == "n"] <- "count"
-
-
-    occupation_data_minor <- data.frame(
-      occupation = valid_minor_codes,
-      sex = sex[isco_codes %in% valid_minor_codes]
-    )
-    occupation_data_minor <- occupation_data_minor %>%
-      dplyr::count(.data$sex, .data$occupation)
-    occupation_data_minor <- unique(merge(occupation_data_minor,
-      isco88_table[, seq(1, 6)],
-      by.x = "occupation", by.y = "minor"
-    ))
-    names(occupation_data_minor)[
-      names(occupation_data_minor) == "occupation"
-    ] <- "minor"
-    names(occupation_data_minor)[names(occupation_data_minor) == "n"] <- "count"
-
-    occupation_data_sub_major <- data.frame(
-      occupation = valid_sub_major_codes,
-      sex = sex[isco_codes %in% valid_sub_major_codes]
-    )
-    occupation_data_sub_major <- occupation_data_sub_major %>%
-      dplyr::count(.data$sex, .data$occupation)
-    occupation_data_sub_major <- unique(merge(occupation_data_sub_major,
-      isco88_table[, seq(1, 4)],
-      by.x = "occupation",
-      by.y = "sub_major"
-    ))
-    names(occupation_data_sub_major)[
-      names(occupation_data_sub_major) == "occupation"
-    ] <- "sub_major"
-    names(occupation_data_sub_major)[
-      names(occupation_data_sub_major) == "n"
-    ] <- "count"
-
-    occupation_data_major <- data.frame(
-      occupation = valid_major_codes,
-      sex = sex[isco_codes %in% valid_major_codes]
-    )
-    occupation_data_major <- occupation_data_major %>%
-      dplyr::count(.data$sex, .data$occupation)
-    occupation_data_major <- unique(merge(occupation_data_major,
-      isco88_table[, c(1, 2)],
-      by.x = "occupation", by.y = "major"
-    ))
-    names(occupation_data_major)[
-      names(occupation_data_major) == "occupation"
-    ] <- "major"
-    names(occupation_data_major)[names(occupation_data_major) == "n"] <- "count"
+    occupation_data_unit <- get_occupation_data(valid_unit_codes,
+                                                isco_codes,
+                                                isco88_table,
+                                                name_occupation = "unit",
+                                                sex = sex)
+    
+    occupation_data_minor <- get_occupation_data(valid_minor_codes,
+                                                 isco_codes,
+                                                 isco88_table[, seq(1, 6)],
+                                                 name_occupation = "minor",
+                                                 sex = sex)
+    
+    occupation_data_sub_major <- get_occupation_data(valid_sub_major_codes,
+                                                     isco_codes,
+                                                     isco88_table[, seq(1, 4)],
+                                                     name_occupation = "sub_major",
+                                                     sex = sex)
+    
+    occupation_data_major <- get_occupation_data(valid_sub_major_codes,
+                                                 isco_codes,
+                                                 isco88_table[, seq(1, 2)],
+                                                 name_occupation = "major",
+                                                 sex = sex)
 
     occupation_data <- data.frame(
       sex = NA, major = NA,
@@ -592,65 +553,30 @@ describe_occupation <- function(isco_codes, sex = NULL, plot = NULL) {
       return(occupation_data)
     }
   } else {
-    occupation_data_unit <- data.frame(
-      occupation = valid_unit_codes
+    occupation_data_unit <- get_occupation_data(valid_unit_codes,
+                                                isco_codes,
+                                                isco88_table,
+                                                name_occupation = "unit",
+                                                sex = sex
     )
-    occupation_data_unit <- occupation_data_unit %>%
-      dplyr::count(.data$occupation)
-    occupation_data_unit <- unique(merge(occupation_data_unit, isco88_table,
-      by.x = "occupation", by.y = "unit"
-    ))
-    names(occupation_data_unit)[
-      names(occupation_data_unit) == "occupation"
-    ] <- "unit"
-    names(occupation_data_unit)[names(occupation_data_unit) == "n"] <- "count"
-
-
-    occupation_data_minor <- data.frame(
-      occupation = valid_minor_codes
-    )
-    occupation_data_minor <- occupation_data_minor %>%
-      dplyr::count(.data$occupation)
-    occupation_data_minor <- unique(merge(occupation_data_minor,
-      isco88_table[, seq(1, 6)],
-      by.x = "occupation", by.y = "minor"
-    ))
-    names(occupation_data_minor)[
-      names(occupation_data_minor) == "occupation"
-    ] <- "minor"
-    names(occupation_data_minor)[names(occupation_data_minor) == "n"] <- "count"
-
-    occupation_data_sub_major <- data.frame(
-      occupation = valid_sub_major_codes
-    )
-    occupation_data_sub_major <- occupation_data_sub_major %>%
-      dplyr::count(.data$occupation)
-    occupation_data_sub_major <- unique(merge(occupation_data_sub_major,
-      isco88_table[, seq(1, 4)],
-      by.x = "occupation",
-      by.y = "sub_major"
-    ))
-    names(occupation_data_sub_major)[
-      names(occupation_data_sub_major) == "occupation"
-    ] <- "sub_major"
-    names(occupation_data_sub_major)[
-      names(occupation_data_sub_major) == "n"
-    ] <- "count"
-
-    occupation_data_major <- data.frame(
-      occupation = valid_major_codes,
-      sex = sex[isco_codes %in% valid_major_codes]
-    )
-    occupation_data_major <- occupation_data_major %>%
-      dplyr::count(.data$occupation)
-    occupation_data_major <- unique(merge(occupation_data_major,
-      isco88_table[, c(1, 2)],
-      by.x = "occupation", by.y = "major"
-    ))
-    names(occupation_data_major)[
-      names(occupation_data_major) == "occupation"
-    ] <- "major"
-    names(occupation_data_major)[names(occupation_data_major) == "n"] <- "count"
+    
+    occupation_data_minor <- get_occupation_data(valid_minor_codes,
+                                                 isco_codes,
+                                                 isco88_table[, seq(1, 6)],
+                                                 name_occupation = "minor",
+                                                 sex = sex)
+    
+    occupation_data_sub_major <- get_occupation_data(valid_sub_major_codes,
+                                                     isco_codes,
+                                                     isco88_table[, seq(1, 4)],
+                                                     name_occupation = "sub_major",
+                                                     sex = sex)
+    
+    occupation_data_major <- get_occupation_data(valid_sub_major_codes,
+                                                 isco_codes,
+                                                 isco88_table[, seq(1, 2)],
+                                                 name_occupation = "major",
+                                                 sex = sex)
 
     occupation_data <- data.frame(
       major = NA,
@@ -695,6 +621,48 @@ describe_occupation <- function(isco_codes, sex = NULL, plot = NULL) {
       return(occupation_data)
     }
   }
+}
+
+#' Axuliar function to obtain the information of the occupations
+#' @param valid_codes A numeric vector with the valid codes from the ISCO-88
+#' table
+#' @param isco_codes A numeric vector of ISCO-88 occupation codes
+#' (major, submajor, minor, or unit)
+#' @param sex A vector with the respective sex for isco_codes vector. The
+#' default value is NULL
+#' @param isco88_table The ISCO-88 table columns of the information for that
+#' group of occupations
+#' @param name_occupation The category of occupations to be consulted. These can
+#' be: major, submajor, minor, or unit
+#' @return A dataframe with the information of the occupations
+#' @keywords internal
+get_occupation_data <- function(valid_codes, isco_codes, isco88_table,
+                                name_occupation, sex = NULL) {
+  if (!is.null(sex)) {
+    occupation_data <- data.frame(
+      occupation = valid_codes,
+      sex = sex[isco_codes %in% valid_codes]
+      )
+    occupation_data <- occupation_data %>%
+      dplyr::count(.data$sex, .data$occupation)
+    occupation_data <- unique(merge(occupation_data, isco88_table,
+                                    by.x = "occupation", by.y = name_occupation
+                                    ))
+  } else {
+    occupation_data <- data.frame(
+      occupation = valid_codes
+    )
+    occupation_data <- occupation_data %>%
+      dplyr::count(.data$occupation)
+    occupation_data <- unique(merge(occupation_data, isco88_table,
+                                    by.x = "occupation", by.y = name_occupation
+    ))
+  }
+  names(occupation_data)[
+    names(occupation_data) == "occupation"
+  ] <- name_occupation
+  names(occupation_data)[names(occupation_data) == "n"] <- "count"
+  return(occupation_data)
 }
 
 #' Distribution plots for ISCO-88 occupation labels
