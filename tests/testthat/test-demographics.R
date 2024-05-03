@@ -170,7 +170,7 @@ sex_0 <- c(
 )
 
 pop_pyramid_0 <- population_pyramid(5001, 2020, FALSE)
-pop_pyramid_1 <- population_pyramid(5001, 2020, TRUE)
+pop_pyramid_1 <- population_pyramid(5001, 2020, TRUE, plot = TRUE)
 
 test_that("age risk errors are thrown", {
   expect_error(age_risk(age_1, sex_0, pop_pyramid_0))
@@ -205,7 +205,7 @@ test_that("describe occupation errors are thrown", {
 })
 
 test_that("describe occupation works as expected", {
-  expect_type(describe_occupation(c(1110, 4141)),
+  expect_type(describe_occupation(c(1110, 4141, 12345)),
     type = "list"
   )
   expect_type(describe_occupation(c(1110, 4141), sex = c("F", "M")),
@@ -218,6 +218,11 @@ test_that("describe occupation works as expected", {
   )
   expect_type(describe_occupation(c(1110, 4141),
                                   sex = c("F", "M"),
+                                  plot = "circular"),
+              type = "list"
+  )
+  expect_type(describe_occupation(c(1110, 4141),
+                                  sex = NULL,
                                   plot = "circular"),
               type = "list"
   )
