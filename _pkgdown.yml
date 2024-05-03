@@ -9,9 +9,10 @@ reference:
   - age_risk
   - describe_ethnicity
   - describe_occupation
-  - detect_outbreaks_ewma
-  - ewma
+  - get_age_risk_sex
+  - get_occupation_data
   - population_pyramid
+  - population_pyramid_plot
   - occupation_plot
   - occupation_plot_circular
 
