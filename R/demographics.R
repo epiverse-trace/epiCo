@@ -225,7 +225,8 @@ population_pyramid_plot <- function(pop_pyramid, sex = TRUE){
 #' @param age A vector with the ages of cases in years from 0 to 100 years
 #' @param sex A vector with the sex of cases 'F' and 'M'. The default value
 #' is NULL
-#' @param population_pyramid A dataframe with the count of individuals
+#' @param population_pyramid A dataframe with the count of individuals with the
+#' columns age, population and sex
 #' @param plot A boolean for displaying a plot. The default value is FALSE
 #' @importFrom rlang .data
 #' @return A dataframe with the proportion or total count of individuals
