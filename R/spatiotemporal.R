@@ -95,39 +95,32 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
   weights <- neighborhoods(mpios_filtered, threshold)
 
   # Moran's I
-  morans_i <- spdep::moran.plot(incidence_rate_log,
-    listw = weights, plot = FALSE
-  )
+  morans_i <- spdep::localmoran(incidence_rate_log,
+                                listw = weights)
   moran_data_frame <- as.data.frame(morans_i)
-  # Clusters
-  moran_data_frame <- dplyr::mutate(moran_data_frame,
-    cluster = dplyr::case_when(
-      x > mean(x) & wx >
-        mean(wx) ~ "High-High",
-      x < mean(x) & wx <
-        mean(wx) ~ "Low-Low",
-      x > mean(x) & wx <
-        mean(wx) ~ "High-Low",
-      x < mean(x) & wx >
-        mean(wx) ~ "Low-High"
-    )
-  )
-  infl_mpios <- moran_data_frame[which(moran_data_frame$is_inf), ]
+  moran_data_frame$quadr <- attributes(morans_i)$quadr$mean
+  moran_data_frame$quadr <- factor(moran_data_frame$quadr,
+                                   levels = c("High-High", "High-Low",
+                                              "Low-High", "Low-Low",
+                                              "Not Significant"))
+  moran_data_frame[moran_data_frame$`Pr(z != E(Ii))`> 0.05,
+                   "quadr"] <- "Not Significant"
+  
   morans_index <- list(
-    municipios = moran_data_frame$labels,
-    quadrant = moran_data_frame$cluster,
-    influential = moran_data_frame$is_inf,
-    logIncidence = moran_data_frame$x,
-    lagIncidence = moran_data_frame$wx
+    municipios = row.names(moran_data_frame),
+    quadrant = moran_data_frame$quadr
+    
   )
   if (!all(is.na(morans_index$quadrant))) {
-    cat(paste("Influential municipalities are:", "\n"))
+    cat(paste("Significant municipalities are:", "\n"))
     # Influential observations
     cat(
       sprintf(
         "%s with %s (incidence - spatial correlation)",
-        infl_mpios$labels,
-        infl_mpios$cluster
+        row.names(
+          moran_data_frame[moran_data_frame$quadr != "Not Significant", ]
+          ),
+        moran_data_frame[moran_data_frame$quadr != "Not Significant", "quadr"]
       ),
     sep = "\n")
   }
@@ -171,9 +164,10 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
       pal <- leaflet::colorFactor(
         palette = c(
           "#ba0001", "#00992C", "#80CC96",
-          "#F08E94"
+          "#F08E94", "#c8c8c8"
         ),
-        domain = c("High-High", "Low-Low", "Low-High", "High-Low"),
+        domain = c("High-High", "Low-Low", "Low-High", "High-Low",
+                   "Not Significant"),
         ordered = TRUE
       )
 
@@ -188,17 +182,15 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
           fillColor = ~ pal(shapes$CLUSTER),
           popup = popup_data,
           color = "black",
-          fillOpacity = ifelse(shapes$CLUSTER == "High-High" |
-            shapes$CLUSTER == "Low-Low" |
-            shapes$CLUSTER == "Low-High" |
-            shapes$CLUSTER == "High-Low", 0.65, 0)
+          fillOpacity = 0.65
         ) %>%
         leaflet::addLegend("bottomright",
           pal = pal, values = ~ c(
             "High-High",
             "Low-Low",
             "Low-High",
-            "High-Low"
+            "High-Low",
+            "Not Significant"
           ),
           title = "Local Moran's Index Clusters",
           opacity = 1
