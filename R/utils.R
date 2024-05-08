@@ -101,7 +101,7 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
     population_projection_col_1 <- population_projection_col_1
     populations <- population_projection_col_1
     populations$code <- population_projection_col_1$dp
-    groups <- as.numeric(colnames(incidence_object$counts))
+    groups <- colnames(incidence_object$counts)
   } else if (level == 2) {
     path_2 <- system.file("extdata", "population_projection_col_2.rda",
       package = "epiCo"
@@ -110,7 +110,7 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
     population_projection_col_2 <- population_projection_col_2
     populations <- population_projection_col_2
     populations$code <- population_projection_col_2$dpmp
-    groups <- as.numeric(colnames(incidence_object$counts))
+    groups <- colnames(incidence_object$counts)
   } else {
     stop("Error in Administrative Level selection")
   }

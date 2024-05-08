@@ -2,22 +2,27 @@
 
 test_that("Neighborhoods errors and warnings are thrown", {
   # error on parameters
-  expect_error(neighborhoods(c("5001", 5148, 5206, 5266, 5088, 5440, 5615)))
-  expect_warning(neighborhoods(c(500010, 5148, 5206, 5266, 5088, 5440, 5615)))
+  expect_error(neighborhoods(c("05001", "05148", "05206", 5266, "05088",
+                               "05440", "05615")))
+  expect_warning(neighborhoods(c("0500010", "05148", "05206", "05266", "05088",
+                                 "05440", "05615")))
 })
 
 test_that("Neighborhoods are built as expected", {
   # class
   expect_s3_class(
-    neighborhoods(c(5001, 5148, 5206, 5266, 5088, 5440, 5615)),
+    neighborhoods(c("05001", "05148", "05206", "05266", "05088", "05440",
+                    "05615")),
     "nb"
   )
   expect_length(
-    neighborhoods(c(5001, 5148, 5206, 5266, 5088, 5440, 5615))$neighbours,
+    neighborhoods(c("05001", "05148", "05206", "05266", "05088", "05440",
+                    "05615"))$neighbours,
     7
   )
   expect_length(
-    neighborhoods(c(5001, 500148, 15206, 5266, 5088, 5440, 5615))$neighbours,
+    neighborhoods(c("05001", "0500148", "15206", "05266", "05088", "05440",
+                    "05615"))$neighbours,
     5
   )
 })
@@ -26,7 +31,8 @@ test_that("Neighborhoods are built as expected", {
 
 # Functional incidence object
 set.seed(3)
-sample_groups <- c(5001, 5148, 5615, 5088, 5266, 5440, 5318, 5368, 5659)
+sample_groups <- c("05001", "05148", "05615", "05088", "05266", "05440",
+                   "05318", "05368", "05659")
 sample_data <- sample(sample_groups, 200, replace = TRUE)
 
 sample_df <- data.frame(GROUP = sample_data)
@@ -40,7 +46,8 @@ incidence_object <- incidence::incidence(sample_df$CASES,
 # Failing incidence object
 sample_data_2 <- as.integer(sample(1:50, 200, replace = TRUE))
 sample_dates_2 <- as.Date("2018-12-31") + sample_data_2
-sample_groups_2 <- sample(c(5001, 5264, 5615, 5607), 200, replace = TRUE)
+sample_groups_2 <- sample(c("05001", "05264", "05615", "05607"), 200,
+                          replace = TRUE)
 sample_df_2 <- data.frame(CASES = sample_dates_2, GROUP = sample_groups_2)
 incidence_object_2 <- incidence::incidence(sample_df_2$CASES,
   interval = "weeks",
