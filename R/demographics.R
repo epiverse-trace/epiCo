@@ -16,14 +16,15 @@
 #' @importFrom rlang .data
 #' @return A dataframe with the proportion or total count of individuals
 #' @examples
-#' population_pyramid(15001, 2015, sex = TRUE, total = TRUE, plot = TRUE)
+#' population_pyramid("15001", 2015, sex = TRUE, total = TRUE, plot = TRUE)
 #' @export
 population_pyramid <- function(divipola_code, year, sex = TRUE, range = 5,
                                total = TRUE, plot = FALSE) {
   stopifnot(
     "`year` must be an unique value" = (length(year) == 1),
-    "`divipola_code` must be an integer positive" = ((divipola_code %% 1 == 0) &
-      length(divipola_code) == 1 & divipola_code >= 0),
+    "`divipola_code` must be a character of a positive integer" = (
+      is.character(divipola_code) & (as.numeric(divipola_code) %% 1 == 0) &
+      length(divipola_code) == 1 & as.numeric(divipola_code) >= 0),
     "`range` must be an integer value between 1 and 100" = is.numeric(range) &
       range %in% seq(1, 100)
   )
@@ -234,7 +235,7 @@ population_pyramid_plot <- function(pop_pyramid, sex = TRUE){
 #' @importFrom rlang .data
 #' @return A dataframe with the proportion or total count of individuals
 #' @examples
-#' pop_pyramid <- population_pyramid(15001, 2015, sex = TRUE, total = TRUE,
+#' pop_pyramid <- population_pyramid("15001", 2015, sex = TRUE, total = TRUE,
 #' plot = FALSE)
 #' ages <- round(runif(150,0,100))
 #' sex <- c(rep("M",70),rep("F",80))

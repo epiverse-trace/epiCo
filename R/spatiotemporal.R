@@ -9,12 +9,13 @@
 #' @return neighborhood object according to the introduced threshold.
 #'
 #' @examples
-#' query_vector <- c(5001, 5002, 5004, 5021, 5030, 5615, 5607)
+#' query_vector <- c("05001", "05002", "05004", "05021", "05030", "05615", "05607")
 #' neighborhoods(query_vector, 2)
 #'
 #' @export
 neighborhoods <- function(query_vector, threshold = 2) {
-  stopifnot("`query_vector` must be numeric" = (is.numeric(query_vector)))
+  stopifnot("`query_vector` must be a character vector" = (is.character(
+    query_vector)))
   path <- system.file("extdata", "distance_matrix.rda", package = "epiCo")
   load(path)
   distance_matrix <- distance_matrix
@@ -88,7 +89,7 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
 
   # Logarithmic transformation
   incidence_rate_log <- log(incidence_rate_ordered$rates)
-  mpios_filtered <- as.numeric(mpios[which(incidence_rate_log > -Inf)])
+  mpios_filtered <- mpios[which(incidence_rate_log > -Inf)]
   incidence_rate_log <- incidence_rate_log[which(incidence_rate_log > -Inf)]
 
   # Neighborhood structure
