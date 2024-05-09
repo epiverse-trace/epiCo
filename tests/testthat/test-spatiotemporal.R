@@ -57,37 +57,30 @@ incidence_object_2 <- incidence::incidence(sample_df_2$CASES,
 test_that("Morans Index errors and warnings are thrown", {
   expect_error(morans_index(c(20, 53, 90, 63), 2, plot = FALSE))
   expect_error(morans_index(incidence_object_2,
-    level = 2,
     threshold = 2, plot = FALSE
   ))
   expect_error(morans_index(incidence_object,
-    level = 2,
     threshold = "2", plot = FALSE
   ))
   expect_error(morans_index(incidence_object,
-    level = 2,
     threshold = 2, plot = "FALSE"
   ))
   expect_message(morans_index(incidence_object,
-    level = 2,
     threshold = 12, plot = TRUE
   ), type = "list")
 })
 
 test_that("Morans Index works as expected", {
   expect_type(morans_index(incidence_object,
-    level = 2, threshold = 1, plot = FALSE
+     threshold = 1, plot = FALSE
   ), type = "list")
   expect_length(morans_index(incidence_object,
-    level = 2,
     threshold = 1, plot = FALSE
   ), n = 5)
   expect_type(morans_index(incidence_object,
-    level = 2,
     threshold = 2, plot = TRUE
   ), type = "list")
   expect_type(morans_index(incidence_object,
-    level = 2,
     threshold = 12, plot = TRUE
   ), type = "list")
 })

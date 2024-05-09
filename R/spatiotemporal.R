@@ -44,8 +44,6 @@ neighborhoods <- function(query_vector, threshold = 2) {
 #'
 #' @param incidence_object An incidence object with one observation for the
 #' different locations (groups).
-#' @param level Administration level at which incidence counts are grouped.
-#' (0=national, 1=state/department, 2=city/municipality).
 #' @param scale Scale to consider when calculating the incidence_rate.
 #' @param threshold Maximum traveling time around each municipality.
 #' @param plot if TRUE, returns a plot of influential observations in the
@@ -61,22 +59,20 @@ neighborhoods <- function(query_vector, threshold = 2) {
 #' morans_index(incidence_object, 2, FALSE)
 #' }
 #' @export
-morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
+morans_index <- function(incidence_object, scale = 100000, threshold = 2,
                          plot = TRUE) {
   stopifnot(
     "`incidence_object` must have incidence class" =
       (inherits(incidence_object, "incidence")),
     "`incidence_object` must account for a single cumulative observation" =
       (length(incidence_object$dates) == 1),
-    "`level` must be 0, 1, or 2" =
-      (level %in% c(0, 1, 2)),
     "`scale` must be numeric" = (is.numeric(scale)),
     "`threshold` must be numeric" = (is.numeric(threshold)),
     "`plot` must be boolean" = (is.logical(plot))
   )
   incidence_rate <- incidence_rate(
     incidence_object = incidence_object,
-    level = level, scale = scale
+    level = 2, scale = scale
   )
   path_1 <- system.file("extdata", "divipola_table.rda", package = "epiCo")
   load(path_1)
@@ -110,7 +106,6 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
   morans_index <- list(
     municipios = row.names(moran_data_frame),
     quadrant = moran_data_frame$quadr
-    
   )
   if (!all(is.na(morans_index$quadrant))) {
     cat(paste("Significant municipalities are:", "\n"))
@@ -138,7 +133,7 @@ morans_index <- function(incidence_object, level, scale = 100000, threshold = 2,
       spatial_polygons_col_2 <- spatial_polygons_col_2
 
       shapes <- spatial_polygons_col_2[spatial_polygons_col_2$MPIO_CDPMP %in%
-        as.integer(morans_index$municipios), ]
+        morans_index$municipios, ]
       shapes_order <- match(shapes$MPIO_CDPMP, morans_index$municipios)
       shapes$MPIO_CDPMP <- morans_index$municipios[shapes_order]
       shapes$CLUSTER <- morans_index$quadrant[shapes_order]
