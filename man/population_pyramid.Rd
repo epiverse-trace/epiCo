@@ -39,5 +39,5 @@ Function that returns the population pyramid of the municipality
 or department of a specific year
 }
 \examples{
-population_pyramid(15001, 2015, sex = TRUE, total = TRUE, plot = TRUE)
+population_pyramid("15001", 2015, sex = TRUE, total = TRUE, plot = TRUE)
 }

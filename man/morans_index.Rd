@@ -5,20 +5,11 @@
 \title{Calculate spatial correlation of given municipalities in an incidence_rate
 object.}
 \usage{
-morans_index(
-  incidence_object,
-  level,
-  scale = 1e+05,
-  threshold = 2,
-  plot = TRUE
-)
+morans_index(incidence_object, scale = 1e+05, threshold = 2, plot = TRUE)
 }
 \arguments{
 \item{incidence_object}{An incidence object with one observation for the
 different locations (groups).}
-
-\item{level}{Administration level at which incidence counts are grouped.
-(0=national, 1=state/department, 2=city/municipality).}
 
 \item{scale}{Scale to consider when calculating the incidence_rate.}
 
