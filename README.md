@@ -11,7 +11,7 @@ MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.or
 [![R-CMD-check](https://github.com/epiverse-trace/epico/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/epiverse-trace/epico/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/epiverse-trace/epico/branch/main/graph/badge.svg)](https://app.codecov.io/gh/epiverse-trace/epico?branch=main)
-[![lifecycle-maturing](https://raw.githubusercontent.com/reconverse/reconverse.github.io/master/images/badge-maturing.svg)](https://www.reconverse.org/lifecycle.html#experimental)
+[![lifecycle-maturing](https://raw.githubusercontent.com/reconverse/reconverse.github.io/master/images/badge-maturing.svg)](https://www.reconverse.org/lifecycle.html#maturing)
 <!-- badges: end -->
 
 ## Installation
@@ -59,7 +59,7 @@ All features are performed automatically from epidemiological, demographic, spat
 This package is currently a *maturing* product, as defined by the [RECON software
 lifecycle](https://www.reconverse.org/lifecycle.html). This means that
 essential features and mechanisms are functional, documented, and tested.
-However, is in code review stage and is being socialized with expert users.
+However, the package is open to receive code reviews and is being socialized with expert users.
 
 ### Contributions
 
@@ -76,9 +76,15 @@ Contributors to the project include:
   - [Catalina Gonzalez Uribe](cgonzalez@uniandes.edu.co) (advisor)
   - [Juan Manuel Cordovez](jucordov@uniandes.edu.co) (advisor)
 
+We acknowledge the contribution of collaborators in Universidad de los Andes, Pontificia Universidad Javeriana, Instituto Nacional de Salud de Colombia, Secretaría de Salud del Tolima, and Epimodelac Course attendees who provided insightful feedback for the package.
+
 ### Code of Conduct
 
 Please note that the epiCo project is released with a [Contributor
 Code of
 Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
 By contributing to this project, you agree to abide by its terms.
+
+### Funding
+
+This work is part of the TRACE-LAC research project funded by the International Research Centre (IDRC) Ottawa, Canada.[109848-001-].
