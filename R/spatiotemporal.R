@@ -100,14 +100,16 @@ morans_index <- function(incidence_object, scale = 100000, threshold = 2,
                                    levels = c("High-High", "High-Low",
                                               "Low-High", "Low-Low",
                                               "Not Significant"))
-  moran_data_frame[moran_data_frame$`Pr(z != E(Ii))`> 0.05,
+  moran_data_frame[moran_data_frame$`Pr(z != E(Ii))`> 0.05 |
+                     is.na(moran_data_frame$`Pr(z != E(Ii))`),
                    "quadr"] <- "Not Significant"
   
   morans_index <- list(
     municipios = row.names(moran_data_frame),
     quadrant = moran_data_frame$quadr
   )
-  if (!all(is.na(morans_index$quadrant))) {
+  
+  if (!all(morans_index$quadrant == "Not Significant")) {
     cat(paste("Significant municipalities are:", "\n"))
     # Influential observations
     cat(
@@ -119,81 +121,79 @@ morans_index <- function(incidence_object, scale = 100000, threshold = 2,
         moran_data_frame[moran_data_frame$quadr != "Not Significant", "quadr"]
       ),
     sep = "\n")
+  } else {
+    message("There are no influential municipalities to plot")
+    return(morans_index)
   }
   # Plot
   if (plot) {
-    if (all(is.na(morans_index$quadrant))) {
-      message("There are no influential municipalities to plot")
-      return(morans_index)
-    } else {
-      path_2 <- system.file("extdata", "spatial_polygons_col_2.rda",
-        package = "epiCo"
-      )
-      load(path_2)
-      spatial_polygons_col_2 <- spatial_polygons_col_2
-
-      shapes <- spatial_polygons_col_2[spatial_polygons_col_2$MPIO_CDPMP %in%
-        morans_index$municipios, ]
-      shapes_order <- match(shapes$MPIO_CDPMP, morans_index$municipios)
-      shapes$MPIO_CDPMP <- morans_index$municipios[shapes_order]
-      shapes$CLUSTER <- morans_index$quadrant[shapes_order]
-      shapes_names <- rep(NA, length(morans_index$municipios))
-      index <- 1
-      for (n in morans_index$municipios[shapes_order]) {
-        s_name <- divipola_table$NOM_MPIO[which(
-          divipola_table$COD_MPIO == n
-        )]
-        shapes_names[index] <- s_name
-        index <- index + 1
-      }
-      shapes$NOM_MPIO <- shapes_names
-
-      popup_data <- paste0(
-        "<b>", "Municipality Name: ", "</b>",
-        shapes$NOM_MPIO, "<br>",
-        "<b>", "Municipality Code: ", "</b>",
-        shapes$MPIO_CDPMP, "<br>",
-        "<b>", "Cluster: ", "</b>",
-        shapes$CLUSTER, "<br>"
-      )
-      # nolint start
-      pal <- leaflet::colorFactor(
-        palette = c(
-          "#ba0001", "#00992C", "#80CC96",
-          "#F08E94", "#c8c8c8"
-        ),
-        domain = c("High-High", "Low-Low", "Low-High", "High-Low",
-                   "Not Significant"),
-        ordered = TRUE
-      )
-
-      tile_provider <- "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}"
-
-      clusters_plot <- leaflet::leaflet(shapes) %>%
-        leaflet::addTiles(tile_provider) %>%
-        leaflet::addPolygons(
-          stroke = TRUE,
-          weight = 2,
-          smoothFactor = 0.2,
-          fillColor = ~ pal(shapes$CLUSTER),
-          popup = popup_data,
-          color = "black",
-          fillOpacity = 0.65
-        ) %>%
-        leaflet::addLegend("bottomright",
-          pal = pal, values = ~ c(
-            "High-High",
-            "Low-Low",
-            "Low-High",
-            "High-Low",
-            "Not Significant"
-          ),
-          title = "Local Moran's Index Clusters",
-          opacity = 1
-        )
-      # nolint end
-      return(list(data = morans_index, plot = clusters_plot))
+    path_2 <- system.file("extdata", "spatial_polygons_col_2.rda",
+                          package = "epiCo"
+    )
+    load(path_2)
+    spatial_polygons_col_2 <- spatial_polygons_col_2
+    
+    shapes <- spatial_polygons_col_2[spatial_polygons_col_2$MPIO_CDPMP %in%
+                                       morans_index$municipios, ]
+    shapes_order <- match(shapes$MPIO_CDPMP, morans_index$municipios)
+    shapes$MPIO_CDPMP <- morans_index$municipios[shapes_order]
+    shapes$CLUSTER <- morans_index$quadrant[shapes_order]
+    shapes_names <- rep(NA, length(morans_index$municipios))
+    index <- 1
+    for (n in morans_index$municipios[shapes_order]) {
+      s_name <- divipola_table$NOM_MPIO[which(
+        divipola_table$COD_MPIO == n
+      )]
+      shapes_names[index] <- s_name
+      index <- index + 1
     }
+    shapes$NOM_MPIO <- shapes_names
+    
+    popup_data <- paste0(
+      "<b>", "Municipality Name: ", "</b>",
+      shapes$NOM_MPIO, "<br>",
+      "<b>", "Municipality Code: ", "</b>",
+      shapes$MPIO_CDPMP, "<br>",
+      "<b>", "Cluster: ", "</b>",
+      shapes$CLUSTER, "<br>"
+    )
+    # nolint start
+    pal <- leaflet::colorFactor(
+      palette = c(
+        "#ba0001", "#00992C", "#80CC96",
+        "#F08E94", "#c8c8c8"
+      ),
+      domain = c("High-High", "Low-Low", "Low-High", "High-Low",
+                 "Not Significant"),
+      ordered = TRUE
+    )
+    
+    tile_provider <- "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}"
+    
+    clusters_plot <- leaflet::leaflet(shapes) %>%
+      leaflet::addTiles(tile_provider) %>%
+      leaflet::addPolygons(
+        stroke = TRUE,
+        weight = 2,
+        smoothFactor = 0.2,
+        fillColor = ~ pal(shapes$CLUSTER),
+        popup = popup_data,
+        color = "black",
+        fillOpacity = 0.65
+      ) %>%
+      leaflet::addLegend("bottomright",
+                         pal = pal, values = ~ c(
+                           "High-High",
+                           "Low-Low",
+                           "Low-High",
+                           "High-Low",
+                           "Not Significant"
+                         ),
+                         title = "Local Moran's Index Clusters",
+                         opacity = 1
+      )
+    # nolint end
+    return(list(data = morans_index, plot = clusters_plot))
   } else{
     return(morans_index) 
   }

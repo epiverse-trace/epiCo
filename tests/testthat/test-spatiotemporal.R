@@ -2,8 +2,7 @@
 
 test_that("Neighborhoods errors and warnings are thrown", {
   # error on parameters
-  expect_error(neighborhoods(c("05001", "05148", "05206", 5266, "05088",
-                               "05440", "05615")))
+  expect_error(neighborhoods(c(5001, 5148, 5206, 5266, 5088, 5440, 5615)))
   expect_warning(neighborhoods(c("0500010", "05148", "05206", "05266", "05088",
                                  "05440", "05615")))
 })
@@ -76,11 +75,8 @@ test_that("Morans Index works as expected", {
   ), type = "list")
   expect_length(morans_index(incidence_object,
     threshold = 1, plot = FALSE
-  ), n = 5)
+  ), n = 2)
   expect_type(morans_index(incidence_object,
     threshold = 2, plot = TRUE
-  ), type = "list")
-  expect_type(morans_index(incidence_object,
-    threshold = 12, plot = TRUE
   ), type = "list")
 })

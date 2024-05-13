@@ -87,7 +87,7 @@ incidence_object <- incidence(
   interval = "12 months"
 )
 
-monrans_tolima <- morans_index(incidence_object = incidence_object, level = 2)
+monrans_tolima <- morans_index(incidence_object = incidence_object)
 monrans_tolima$plot
 ```
 
