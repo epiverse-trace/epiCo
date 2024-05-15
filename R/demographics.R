@@ -2,9 +2,8 @@
 #'
 #' @description Function that returns the population pyramid of the municipality
 #' or department of a specific year
-#' @param divipola_code A numerical code from the divipola table representing a
-#' department or municipality. To obtain values at the national level, code 0 is
-#' used
+#' @param divipola_code A code from the divipola table representing a department
+#' or municipality. To obtain values at the national level, code '0' is used
 #' @param year A numeric input for the year of interest
 #' @param sex A boolean to consult data disaggregated by sex. The default value
 #' is TRUE
@@ -222,9 +221,9 @@ population_pyramid_plot <- function(pop_pyramid, sex = TRUE){
   return(pop_pyramid_plot)
 }
 
-#' Returns the probability mass function of being infected given age and sex
+#' Returns the specific rates associated with being infected given age and sex
 #'
-#' @description Function that returns the probability of being infected given
+#' @description Function that returns the specific rates of being infected given
 #' age and sex
 #' @param age A vector with the ages of cases in years from 0 to 100 years
 #' @param sex A vector with the sex of cases 'F' and 'M'. The default value
