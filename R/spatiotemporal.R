@@ -1,7 +1,7 @@
 #' Neighborhoods from real travel distances in Colombia
 #'
 #' @description Function to build neighborhoods from real travel distances
-#' inside Colombia by land or river transport.
+#' inside Colombia by land or river transportation.
 #'
 #' @param query_vector Codes of the municipalities to consider for the
 #' neighborhoods.
