@@ -31,7 +31,7 @@ test_that("Neighborhoods are built as expected", {
 # Functional incidence object
 set.seed(3)
 sample_groups <- c("05001", "05148", "05615", "05088", "05266", "05440",
-                   "05318", "05368", "05659")
+                   "05318", "05368", "05659", "91001")
 sample_data <- sample(sample_groups, 200, replace = TRUE)
 
 sample_df <- data.frame(GROUP = sample_data)

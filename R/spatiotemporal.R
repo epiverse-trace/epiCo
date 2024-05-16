@@ -29,8 +29,17 @@ neighborhoods <- function(query_vector, threshold = 2) {
   for (i in excluded) {
     warning("municipality ", i, " was not found")
   }
-  adjacency_matrix <- as.matrix(distance <= threshold)
-  list_weights <- spdep::mat2listw(adjacency_matrix, style = "W")
+  distance[!distance <= threshold] <- 0
+  list_weights <- spdep::mat2listw(distance, style = "W", zero.policy = T)
+  null_municipalities <- row.names(distance)[sapply(list_weights$weights,
+                                                    is.null)]
+  if (length(null_municipalities) > 0) {
+    msg <- paste("Municipalities", paste(null_municipalities, collapse = ", "),
+                 "are not part of the neighborhood according to the selected",
+                 "thershold in hours. It wil be displayed as 'Not significant'",
+                 "but it was not included in the local moran's index analysis.")
+    message(msg)
+  }
   return(list_weights)
 }
 
