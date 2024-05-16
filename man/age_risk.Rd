@@ -2,28 +2,37 @@
 % Please edit documentation in R/demographics.R
 \name{age_risk}
 \alias{age_risk}
-\title{Returns the probability mass function of being infected given age and gender}
+\title{Returns the specific rates associated with being infected given age and sex}
 \usage{
-age_risk(age, gender = NULL, population_pyramid, plot = FALSE)
+age_risk(age, sex = NULL, population_pyramid, plot = FALSE)
 }
 \arguments{
 \item{age}{A vector with the ages of cases in years from 0 to 100 years}
 
-\item{gender}{A vector with the gender of cases 'F' and 'M'}
+\item{sex}{A vector with the sex of cases 'F' and 'M'. The default value
+is NULL}
 
-\item{population_pyramid}{A dataframe with the count of individuals}
+\item{population_pyramid}{A dataframe with the count of individuals with the
+columns age, population and sex}
 
-\item{plot}{A boolean for displaying a plot}
+\item{plot}{A boolean for displaying a plot. The default value is FALSE}
 }
 \value{
 A dataframe with the proportion or total count of individuals
 }
 \description{
-Function that returns the probability of being infected given
-age and gender
+Function that returns the specific rates of being infected given
+age and sex
 }
 \examples{
-\dontrun{
-age_risk(c(15, 22), c("M", "F"), population_pyramid, plot = TRUE)
-}
+pop_pyramid <- population_pyramid("15001", 2015,
+  sex = TRUE, total = TRUE,
+  plot = FALSE
+)
+ages <- round(runif(150, 0, 100))
+sex <- c(rep("M", 70), rep("F", 80))
+age_risk(
+  age = ages, sex = sex, population_pyramid = pop_pyramid,
+  plot = TRUE
+)
 }

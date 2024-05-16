@@ -7,10 +7,11 @@
 endemic_channel(
   incidence_historic,
   observations = NULL,
-  method = "geometric",
-  geom_method = "shifted",
+  method = c("geometric", "median", "mean", "unusual_behavior"),
+  geometric_method = "shifted",
   outlier_years = NULL,
-  outliers_handling = "ignored",
+  outliers_handling = c("ignored", "included", "replaced_by_median", "replaced_by_mean",
+    "replaced_by_geometric_mean"),
   ci = 0.95,
   plot = FALSE
 )
@@ -25,8 +26,8 @@ observations}
 (median, mean, or geometric) or to use the unusual behavior method (Poisson
 Distribution Test for Hypoendemic settings)}
 
-\item{geom_method}{A string with the selected method for geometric mean
-calculation; see: geom_mean}
+\item{geometric_method}{A string with the selected method for geometric mean
+calculation; see: geometric_mean}
 
 \item{outlier_years}{A numeric vector with the outlier years}
 
@@ -48,6 +49,8 @@ series based on the selected method and windows of observation
 }
 \examples{
 \dontrun{
+# To understand how to obtain the incidence object, refer to the Building
+# an Endemic Channel with epiCo vignette.
 endemic_channel(observations, incidence_historic,
   method = "geometric",
   outliers_handling = "replace_with_median", plot = TRUE

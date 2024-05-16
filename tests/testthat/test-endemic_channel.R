@@ -75,6 +75,10 @@ test_that("Endemic channel works as expected", {
   ), "list")
   expect_type(endemic_channel(
     incidence_historic = historic_data,
+    plot = TRUE
+  ), "list")
+  expect_type(endemic_channel(
+    incidence_historic = historic_data,
     observations = seq(1, 52),
     method = "geometric"
   ), "list")
@@ -92,6 +96,43 @@ test_that("Endemic channel works as expected", {
     incidence_historic = historic_data,
     observations = seq(1, 52),
     method = "unusual_behavior"
+  ), "list")
+  expect_type(endemic_channel(
+    incidence_historic = historic_data,
+    observations = seq(1, 52),
+    method = "geometric",
+    outliers_handling = "ignored"
+  ), "list")
+  expect_type(endemic_channel(
+    incidence_historic = historic_data,
+    observations = seq(1, 52),
+    method = "geometric",
+    outliers_handling = "included"
+  ), "list")
+  expect_type(endemic_channel(
+    incidence_historic = historic_data,
+    observations = seq(1, 52),
+    method = "geometric",
+    outliers_handling = "replaced_by_median"
+  ), "list")
+  expect_type(endemic_channel(
+    incidence_historic = historic_data,
+    observations = seq(1, 52),
+    method = "geometric",
+    outliers_handling = "replaced_by_mean"
+  ), "list")
+  expect_type(endemic_channel(
+    incidence_historic = historic_data,
+    observations = seq(1, 52),
+    method = "geometric",
+    outliers_handling = "replaced_by_geometric_mean"
+  ), "list")
+  expect_type(endemic_channel(
+    incidence_historic = historic_data,
+    observations = seq(1, 52),
+    method = "geometric",
+    outliers_handling = "replaced_by_geometric_mean",
+    geometric_method = "optimized"
   ), "list")
   expect_type(endemic_channel(
     incidence_historic = historic_data,

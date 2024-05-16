@@ -18,18 +18,18 @@ knitr::opts_chunk$set(
 
 The `endemic_channel` function allows users to:
 
-- Estimate a central tendency measure (arithmetic mean, geometric mean, or median).
-- Estimate a confidence interval (based on the selected central tendency measure).
-- Select the epidemic (outlier) years in your data and decide how to handle them.
-- Plot the estimated endemic channel with the parameters and/or assumptions displayed.
-- Plot the current (observed) cases to evaluate your epidemiological situation (i.e., the occurrence of an outbreak).
+-   Estimate a central tendency measure (arithmetic mean, geometric mean, or median).
+-   Estimate a confidence interval (based on the selected central tendency measure).
+-   Select the epidemic (outlier) years in your data and decide how to handle them.
+-   Plot the estimated endemic channel with the parameters and/or assumptions displayed.
+-   Plot the current (observed) cases to evaluate your epidemiological situation (i.e., the occurrence of an outbreak).
 
 In the following vignette, users will learn:
 
-1. What is an endemic channel, and what are its benefits, drawbacks, and cautions?
-2. An example of the historical data needed to build an endemic channel.
-3. How to use the `endemic_channel` function.
-4. How to interpret and communicate the results.
+1.  What is an endemic channel, and what are its benefits, drawbacks, and cautions?
+2.  An example of the historical data needed to build an endemic channel.
+3.  How to use the `endemic_channel` function.
+4.  How to interpret and communicate the results.
 
 ## 1. What is an endemic channel?
 
@@ -44,9 +44,9 @@ knitr::include_graphics(
 )
 ```
 
-The data needed to build an endemic channel is the weekly or monthly incidence of the disease for previous years in the region of interest. **epiCo** asks for at least one year of data, but endemic channels are typically estimated at *5 to 7 years of information*.
+The data needed to build an endemic channel is the weekly or monthly incidence of the disease for previous years in the region of interest. **epiCo** asks for at least one year of data, but endemic channels are typically estimated with *5 to 7 years of information*.
 
-It is natural to presume that more years provide better estimations since the statistical analyses will be more robust, but it is important to have contextual information to ensure that transmission, surveillance, or demographic conditions (among other factors) have not changed during this period of time. Regarding the frequency of the data, weekly incidence may provide more useful information about the disease behavior and the moment in which an epidemiological warning should be raised; however, it is up to the experience of the users and their context whether this resolution of the data can be achieved.
+It is natural to presume that more years provide better estimations since the statistical analyses will be more robust, but it is important to have contextual information to ensure that transmission, surveillance, or demographic conditions (among other factors) have not changed during this period of time. Regarding the frequency of the data, weekly incidence may provide more useful information about the disease behavior and the moment in which an epidemiological warning should be raised; however, it is up to the experience of the users, and their context, whether this resolution of the data can be achieved.
 
 Another common decision while building an endemic channel is to ignore previous epidemic years to avoid misrepresenting the traditional transmission dynamics. **epiCo** does not suggest epidemic years automatically, but its `endemic_channel` function does provide the option to annotate the outlier years and decide whether to include, ignore, or adjust them. More data-gathering tips and sources are provided later in this vignette.
 
@@ -56,8 +56,7 @@ To have a statistical summary of the disease behavior, the endemic channel provi
 
 Since the nature of the epidemiological data tends not to be normal, the typically used CTM in the endemic channels is the *geometric mean*. This CTM is known to better represent the expected value of a data set with a skewed distribution and/or is susceptible to outliers (previous outbreaks). The `endemic_channel` function uses the geometric mean as the default CTM, but the arithmetic mean or median can be chosen according to the user's experience and context.
 
-It is important to note that as the geometric mean performs a multiplication of the data, when zero cases are reported in a moment of time, the estimation leads to a zero CTM. To avoid this, **epiCo**'s `endemic_channel` function performs a shift on the data to sum up one case (the default value) for all observations, and then it subtracts this shift from the final calculation. To avoid random selection of the shift, users can ask the `endemic_channel` function to find an optimal value based on 
-[de la Cruz & Kreft (2019)](https://doi.org/10.48550/arXiv.1806.06403), or they can also ask to use a weighted method as described by [Habib (2012)](https://www.arpapress.com/volumes/vol11issue3/ijrras_11_3_08.pdf).
+It is important to note that as the geometric mean performs a multiplication of the data, when zero cases are reported in a moment of time, the estimation leads to a zero CTM. To avoid this, **epiCo**'s `endemic_channel` function performs a shift on the data to sum up one case (the default value) for all observations, and then it subtracts this shift from the final calculation. To avoid random selection of the shift, users can ask the `endemic_channel` function to find an optimal value based on [de la Cruz & Kreft (2019)](https://doi.org/10.48550/arXiv.1806.06403), or they can also ask to use a weighted method as described by [Habib (2012)](https://www.arpapress.com/volumes/vol11issue3/ijrras_11_3_08.pdf).
 
 Finally, the `endemic_channel` function can perform a Poisson test (unusual behavior method) on the historical data if it is requested by the user after taking into account the pertinence of the test, since it is mostly used for scenarios or diseases with very low incidence records. This method uses the arithmetic mean as CTM.
 
@@ -67,16 +66,15 @@ The upper and lower limits of the endemic channel provide a confidence interval 
 
 **epiCo**'s `endemic_channel` function has the following preset of limits according to the selected CTM:
 
-- Arithmetic or geometric mean as CTM: mean +/- *t* value for a 95% CI multiplied by the variance of the data over the number of observations.
-- Median as CTM: quantiles 0.25 and 0.75 as lower and upper limits, respectively.
-- Poisson test (unusual behavior method): limits provided by a two-sided Poisson test with a 0.95% CI
+-   Arithmetic or geometric mean as CTM: mean +/- *t* value for a 95% CI multiplied by the variance of the data over the number of observations.
+-   Median as CTM: quantiles 0.25 and 0.75 as lower and upper limits, respectively.
+-   Poisson test (unusual behavior method): limits provided by a two-sided Poisson test with a 0.95% CI
 
 ## 2. Historical data needed to build an endemic channel
 
-This section provides some strategies to obtain, handle, and gather the historical data needed to build an endemic channel. It presumes that the user has either the line list or incidence data for the disease of interest or the need to consult historical data from the Colombian National Surveillance System
-[(SIVIGILA)](https://www.ins.gov.co/Direcciones/Vigilancia/Paginas/SIVIGILA.aspx).
+This section provides some strategies to obtain, handle, and gather the historical data needed to build an endemic channel. It presumes that the user has either the line list or incidence data for the disease of interest or the need to consult historical data from the Colombian National Surveillance System [(SIVIGILA)](https://www.ins.gov.co/Direcciones/Vigilancia/Paginas/SIVIGILA.aspx).
 
-Regardless of the user´s case, the goal of this section is to create an `incidence` object with historical data on the disease. This object must account for the incidence of a single region (no groups are allowed in the `endemic_channel` function), it must have a weekly or monthly interval (epiweeks are also allowed), and it must represent at least one year of information. 
+Regardless of the user´s case, the goal of this section is to create an `incidence` object with historical data on the disease. This object must account for the incidence of a single region (no groups are allowed in the `endemic_channel` function), it must have a weekly or monthly interval (epiweeks are also allowed), and it must represent at least one year of information.
 
 To have a broader understanding of the `incidence` package, please refer to its [vignettes](https://www.repidemicsconsortium.org/incidence/).
 
@@ -116,20 +114,27 @@ After gathering the incidence data, users are ready to ask **epiCo** to build an
 
 The `endemic_channel` function has the following parameters:
 
-- `incidence_historic`: An incidence object with the case counts of the previous years
-- `observations`: A numeric vector with the current observations *(default = NULL)*
-- `method`: A string with the mean calculation method of preference ("median", "mean", or "geometric") or "unusual_behavior" method (Poisson Distribution Test) *(default = "geometric")*
-- `geom_method`: A string with the selected method for geometric mean calculation (see epiCo's geom_mean function) *(default = "shifted")*.
-- `outlier_years`: A numeric vector with the outlier (epidemic) years *(default = NULL)*.
-- `outliers_handling`: A string with the handling decision regarding outlier years:
+-   `incidence_historic`: An incidence object with the case counts of the previous years
 
-    - ignored = data from outlier years will not be taken into account *(default)*.
-    - included = data from outlier years will take into account.
-    - replaced_by_median = data from outlier years will be replaced with the median and taken into account.
-    - replaced_by_mean = data from outlier years will be replaced with the mean and taken into account.
-    - replaced_by_geom_mean = data from outlier years will be replaced with the geometric mean and taken into account.
-- `ci`: A numeric value to specify the confidence interval to use with the geometric method *(default = 0.95)*.
-- `plot`: A boolean for displaying a plot *(default = FALSE)*.
+-   `observations`: A numeric vector with the current observations *(default = NULL)*
+
+-   `method`: A string with the mean calculation method of preference ("median", "mean", or "geometric") or "unusual_behavior" method (Poisson Distribution Test) *(default = "geometric")*
+
+-   `geometric_method`: A string with the selected method for geometric mean calculation (see epiCo's geometric_mean function) *(default = "shifted")*.
+
+-   `outlier_years`: A numeric vector with the outlier (epidemic) years *(default = NULL)*.
+
+-   `outliers_handling`: A string with the handling decision regarding outlier years:
+
+    -   ignored = data from outlier years will not be taken into account *(default)*.
+    -   included = data from outlier years will take into account.
+    -   replaced_by_median = data from outlier years will be replaced with the median and taken into account.
+    -   replaced_by_mean = data from outlier years will be replaced with the mean and taken into account.
+    -   replaced_by_geometric_mean = data from outlier years will be replaced with the geometric mean and taken into account.
+
+-   `ci`: A numeric value to specify the confidence interval to use with the geometric method *(default = 0.95)*.
+
+-   `plot`: A boolean for displaying a plot *(default = FALSE)*.
 
 The output of *epiCo*'s `endemic_channel` function is a dataframe with the observation, historical mean, and confidence intervals, and a plot displaying the four epidemiological bands, the current observations (if provided), and the methods and outliers handling set by the user.
 
@@ -152,8 +157,6 @@ ibague_endemic_chanel <- endemic_channel(
 
 ## 4. Interpretation and communication of results
 
-### Tips (section in development)
+The endemic channel is a visualization tool to stratify the epidemiological situation of a region. The instructions to gather, process and interpret the results are responsibility of the governmental institutions.
 
-### Warnings and disclosures (section in development)
-
-### Exporting the endemic channel plot (section in development)
+The communication of results is typically done in a framework of risk assessment, early warning protocols, and epidemic response leaded by public health officers. It is important to adjust the use of *epiCo* to the official guidelines from where is implemented.

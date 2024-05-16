@@ -24,6 +24,8 @@ object and population projections.
 }
 \examples{
 \dontrun{
+# To understand this function example refers to the epiCo - Demographic
+# module vignette.
 incidence_rate(incidence_object, 2)
 }
 
