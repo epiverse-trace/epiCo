@@ -2,3 +2,40 @@ url: https://epiverse-trace.github.io/epiCo/
 template:
   bootstrap: 5
   package: epiversetheme
+
+reference:
+
+- title: Demographic module
+  contents:
+  - age_risk
+  - describe_ethnicity
+  - describe_occupation
+  - get_age_risk_sex
+  - get_occupation_data
+  - population_pyramid
+  - population_pyramid_plot
+  - occupation_plot
+  - occupation_plot_circular
+
+- title: Endemic channel module
+  contents:
+  - endemic_channel
+
+- title: Spatiotemporal module
+  contents:
+  - neighborhoods
+  - morans_index
+  
+- title: Utils
+  contents:
+  - epi_calendar
+  - geometric_mean
+  - incidence_rate
+  - geometric_sd
+
+- title: Data
+  contents:
+  - divipola_table
+  - epi_data
+  - isco88_table
+  

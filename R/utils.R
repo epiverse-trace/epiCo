@@ -11,9 +11,7 @@
 #' weeks of the given year.
 #'
 #' @examples
-#' \dontrun{
 #' epi_calendar(2016)
-#' }
 #'
 #' @export
 epi_calendar <- function(year, jan_days = 4) {
@@ -70,6 +68,8 @@ epi_calendar <- function(year, jan_days = 4) {
 #'
 #' @examples
 #' \dontrun{
+#' # To understand this function example refers to the epiCo - Demographic
+#' # module vignette.
 #' incidence_rate(incidence_object, 2)
 #' }
 #'
@@ -91,7 +91,7 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
     load(path_0)
     population_projection_col_0 <- population_projection_col_0
     populations <- population_projection_col_0
-    populations$code <- population_projection_col_0$DP
+    populations$code <- population_projection_col_0$dp
     groups <- 0
   } else if (level == 1) {
     path_1 <- system.file("extdata", "population_projection_col_1.rda",
@@ -100,8 +100,8 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
     load(path_1)
     population_projection_col_1 <- population_projection_col_1
     populations <- population_projection_col_1
-    populations$code <- population_projection_col_1$DP
-    groups <- as.numeric(colnames(incidence_object$counts))
+    populations$code <- population_projection_col_1$dp
+    groups <- colnames(incidence_object$counts)
   } else if (level == 2) {
     path_2 <- system.file("extdata", "population_projection_col_2.rda",
       package = "epiCo"
@@ -109,8 +109,8 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
     load(path_2)
     population_projection_col_2 <- population_projection_col_2
     populations <- population_projection_col_2
-    populations$code <- population_projection_col_2$DPMP
-    groups <- as.numeric(colnames(incidence_object$counts))
+    populations$code <- population_projection_col_2$dpmp
+    groups <- colnames(incidence_object$counts)
   } else {
     stop("Error in Administrative Level selection")
   }
@@ -118,16 +118,16 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
   populations <- dplyr::filter(
     populations,
     .data$code %in% groups,
-    .data$ANO %in% years
+    .data$ano %in% years
   )
   incidence_rates <- incidence_object$counts
 
   for (group in groups) {
     for (year in years) {
-      year_population <- dplyr::filter(populations, .data$ANO == year)
+      year_population <- dplyr::filter(populations, .data$ano == year)
       group_population <- as.numeric(year_population[
         year_population$code == group,
-        "Total_General"
+        "total_general"
       ])
       if (level == 0) {
         incidence_rates[which(dates == year)] <-
@@ -171,20 +171,21 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
 #' optimized method is used.
 #'
 #' @examples
-#' \dontrun{
 #' x <- c(4, 5, 3, 7, 8)
-#' geom_mean(x, method = "optimized")
-#' }
+#' geometric_mean(x, method = "optimized")
 #'
 #' @export
-geom_mean <- function(x, method = "positive", shift = 1, epsilon = 1e-3) {
+geometric_mean <- function(x, method = c(
+                             "positive", "shifted",
+                             "optimized", "weighted"
+                           ),
+                           shift = 1, epsilon = 1e-3) {
   stopifnot(
     "`x`must be numeric" = (is.numeric(x)),
-    "`method` must be positive, shifted, otimized or wehighted" =
-      (method %in% c("positive", "shifted", "optimized", "weighted")),
     "`shift` must be numeric" = (is.numeric(shift)),
     "`epsilon` must be numeric" = (is.numeric(epsilon))
   )
+  method <- match.arg(method)
 
   if (method == "positive") {
     stopifnot("`x` includes zero or negative values,
@@ -204,15 +205,9 @@ geom_mean <- function(x, method = "positive", shift = 1, epsilon = 1e-3) {
     w_positive <- length(x_positive) / n_x
     x_negative <- x[x < 0]
     w_negative <- length(x_negative) / n_x
-    x_zeros <- x[x == 0]
-    w_zeros <- length(x_zeros) / n_x
-
     gm_positive <- exp(sum(log(x_positive)) / n_x)
     gm_negative <- -1 * exp(sum(log(abs(x_negative))) / n_x)
-    gm_zeros <- 0
-
-    gm <- w_positive * gm_positive + w_negative * gm_negative + w_zeros *
-      gm_zeros
+    gm <- w_positive * gm_positive + w_negative * gm_negative
   } else if (method == "optimized") {
     # The formula is:
     # exp(mean(log(x+delta)))-delta (Eq. I)
@@ -288,20 +283,21 @@ geom_mean <- function(x, method = "positive", shift = 1, epsilon = 1e-3) {
 #' optimized method is used.
 #'
 #' @examples
-#' \dontrun{
 #' x <- c(4, 5, 3, 7, 8)
-#' geom_sd(x, method = "optimized")
-#' }
+#' geometric_sd(x, method = "optimized")
 #'
 #' @export
-geom_sd <- function(x, method, shift = 1, delta = 1e-3) {
+geometric_sd <- function(x, method = c(
+                           "positive", "shifted",
+                           "optimized", "weighted"
+                         ),
+                         shift = 1, delta = 1e-3) {
   stopifnot(
     "`x`must be numeric" = (is.numeric(x)),
-    "`method` must be positive, shifted, otimized or wehighted" =
-      (method %in% c("positive", "shifted", "optimized", "weighted")),
     "`shift` must be numeric" = (is.numeric(shift)),
     "`delta` must be numeric" = (is.numeric(delta))
   )
+  method <- match.arg(method)
 
   if (method == "positive") {
     stopifnot("`x` includes zero or negative values,
@@ -319,15 +315,9 @@ geom_sd <- function(x, method, shift = 1, delta = 1e-3) {
     w_positive <- length(x_positive) / n_x
     x_negative <- x[x < 0]
     w_negative <- length(x_negative) / n_x
-    x_zeros <- x[x == 0]
-    w_zeros <- length(x_zeros) / n_x
-
     gsd_positive <- stats::sd((log(x_positive)))
     gsd_negative <- -1 * stats::sd((log(x_negative)))
-    gsd_zeros <- 0
-
-    gsd <- w_positive * gsd_positive + w_negative * gsd_negative + w_zeros *
-      gsd_zeros
+    gsd <- w_positive * gsd_positive + w_negative * gsd_negative
   } else if (method == "optimized") {
     x_opti <- x + delta
 

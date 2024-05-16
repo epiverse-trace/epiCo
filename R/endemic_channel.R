@@ -9,8 +9,8 @@
 #' @param method A string with the mean calculation method of preference
 #' (median, mean, or geometric) or to use the unusual behavior method (Poisson
 #' Distribution Test for Hypoendemic settings)
-#' @param geom_method A string with the selected method for geometric mean
-#' calculation; see: geom_mean
+#' @param geometric_method A string with the selected method for geometric mean
+#' calculation; see: geometric_mean
 #' @param outlier_years A numeric vector with the outlier years
 #' @param outliers_handling A string with the handling decision regarding
 #' outlier years, see: outliers_handling function
@@ -23,6 +23,8 @@
 #'
 #' @examples
 #' \dontrun{
+#' # To understand how to obtain the incidence object, refer to the Building
+#' # an Endemic Channel with epiCo vignette.
 #' endemic_channel(observations, incidence_historic,
 #'   method = "geometric",
 #'   outliers_handling = "replace_with_median", plot = TRUE
@@ -30,8 +32,18 @@
 #' }
 #' @export
 endemic_channel <- function(incidence_historic, observations = NULL,
-                            method = "geometric", geom_method = "shifted",
-                            outlier_years = NULL, outliers_handling = "ignored",
+                            method = c(
+                              "geometric", "median", "mean",
+                              "unusual_behavior"
+                            ),
+                            geometric_method = "shifted",
+                            outlier_years = NULL,
+                            outliers_handling = c(
+                              "ignored", "included",
+                              "replaced_by_median",
+                              "replaced_by_mean",
+                              "replaced_by_geometric_mean"
+                            ),
                             ci = 0.95, plot = FALSE) {
   stopifnot(
     "`incidence_historic` must be an incidence object" =
@@ -45,14 +57,13 @@ endemic_channel <- function(incidence_historic, observations = NULL,
     "incidence interval should be `1 month`, `1 week` or `1 epiweek`" =
       incidence_historic$interval %in%
         c("1 month", "1 week", "1 epiweek"),
-    "`method` should be `median`, `mean`, `geometric` or `unusual behavior`" =
-      method %in%
-        c("median", "mean", "geometric", "unusual_behavior"),
     "`ci` must be a number between 0 and 1" =
       (ci >= 0 & ci <= 1 & is.numeric(ci)),
     "`plot` must be a boolean" =
       (is.logical(plot))
   )
+  method <- match.arg(method)
+  outliers_handling <- match.arg(outliers_handling)
 
   if (!is.null(observations)) {
     stopifnot(
@@ -75,11 +86,10 @@ endemic_channel <- function(incidence_historic, observations = NULL,
       new_date <- paste(as.character(first_year + 1), "01-01", sep = "-")
       incidence_historic <- incidence_historic[incidence_historic$dates >=
         as.Date(new_date)]
-      msg <- paste(
-        "Data prior to", new_date,
-        "were not used for the endemic channel calculation."
+      message(
+        "Data prior to ", new_date,
+        " were not used for the endemic channel calculation."
       )
-      warning(msg)
     }
     if (lubridate::month(incidence_historic$dates[
       length(incidence_historic$dates)
@@ -90,11 +100,10 @@ endemic_channel <- function(incidence_historic, observations = NULL,
       new_date <- paste(as.character(last_year - 1), "12-01", sep = "-")
       incidence_historic <- incidence_historic[incidence_historic$dates <=
         as.Date(new_date)]
-      msg <- paste(
-        "Data after", new_date,
-        "were not used for the endemic channel calculation."
+      message(
+        "Data after ", new_date,
+        " were not used for the endemic channel calculation."
       )
-      warning(msg)
     }
     counts_historic <- as.numeric(incidence::get_counts(
       incidence_historic
@@ -102,34 +111,32 @@ endemic_channel <- function(incidence_historic, observations = NULL,
   } else if (incidence_historic$interval == "1 week") {
     period <- 52
     first_year <- lubridate::epiyear(incidence_historic$dates[1])
-    if (incidence_historic$dates[1] != epiCo::epi_calendar(first_year)[1]) {
-      new_date <- epiCo::epi_calendar(first_year + 1)[1]
+    if (incidence_historic$dates[1] != epi_calendar(first_year)[1]) {
+      new_date <- epi_calendar(first_year + 1)[1]
       incidence_historic <- incidence_historic[incidence_historic$dates >=
         new_date]
-      msg <- paste(
-        "Data prior to", new_date,
-        "were not used for the endemic channel calculation."
+      message(
+        "Data prior to ", new_date,
+        " were not used for the endemic channel calculation."
       )
-      warning(msg)
     }
     last_year <- lubridate::epiyear(incidence_historic$dates[
       length(incidence_historic$dates)
     ])
-    last_epidate <- epiCo::epi_calendar(last_year)[
-      length(epiCo::epi_calendar(last_year))
+    last_epidate <- epi_calendar(last_year)[
+      length(epi_calendar(last_year))
     ]
     if (incidence_historic$dates[length(incidence_historic$dates)] !=
       last_epidate) {
-      new_date <- epiCo::epi_calendar(last_year - 1)[
-        length(epiCo::epi_calendar(last_year - 1))
+      new_date <- epi_calendar(last_year - 1)[
+        length(epi_calendar(last_year - 1))
       ]
       incidence_historic <- incidence_historic[incidence_historic$dates <=
         as.Date(new_date)]
-      msg <- paste(
+      message(
         "Data after", new_date,
-        "were not used for the endemic channel calculation."
+        " were not used for the endemic channel calculation."
       )
-      warning(msg)
     }
     counts_historic <- as.numeric(incidence::get_counts(
       incidence_historic
@@ -147,7 +154,7 @@ endemic_channel <- function(incidence_historic, observations = NULL,
 
   historic <- endemic_outliers(
     historic, outlier_years, outliers_handling,
-    geom_method
+    geometric_method
   )
 
   switch(method,
@@ -182,7 +189,7 @@ endemic_channel <- function(incidence_historic, observations = NULL,
     geometric = {
       central <- as.numeric(apply(historic,
         MARGIN = 2,
-        FUN = geom_mean, method = geom_method
+        FUN = geometric_mean, method = geometric_method
       ))
       interval <- as.numeric(apply(historic,
         MARGIN = 2, FUN = function(x) {
@@ -190,7 +197,7 @@ endemic_channel <- function(incidence_historic, observations = NULL,
             p = c((1 - ci) / 2),
             df = length(x) - 1
           ) *
-            geom_sd(x, method = geom_method) / sqrt(length(x))
+            geometric_sd(x, method = geometric_method) / sqrt(length(x))
         }
       ))
       up_lim <- exp(log(central) + abs(interval))
@@ -226,11 +233,7 @@ endemic_channel <- function(incidence_historic, observations = NULL,
       outlier_years, outliers_handling
     )
     plot(endemic_channel_plot)
-    endemic_channel_data <- list(
-      endemic_channel_plot = endemic_channel_plot,
-      channel_data = channel_data
-    )
-    return(endemic_channel_data)
+    return(list(data = channel_data, plot = endemic_channel_plot))
   } else {
     return(channel_data)
   }
@@ -252,23 +255,16 @@ endemic_channel <- function(incidence_historic, observations = NULL,
 #' median and take into account
 #' - replaced_by_mean = data from outlier years will be replaced with the
 #' mean and take into account
-#' - replaced_by_geom_mean = data from outlier years will be replaced with the
-#' geometric mean and take into account
-#' @param geom_method A string with the selected method for geometric mean
-#' calculation; see: geom_mean
+#' - replaced_by_geometric_mean = data from outlier years will be replaced with
+#' the geometric mean and take into account
+#' @param geometric_method A string with the selected method for geometric mean
+#' calculation; see: geometric_mean
 #'
 #' @return A modified historic incidence
 #'
-#' @examples
-#' \dontrun{
-#' endemic_outliers(historic, outlier_years, outliers_handling,
-#'   geom_method = "shifted"
-#' )
-#' }
-#'
 #' @keywords internal
 endemic_outliers <- function(historic, outlier_years, outliers_handling,
-                             geom_method = "shifted") {
+                             geometric_method = "shifted") {
   if (outliers_handling == "included") {
     historic <- historic
   } else if (outliers_handling == "ignored") {
@@ -281,25 +277,20 @@ endemic_outliers <- function(historic, outlier_years, outliers_handling,
     handling <- as.numeric(colMeans(historic))
     handling <- t(replicate(length(outlier_years), handling))
     historic[outlier_years, ] <- handling
-  } else if (outliers_handling == "replaced_by_geom_mean") {
-    if (geom_method == "optimized") {
-      handling <- apply(historic,
-        MARGIN = 2, FUN = geom_mean,
-        method = geom_method
-      )
+  } else if (outliers_handling == "replaced_by_geometric_mean") {
+    handling <- apply(historic,
+      MARGIN = 2, FUN = geometric_mean,
+      method = geometric_method
+    )
+    if (geometric_method == "optimized") {
       handling <- as.numeric(handling[1, ])
     } else {
-      handling <- as.numeric(apply(historic,
-        MARGIN = 2, FUN = geom_mean,
-        method = geom_method
-      ))
+      handling <- as.numeric(handling)
     }
 
     handling <- t(replicate(length(outlier_years), handling))
 
     historic[outlier_years, ] <- handling
-  } else {
-    return("Error in outlier years handling")
   }
   return(historic)
 }
@@ -317,11 +308,6 @@ endemic_outliers <- function(historic, outlier_years, outliers_handling,
 #' outlier years
 #'
 #' @return The ggplot object with the endemic channel plot
-#'
-#' @examples
-#' \dontrun{
-#' endemic_plot(channel_data, method, outlier_years, outliers_handling)
-#' }
 #'
 #' @keywords internal
 endemic_plot <- function(channel_data, method,
@@ -365,16 +351,6 @@ endemic_plot <- function(channel_data, method,
     ) +
     ggplot2::xlab(label = "Epidemiological interval") +
     ggplot2::ylab("Number of cases") +
-    # nolint start
-    ggplot2::scale_color_manual(
-      name = "",
-      values = c(
-        "Epidemic" = "brown4",
-        "Warning" = "darkorange3",
-        "Safety" = "darkgreen"
-      )
-    ) +
-    # nolint end
     ggplot2::theme(
       plot.background = ggplot2::element_rect(fill = "white"),
       plot.margin = ggplot2::margin(20, 20, 20, 20),
@@ -394,11 +370,36 @@ endemic_plot <- function(channel_data, method,
 
   if (!anyNA(channel_data$obs)) {
     endemic_channel_plot <- endemic_channel_plot +
-      ggplot2::geom_line(ggplot2::aes(y = .data$obs),
+      ggplot2::geom_line(ggplot2::aes(y = .data$obs, color = "Observed cases"),
         linetype = "dashed",
         linewidth = 0.75
       ) +
-      ggplot2::geom_point(ggplot2::aes(y = .data$obs), size = 2)
+      ggplot2::geom_point(ggplot2::aes(y = .data$obs, color = "Observed cases"),
+        size = 2
+      ) +
+      # nolint start
+      ggplot2::scale_color_manual(
+        name = "",
+        values = c(
+          "Epidemic" = "brown4",
+          "Warning" = "darkorange3",
+          "Safety" = "darkgreen",
+          "Observed cases" = "black"
+        )
+      )
+    # nolint end
+  } else {
+    endemic_channel_plot <- endemic_channel_plot +
+      # nolint start
+      ggplot2::scale_color_manual(
+        name = "",
+        values = c(
+          "Epidemic" = "brown4",
+          "Warning" = "darkorange3",
+          "Safety" = "darkgreen"
+        )
+      )
+    # nolint end
   }
 
   return(endemic_channel_plot)

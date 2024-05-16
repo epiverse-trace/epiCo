@@ -9,7 +9,7 @@ endemic_outliers(
   historic,
   outlier_years,
   outliers_handling,
-  geom_method = "shifted"
+  geometric_method = "shifted"
 )
 }
 \arguments{
@@ -26,12 +26,12 @@ outlier years
 median and take into account
 \item replaced_by_mean = data from outlier years will be replaced with the
 mean and take into account
-\item replaced_by_geom_mean = data from outlier years will be replaced with the
-geometric mean and take into account
+\item replaced_by_geometric_mean = data from outlier years will be replaced with
+the geometric mean and take into account
 }}
 
-\item{geom_method}{A string with the selected method for geometric mean
-calculation; see: geom_mean}
+\item{geometric_method}{A string with the selected method for geometric mean
+calculation; see: geometric_mean}
 }
 \value{
 A modified historic incidence
@@ -39,13 +39,5 @@ A modified historic incidence
 \description{
 Function that modifies an historic incidence by including,
 ignoring or replacing the observations of epidemic years
-}
-\examples{
-\dontrun{
-endemic_outliers(historic, outlier_years, outliers_handling,
-  geom_method = "shifted"
-)
-}
-
 }
 \keyword{internal}

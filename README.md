@@ -11,7 +11,7 @@ MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.or
 [![R-CMD-check](https://github.com/epiverse-trace/epico/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/epiverse-trace/epico/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/epiverse-trace/epico/branch/main/graph/badge.svg)](https://app.codecov.io/gh/epiverse-trace/epico?branch=main)
-[![lifecycle-maturing](https://raw.githubusercontent.com/reconverse/reconverse.github.io/master/images/badge-maturing.svg)](https://www.reconverse.org/lifecycle.html#experimental)
+[![lifecycle-maturing](https://raw.githubusercontent.com/reconverse/reconverse.github.io/master/images/badge-maturing.svg)](https://www.reconverse.org/lifecycle.html#maturing)
 <!-- badges: end -->
 
 ## Installation
@@ -37,10 +37,10 @@ The package allows for interoperable analyses of linelist data from
 
 *epiCo* can be used to perform the following main tasks at the municipality, departmental, or national level:
 
-1) To identify demographic vulnerabilities from linelist data and the socioeconomic census, including risk assessment based on age, gender, occupation, and ethnicity.
-2) To assess hot-spot analyses (as Local Moran's index) based on real travel distances in Colombia estimated from [Bravo-Vega C., Santos-Vega M., & Cordovez J.M. (2022)](https://doi.org/10.1371/journal.pntd.0011117).
-3) To generate automated outbreak characterization (onset, duration, magnitude, and frequency) using traditional methods as the [endemic channel](https://iris.paho.org/handle/10665.2/8562) and poisson tests for unusual behavior.
-5) *Future features will include correlation analyses between categorical socioeconomic data, climate time series and epidemiological data, nowcasting assessment, underreport estimation, and short-term forecasting.*
+1. To identify demographic vulnerabilities from linelist data and the socioeconomic census, including risk assessment based on age, gender, occupation, and ethnicity.
+2. To assess hot-spot analyses (as Local Moran's index) based on real travel distances in Colombia estimated from [Bravo-Vega C., Santos-Vega M., & Cordovez J.M. (2022)](https://doi.org/10.1371/journal.pntd.0011117).
+3. To generate automated outbreak characterization (onset, duration, magnitude, and frequency) using traditional methods as the [endemic channel](https://iris.paho.org/handle/10665.2/8562) and poisson tests for unusual behavior.
+4. *Future features will include correlation analyses between categorical socioeconomic data, climate time series and epidemiological data, nowcasting assessment, underreport estimation, and short-term forecasting.*
 
 All features are performed automatically from epidemiological, demographic, spatial, and socioeconomic data published by Colombian institutions, but methods can also be customized as well as input data, so hypothetical information can be tested within the package.
 
@@ -56,10 +56,10 @@ All features are performed automatically from epidemiological, demographic, spat
 
 ### Lifecycle
 
-This package is currently a *mature* product, as defined by the [RECON software
+This package is currently a *maturing* product, as defined by the [RECON software
 lifecycle](https://www.reconverse.org/lifecycle.html). This means that
 essential features and mechanisms are functional, documented, and tested.
-However, is in code review stage and is being socialized with expert users.
+However, the package is open to receive code reviews and is being socialized with expert users.
 
 ### Contributions
 
@@ -73,8 +73,10 @@ Contributors to the project include:
   - [Julian Otero](https://github.com/jd-otero) (author)
   - [Hugo Gruson](https://github.com/Bisaloo) (contributor)
   - [Mauricio Santos-Vega](https://github.com/mauricio110785) (advisor)
-  - [Catalina Gonzalez Uribe](cgonzalez@uniandes.edu.co) (advisor)
-  - [Juan Manuel Cordovez](jucordov@uniandes.edu.co) (advisor)
+  - [Catalina Gonzalez Uribe](https://academia.uniandes.edu.co/AcademyCv/cgonzalez) (advisor)
+  - [Juan Manuel Cordovez](https://academia.uniandes.edu.co/AcademyCv/jucordov) (advisor)
+
+We acknowledge the contribution of collaborators in Universidad de los Andes, Pontificia Universidad Javeriana, Instituto Nacional de Salud de Colombia, Secretaría de Salud del Tolima, and Epimodelac Course attendees who provided insightful feedback for the package.
 
 ### Code of Conduct
 
@@ -82,3 +84,7 @@ Please note that the epiCo project is released with a [Contributor
 Code of
 Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
 By contributing to this project, you agree to abide by its terms.
+
+### Funding
+
+This work is part of the TRACE-LAC research project funded by the International Research Centre (IDRC) Ottawa, Canada.[109848-001-].

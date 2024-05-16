@@ -4,14 +4,14 @@
 \alias{occupation_plot}
 \title{Distribution plots for ISCO-88 occupation labels}
 \usage{
-occupation_plot(occupation_data, gender = FALSE, q = 0.9)
+occupation_plot(occupation_data, sex = FALSE, q = 0.9)
 }
 \arguments{
 \item{occupation_data}{A dataframe}
 
-\item{gender}{A boolean for gender data}
+\item{sex}{A boolean for sex data. The default value is FALSE}
 
-\item{q}{A number that represents the quantile}
+\item{q}{A number that represents the quantile. The default value is 0.9}
 }
 \value{
 A plot to summarize the distribution of ISCO-88 labels
@@ -20,8 +20,4 @@ A plot to summarize the distribution of ISCO-88 labels
 Function that makes a treemap plot of a vector of ISCO-88
 occupation codes
 }
-\examples{
-\dontrun{
-occupation_plot(occupation_data, gender = TRUE)
-}
-}
+\keyword{internal}

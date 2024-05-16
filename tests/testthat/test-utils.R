@@ -26,8 +26,10 @@ sample_data <- as.integer(sample(1:50, 200, replace = TRUE))
 sample_dates <- as.Date("2018-12-31") + sample_data
 
 # groups
-sample_groups_1 <- sample(c(5, 8, 11), 200, replace = TRUE)
-sample_groups_2 <- sample(c(5001, 5264, 5615, 5607), 200, replace = TRUE)
+sample_groups_1 <- sample(c("05", "08", "11"), 200, replace = TRUE)
+sample_groups_2 <- sample(c("05001", "05264", "05615", "05607"), 200,
+  replace = TRUE
+)
 
 sample_df_0 <- data.frame(CASES = sample_dates)
 sample_df_1 <- data.frame(CASES = sample_dates, GROUP = sample_groups_1)
@@ -81,21 +83,24 @@ test_that("Incidence rate calculate rates", {
 })
 
 test_that("Geometric mean throws errors", {
-  expect_error(geom_mean(c(45, 20, 1000, "a")))
-  expect_error(geom_mean(c(45, 20, 1000, 100), method = "test"))
-  expect_error(geom_mean(c(45, 20, 1000, 100), method = "shifted", shift = "2"))
-  expect_error(geom_mean(c(45, 20, 1000, 100), epsilon = "test"))
-  expect_error(geom_mean(c(45, 20, 1000, -100), method = "shifted"))
-  expect_error(geom_mean(c(45, 20, 1000, -100), epsilon = "positive"))
-  expect_error(geom_mean(c(45, 20, 1000, -100), method = "positive"))
+  expect_error(geometric_mean(c(45, 20, 1000, "a")))
+  expect_error(geometric_mean(c(45, 20, 1000, 100), method = "test"))
+  expect_error(geometric_mean(c(45, 20, 1000, 100),
+    method = "shifted",
+    shift = "2"
+  ))
+  expect_error(geometric_mean(c(45, 20, 1000, 100), epsilon = "test"))
+  expect_error(geometric_mean(c(45, 20, 1000, -100), method = "shifted"))
+  expect_error(geometric_mean(c(45, 20, 1000, -100), epsilon = "positive"))
+  expect_error(geometric_mean(c(45, 20, 1000, -100), method = "positive"))
 })
 
 test_that("Geometric mean works as expected", {
-  expect_type(geom_mean(c(45, 20, 1000, 100)), "double")
-  expect_length(geom_mean(c(45, 20, 1000, 100)), 1L)
-  expect_length(geom_mean(c(45, 20, 1000, 100), method = "optimized"), 2L)
+  expect_type(geometric_mean(c(45, 20, 1000, 100)), "double")
+  expect_length(geometric_mean(c(45, 20, 1000, 100)), 1L)
+  expect_length(geometric_mean(c(45, 20, 1000, 100), method = "optimized"), 2L)
 
-  expect_gt(geom_mean(c(45, 20, 1000, 100), method = "positive"), 0)
-  expect_gt(geom_mean(c(45, 20, 1000, -100), method = "weighted"), 0)
-  expect_gt(geom_mean(c(45, 20, 1000, 100), method = "shifted"), 0)
+  expect_gt(geometric_mean(c(45, 20, 1000, 100), method = "positive"), 0)
+  expect_gt(geometric_mean(c(45, 20, 1000, -100), method = "weighted"), 0)
+  expect_gt(geometric_mean(c(45, 20, 1000, 100), method = "shifted"), 0)
 })
