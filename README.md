@@ -73,8 +73,8 @@ Contributors to the project include:
   - [Julian Otero](https://github.com/jd-otero) (author)
   - [Hugo Gruson](https://github.com/Bisaloo) (contributor)
   - [Mauricio Santos-Vega](https://github.com/mauricio110785) (advisor)
-  - [Catalina Gonzalez Uribe](cgonzalez@uniandes.edu.co) (advisor)
-  - [Juan Manuel Cordovez](jucordov@uniandes.edu.co) (advisor)
+  - [Catalina Gonzalez Uribe](https://academia.uniandes.edu.co/AcademyCv/cgonzalez) (advisor)
+  - [Juan Manuel Cordovez](https://academia.uniandes.edu.co/AcademyCv/jucordov) (advisor)
 
 We acknowledge the contribution of collaborators in Universidad de los Andes, Pontificia Universidad Javeriana, Instituto Nacional de Salud de Colombia, Secretaría de Salud del Tolima, and Epimodelac Course attendees who provided insightful feedback for the package.
 
