@@ -28,7 +28,8 @@ sample_dates <- as.Date("2018-12-31") + sample_data
 # groups
 sample_groups_1 <- sample(c("05", "08", "11"), 200, replace = TRUE)
 sample_groups_2 <- sample(c("05001", "05264", "05615", "05607"), 200,
-                          replace = TRUE)
+  replace = TRUE
+)
 
 sample_df_0 <- data.frame(CASES = sample_dates)
 sample_df_1 <- data.frame(CASES = sample_dates, GROUP = sample_groups_1)
@@ -84,8 +85,10 @@ test_that("Incidence rate calculate rates", {
 test_that("Geometric mean throws errors", {
   expect_error(geometric_mean(c(45, 20, 1000, "a")))
   expect_error(geometric_mean(c(45, 20, 1000, 100), method = "test"))
-  expect_error(geometric_mean(c(45, 20, 1000, 100), method = "shifted",
-                              shift = "2"))
+  expect_error(geometric_mean(c(45, 20, 1000, 100),
+    method = "shifted",
+    shift = "2"
+  ))
   expect_error(geometric_mean(c(45, 20, 1000, 100), epsilon = "test"))
   expect_error(geometric_mean(c(45, 20, 1000, -100), method = "shifted"))
   expect_error(geometric_mean(c(45, 20, 1000, -100), epsilon = "positive"))

@@ -175,8 +175,10 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
 #' geometric_mean(x, method = "optimized")
 #'
 #' @export
-geometric_mean <- function(x, method = c("positive", "shifted",
-                                         "optimized", "weighted"),
+geometric_mean <- function(x, method = c(
+                             "positive", "shifted",
+                             "optimized", "weighted"
+                           ),
                            shift = 1, epsilon = 1e-3) {
   stopifnot(
     "`x`must be numeric" = (is.numeric(x)),
@@ -285,8 +287,10 @@ geometric_mean <- function(x, method = c("positive", "shifted",
 #' geometric_sd(x, method = "optimized")
 #'
 #' @export
-geometric_sd <- function(x, method = c("positive", "shifted",
-                                       "optimized", "weighted"),
+geometric_sd <- function(x, method = c(
+                           "positive", "shifted",
+                           "optimized", "weighted"
+                         ),
                          shift = 1, delta = 1e-3) {
   stopifnot(
     "`x`must be numeric" = (is.numeric(x)),
