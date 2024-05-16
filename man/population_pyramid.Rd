@@ -14,9 +14,8 @@ population_pyramid(
 )
 }
 \arguments{
-\item{divipola_code}{A numerical code from the divipola table representing a
-department or municipality. To obtain values at the national level, code 0 is
-used}
+\item{divipola_code}{A code from the divipola table representing a department
+or municipality. To obtain values at the national level, code '0' is used}
 
 \item{year}{A numeric input for the year of interest}
 

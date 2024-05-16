@@ -15,7 +15,8 @@
 #' @export
 neighborhoods <- function(query_vector, threshold = 2) {
   stopifnot("`query_vector` must be a character vector" = (is.character(
-    query_vector)))
+    query_vector
+  )))
   path <- system.file("extdata", "distance_matrix.rda", package = "epiCo")
   load(path)
   distance_matrix <- distance_matrix
@@ -31,13 +32,17 @@ neighborhoods <- function(query_vector, threshold = 2) {
   }
   distance[!distance <= threshold] <- 0
   list_weights <- spdep::mat2listw(distance, style = "W", zero.policy = T)
-  null_municipalities <- row.names(distance)[sapply(list_weights$weights,
-                                                    is.null)]
+  null_municipalities <- row.names(distance)[sapply(
+    list_weights$weights,
+    is.null
+  )]
   if (length(null_municipalities) > 0) {
-    msg <- paste("Municipalities", paste(null_municipalities, collapse = ", "),
-                 "are not part of the neighborhood according to the selected",
-                 "thershold in hours. It wil be displayed as 'Not significant'",
-                 "but it was not included in the local moran's index analysis.")
+    msg <- paste(
+      "Municipalities", paste(null_municipalities, collapse = ", "),
+      "are not part of the neighborhood according to the selected",
+      "thershold in hours. It wil be displayed as 'Not significant'",
+      "but it was not included in the local moran's index analysis."
+    )
     message(msg)
   }
   return(list_weights)
@@ -102,22 +107,28 @@ morans_index <- function(incidence_object, scale = 100000, threshold = 2,
 
   # Moran's I
   morans_i <- spdep::localmoran(incidence_rate_log,
-                                listw = weights)
+    listw = weights
+  )
   moran_data_frame <- as.data.frame(morans_i)
   moran_data_frame$quadr <- attributes(morans_i)$quadr$mean
   moran_data_frame$quadr <- factor(moran_data_frame$quadr,
-                                   levels = c("High-High", "High-Low",
-                                              "Low-High", "Low-Low",
-                                              "Not Significant"))
-  moran_data_frame[moran_data_frame$`Pr(z != E(Ii))`> 0.05 |
-                     is.na(moran_data_frame$`Pr(z != E(Ii))`),
-                   "quadr"] <- "Not Significant"
-  
+    levels = c(
+      "High-High", "High-Low",
+      "Low-High", "Low-Low",
+      "Not Significant"
+    )
+  )
+  moran_data_frame[
+    moran_data_frame$`Pr(z != E(Ii))` > 0.05 |
+      is.na(moran_data_frame$`Pr(z != E(Ii))`),
+    "quadr"
+  ] <- "Not Significant"
+
   morans_index <- list(
     municipios = row.names(moran_data_frame),
     quadrant = moran_data_frame$quadr
   )
-  
+
   if (!all(morans_index$quadrant == "Not Significant")) {
     cat(paste("Significant municipalities are:", "\n"))
     # Influential observations
@@ -126,10 +137,11 @@ morans_index <- function(incidence_object, scale = 100000, threshold = 2,
         "%s with %s (incidence - spatial correlation)",
         row.names(
           moran_data_frame[moran_data_frame$quadr != "Not Significant", ]
-          ),
+        ),
         moran_data_frame[moran_data_frame$quadr != "Not Significant", "quadr"]
       ),
-    sep = "\n")
+      sep = "\n"
+    )
   } else {
     message("There are no influential municipalities to plot")
     return(morans_index)
@@ -137,13 +149,13 @@ morans_index <- function(incidence_object, scale = 100000, threshold = 2,
   # Plot
   if (plot) {
     path_2 <- system.file("extdata", "spatial_polygons_col_2.rda",
-                          package = "epiCo"
+      package = "epiCo"
     )
     load(path_2)
     spatial_polygons_col_2 <- spatial_polygons_col_2
-    
+
     shapes <- spatial_polygons_col_2[spatial_polygons_col_2$MPIO_CDPMP %in%
-                                       morans_index$municipios, ]
+      morans_index$municipios, ]
     shapes_order <- match(shapes$MPIO_CDPMP, morans_index$municipios)
     shapes$MPIO_CDPMP <- morans_index$municipios[shapes_order]
     shapes$CLUSTER <- morans_index$quadrant[shapes_order]
@@ -157,7 +169,7 @@ morans_index <- function(incidence_object, scale = 100000, threshold = 2,
       index <- index + 1
     }
     shapes$NOM_MPIO <- shapes_names
-    
+
     popup_data <- paste0(
       "<b>", "Municipality Name: ", "</b>",
       shapes$NOM_MPIO, "<br>",
@@ -172,13 +184,15 @@ morans_index <- function(incidence_object, scale = 100000, threshold = 2,
         "#ba0001", "#00992C", "#80CC96",
         "#F08E94", "#c8c8c8"
       ),
-      domain = c("High-High", "Low-Low", "Low-High", "High-Low",
-                 "Not Significant"),
+      domain = c(
+        "High-High", "Low-Low", "Low-High", "High-Low",
+        "Not Significant"
+      ),
       ordered = TRUE
     )
-    
+
     tile_provider <- "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}"
-    
+
     clusters_plot <- leaflet::leaflet(shapes) %>%
       leaflet::addTiles(tile_provider) %>%
       leaflet::addPolygons(
@@ -191,19 +205,19 @@ morans_index <- function(incidence_object, scale = 100000, threshold = 2,
         fillOpacity = 0.65
       ) %>%
       leaflet::addLegend("bottomright",
-                         pal = pal, values = ~ c(
-                           "High-High",
-                           "Low-Low",
-                           "Low-High",
-                           "High-Low",
-                           "Not Significant"
-                         ),
-                         title = "Local Moran's Index Clusters",
-                         opacity = 1
+        pal = pal, values = ~ c(
+          "High-High",
+          "Low-Low",
+          "Low-High",
+          "High-Low",
+          "Not Significant"
+        ),
+        title = "Local Moran's Index Clusters",
+        opacity = 1
       )
     # nolint end
     return(list(data = morans_index, plot = clusters_plot))
-  } else{
-    return(morans_index) 
+  } else {
+    return(morans_index)
   }
 }

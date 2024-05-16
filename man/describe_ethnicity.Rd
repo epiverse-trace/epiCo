@@ -21,5 +21,5 @@ Function that returns the description of the consulted
 ethnicities
 }
 \examples{
-describe_ethnicity(round(runif(n = 150, min= 1, max = 4)))
+describe_ethnicity(round(runif(n = 150, min = 1, max = 4)))
 }

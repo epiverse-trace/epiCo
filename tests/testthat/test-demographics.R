@@ -211,28 +211,36 @@ test_that("describe occupation works as expected", {
   expect_type(describe_occupation(c(1110, 4141), sex = c("F", "M")),
     type = "list"
   )
-  expect_type(describe_occupation(c(1110, 4141),
-                                  sex = c("F", "M"),
-                                  plot = "treemap"),
-              type = "list"
+  expect_type(
+    describe_occupation(c(1110, 4141),
+      sex = c("F", "M"),
+      plot = "treemap"
+    ),
+    type = "list"
   )
-  expect_type(describe_occupation(c(1110, 4141),
-                                  sex = c("F", "M"),
-                                  plot = "circular"),
-              type = "list"
+  expect_type(
+    describe_occupation(c(1110, 4141),
+      sex = c("F", "M"),
+      plot = "circular"
+    ),
+    type = "list"
   )
-  expect_type(describe_occupation(c(1110, 4141),
-                                  sex = NULL,
-                                  plot = "circular"),
-              type = "list"
+  expect_type(
+    describe_occupation(c(1110, 4141),
+      sex = NULL,
+      plot = "circular"
+    ),
+    type = "list"
   )
   expect_type(describe_occupation(c(1110, 4141), plot = NULL),
     type = "list"
   )
 
   expect_length(describe_occupation(c(1110, 4141), plot = "treemap"), n = 2)
-  expect_identical(dim(describe_occupation(c(1110, 4141), plot = NULL)),
-                   c(3L, 9L))
+  expect_identical(
+    dim(describe_occupation(c(1110, 4141), plot = NULL)),
+    c(3L, 9L)
+  )
   expect_length(describe_occupation(c(1110, 4141),
     sex = c("F", "M"),
     plot = "circular"

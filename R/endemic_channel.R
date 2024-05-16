@@ -32,14 +32,18 @@
 #' }
 #' @export
 endemic_channel <- function(incidence_historic, observations = NULL,
-                            method = c("geometric", "median", "mean",
-                                       "unusual_behavior"),
+                            method = c(
+                              "geometric", "median", "mean",
+                              "unusual_behavior"
+                            ),
                             geometric_method = "shifted",
                             outlier_years = NULL,
-                            outliers_handling = c("ignored", "included",
-                                                  "replaced_by_median",
-                                                  "replaced_by_mean",
-                                                  "replaced_by_geometric_mean"),
+                            outliers_handling = c(
+                              "ignored", "included",
+                              "replaced_by_median",
+                              "replaced_by_mean",
+                              "replaced_by_geometric_mean"
+                            ),
                             ci = 0.95, plot = FALSE) {
   stopifnot(
     "`incidence_historic` must be an incidence object" =
@@ -371,7 +375,8 @@ endemic_plot <- function(channel_data, method,
         linewidth = 0.75
       ) +
       ggplot2::geom_point(ggplot2::aes(y = .data$obs, color = "Observed cases"),
-                          size = 2) +
+        size = 2
+      ) +
       # nolint start
       ggplot2::scale_color_manual(
         name = "",
@@ -382,7 +387,7 @@ endemic_plot <- function(channel_data, method,
           "Observed cases" = "black"
         )
       )
-      # nolint end
+    # nolint end
   } else {
     endemic_channel_plot <- endemic_channel_plot +
       # nolint start
@@ -394,7 +399,7 @@ endemic_plot <- function(channel_data, method,
           "Safety" = "darkgreen"
         )
       )
-      # nolint end
+    # nolint end
   }
 
   return(endemic_channel_plot)
