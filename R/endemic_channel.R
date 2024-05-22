@@ -144,6 +144,11 @@ endemic_channel <- function(incidence_historic, observations = NULL,
   }
   obs <- c(observations, rep(NA, period - length(observations)))
   years <- unique(lubridate::epiyear(incidence::get_dates(incidence_historic)))
+  
+  stopifnot(
+    "`outlier_years` include years outside the historic range" =
+      isTRUE(outlier_years %in% years)
+  )
 
   historic <- as.data.frame(matrix(counts_historic,
     nrow = length(years),
