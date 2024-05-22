@@ -48,15 +48,15 @@ endemic_channel <- function(incidence_historic, observations = NULL,
   stopifnot(
     "`incidence_historic` must be an incidence object" =
       inherits(incidence_historic, "incidence"),
+    "incidence interval should be `1 month`, `1 week` or `1 epiweek`" =
+      incidence_historic$interval %in%
+      c("1 month", "1 week", "1 epiweek"),
     "`incidence_historic` must contain at least one complete epidemiological
     year" =
       ((incidence_historic$interval == "1 week" &
         length(incidence_historic$dates) >= 52) ||
         (incidence_historic$interval == "1 month" &
           length(incidence_historic$dates) >= 12)),
-    "incidence interval should be `1 month`, `1 week` or `1 epiweek`" =
-      incidence_historic$interval %in%
-        c("1 month", "1 week", "1 epiweek"),
     "`ci` must be a number between 0 and 1" =
       (ci >= 0 & ci <= 1 & is.numeric(ci)),
     "`plot` must be a boolean" =
