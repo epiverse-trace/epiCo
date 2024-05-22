@@ -272,11 +272,11 @@ endemic_outliers <- function(historic, outlier_years, outliers_handling,
   } else if (outliers_handling == "replaced_by_median") {
     handling <- as.numeric(apply(historic, MARGIN = 2, FUN = stats::median))
     handling <- t(replicate(length(outlier_years), handling))
-    historic[outlier_years, ] <- handling
+    historic[as.character(outlier_years), ] <- handling
   } else if (outliers_handling == "replaced_by_mean") {
     handling <- as.numeric(colMeans(historic))
     handling <- t(replicate(length(outlier_years), handling))
-    historic[outlier_years, ] <- handling
+    historic[as.character(outlier_years), ] <- handling
   } else if (outliers_handling == "replaced_by_geometric_mean") {
     handling <- apply(historic,
       MARGIN = 2, FUN = geometric_mean,
@@ -290,7 +290,7 @@ endemic_outliers <- function(historic, outlier_years, outliers_handling,
 
     handling <- t(replicate(length(outlier_years), handling))
 
-    historic[outlier_years, ] <- handling
+    historic[as.character(outlier_years), ] <- handling
   }
   return(historic)
 }
