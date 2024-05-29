@@ -375,7 +375,7 @@ endemic_plot <- function(channel_data, method,
       expand = c(0.01, 0.01)
     )
 
-  if (anyNA(channel_data$obs) {
+  if (anyNA(channel_data$obs)) {
     endemic_channel_plot <- endemic_channel_plot +
       # nolint start
       ggplot2::scale_color_manual(
