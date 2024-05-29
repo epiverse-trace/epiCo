@@ -483,7 +483,6 @@ describe_occupation <- function(isco_codes, sex = NULL, plot = NULL) {
   valid_unit_codes <- isco_codes[isco_codes %in% isco88_table$unit]
   valid_minor_codes <- isco_codes[isco_codes %in% isco88_table$minor]
   valid_sub_major_codes <- isco_codes[isco_codes %in% isco88_table$sub_major]
-  valid_major_codes <- isco_codes[isco_codes %in% isco88_table$major]
 
   if (!is.null(sex)) {
     stopifnot(
