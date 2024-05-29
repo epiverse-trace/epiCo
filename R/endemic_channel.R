@@ -375,14 +375,26 @@ endemic_plot <- function(channel_data, method,
       expand = c(0.01, 0.01)
     )
 
-  if (!anyNA(channel_data$obs)) {
+  if (anyNA(channel_data$obs) {
+    endemic_channel_plot <- endemic_channel_plot +
+      # nolint start
+      ggplot2::scale_color_manual(
+        name = "",
+        values = c(
+          "Epidemic" = "brown4",
+          "Warning" = "darkorange3",
+          "Safety" = "darkgreen"
+        )
+      )
+    # nolint end
+  } else {
     endemic_channel_plot <- endemic_channel_plot +
       ggplot2::geom_line(ggplot2::aes(y = .data$obs, color = "Observed cases"),
-        linetype = "dashed",
-        linewidth = 0.75
+                         linetype = "dashed",
+                         linewidth = 0.75
       ) +
       ggplot2::geom_point(ggplot2::aes(y = .data$obs, color = "Observed cases"),
-        size = 2
+                          size = 2
       ) +
       # nolint start
       ggplot2::scale_color_manual(
@@ -392,18 +404,6 @@ endemic_plot <- function(channel_data, method,
           "Warning" = "darkorange3",
           "Safety" = "darkgreen",
           "Observed cases" = "black"
-        )
-      )
-    # nolint end
-  } else {
-    endemic_channel_plot <- endemic_channel_plot +
-      # nolint start
-      ggplot2::scale_color_manual(
-        name = "",
-        values = c(
-          "Epidemic" = "brown4",
-          "Warning" = "darkorange3",
-          "Safety" = "darkgreen"
         )
       )
     # nolint end
