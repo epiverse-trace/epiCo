@@ -32,9 +32,10 @@ neighborhoods <- function(query_vector, threshold = 2) {
   }
   distance[!distance <= threshold] <- 0
   list_weights <- spdep::mat2listw(distance, style = "W", zero.policy = TRUE)
-  null_municipalities <- row.names(distance)[sapply(
+  null_municipalities <- row.names(distance)[vapply(
     list_weights$weights,
-    is.null
+    function(x) is.null(x),
+    logical(1)
   )]
   if (length(null_municipalities) > 0) {
     msg <- paste(
