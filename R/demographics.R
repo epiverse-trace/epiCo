@@ -163,9 +163,6 @@ population_pyramid_plot <- function(pop_pyramid, sex = TRUE) {
     female_total <- dplyr::filter(pop_pyramid, .data$sex == "F")$population
     male_total <- dplyr::filter(pop_pyramid, .data$sex == "M")$population
     pop_pyramid$population <- c(-1 * female_total, male_total)
-    dist_pop_f <- stats::quantile(female_total)[2:5]
-    dist_pop_m <- stats::quantile(male_total)[2:5]
-    dist_pop <- c(rev(-1 * dist_pop_f), 0, dist_pop_m)
 
     pop_pyramid_plot <- ggplot2::ggplot(
       pop_pyramid,
@@ -198,7 +195,6 @@ population_pyramid_plot <- function(pop_pyramid, sex = TRUE) {
 
     pop_pyramid$population <- c(female_total, male_total)
   } else {
-    dist_pop <- stats::quantile(pop_pyramid$population)
     pop_pyramid_plot <- ggplot2::ggplot(
       pop_pyramid,
       ggplot2::aes(
