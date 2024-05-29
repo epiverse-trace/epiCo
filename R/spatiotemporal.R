@@ -9,7 +9,7 @@
 #' @return neighborhood object according to the introduced threshold.
 #'
 #' @examples
-#' query_vector <- c("05001", "05002", "05004", "05021", "05030", "05615", "05607")
+#' query_vector <- c("05001", "05002", "05004", "05021", "05030", "05615")
 #' neighborhoods(query_vector, 2)
 #'
 #' @export
@@ -31,14 +31,14 @@ neighborhoods <- function(query_vector, threshold = 2) {
     warning("municipality ", i, " was not found")
   }
   distance[!distance <= threshold] <- 0
-  list_weights <- spdep::mat2listw(distance, style = "W", zero.policy = T)
+  list_weights <- spdep::mat2listw(distance, style = "W", zero.policy = TRUE)
   null_municipalities <- row.names(distance)[sapply(
     list_weights$weights,
     is.null
   )]
   if (length(null_municipalities) > 0) {
     msg <- paste(
-      "Municipalities", paste(null_municipalities, collapse = ", "),
+      "Municipalities", toString(null_municipalities),
       "are not part of the neighborhood according to the selected",
       "thershold in hours. It wil be displayed as 'Not significant'",
       "but it was not included in the local moran's index analysis."
@@ -129,7 +129,10 @@ morans_index <- function(incidence_object, scale = 100000, threshold = 2,
     quadrant = moran_data_frame$quadr
   )
 
-  if (!all(morans_index$quadrant == "Not Significant")) {
+  if (all(morans_index$quadrant == "Not Significant")) {
+    message("There are no influential municipalities to plot")
+    return(morans_index)
+  } else {
     cat(paste("Significant municipalities are:", "\n"))
     # Influential observations
     cat(
@@ -142,9 +145,6 @@ morans_index <- function(incidence_object, scale = 100000, threshold = 2,
       ),
       sep = "\n"
     )
-  } else {
-    message("There are no influential municipalities to plot")
-    return(morans_index)
   }
   # Plot
   if (plot) {
