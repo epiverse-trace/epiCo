@@ -50,7 +50,7 @@ endemic_channel <- function(incidence_historic, observations = NULL,
       inherits(incidence_historic, "incidence"),
     "incidence interval should be `1 month`, `1 week` or `1 epiweek`" =
       incidence_historic$interval %in%
-      c("1 month", "1 week", "1 epiweek"),
+        c("1 month", "1 week", "1 epiweek"),
     "`incidence_historic` must contain at least one complete epidemiological
     year" =
       ((incidence_historic$interval == "1 week" &
@@ -139,9 +139,10 @@ endemic_channel <- function(incidence_historic, observations = NULL,
     }
     extra_weeks <- which(lubridate::epiweek(incidence_historic$dates) == 53)
     counts_historic <- as.numeric(incidence::get_counts(
-      incidence_historic))
-    if (length(extra_weeks)>0){
-      counts_historic <- counts_historic[-extra_weeks]  
+      incidence_historic
+    ))
+    if (length(extra_weeks) > 0) {
+      counts_historic <- counts_historic[-extra_weeks]
     }
   }
   obs <- c(observations, rep(NA, period - length(observations)))
@@ -231,7 +232,7 @@ endemic_channel <- function(incidence_historic, observations = NULL,
     "Insufficient information to estimate 'endemic channel' limits, check for at
     least two years of data" = any(!is.na(c(low_lim, up_lim)))
   )
-  
+
   channel_data <- data.frame(
     central = central,
     up_lim = up_lim,
@@ -397,11 +398,11 @@ endemic_plot <- function(channel_data, method,
   } else {
     endemic_channel_plot <- endemic_channel_plot +
       ggplot2::geom_line(ggplot2::aes(y = .data$obs, color = "Observed cases"),
-                         linetype = "dashed",
-                         linewidth = 0.75
+        linetype = "dashed",
+        linewidth = 0.75
       ) +
       ggplot2::geom_point(ggplot2::aes(y = .data$obs, color = "Observed cases"),
-                          size = 2
+        size = 2
       ) +
       # nolint start
       ggplot2::scale_color_manual(
