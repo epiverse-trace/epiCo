@@ -150,7 +150,7 @@ endemic_channel <- function(incidence_historic, observations = NULL,
   if (!is.null(outlier_years)) {
     stopifnot(
       "`outlier_years` include years outside the historic range" =
-        isTRUE(outlier_years %in% years)
+        all(outlier_years %in% years)
     )
   }
 
