@@ -60,7 +60,9 @@ endemic_channel <- function(incidence_historic, observations = NULL,
     "`ci` must be a number between 0 and 1" =
       (ci >= 0 & ci <= 1 & is.numeric(ci)),
     "`plot` must be a boolean" =
-      (is.logical(plot))
+      (is.logical(plot)),
+    "`outlier_years` include years outside the historic range" =
+      all(outlier_years %in% years)
   )
   method <- match.arg(method)
   outliers_handling <- match.arg(outliers_handling)
@@ -148,13 +150,6 @@ endemic_channel <- function(incidence_historic, observations = NULL,
   obs <- c(observations, rep(NA, period - length(observations)))
   years <- unique(lubridate::epiyear(incidence::get_dates(incidence_historic)))
 
-  if (!is.null(outlier_years)) {
-    stopifnot(
-      "`outlier_years` include years outside the historic range" =
-        all(outlier_years %in% years)
-    )
-  }
-
   historic <- as.data.frame(matrix(counts_historic,
     nrow = length(years),
     byrow = TRUE
@@ -230,7 +225,7 @@ endemic_channel <- function(incidence_historic, observations = NULL,
 
   stopifnot(
     "Insufficient information to estimate 'endemic channel' limits, check for at
-    least two years of data" = any(!is.na(c(low_lim, up_lim)))
+    least two years of data" = !all(is.na(c(low_lim, up_lim)))
   )
 
   channel_data <- data.frame(
