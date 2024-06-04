@@ -20,7 +20,7 @@ Function to build neighborhoods from real travel distances
 inside Colombia by land or river transportation.
 }
 \examples{
-query_vector <- c("05001", "05002", "05004", "05021", "05030", "05615", "05607")
+query_vector <- c("05001", "05002", "05004", "05021", "05030", "05615")
 neighborhoods(query_vector, 2)
 
 }
