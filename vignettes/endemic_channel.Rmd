@@ -150,6 +150,7 @@ outlier_years <- c(2016, 2019)
 ibague_endemic_chanel <- endemic_channel(
   incidence_historic = incidence_historic,
   observations = observations,
+  method = "geometric",
   outlier_years = outlier_years,
   plot = TRUE
 )
