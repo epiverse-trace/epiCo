@@ -78,7 +78,6 @@ endemic_channel <- function(incidence_historic, observations = NULL,
     )
   }
 
-  extra_weeks <- which(lubridate::epiweek(incidence_historic$dates) == 53)
   if (incidence_historic$interval == "1 month") {
     period <- 12
     if (lubridate::month(incidence_historic$dates[1]) != 1) {
@@ -108,7 +107,7 @@ endemic_channel <- function(incidence_historic, observations = NULL,
     counts_historic <- as.numeric(incidence::get_counts(
       incidence_historic
     ))
-  } else if (incidence_historic$interval == "1 week") {
+  } else if (incidence_historic$interval %in% c("1 week", "1 epiweek")) {
     period <- 52
     first_year <- lubridate::epiyear(incidence_historic$dates[1])
     if (incidence_historic$dates[1] != epi_calendar(first_year)[1]) {
@@ -138,9 +137,12 @@ endemic_channel <- function(incidence_historic, observations = NULL,
         " were not used for the endemic channel calculation."
       )
     }
+    extra_weeks <- which(lubridate::epiweek(incidence_historic$dates) == 53)
     counts_historic <- as.numeric(incidence::get_counts(
-      incidence_historic
-    )[-extra_weeks])
+      incidence_historic))
+    if (length(extra_weeks)>0){
+      counts_historic <- counts_historic[-extra_weeks]  
+    }
   }
   obs <- c(observations, rep(NA, period - length(observations)))
   years <- unique(lubridate::epiyear(incidence::get_dates(incidence_historic)))
