@@ -181,7 +181,7 @@ population_pyramid_plot <- function(pop_pyramid, sex = TRUE) {
       ggplot2::scale_y_continuous(
         breaks = scales::breaks_extended(n = 8),
         labels = function(x) {
-          gsub("-", "", x)
+          as.character(abs(as.numeric(x)))
         }
       ) +
       ggplot2::scale_x_continuous(
@@ -204,7 +204,7 @@ population_pyramid_plot <- function(pop_pyramid, sex = TRUE) {
       ggplot2::scale_y_continuous(
         breaks = scales::breaks_extended(n = 8),
         labels = function(x) {
-          gsub("-", "", x)
+          as.character(abs(as.numeric(x)))
         }
       ) +
       ggplot2::scale_x_continuous(
