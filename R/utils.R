@@ -120,7 +120,7 @@ incidence_rate <- function(incidence_object, level, scale = 100000) {
     .data$code %in% groups,
     .data$ano %in% years
   )
-  totals <- rowSums(dplyr::select(populations,3:(ncol(populations)-1)))
+  totals <- rowSums(dplyr::select(populations, 3:(ncol(populations) - 1)))
   populations$total_general <- totals
   incidence_rates <- incidence_object$counts
 
