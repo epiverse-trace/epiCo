@@ -58,7 +58,7 @@ data("divipola_table")
 
 ## 2. Population pyramids
 
-**epiCo** provides a built-in dataset with the population projections of Colombia at the national, departmental, and municipality levels (provided by the DANE). These datasets contains the population projections from 2005 to 2035 for ages from 0 to 100 years. However, for the municipal projections it has the ages from 0 to over 85 years old.
+**epiCo** provides a built-in dataset with the population projections of Colombia at the national, departmental, and municipality levels (provided by the DANE). These datasets contains the population projections from 2012 to 2024 for ages from 0 to 100 years. However, for the municipal projections it has the ages from 0 to over 85 years old.
 
 Users can perform queries on this data by using the `population_pyramid` function, providing the DIVIPOLA code of the territory of interest and the year to consult.
 
