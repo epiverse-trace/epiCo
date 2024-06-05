@@ -108,54 +108,54 @@ test_that("Population pyramid is not NA", {
   # dimension
   expect_false(anyNA(population_pyramid(
     divipola_code = "05001",
-    year = 2006
+    year = 2012
   )))
   expect_false(anyNA(population_pyramid(
     divipola_code = "05001",
-    year = 2006,
+    year = 2012,
     total = FALSE,
     sex = FALSE
   )))
   expect_false(anyNA(population_pyramid(
     divipola_code = "05001",
-    year = 2006,
+    year = 2012,
     plot = TRUE
   )$data))
 
   expect_false(anyNA(population_pyramid(
     divipola_code = "73",
-    year = 2006
+    year = 2012
   )))
   expect_false(anyNA(population_pyramid(
     divipola_code = "73",
-    year = 2006,
+    year = 2012,
     total = FALSE,
     sex = FALSE
   )))
   expect_false(anyNA(population_pyramid(
     divipola_code = "73",
-    year = 2006,
+    year = 2012,
     plot = TRUE
   )$data))
 
   expect_false(anyNA(population_pyramid(
     divipola_code = "0",
-    year = 2006
+    year = 2012
   )))
   expect_false(anyNA(population_pyramid(
     divipola_code = "0",
-    year = 2006,
+    year = 2012,
     total = FALSE,
     sex = FALSE
   )))
   expect_false(anyNA(population_pyramid(
     divipola_code = "0",
-    year = 2006,
+    year = 2012,
     plot = TRUE
   )$data))
   expect_false(anyNA(population_pyramid(
     divipola_code = "0",
-    year = 2006,
+    year = 2012,
     range = 10
   )))
 })
