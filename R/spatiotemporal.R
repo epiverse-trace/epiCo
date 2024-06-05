@@ -17,9 +17,8 @@ neighborhoods <- function(query_vector, threshold = 2) {
   stopifnot("`query_vector` must be a character vector" = (is.character(
     query_vector
   )))
-  path <- system.file("extdata", "distance_matrix.rda", package = "epiCo")
-  load(path)
-  distance_matrix <- distance_matrix
+  path <- system.file("extdata", "distance_matrix.rds", package = "epiCo")
+  distance_matrix <- as.matrix(readRDS(path))
   distance <- distance_matrix[
     which(row.names(distance_matrix) %in%
       query_vector),
