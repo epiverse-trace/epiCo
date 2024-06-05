@@ -45,7 +45,7 @@ sample_groups <- c(
 sample_data <- sample(sample_groups, 200, replace = TRUE)
 
 sample_df <- data.frame(GROUP = sample_data)
-sample_df$CASES <- "2010-03-01"
+sample_df$CASES <- "2012-03-01"
 
 incidence_object <- incidence::incidence(sample_df$CASES,
   interval = "month",
