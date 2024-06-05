@@ -12,7 +12,7 @@ data(epi_data)
 }
 \description{
 Epidemiological data for the Tolima department for the years
-2015 to 2021
+2012 to 2022
 }
 \details{
 Epidemiological data
