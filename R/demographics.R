@@ -32,7 +32,7 @@ population_pyramid <- function(divipola_code, year, sex = TRUE, range = 5,
   divipola_table <- divipola_table
 
   if (divipola_code == 0) {
-    path_0 <- system.file("extdata", "population_projection_col_0.rda",
+    path_0 <- system.file("extdata", "population_projection_col_0.rds",
       package = "epiCo"
     )
     load(path_0)
@@ -51,7 +51,7 @@ population_pyramid <- function(divipola_code, year, sex = TRUE, range = 5,
     female_counts <- as.numeric(pop_data_dpto[104:204])
     male_counts <- as.numeric(pop_data_dpto[3:103])
   } else if (divipola_code %in% divipola_table$COD_DPTO) {
-    path_1 <- system.file("extdata", "population_projection_col_1.rda",
+    path_1 <- system.file("extdata", "population_projection_col_1.rds",
       package = "epiCo"
     )
     load(path_1)
@@ -69,7 +69,7 @@ population_pyramid <- function(divipola_code, year, sex = TRUE, range = 5,
     female_counts <- as.numeric(pop_data_dpto[104:204])
     male_counts <- as.numeric(pop_data_dpto[3:103])
   } else if (divipola_code %in% divipola_table$COD_MPIO) {
-    path_2 <- system.file("extdata", "population_projection_col_2.rda",
+    path_2 <- system.file("extdata", "population_projection_col_2.rds",
       package = "epiCo"
     )
     load(path_2)
