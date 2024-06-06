@@ -173,14 +173,14 @@ pop_pyramid_0 <- population_pyramid("05001", 2020, FALSE)
 pop_pyramid_1 <- population_pyramid("05001", 2020, TRUE, plot = TRUE)
 
 test_that("age risk errors are thrown", {
-  expect_error(age_risk(age_1, sex_0, pop_pyramid_0))
-  expect_error(age_risk(age_0, sex_0, pop_pyramid_0))
+  expect_error(age_risk(age_1, pop_pyramid_0, sex_0))
+  expect_error(age_risk(age_0, pop_pyramid_0, sex_0))
 })
 
 test_that("age risk works as expected", {
-  expect_length(age_risk(age_0, sex_0, pop_pyramid_1), 3)
+  expect_length(age_risk(age_0, pop_pyramid_1, sex_0), 3)
   expect_length(age_risk(age_0, population_pyramid = pop_pyramid_1), 2)
-  expect_type(age_risk(age_0, sex_0, pop_pyramid_1, TRUE), "list")
+  expect_type(age_risk(age_0, pop_pyramid_1, sex_0, TRUE), "list")
   expect_type(
     age_risk(age_0, population_pyramid = pop_pyramid_1, plot = TRUE),
     "list"
