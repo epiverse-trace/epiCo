@@ -25,7 +25,7 @@ reference:
   contents:
   - neighborhoods
   - morans_index
-  
+
 - title: Utils
   contents:
   - epi_calendar
@@ -38,4 +38,3 @@ reference:
   - divipola_table
   - epi_data
   - isco88_table
-  

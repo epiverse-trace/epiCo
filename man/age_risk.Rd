@@ -4,16 +4,16 @@
 \alias{age_risk}
 \title{Returns the specific rates associated with being infected given age and sex}
 \usage{
-age_risk(age, sex = NULL, population_pyramid, plot = FALSE)
+age_risk(age, population_pyramid, sex = NULL, plot = FALSE)
 }
 \arguments{
 \item{age}{A vector with the ages of cases in years from 0 to 100 years}
 
-\item{sex}{A vector with the sex of cases 'F' and 'M'. The default value
-is NULL}
-
 \item{population_pyramid}{A dataframe with the count of individuals with the
 columns age, population and sex}
+
+\item{sex}{A vector with the sex of cases 'F' and 'M'. The default value
+is NULL}
 
 \item{plot}{A boolean for displaying a plot. The default value is FALSE}
 }
