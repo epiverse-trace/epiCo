@@ -6,18 +6,18 @@
 \alias{epiCo-package}
 \title{epiCo: Statistical and Visualization Tools for the Analysis of Outbreaks of Vector-Borne Diseases (VBDs) in Colombia}
 \description{
-Provides statistical and visualization tools for the analysis of demographic indicators, and spatio-temporal behavior and characterization of outbreaks of vector-borne diseases (VBDs) in Colombia. It implements travel times estimated from [Bravo-Vega C., Santos-Vega M., & Cordovez J.M. (2022)](https://doi.org/10.1371/journal.pntd.0011117), and the endemic chanel method [Bortman, M. (1999)](https://iris.paho.org/handle/10665.2/8562).
+Provides statistical and visualization tools for the analysis of demographic indicators, and spatio-temporal behavior and characterization of outbreaks of vector-borne diseases (VBDs) in Colombia. It implements travel times estimated from [Bravo-Vega C., Santos-Vega M., & Cordovez J.M. (2022)]\doi{10.1371/journal.pntd.0011117}, and the endemic chanel method [Bortman, M. (1999)]\url{https://iris.paho.org/handle/10665.2/8562}.
 }
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://epiverse-trace.github.io/epiCo}
+  \item \url{https://epiverse-trace.github.io/epiCo/}
   \item Report bugs at \url{https://github.com/epiverse-trace/epiCo/issues}
 }
 
 }
 \author{
-\strong{Maintainer}: Juan D. Umaña \email{jd.umana10@uniandes.edu.co} (\href{https://orcid.org/0000-0003-0316-6164}{ORCID})
+\strong{Maintainer}: Juan D. Umaña \email{jd.umana10@uniandes.edu.co} (\href{https://orcid.org/0000-0003-0316-6164}{ORCID}) [copyright holder]
 
 Authors:
 \itemize{

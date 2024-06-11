@@ -20,7 +20,7 @@ The module allows you to:
 
 -   Consult and visualize the population pyramid of a municipality, department, or country for a year of interest.
 -   Consult the definitions of demographic variables such as ethnicities, special population groups, and occupational labels.
--   Estimate the distribution of occupations reported in the line list according to the [ISCO 88 Standard](https://www.ilo.org/public/english/bureau/stat/isco/isco88/).
+-   Estimate the distribution of occupations reported in the line list according to the [ISCO 88 Standard](https://unstats.un.org/unsd/classifications/Family/Detail/1067/).
 -   Estimate the incidence rate of a municipality, department, or country.
 -   Calculate and visualize a relative age risk by normalizing the distribution of cases by the specific age structure of the location of interest.
 

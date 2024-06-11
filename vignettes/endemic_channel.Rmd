@@ -35,7 +35,7 @@ In the following vignette, users will learn:
 
 Using an endemic channel is a visual strategy to represent the historical behavior of a disease in a specific region on an epidemic curve that defines the central tendency of the cases during a year and the upper and lower limits where cases are expected to vary. This plot provides three lines known as "$\color{green}{\text{Safety}}$", "$\color{orange}{\text{Warning}}$", and "$\color{Red}{\text{Epidemic}}$" bands (Figure 1), which are later used to define the epidemiological situation of the region based on the current (observed) cases.
 
-The broader definition and methodology for the endemic channel were provided by [Bormant (1999)](https://iris.paho.org/handle/10665.2/8562).
+The broader definition and methodology for the endemic channel were provided by [Bortman (1999)](https://iris.paho.org/handle/10665.2/8562).
 
 ```{r, echo = FALSE, out.width = '100%'}
 knitr::include_graphics(
@@ -56,7 +56,7 @@ To have a statistical summary of the disease behavior, the endemic channel provi
 
 Since the nature of the epidemiological data tends not to be normal, the typically used CTM in the endemic channels is the *geometric mean*. This CTM is known to better represent the expected value of a data set with a skewed distribution and/or is susceptible to outliers (previous outbreaks). The `endemic_channel` function uses the geometric mean as the default CTM, but the arithmetic mean or median can be chosen according to the user's experience and context.
 
-It is important to note that as the geometric mean performs a multiplication of the data, when zero cases are reported in a moment of time, the estimation leads to a zero CTM. To avoid this, **epiCo**'s `endemic_channel` function performs a shift on the data to sum up one case (the default value) for all observations, and then it subtracts this shift from the final calculation. To avoid random selection of the shift, users can ask the `endemic_channel` function to find an optimal value based on [de la Cruz & Kreft (2019)](https://doi.org/10.48550/arXiv.1806.06403), or they can also ask to use a weighted method as described by [Habib (2012)](https://www.arpapress.com/volumes/vol11issue3/ijrras_11_3_08.pdf).
+It is important to note that as the geometric mean performs a multiplication of the data, when zero cases are reported in a moment of time, the estimation leads to a zero CTM. To avoid this, **epiCo**'s `endemic_channel` function performs a shift on the data to sum up one case (the default value) for all observations, and then it subtracts this shift from the final calculation. To avoid random selection of the shift, users can ask the `endemic_channel` function to find an optimal value based on [de la Cruz & Kreft (2019)](https://doi.org/10.48550/arXiv.1806.06403), or they can also ask to use a weighted method as described by [Habib (2012)](https://api.semanticscholar.org/CorpusID:124951845).
 
 Finally, the `endemic_channel` function can perform a Poisson test (unusual behavior method) on the historical data if it is requested by the user after taking into account the pertinence of the test, since it is mostly used for scenarios or diseases with very low incidence records. This method uses the arithmetic mean as CTM.
 
