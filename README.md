@@ -33,7 +33,7 @@ When reviewing the current epidemiological bulletins published by the local Secr
 - Provide more informative context by performing spatial correlation analysis.
 
 The package allows for interoperable analyses of linelist data from
-[SIVIGILA](https://www.ins.gov.co/Direcciones/Vigilancia/Paginas/SIVIGILA.aspx) (accessible using the Epiverse-TRACE package [sivirep](https://github.com/epiverse-trace/sivirep)) with spatial and demographic data (accessible using the Epiverse-TRACE package [ColOpenData]()). 
+[SIVIGILA](https://www.ins.gov.co/Direcciones/Vigilancia/Paginas/SIVIGILA.aspx) (accessible using the Epiverse-TRACE package [sivirep](https://github.com/epiverse-trace/sivirep)) with spatial and demographic data (accessible using the Epiverse-TRACE package [ColOpenData](https://epiverse-trace.github.io/ColOpenData/)). 
 
 *epiCo* can be used to perform the following main tasks at the municipality, departmental, or national level:
 
