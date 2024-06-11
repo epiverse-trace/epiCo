@@ -20,7 +20,7 @@ Description: Provides statistical and visualization tools for the
     chanel method [Bortman, M.
     (1999)]<https://iris.paho.org/handle/10665.2/8562>.
 License: MIT + file LICENSE
-URL: https://epiverse-trace.github.io/epiCo/
+URL: https://epiverse-trace.github.io/epiCo/, https://github.com/epiverse-trace/epiCo
 BugReports: https://github.com/epiverse-trace/epiCo/issues
 Depends:
     R (>= 3.2.0)
