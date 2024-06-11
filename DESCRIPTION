@@ -16,11 +16,11 @@ Description: Provides statistical and visualization tools for the
     characterization of outbreaks of vector-borne diseases (VBDs) in
     Colombia. It implements travel times estimated from [Bravo-Vega C.,
     Santos-Vega M., & Cordovez J.M.
-    (2022)](https://doi.org/10.1371/journal.pntd.0011117), and the endemic
+    (2022)]<doi:10.1371/journal.pntd.0011117>, and the endemic
     chanel method [Bortman, M.
-    (1999)](https://iris.paho.org/handle/10665.2/8562).
+    (1999)]<https://iris.paho.org/handle/10665.2/8562>.
 License: MIT + file LICENSE
-URL: https://epiverse-trace.github.io/epiCo
+URL: https://epiverse-trace.github.io/epiCo/
 BugReports: https://github.com/epiverse-trace/epiCo/issues
 Depends:
     R (>= 3.2.0)
