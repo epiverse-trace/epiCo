@@ -59,6 +59,9 @@
     <a class="dropdown-item" href="../articles/spatiotemporal_vignette.html">Spatiotemporal analyses with epiCo</a>
   </div>
 </li>
+<li class="nav-item">
+  <a class="nav-link" href="../news/index.html">Changelog</a>
+</li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off">
@@ -130,7 +133,7 @@ provides three lines known as “<span class="math inline">\(\color{green}{\text
 bands (Figure 1), which are later used to define the epidemiological
 situation of the region based on the current (observed) cases.</p>
 <p>The broader definition and methodology for the endemic channel were
-provided by <a href="https://iris.paho.org/handle/10665.2/8562" class="external-link">Bormant
+provided by <a href="https://iris.paho.org/handle/10665.2/8562" class="external-link">Bortman
 (1999)</a>.</p>
 <p><img src="../reference/figures/endemic_channel_figure.png" width="100%"></p>
 <p>The data needed to build an endemic channel is the weekly or monthly
@@ -177,7 +180,7 @@ calculation. To avoid random selection of the shift, users can ask the
 <code>endemic_channel</code> function to find an optimal value based on
 <a href="https://doi.org/10.48550/arXiv.1806.06403" class="external-link">de la Cruz &amp;
 Kreft (2019)</a>, or they can also ask to use a weighted method as
-described by <a href="https://www.arpapress.com/volumes/vol11issue3/ijrras_11_3_08.pdf" class="external-link">Habib
+described by <a href="https://api.semanticscholar.org/CorpusID:124951845" class="external-link">Habib
 (2012)</a>.</p>
 <p>Finally, the <code>endemic_channel</code> function can perform a
 Poisson test (unusual behavior method) on the historical data if it is
@@ -235,7 +238,7 @@ municipalities in Tolima for the years 2015 to 2021. In this case, we
 will use the cases from the municipality of Ibagué to calculate the
 respective endemic channel.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://epiverse-trace.github.io/epiCo">epiCo</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://epiverse-trace.github.io/epiCo/">epiCo</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.repidemicsconsortium.org/incidence/" class="external-link">incidence</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"epi_data"</span><span class="op">)</span></span>
