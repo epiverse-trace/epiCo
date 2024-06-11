@@ -640,7 +640,7 @@ describe_occupation <- function(isco_codes, sex = NULL, plot = NULL) {
   }
 }
 
-#' Axuliar function to obtain the information of the occupations
+#' Auxiliary function to obtain the information of the occupations
 #' @param valid_codes A numeric vector with the valid codes from the ISCO-88
 #' table
 #' @param isco_codes A numeric vector of ISCO-88 occupation codes

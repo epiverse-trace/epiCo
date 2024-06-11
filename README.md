@@ -49,7 +49,7 @@ All features are performed automatically from epidemiological, demographic, spat
 **epiCo** contains three modules documented in the following vignettes:
 
 1. [Demographic analyses with epiCo](https://epiverse-trace.github.io/epiCo/articles/demographic_vignette.html)
-2. [Builidng an Endemic Channel with epiCo](https://epiverse-trace.github.io/epiCo/articles/endemic_channel.html)
+2. [Building an Endemic Channel with epiCo](https://epiverse-trace.github.io/epiCo/articles/endemic_channel.html)
 3. [Spatiotemporal analyses with epiCo](https://epiverse-trace.github.io/epiCo/articles/spatiotemporal_vignette.html)
 
 ## Development

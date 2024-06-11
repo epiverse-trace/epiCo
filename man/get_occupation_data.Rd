@@ -2,7 +2,7 @@
 % Please edit documentation in R/demographics.R
 \name{get_occupation_data}
 \alias{get_occupation_data}
-\title{Axuliar function to obtain the information of the occupations}
+\title{Auxiliary function to obtain the information of the occupations}
 \usage{
 get_occupation_data(
   valid_codes,
@@ -32,6 +32,6 @@ default value is NULL}
 A dataframe with the information of the occupations
 }
 \description{
-Axuliar function to obtain the information of the occupations
+Auxiliary function to obtain the information of the occupations
 }
 \keyword{internal}
