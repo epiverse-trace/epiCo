@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="epiCo">
-<title>epiCo - Demographic module • epiCo</title>
+<title>Analyzing demographic data with epiCo • epiCo</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -17,7 +17,7 @@
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="epiCo - Demographic module">
+<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js" integrity="sha512-7O5pXpc0oCRrxk8RUfDYFgn0nO1t+jLuIOQdOMRp4APB7uZ4vSjspzp5y6YDtDs4VzUSTbWzBFZ/LKJhnyFOKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Analyzing demographic data with epiCo">
 <meta property="og:description" content="epiCo">
 <meta property="og:image" content="https://epiverse-trace.github.io/epiCo/logo.svg">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -35,12 +35,11 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     
 
-    <nav class="navbar fixed-top navbar-dark navbar-expand-lg bg-dark"><div class="container">
-    
-    <a href="https://epiverse-trace.github.io/" class="external-link"><img src="../logo_white.svg" id="logo" alt="Epiverse-TRACE"></a>
+    <nav class="navbar fixed-top navbar-dark navbar-expand-lg bg-dark" data-bs-theme="dark"><div class="container">
+    <a href="https://epiverse-trace.github.io/" class="external-link"><img src="https://epiverse-trace.github.io/blueprints/logo_white.svg" id="logo" alt="Epiverse-TRACE"></a>
     <a class="navbar-brand me-2" href="../index.html">epiCo</a>
 
-    <small class="nav-text text-muted me-auto version-number" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,7 +54,7 @@
 <li class="active nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/demographic_vignette.html">epiCo - Demographic module</a>
+    <a class="dropdown-item" href="../articles/demographic_vignette.html">Analyzing demographic data with epiCo</a>
     <a class="dropdown-item" href="../articles/endemic_channel.html">Building an Endemic Channel with epiCo</a>
     <a class="dropdown-item" href="../articles/spatiotemporal_vignette.html">Spatiotemporal analyses with epiCo</a>
   </div>
@@ -84,7 +83,7 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.svg" class="logo" alt=""><h1>epiCo - Demographic module</h1>
+      <img src="../logo.svg" class="logo" alt=""><h1>Analyzing demographic data with epiCo</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/epiverse-trace/epiCo/blob/HEAD/vignettes/demographic_vignette.Rmd" class="external-link"><code>vignettes/demographic_vignette.Rmd</code></a></small>
@@ -151,7 +150,7 @@ being the department where they are located).</p>
 <p><strong>epiCo</strong> provides the complete list of departments and
 municipalities codes through a built-in dataset.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/epiverse-trace/epiCo" class="external-link">epiCo</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://epiverse-trace.github.io/epiCo">epiCo</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.repidemicsconsortium.org/incidence/" class="external-link">incidence</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"divipola_table"</span><span class="op">)</span></span></code></pre></div>
@@ -161,39 +160,39 @@ municipalities codes through a built-in dataset.</p>
 </h2>
 <p><strong>epiCo</strong> provides a built-in dataset with the
 population projections of Colombia at the national, departmental, and
-municipality levels (provided by the DANE). These datasets present
-population projections from 2005 to 2035 for ages 0 to 100 years.
-However, for the municipal projections it has the ages from 0 to 85
+municipality levels (provided by the DANE). These datasets contains the
+population projections from 2012 to 2024 for ages from 0 to 100 years.
+However, for the municipal projections it has the ages from 0 to over 85
 years old.</p>
 <p>Users can perform queries on this data by using the
 <code>population_pyramid</code> function, providing the DIVIPOLA code of
 the territory of interest and the year to consult.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">ibague_code</span> <span class="op">&lt;-</span> <span class="fl">73001</span> <span class="co"># DIVIPOLA code for the city of Ibagu&lt;U+00E9&gt;</span></span>
+<code class="sourceCode R"><span><span class="va">ibague_code</span> <span class="op">&lt;-</span> <span class="st">"73001"</span> <span class="co"># DIVIPOLA code for the city of Ibagu&lt;U+00E9&gt;</span></span>
 <span><span class="va">year</span> <span class="op">&lt;-</span> <span class="fl">2016</span> <span class="co"># Year to consult</span></span>
 <span><span class="va">ibague_pyramid_2016</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/population_pyramid.html">population_pyramid</a></span><span class="op">(</span><span class="va">ibague_code</span>, <span class="va">year</span><span class="op">)</span> <span class="co"># Population</span></span>
 <span><span class="co"># pyramid (dataframe) for the city of Ibagu&lt;U+00E9&gt; in the year 2019</span></span>
 <span><span class="co"># dissagregated by sex</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">ibague_pyramid_2016</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   age population gender</span></span>
-<span><span class="co">#&gt; 1   0      15839      F</span></span>
-<span><span class="co">#&gt; 2   5      17539      F</span></span>
-<span><span class="co">#&gt; 3  10      20171      F</span></span>
-<span><span class="co">#&gt; 4  15      23059      F</span></span>
-<span><span class="co">#&gt; 5  20      22659      F</span></span>
-<span><span class="co">#&gt; 6  25      20685      F</span></span></code></pre></div>
+<span><span class="co">#&gt;   age population sex</span></span>
+<span><span class="co">#&gt; 1   0      15839   F</span></span>
+<span><span class="co">#&gt; 2   5      17539   F</span></span>
+<span><span class="co">#&gt; 3  10      20171   F</span></span>
+<span><span class="co">#&gt; 4  15      23059   F</span></span>
+<span><span class="co">#&gt; 5  20      22659   F</span></span>
+<span><span class="co">#&gt; 6  25      20685   F</span></span></code></pre></div>
 <p>Definitions of age ranges and plotting are also provided for both:
 total number of individuals, or proportion of individuals</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">ibague_code</span> <span class="op">&lt;-</span> <span class="fl">73001</span> <span class="co"># DIVIPOLA code for the city of Ibagu&lt;U+00E9&gt;</span></span>
+<code class="sourceCode R"><span><span class="va">ibague_code</span> <span class="op">&lt;-</span> <span class="st">"73001"</span> <span class="co"># DIVIPOLA code for the city of Ibagu&lt;U+00E9&gt;</span></span>
 <span><span class="va">year</span> <span class="op">&lt;-</span> <span class="fl">2019</span> <span class="co"># Year to consult</span></span>
 <span><span class="va">age_range</span> <span class="op">&lt;-</span> <span class="fl">5</span> <span class="co"># Age range or window</span></span>
 <span><span class="va">ibague_pyramid_2019</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/population_pyramid.html">population_pyramid</a></span><span class="op">(</span><span class="va">ibague_code</span>, <span class="va">year</span>,</span>
 <span>  range <span class="op">=</span> <span class="va">age_range</span>,</span>
-<span>  gender <span class="op">=</span> <span class="cn">TRUE</span>, total <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  sex <span class="op">=</span> <span class="cn">TRUE</span>, total <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  plot <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="demographic_vignette_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
+<p><img src="demographic_vignette_files/figure-html/unnamed-chunk-4-1.png" width="768"></p>
 </div>
 <div class="section level2">
 <h2 id="demographic-variables">3. Demographic variables<a class="anchor" aria-label="anchor" href="#demographic-variables"></a>
@@ -208,36 +207,28 @@ and occupation codifications used by the SIVIGILA.</p>
 <span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0001</span>, <span class="fl">002</span>, <span class="fl">003</span>, <span class="fl">004</span>, <span class="fl">005</span>, <span class="fl">006</span>, <span class="fl">007</span><span class="op">)</span>,</span>
 <span>  ethnicity_label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">3</span>, <span class="fl">3</span>, <span class="fl">2</span><span class="op">)</span>,</span>
 <span>  occupation_label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">6111</span>, <span class="fl">3221</span>, <span class="fl">5113</span>, <span class="fl">5133</span>, <span class="fl">6111</span>, <span class="fl">23</span>, <span class="fl">25</span><span class="op">)</span>,</span>
-<span>  gender <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"F"</span>, <span class="st">"M"</span>, <span class="st">"F"</span>, <span class="st">"F"</span>, <span class="st">"M"</span>, <span class="st">"M"</span>, <span class="st">"F"</span><span class="op">)</span></span>
+<span>  sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"F"</span>, <span class="st">"M"</span>, <span class="st">"F"</span>, <span class="st">"F"</span>, <span class="st">"M"</span>, <span class="st">"M"</span>, <span class="st">"F"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/describe_ethnicity.html">describe_ethnicity</a></span><span class="op">(</span><span class="va">demog_data</span><span class="op">$</span><span class="va">ethnicity_label</span><span class="op">)</span> <span class="co"># Description of ethnicities</span></span>
-<span><span class="co">#&gt;   Etiqueta</span></span>
-<span><span class="co">#&gt; 1        2</span></span>
-<span><span class="co">#&gt; 2        3</span></span>
-<span><span class="co">#&gt; 3        4</span></span>
-<span><span class="co">#&gt;                                                                                                                                                                                                                                                      Descripcion</span></span>
+<span><span class="co">#&gt;   codigo</span></span>
+<span><span class="co">#&gt; 1      2</span></span>
+<span><span class="co">#&gt; 2      3</span></span>
+<span><span class="co">#&gt; 3      4</span></span>
+<span><span class="co">#&gt;                                                                                                                                                                                                                                                      descripcion</span></span>
 <span><span class="co">#&gt; 1                                                                                                       Son comunidades que tienen una identidad etnica y cultural propia; se caracterizan por una tradicion nomada, y tienen su propio idioma que es el romanes</span></span>
 <span><span class="co">#&gt; 2 Poblacion ubicada en el Archipielago de San Andres, Providencia y Santa Catalina, con raices culturales afroanglo-antillanas, cuyos integrantes tienen rasgos socioculturales y linguisticos claramente diferenciados del resto de la poblacion afrocolombiana</span></span>
-<span><span class="co">#&gt; 3                                                                                                                          Poblacion ubicada en el municipio de San Basilio de Palenque, departamento de Bolivar, donde se habla el palenquero, lenguaje criollo</span></span>
-<span><span class="co"># reported in the consulted dataset</span></span>
+<span><span class="co">#&gt; 3                                                                                                                          Poblacion ubicada en el municipio de San Basilio de Palenque, departamento de Bolivar, donde se habla el palenquero, lenguaje criollo</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># reported in the consulted dataset</span></span>
 <span><span class="fu"><a href="../reference/describe_occupation.html">describe_occupation</a></span><span class="op">(</span></span>
 <span>  isco_codes <span class="op">=</span> <span class="va">demog_data</span><span class="op">$</span><span class="va">occupation_label</span>,</span>
-<span>  gender <span class="op">=</span> <span class="va">demog_data</span><span class="op">$</span><span class="va">gender</span>,</span>
+<span>  sex <span class="op">=</span> <span class="va">demog_data</span><span class="op">$</span><span class="va">sex</span>,</span>
 <span>  plot <span class="op">=</span> <span class="st">"treemap"</span></span>
 <span><span class="op">)</span> <span class="co"># Description of the occupations</span></span>
-<span><span class="co">#&gt; Warning in describe_occupation(isco_codes = demog_data$occupation_label, : 1</span></span>
-<span><span class="co">#&gt; codes are invalid.</span></span>
-<span><span class="co">#&gt; Warning: Removed 2 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">#&gt; (`geom_treemap()`).</span></span>
-<span><span class="co">#&gt; Warning: Removed 2 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">#&gt; (`geom_subgroup_border()`).</span></span>
-<span><span class="co">#&gt; Warning: Removed 2 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">#&gt; (`geom_subgroup_text()`).</span></span>
-<span><span class="co">#&gt; Warning: Removed 2 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">#&gt; (`geom_treemap_text()`).</span></span></code></pre></div>
-<p><img src="demographic_vignette_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
-<pre><code><span><span class="co">#&gt; [[1]]</span></span>
+<span><span class="co">#&gt; 1codes are invalid.</span></span></code></pre></div>
+<p><img src="demographic_vignette_files/figure-html/unnamed-chunk-5-1.png" width="768"></p>
+<pre><code><span><span class="co">#&gt; $data</span></span>
 <span><span class="co">#&gt;   major                                        major_label sub_major</span></span>
 <span><span class="co">#&gt; 1     5 Service Workers and Shop and Market Sales Workers         51</span></span>
 <span><span class="co">#&gt; 2     5 Service Workers and Shop and Market Sales Workers         51</span></span>
@@ -262,26 +253,18 @@ and occupation codifications used by the SIVIGILA.</p>
 <span><span class="co">#&gt; 5 Modern Health Associate Professionals (Except Nursing)  3221</span></span>
 <span><span class="co">#&gt; 6                      Market Gardeners and Crop Growers  6111</span></span>
 <span><span class="co">#&gt; 7                                                    &lt;NA&gt;   NA</span></span>
-<span><span class="co">#&gt;                          unit_label gender count</span></span>
-<span><span class="co">#&gt; 1                    Travel guides       F     1</span></span>
-<span><span class="co">#&gt; 2 Home-based personal care workers       F     1</span></span>
-<span><span class="co">#&gt; 3 Field crop and vegetable growers       F     1</span></span>
-<span><span class="co">#&gt; 4                              &lt;NA&gt;      M     1</span></span>
-<span><span class="co">#&gt; 5               Medical assistants       M     1</span></span>
-<span><span class="co">#&gt; 6 Field crop and vegetable growers       M     1</span></span>
-<span><span class="co">#&gt; 7                              &lt;NA&gt;   &lt;NA&gt;     1</span></span>
+<span><span class="co">#&gt;                          unit_label  sex count</span></span>
+<span><span class="co">#&gt; 1                    Travel guides     F     1</span></span>
+<span><span class="co">#&gt; 2 Home-based personal care workers     F     1</span></span>
+<span><span class="co">#&gt; 3 Field crop and vegetable growers     F     1</span></span>
+<span><span class="co">#&gt; 4                              &lt;NA&gt;    M     1</span></span>
+<span><span class="co">#&gt; 5               Medical assistants     M     1</span></span>
+<span><span class="co">#&gt; 6 Field crop and vegetable growers     M     1</span></span>
+<span><span class="co">#&gt; 7                              &lt;NA&gt; &lt;NA&gt;     1</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $occupation_plot</span></span>
-<span><span class="co">#&gt; Warning: Removed 2 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">#&gt; (`geom_treemap()`).</span></span>
-<span><span class="co">#&gt; Warning: Removed 2 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">#&gt; (`geom_subgroup_border()`).</span></span>
-<span><span class="co">#&gt; Warning: Removed 2 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">#&gt; (`geom_subgroup_text()`).</span></span>
-<span><span class="co">#&gt; Warning: Removed 2 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">#&gt; (`geom_treemap_text()`).</span></span></code></pre>
-<p><img src="demographic_vignette_files/figure-html/unnamed-chunk-5-2.png" width="700"></p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<span><span class="co">#&gt; $plot</span></span></code></pre>
+<p><img src="demographic_vignette_files/figure-html/unnamed-chunk-5-2.png" width="768"></p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># reported in the consulted dataset</span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -292,24 +275,24 @@ epidemiological data extracted from SIVIGILA or provided by the user.
 <code>epi_data</code> is a built-in file that shows an example of the
 structure used by the package, which is the same as the one reported by
 SIVIGILA. This file contains the cases of all the municipalities in
-Tolima for the years 2015–2021.</p>
+Tolima for the years 2015-2021.</p>
 <p>The following analyses use the dengue cases reported in Tolima in
 2019.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"epi_data"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">data_tolima</span> <span class="op">&lt;-</span> <span class="va">epi_data</span><span class="op">[</span><span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/year.html" class="external-link">year</a></span><span class="op">(</span><span class="va">epi_data</span><span class="op">$</span><span class="va">fec_not</span><span class="op">)</span> <span class="op">==</span> <span class="fl">2019</span>, <span class="op">]</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">data_tolima</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 16</span></span></span>
 <span><span class="co">#&gt;   fec_not    cod_pais_o cod_dpto_o cod_mun_o cod_pais_r cod_dpto_r cod_mun_r</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2019-01-02        170         73     <span style="text-decoration: underline;">73</span>001        170         73     <span style="text-decoration: underline;">73</span>001</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2019-01-15        170         73     <span style="text-decoration: underline;">73</span>268        170         73     <span style="text-decoration: underline;">73</span>268</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2019-01-01        170         73     <span style="text-decoration: underline;">73</span>200        170         73     <span style="text-decoration: underline;">73</span>200</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2019-01-12        170         73     <span style="text-decoration: underline;">73</span>671        170         73     <span style="text-decoration: underline;">73</span>671</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2019-01-05        170         73     <span style="text-decoration: underline;">73</span>671        170         73     <span style="text-decoration: underline;">73</span>671</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2019-01-05        170         73     <span style="text-decoration: underline;">73</span>671        170         25     <span style="text-decoration: underline;">25</span>754</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 9 more variables: cod_dpto_n &lt;dbl&gt;, cod_mun_n &lt;dbl&gt;, edad &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2019-01-02 170        73         73001     170        73         73001    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2019-01-15 170        73         73268     170        73         73268    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2019-01-01 170        73         73200     170        73         73200    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2019-01-12 170        73         73671     170        73         73671    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2019-01-05 170        73         73671     170        73         73671    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2019-01-05 170        73         73671     170        25         25754    </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 9 more variables: cod_dpto_n &lt;chr&gt;, cod_mun_n &lt;chr&gt;, edad &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   sexo &lt;chr&gt;, per_etn &lt;dbl&gt;, ocupacion &lt;chr&gt;, estrato &lt;chr&gt;, ini_sin &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   cod_eve &lt;dbl&gt;</span></span></span></code></pre></div>
 </div>
@@ -324,7 +307,7 @@ total number of inhabitants in the specific region and year.</p>
 <p><strong>epiCo</strong> uses the DANE population projections as
 denominators; therefore, it is necessary to provide the administration
 level at which incidences are calculated.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">incidence_object</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://www.repidemicsconsortium.org/incidence/reference/incidence.html" class="external-link">incidence</a></span><span class="op">(</span></span>
 <span>  dates <span class="op">=</span> <span class="va">data_tolima</span><span class="op">$</span><span class="va">fec_not</span>,</span>
 <span>  groups <span class="op">=</span> <span class="va">data_tolima</span><span class="op">$</span><span class="va">cod_mun_o</span>,</span>
@@ -374,15 +357,15 @@ normalizes the epidemiological data with the age structure of a
 population. This normalization allows us to estimate the age risk of a
 disease according to the age structure of the general population in a
 municipality, department, or country in a certain year.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data_ibague</span> <span class="op">&lt;-</span> <span class="va">data_tolima</span><span class="op">[</span><span class="va">data_tolima</span><span class="op">$</span><span class="va">cod_mun_o</span> <span class="op">==</span> <span class="fl">73001</span>, <span class="op">]</span></span>
 <span></span>
 <span><span class="va">age_risk_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/age_risk.html">age_risk</a></span><span class="op">(</span></span>
 <span>  age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="va">data_ibague</span><span class="op">$</span><span class="va">edad</span><span class="op">)</span>,</span>
-<span>  population_pyramid <span class="op">=</span> <span class="va">ibague_pyramid_2019</span>,</span>
-<span>  gender <span class="op">=</span> <span class="va">data_ibague</span><span class="op">$</span><span class="va">sexo</span>, plot <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  population_pyramid <span class="op">=</span> <span class="va">ibague_pyramid_2019</span><span class="op">$</span><span class="va">data</span>,</span>
+<span>  sex <span class="op">=</span> <span class="va">data_ibague</span><span class="op">$</span><span class="va">sexo</span>, plot <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="demographic_vignette_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
+<p><img src="demographic_vignette_files/figure-html/unnamed-chunk-8-1.png" width="768"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
@@ -391,13 +374,11 @@ municipality, department, or country in a certain year.</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p>
-<p>Developed by Juan D. Umaña, Juan Montenegro-Torres, Julian Otero.</p>
+  <p>Developed by Juan D. Umaña, Juan Montenegro-Torres, Julian Otero.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.8.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
 </div>
 
     </footer>

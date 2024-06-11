@@ -37,9 +37,6 @@
     <loc>https://epiverse-trace.github.io/epiCo/reference/describe_occupation.html</loc>
   </url>
   <url>
-    <loc>https://epiverse-trace.github.io/epiCo/reference/detect_outbreaks_ewma.html</loc>
-  </url>
-  <url>
     <loc>https://epiverse-trace.github.io/epiCo/reference/divipola_table.html</loc>
   </url>
   <url>
@@ -52,19 +49,25 @@
     <loc>https://epiverse-trace.github.io/epiCo/reference/endemic_plot.html</loc>
   </url>
   <url>
+    <loc>https://epiverse-trace.github.io/epiCo/reference/epiCo-package.html</loc>
+  </url>
+  <url>
     <loc>https://epiverse-trace.github.io/epiCo/reference/epi_calendar.html</loc>
   </url>
   <url>
     <loc>https://epiverse-trace.github.io/epiCo/reference/epi_data.html</loc>
   </url>
   <url>
-    <loc>https://epiverse-trace.github.io/epiCo/reference/ewma.html</loc>
+    <loc>https://epiverse-trace.github.io/epiCo/reference/geometric_mean.html</loc>
   </url>
   <url>
-    <loc>https://epiverse-trace.github.io/epiCo/reference/geom_mean.html</loc>
+    <loc>https://epiverse-trace.github.io/epiCo/reference/geometric_sd.html</loc>
   </url>
   <url>
-    <loc>https://epiverse-trace.github.io/epiCo/reference/geom_sd.html</loc>
+    <loc>https://epiverse-trace.github.io/epiCo/reference/get_age_risk_sex.html</loc>
+  </url>
+  <url>
+    <loc>https://epiverse-trace.github.io/epiCo/reference/get_occupation_data.html</loc>
   </url>
   <url>
     <loc>https://epiverse-trace.github.io/epiCo/reference/incidence_rate.html</loc>
@@ -85,9 +88,12 @@
     <loc>https://epiverse-trace.github.io/epiCo/reference/occupation_plot.html</loc>
   </url>
   <url>
-    <loc>https://epiverse-trace.github.io/epiCo/reference/occupation_plot_2.html</loc>
+    <loc>https://epiverse-trace.github.io/epiCo/reference/occupation_plot_circular.html</loc>
   </url>
   <url>
     <loc>https://epiverse-trace.github.io/epiCo/reference/population_pyramid.html</loc>
+  </url>
+  <url>
+    <loc>https://epiverse-trace.github.io/epiCo/reference/population_pyramid_plot.html</loc>
   </url>
 </urlset>
