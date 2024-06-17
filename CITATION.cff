@@ -1,0 +1,430 @@
+# --------------------------------------------
+# CITATION file created with {cffr} R package
+# See also: https://docs.ropensci.org/cffr/
+# --------------------------------------------
+ 
+cff-version: 1.2.0
+message: 'To cite package "epiCo" in publications use:'
+type: software
+license: MIT
+title: 'epiCo: Statistical and Visualization Tools for the Analysis of Outbreaks of
+  Vector-Borne Diseases (VBDs) in Colombia'
+version: 1.0.0
+abstract: Provides statistical and visualization tools for the analysis of demographic
+  indicators, and spatio-temporal behavior and characterization of outbreaks of vector-borne
+  diseases (VBDs) in Colombia. It implements travel times estimated from [Bravo-Vega
+  C., Santos-Vega M., & Cordovez J.M. (2022)]<https://doi.org/10.1371/journal.pntd.0011117>,
+  and the endemic chanel method [Bortman, M. (1999)]<https://iris.paho.org/handle/10665.2/8562>.
+authors:
+- family-names: Umaña
+  given-names: Juan D.
+  email: jd.umana10@uniandes.edu.co
+  orcid: https://orcid.org/0000-0003-0316-6164
+- family-names: Montenegro-Torres
+  given-names: Juan
+  email: jf.montenegro@uniandes.edu.co
+  orcid: https://orcid.org/0000-0003-2755-4743
+- family-names: Otero
+  given-names: Julian
+  email: jd.otero10@uniandes.edu.co
+  orcid: https://orcid.org/0009-0006-0429-7747
+repository-code: https://github.com/epiverse-trace/epiCo
+url: https://epiverse-trace.github.io/epiCo/
+contact:
+- family-names: Umaña
+  given-names: Juan D.
+  email: jd.umana10@uniandes.edu.co
+  orcid: https://orcid.org/0000-0003-0316-6164
+keywords:
+- colombia
+- decision-support
+- demographics
+- epiverse
+- outbreak-analysis
+- r
+- r-package
+- spatio-temporal-analysis
+- vector-borne-diseases
+references:
+- type: software
+  title: 'R: A Language and Environment for Statistical Computing'
+  notes: Depends
+  url: https://www.R-project.org/
+  authors:
+  - name: R Core Team
+  institution:
+    name: R Foundation for Statistical Computing
+    address: Vienna, Austria
+  year: '2024'
+  version: '>= 3.2.0'
+- type: software
+  title: dplyr
+  abstract: 'dplyr: A Grammar of Data Manipulation'
+  notes: Imports
+  url: https://dplyr.tidyverse.org
+  repository: https://CRAN.R-project.org/package=dplyr
+  authors:
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@posit.co
+    orcid: https://orcid.org/0000-0003-4757-117X
+  - family-names: François
+    given-names: Romain
+    orcid: https://orcid.org/0000-0002-2444-4226
+  - family-names: Henry
+    given-names: Lionel
+  - family-names: Müller
+    given-names: Kirill
+    orcid: https://orcid.org/0000-0002-1416-3412
+  - family-names: Vaughan
+    given-names: Davis
+    email: davis@posit.co
+    orcid: https://orcid.org/0000-0003-4777-038X
+  year: '2024'
+  doi: 10.32614/CRAN.package.dplyr
+- type: software
+  title: ggplot2
+  abstract: 'ggplot2: Create Elegant Data Visualisations Using the Grammar of Graphics'
+  notes: Imports
+  url: https://ggplot2.tidyverse.org
+  repository: https://CRAN.R-project.org/package=ggplot2
+  authors:
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@posit.co
+    orcid: https://orcid.org/0000-0003-4757-117X
+  - family-names: Chang
+    given-names: Winston
+    orcid: https://orcid.org/0000-0002-1576-2126
+  - family-names: Henry
+    given-names: Lionel
+  - family-names: Pedersen
+    given-names: Thomas Lin
+    email: thomas.pedersen@posit.co
+    orcid: https://orcid.org/0000-0002-5147-4711
+  - family-names: Takahashi
+    given-names: Kohske
+  - family-names: Wilke
+    given-names: Claus
+    orcid: https://orcid.org/0000-0002-7470-9261
+  - family-names: Woo
+    given-names: Kara
+    orcid: https://orcid.org/0000-0002-5125-4188
+  - family-names: Yutani
+    given-names: Hiroaki
+    orcid: https://orcid.org/0000-0002-3385-7233
+  - family-names: Dunnington
+    given-names: Dewey
+    orcid: https://orcid.org/0000-0002-9415-4582
+  - family-names: Brand
+    given-names: Teun
+    name-particle: van den
+    orcid: https://orcid.org/0000-0002-9335-7468
+  year: '2024'
+  doi: 10.32614/CRAN.package.ggplot2
+- type: software
+  title: ggraph
+  abstract: 'ggraph: An Implementation of Grammar of Graphics for Graphs and Networks'
+  notes: Imports
+  url: https://ggraph.data-imaginist.com
+  repository: https://CRAN.R-project.org/package=ggraph
+  authors:
+  - family-names: Pedersen
+    given-names: Thomas Lin
+    email: thomasp85@gmail.com
+    orcid: https://orcid.org/0000-0002-5147-4711
+  year: '2024'
+  doi: 10.32614/CRAN.package.ggraph
+- type: software
+  title: igraph
+  abstract: 'igraph: Network Analysis and Visualization'
+  notes: Imports
+  url: https://r.igraph.org/
+  repository: https://CRAN.R-project.org/package=igraph
+  authors:
+  - family-names: Csárdi
+    given-names: Gábor
+    email: csardi.gabor@gmail.com
+    orcid: https://orcid.org/0000-0001-7098-9676
+  - family-names: Nepusz
+    given-names: Tamás
+    email: ntamas@gmail.com
+    orcid: https://orcid.org/0000-0002-1451-338X
+  - family-names: Traag
+    given-names: Vincent
+    orcid: https://orcid.org/0000-0003-3170-3879
+  - family-names: Horvát
+    given-names: Szabolcs
+    email: szhorvat@gmail.com
+    orcid: https://orcid.org/0000-0002-3100-523X
+  - family-names: Zanini
+    given-names: Fabio
+    email: fabio.zanini@unsw.edu.au
+    orcid: https://orcid.org/0000-0001-7097-8539
+  - family-names: Noom
+    given-names: Daniel
+  - family-names: Müller
+    given-names: Kirill
+    email: kirill@cynkra.com
+    orcid: https://orcid.org/0000-0002-1416-3412
+  year: '2024'
+  doi: 10.32614/CRAN.package.igraph
+- type: software
+  title: incidence
+  abstract: 'incidence: Compute, Handle, Plot and Model Incidence of Dated Events'
+  notes: Imports
+  url: https://www.repidemicsconsortium.org/incidence/
+  repository: https://CRAN.R-project.org/package=incidence
+  authors:
+  - family-names: Jombart
+    given-names: Thibaut
+    email: thibautjombart@gmail.com
+  - family-names: Kamvar
+    given-names: Zhian N.
+    email: zkamvar@gmail.com
+    orcid: https://orcid.org/0000-0003-1458-7108
+  - family-names: FitzJohn
+    given-names: Rich
+    email: rich.fitzjohn@gmail.com
+  year: '2024'
+  doi: 10.32614/CRAN.package.incidence
+- type: software
+  title: leaflet
+  abstract: 'leaflet: Create Interactive Web Maps with the JavaScript ''Leaflet''
+    Library'
+  notes: Imports
+  url: https://rstudio.github.io/leaflet/
+  repository: https://CRAN.R-project.org/package=leaflet
+  authors:
+  - family-names: Cheng
+    given-names: Joe
+    email: joe@posit.co
+  - family-names: Schloerke
+    given-names: Barret
+    email: barret@posit.co
+    orcid: https://orcid.org/0000-0001-9986-114X
+  - family-names: Karambelkar
+    given-names: Bhaskar
+  - family-names: Xie
+    given-names: Yihui
+  year: '2024'
+  doi: 10.32614/CRAN.package.leaflet
+- type: software
+  title: lubridate
+  abstract: 'lubridate: Make Dealing with Dates a Little Easier'
+  notes: Imports
+  url: https://lubridate.tidyverse.org
+  repository: https://CRAN.R-project.org/package=lubridate
+  authors:
+  - family-names: Spinu
+    given-names: Vitalie
+    email: spinuvit@gmail.com
+  - family-names: Grolemund
+    given-names: Garrett
+  - family-names: Wickham
+    given-names: Hadley
+  year: '2024'
+  doi: 10.32614/CRAN.package.lubridate
+- type: software
+  title: magrittr
+  abstract: 'magrittr: A Forward-Pipe Operator for R'
+  notes: Imports
+  url: https://magrittr.tidyverse.org
+  repository: https://CRAN.R-project.org/package=magrittr
+  authors:
+  - family-names: Bache
+    given-names: Stefan Milton
+    email: stefan@stefanbache.dk
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@rstudio.com
+  year: '2024'
+  doi: 10.32614/CRAN.package.magrittr
+- type: software
+  title: RColorBrewer
+  abstract: 'RColorBrewer: ColorBrewer Palettes'
+  notes: Imports
+  repository: https://CRAN.R-project.org/package=RColorBrewer
+  authors:
+  - family-names: Neuwirth
+    given-names: Erich
+    email: erich.neuwirth@univie.ac.at
+  year: '2024'
+  doi: 10.32614/CRAN.package.RColorBrewer
+- type: software
+  title: rlang
+  abstract: 'rlang: Functions for Base Types and Core R and ''Tidyverse'' Features'
+  notes: Imports
+  url: https://rlang.r-lib.org
+  repository: https://CRAN.R-project.org/package=rlang
+  authors:
+  - family-names: Henry
+    given-names: Lionel
+    email: lionel@posit.co
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@posit.co
+  year: '2024'
+  doi: 10.32614/CRAN.package.rlang
+- type: software
+  title: scales
+  abstract: 'scales: Scale Functions for Visualization'
+  notes: Imports
+  url: https://scales.r-lib.org
+  repository: https://CRAN.R-project.org/package=scales
+  authors:
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@posit.co
+  - family-names: Pedersen
+    given-names: Thomas Lin
+    email: thomas.pedersen@posit.co
+    orcid: https://orcid.org/0000-0002-5147-4711
+  - family-names: Seidel
+    given-names: Dana
+  year: '2024'
+  doi: 10.32614/CRAN.package.scales
+- type: software
+  title: spdep
+  abstract: 'spdep: Spatial Dependence: Weighting Schemes, Statistics'
+  notes: Imports
+  url: https://github.com/r-spatial/spdep/
+  repository: https://CRAN.R-project.org/package=spdep
+  authors:
+  - family-names: Bivand
+    given-names: Roger
+    email: Roger.Bivand@nhh.no
+    orcid: https://orcid.org/0000-0003-2392-6140
+  year: '2024'
+  doi: 10.32614/CRAN.package.spdep
+- type: software
+  title: stats
+  abstract: 'R: A Language and Environment for Statistical Computing'
+  notes: Imports
+  authors:
+  - name: R Core Team
+  institution:
+    name: R Foundation for Statistical Computing
+    address: Vienna, Austria
+  year: '2024'
+  doi: 10.32614/CRAN.package.stats
+- type: software
+  title: treemapify
+  abstract: 'treemapify: Draw Treemaps in ''ggplot2'''
+  notes: Imports
+  url: https://wilkox.org/treemapify/
+  repository: https://CRAN.R-project.org/package=treemapify
+  authors:
+  - family-names: Wilkins
+    given-names: David
+    email: david@wilkox.org
+    orcid: https://orcid.org/0000-0002-3385-8981
+  year: '2024'
+  doi: 10.32614/CRAN.package.treemapify
+- type: software
+  title: utils
+  abstract: 'R: A Language and Environment for Statistical Computing'
+  notes: Imports
+  authors:
+  - name: R Core Team
+  institution:
+    name: R Foundation for Statistical Computing
+    address: Vienna, Austria
+  year: '2024'
+  doi: 10.32614/CRAN.package.utils
+- type: software
+  title: checkmate
+  abstract: 'checkmate: Fast and Versatile Argument Checks'
+  notes: Suggests
+  url: https://mllg.github.io/checkmate/
+  repository: https://CRAN.R-project.org/package=checkmate
+  authors:
+  - family-names: Lang
+    given-names: Michel
+    email: michellang@gmail.com
+    orcid: https://orcid.org/0000-0001-9754-0393
+  year: '2024'
+  doi: 10.32614/CRAN.package.checkmate
+- type: software
+  title: covr
+  abstract: 'covr: Test Coverage for Packages'
+  notes: Suggests
+  url: https://covr.r-lib.org
+  repository: https://CRAN.R-project.org/package=covr
+  authors:
+  - family-names: Hester
+    given-names: Jim
+    email: james.f.hester@gmail.com
+  year: '2024'
+  doi: 10.32614/CRAN.package.covr
+- type: software
+  title: knitr
+  abstract: 'knitr: A General-Purpose Package for Dynamic Report Generation in R'
+  notes: Suggests
+  url: https://yihui.org/knitr/
+  repository: https://CRAN.R-project.org/package=knitr
+  authors:
+  - family-names: Xie
+    given-names: Yihui
+    email: xie@yihui.name
+    orcid: https://orcid.org/0000-0003-0645-5666
+  year: '2024'
+  doi: 10.32614/CRAN.package.knitr
+- type: software
+  title: rmarkdown
+  abstract: 'rmarkdown: Dynamic Documents for R'
+  notes: Suggests
+  url: https://pkgs.rstudio.com/rmarkdown/
+  repository: https://CRAN.R-project.org/package=rmarkdown
+  authors:
+  - family-names: Allaire
+    given-names: JJ
+    email: jj@posit.co
+  - family-names: Xie
+    given-names: Yihui
+    email: xie@yihui.name
+    orcid: https://orcid.org/0000-0003-0645-5666
+  - family-names: Dervieux
+    given-names: Christophe
+    email: cderv@posit.co
+    orcid: https://orcid.org/0000-0003-4474-2498
+  - family-names: McPherson
+    given-names: Jonathan
+    email: jonathan@posit.co
+  - family-names: Luraschi
+    given-names: Javier
+  - family-names: Ushey
+    given-names: Kevin
+    email: kevin@posit.co
+  - family-names: Atkins
+    given-names: Aron
+    email: aron@posit.co
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@posit.co
+  - family-names: Cheng
+    given-names: Joe
+    email: joe@posit.co
+  - family-names: Chang
+    given-names: Winston
+    email: winston@posit.co
+  - family-names: Iannone
+    given-names: Richard
+    email: rich@posit.co
+    orcid: https://orcid.org/0000-0003-3925-190X
+  year: '2024'
+  doi: 10.32614/CRAN.package.rmarkdown
+- type: software
+  title: testthat
+  abstract: 'testthat: Unit Testing for R'
+  notes: Suggests
+  url: https://testthat.r-lib.org
+  repository: https://CRAN.R-project.org/package=testthat
+  authors:
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@posit.co
+  year: '2024'
+  doi: 10.32614/CRAN.package.testthat
+  version: '>= 3.0.0'
+
