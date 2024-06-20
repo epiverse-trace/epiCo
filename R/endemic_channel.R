@@ -292,7 +292,7 @@ endemic_outliers <- function(historic, outlier_years, outliers_handling,
 #'
 #' @keywords internal
 endemic_plot <- function(channel_data, method,
-                         outlier_years, outliers_handling) {
+                         outlier_years, outliers_handling, language) {
   endemic_channel_plot <- ggplot2::ggplot(
     channel_data,
     ggplot2::aes(x = as.numeric(
@@ -330,7 +330,7 @@ endemic_plot <- function(channel_data, method,
         )
       )
     ) +
-    ggplot2::xlab(label = "Epidemiological interval") +
+    ggplot2::xlab(label = "Epidemiological week") +
     ggplot2::ylab("Number of cases") +
     ggplot2::theme(
       plot.background = ggplot2::element_rect(fill = "white"),
@@ -349,6 +349,34 @@ endemic_plot <- function(channel_data, method,
       expand = c(0.01, 0.01)
     )
 
+  if(language == "ES"){
+    endemic_channel_plot <- endemic_channel_plot +
+      ggplot2::geom_line(ggplot2::aes(y = .data$up_lim, color = "Epidemia"),
+                         linewidth = 1
+      ) +
+      ggplot2::geom_line(ggplot2::aes(y = .data$central, color = "Alerta"),
+                         linewidth = 1
+      ) +
+      ggplot2::geom_line(ggplot2::aes(y = .data$low_lim, color = "Seguridad"),
+                         linewidth = 1
+      ) +
+      ggplot2::labs(
+        title = "Canal endémico",
+        caption = ifelse(length(outlier_years) > 1,
+                         paste(
+                           "Método: ", method, " | Años epidémicos: ",
+                           toString(outlier_years), " son ", outliers_handling
+                         ),
+                         paste(
+                           "Método: ", method, " | Año epidémico: ",
+                           outlier_years, " es ", outliers_handling
+                         )
+        )
+      ) +
+      ggplot2::xlab(label = "Semana epidemiológica") +
+      ggplot2::ylab("Número de casos")
+  }
+
   if (anyNA(channel_data$obs)) {
     endemic_channel_plot <- endemic_channel_plot +
       # nolint start
@@ -360,6 +388,18 @@ endemic_plot <- function(channel_data, method,
           "Safety" = "darkgreen"
         )
       )
+    if (language == "ES"){
+      endemic_channel_plot <- endemic_channel_plot +
+        # nolint start
+        ggplot2::scale_color_manual(
+          name = "",
+          values = c(
+            "Epidemia" = "brown4",
+            "Alerta" = "darkorange3",
+            "Seguridad" = "darkgreen"
+          )
+        )
+    }
     # nolint end
   } else {
     endemic_channel_plot <- endemic_channel_plot +
@@ -380,6 +420,28 @@ endemic_plot <- function(channel_data, method,
           "Observed cases" = "black"
         )
       )
+    if (language == "ES"){
+      endemic_channel_plot <- endemic_channel_plot +
+        ggplot2::geom_line(ggplot2::aes(y = .data$obs,
+                                        color = "Casos observados"),
+                           linetype = "dashed",
+                           linewidth = 0.75
+        ) +
+        ggplot2::geom_point(ggplot2::aes(y = .data$obs,
+                                         color = "Casos observados"),
+                            size = 2
+        ) +
+        # nolint start
+        ggplot2::scale_color_manual(
+          name = "",
+          values = c(
+            "Epidemia" = "brown4",
+            "Alerta" = "darkorange3",
+            "Seguridad" = "darkgreen",
+            "Casos observados" = "black"
+          )
+        ) 
+    }
     # nolint end
   }
 
