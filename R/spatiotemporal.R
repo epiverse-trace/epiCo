@@ -60,6 +60,7 @@ neighborhoods <- function(query_vector, threshold = 2) {
 #' @param threshold Maximum traveling time around each municipality.
 #' @param plot if TRUE, returns a plot of influential observations in the
 #' Moran's plot.
+#' @param language Language for plot components
 
 #' @return List of Moran's I clustering analysis, giving the quadrant of each
 #' observation, influential values.
@@ -72,7 +73,7 @@ neighborhoods <- function(query_vector, threshold = 2) {
 #' }
 #' @export
 morans_index <- function(incidence_object, scale = 100000, threshold = 2,
-                         plot = TRUE) {
+                         plot = TRUE, language = c("EN","ES")) {
   stopifnot(
     "`incidence_object` must have incidence class" =
       (inherits(incidence_object, "incidence")),
@@ -82,6 +83,8 @@ morans_index <- function(incidence_object, scale = 100000, threshold = 2,
     "`threshold` must be numeric" = (is.numeric(threshold)),
     "`plot` must be boolean" = (is.logical(plot))
   )
+  language <- match.arg(language)
+  
   incidence_rate <- incidence_rate(
     incidence_object = incidence_object,
     level = 2, scale = scale
@@ -146,6 +149,16 @@ morans_index <- function(incidence_object, scale = 100000, threshold = 2,
   }
   # Plot
   if (plot) {
+    map_title <- paste0("Local Moran's Index Clusters </br>",
+                        lubridate::epiyear(incidence_object$dates),
+                        "-W",  lubridate::epiweek(incidence_object$dates),
+                        " to ", incidence_object$interval, " later" )
+    if(language == "ES"){
+      map_title <- paste0("Clústers del Índice de Moran Local </br>",
+                          lubridate::epiyear(incidence_object$dates),
+                          "-SE",  lubridate::epiweek(incidence_object$dates),
+                          " a ", incidence_object$interval, " después" )
+    }
     path_2 <- system.file("extdata", "spatial_polygons_col_2.rda",
       package = "epiCo"
     )
@@ -203,17 +216,15 @@ morans_index <- function(incidence_object, scale = 100000, threshold = 2,
         fillOpacity = 0.65
       ) %>%
       leaflet::addLegend("bottomright",
-        pal = pal, values = ~ c(
+        pal = pal,
+        values = ~ c(
           "High-High",
           "Low-Low",
           "Low-High",
           "High-Low",
           "Not Significant"
         ),
-        title = paste0("Local Moran's Index Clusters </br>",
-                       lubridate::epiyear(incidence_object$dates),
-                       "-W",  lubridate::epiweek(incidence_object$dates),
-                       " to ", incidence_object$interval, " later" ),
+        title = map_title,
         opacity = 1
       )
     # nolint end
