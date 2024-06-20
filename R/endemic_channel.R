@@ -390,6 +390,7 @@ endemic_plot <- function(channel_data, method,
           "Safety" = "darkgreen"
         )
       )
+    # nolint end
     if (language == "ES") {
       endemic_channel_plot <- endemic_channel_plot +
         # nolint start
@@ -422,6 +423,7 @@ endemic_plot <- function(channel_data, method,
           "Observed cases" = "black"
         )
       )
+    # nolint end
     if (language == "ES") {
       endemic_channel_plot <- endemic_channel_plot +
         ggplot2::geom_line(
