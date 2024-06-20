@@ -88,7 +88,8 @@ incidence_object <- incidence(
   interval = "12 months"
 )
 
-morans_tolima <- morans_index(incidence_object = incidence_object, language = "ES")
+morans_tolima <- morans_index(incidence_object = incidence_object,
+                              language = "ES")
 morans_tolima$plot
 ```
 
