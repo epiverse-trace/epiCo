@@ -210,7 +210,10 @@ morans_index <- function(incidence_object, scale = 100000, threshold = 2,
           "High-Low",
           "Not Significant"
         ),
-        title = "Local Moran's Index Clusters",
+        title = paste0("Local Moran's Index Clusters </br>",
+                       lubridate::epiyear(incidence_object$dates),
+                       "-W",  lubridate::epiweek(incidence_object$dates),
+                       " to ", incidence_object$interval, " later" ),
         opacity = 1
       )
     # nolint end
