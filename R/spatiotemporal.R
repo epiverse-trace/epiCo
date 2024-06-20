@@ -73,7 +73,7 @@ neighborhoods <- function(query_vector, threshold = 2) {
 #' }
 #' @export
 morans_index <- function(incidence_object, scale = 100000, threshold = 2,
-                         plot = TRUE, language = c("EN","ES")) {
+                         plot = TRUE, language = c("EN", "ES")) {
   stopifnot(
     "`incidence_object` must have incidence class" =
       (inherits(incidence_object, "incidence")),
@@ -84,7 +84,7 @@ morans_index <- function(incidence_object, scale = 100000, threshold = 2,
     "`plot` must be boolean" = (is.logical(plot))
   )
   language <- match.arg(language)
-  
+
   incidence_rate <- incidence_rate(
     incidence_object = incidence_object,
     level = 2, scale = scale
@@ -149,15 +149,19 @@ morans_index <- function(incidence_object, scale = 100000, threshold = 2,
   }
   # Plot
   if (plot) {
-    map_title <- paste0("Local Moran's Index Clusters </br>",
-                        lubridate::epiyear(incidence_object$dates),
-                        "-W",  lubridate::epiweek(incidence_object$dates),
-                        " to ", incidence_object$interval, " later" )
-    if(language == "ES"){
-      map_title <- paste0("Clústers del Índice de Moran Local </br>",
-                          lubridate::epiyear(incidence_object$dates),
-                          "-SE",  lubridate::epiweek(incidence_object$dates),
-                          " a ", incidence_object$interval, " después" )
+    map_title <- paste0(
+      "Local Moran's Index Clusters </br>",
+      lubridate::epiyear(incidence_object$dates),
+      "-W", lubridate::epiweek(incidence_object$dates),
+      " to ", incidence_object$interval, " later"
+    )
+    if (language == "ES") {
+      map_title <- paste0(
+        "Clusters del Indice de Moran Local </br>",
+        lubridate::epiyear(incidence_object$dates),
+        "-SE", lubridate::epiweek(incidence_object$dates),
+        " a ", incidence_object$interval, " despues"
+      )
     }
     path_2 <- system.file("extdata", "spatial_polygons_col_2.rda",
       package = "epiCo"

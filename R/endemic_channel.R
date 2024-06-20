@@ -17,6 +17,7 @@
 #' @param ci = 0.95 A numeric value to specify the confidence interval to use
 #' with the geometric method
 #' @param plot A boolean for displaying a plot
+#' @param language Language for plot components
 #'
 #' @return A dataframe with the observation, historical mean, and confidence
 #' intervals (or risk areas)
@@ -287,6 +288,7 @@ endemic_outliers <- function(historic, outlier_years, outliers_handling,
 #' @param outlier_years A numeric vector with the outlier years
 #' @param outliers_handling A string with the handling decision regarding
 #' outlier years
+#' @param language Language for plot components
 #'
 #' @return The ggplot object with the endemic channel plot
 #'
@@ -361,20 +363,20 @@ endemic_plot <- function(channel_data, method,
         linewidth = 1
       ) +
       ggplot2::labs(
-        title = "Canal endémico",
+        title = "Canal endemico",
         caption = ifelse(length(outlier_years) > 1,
           paste(
-            "Método: ", method, " | Años epidémicos: ",
+            "Metodo: ", method, " | Temporada epidemica: ",
             toString(outlier_years), " son ", outliers_handling
           ),
           paste(
-            "Método: ", method, " | Año epidémico: ",
+            "Metodo: ", method, " | Temporadas epidemicas: ",
             outlier_years, " es ", outliers_handling
           )
         )
       ) +
-      ggplot2::xlab(label = "Semana epidemiológica") +
-      ggplot2::ylab("Número de casos")
+      ggplot2::xlab(label = "Semana epidemiologica") +
+      ggplot2::ylab("Numero de casos")
   }
 
   if (anyNA(channel_data$obs)) {
