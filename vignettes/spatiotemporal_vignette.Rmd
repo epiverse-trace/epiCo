@@ -88,8 +88,8 @@ incidence_object <- incidence(
   interval = "12 months"
 )
 
-monrans_tolima <- morans_index(incidence_object = incidence_object)
-monrans_tolima$plot
+morans_tolima <- morans_index(incidence_object = incidence_object, language = "ES")
+morans_tolima$plot
 ```
 
 ## 4. Interpretation and communication of *epiCo*'s `morans_index` results
