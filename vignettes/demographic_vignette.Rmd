@@ -80,7 +80,7 @@ age_range <- 5 # Age range or window
 ibague_pyramid_2019 <- population_pyramid(ibague_code, year,
   range = age_range,
   sex = TRUE, total = TRUE,
-  plot = TRUE
+  plot = TRUE, language = "EN"
 )
 ```
 
@@ -99,7 +99,8 @@ demog_data <- data.frame(
   stringsAsFactors = FALSE
 )
 
-describe_ethnicity(demog_data$ethnicity_label) # Description of ethnicities
+# Description of ethnicities
+describe_ethnicity(demog_data$ethnicity_label, language = "EN")
 # reported in the consulted dataset
 describe_occupation(
   isco_codes = demog_data$occupation_label,
@@ -150,6 +151,6 @@ data_ibague <- data_tolima[data_tolima$cod_mun_o == 73001, ]
 age_risk_data <- age_risk(
   age = as.integer(data_ibague$edad),
   population_pyramid = ibague_pyramid_2019$data,
-  sex = data_ibague$sexo, plot = TRUE
+  sex = data_ibague$sexo, plot = TRUE, language = "EN"
 )
 ```
