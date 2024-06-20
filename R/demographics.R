@@ -12,13 +12,15 @@
 #' @param total A boolean for returning the total number rather than the
 #' proportion of the country's population. The default value is TRUE
 #' @param plot A boolean for displaying a plot. The default value is TRUE
+#' @param language Language for plot components
 #' @importFrom rlang .data
 #' @return A dataframe with the proportion or total count of individuals
 #' @examples
 #' population_pyramid("15001", 2015, sex = TRUE, total = TRUE, plot = TRUE)
 #' @export
 population_pyramid <- function(divipola_code, year, sex = TRUE, range = 5,
-                               total = TRUE, plot = FALSE) {
+                               total = TRUE, plot = FALSE, language = c("EN",
+                                                                        "ES")) {
   stopifnot(
     "`year` must be an unique value" = (length(year) == 1),
     "`divipola_code` must be a character of a positive integer" = (
@@ -27,6 +29,7 @@ population_pyramid <- function(divipola_code, year, sex = TRUE, range = 5,
     "`range` must be an integer value between 1 and 100" = is.numeric(range) &
       range %in% seq(1, 100)
   )
+  language <- match.arg(language)
   path <- system.file("extdata", "divipola_table.rda", package = "epiCo")
   load(path)
   divipola_table <- divipola_table
@@ -50,6 +53,8 @@ population_pyramid <- function(divipola_code, year, sex = TRUE, range = 5,
 
     female_counts <- as.numeric(pop_data_dpto[104:204])
     male_counts <- as.numeric(pop_data_dpto[3:103])
+    
+    name <- "Colombia"
   } else if (divipola_code %in% divipola_table$COD_DPTO) {
     path_1 <- system.file("extdata", "population_projection_col_1.rds",
       package = "epiCo"
@@ -68,6 +73,15 @@ population_pyramid <- function(divipola_code, year, sex = TRUE, range = 5,
 
     female_counts <- as.numeric(pop_data_dpto[104:204])
     male_counts <- as.numeric(pop_data_dpto[3:103])
+    
+    name <- dplyr::filter(
+      divipola_table,
+      .data$COD_DPTO == divipola_code
+    ) %>% dplyr::slice(1) %>%
+      dplyr::pull(.data$NOM_DPTO)
+    name <- tolower(substr(name, 1, 1)) %>%
+      toupper() %>%
+      paste0(tolower(substr(name, 2, nchar(name))))
   } else if (divipola_code %in% divipola_table$COD_MPIO) {
     path_2 <- system.file("extdata", "population_projection_col_2.rds",
       package = "epiCo"
@@ -86,6 +100,15 @@ population_pyramid <- function(divipola_code, year, sex = TRUE, range = 5,
 
     female_counts <- as.numeric(pop_data_mun[89:174])
     male_counts <- as.numeric(pop_data_mun[3:88])
+    
+    name <- dplyr::filter(
+      divipola_table,
+      .data$COD_MPIO == divipola_code
+    ) %>%
+      dplyr::pull(.data$NOM_MPIO)
+    name <- tolower(substr(name, 1, 1)) %>%
+      toupper() %>%
+      paste0(tolower(substr(name, 2, nchar(name))))
   } else {
     stop("There is no location assigned to the consulted DIVIPOLA code")
   }
@@ -130,13 +153,28 @@ population_pyramid <- function(divipola_code, year, sex = TRUE, range = 5,
   }
 
   if (plot) {
-    pop_pyramid_plot <- population_pyramid_plot(pop_pyramid, sex = sex)
+    pop_pyramid_plot <- population_pyramid_plot(pop_pyramid,
+                                                language = language, sex = sex)
     if (total) {
-      pop_pyramid_plot <- pop_pyramid_plot +
-        ggplot2::ylab("Total population")
+      if (language == "EN"){
+        pop_pyramid_plot <- pop_pyramid_plot +
+          ggplot2::ylab("Total population") +
+          ggplot2::ggtitle(paste(name, "population pyramid"))
+      } else {
+        pop_pyramid_plot <- pop_pyramid_plot +
+          ggplot2::ylab("Población total") +
+          ggplot2::ggtitle(paste("Pirámide poblacional", name))
+      }
     } else {
-      pop_pyramid_plot <- pop_pyramid_plot +
-        ggplot2::ylab("Proportion of population")
+      if (language == "EN"){
+        pop_pyramid_plot <- pop_pyramid_plot +
+          ggplot2::ylab("Proportion of population") +
+          ggplot2::ggtitle(paste(name, "population pyramid"))
+      } else {
+        pop_pyramid_plot <- pop_pyramid_plot +
+          ggplot2::ylab("Proporción de la población") +
+          ggplot2::ggtitle(paste("Pirámide poblacional", name))
+      }
     }
     print(pop_pyramid_plot)
     return(list(data = pop_pyramid, plot = pop_pyramid_plot))
@@ -154,11 +192,12 @@ population_pyramid <- function(divipola_code, year, sex = TRUE, range = 5,
 #' @param pop_pyramid A dataframe with the age counts
 #' @param sex A boolean to consult data disaggregated by sex. The default value
 #' is TRUE
+#' @param language Language for plot components
 #'
 #' @return the population pyramid plot
 #'
 #' @keywords internal
-population_pyramid_plot <- function(pop_pyramid, sex = TRUE) {
+population_pyramid_plot <- function(pop_pyramid, language, sex = TRUE) {
   if (sex) {
     female_total <- dplyr::filter(pop_pyramid, .data$sex == "F")$population
     male_total <- dplyr::filter(pop_pyramid, .data$sex == "M")$population
@@ -184,12 +223,22 @@ population_pyramid_plot <- function(pop_pyramid, sex = TRUE) {
           as.character(abs(as.numeric(x)))
         }
       ) +
-      ggplot2::scale_x_continuous(
-        name = "Age",
-        breaks = unique(pop_pyramid$age),
-        labels = unique(pop_pyramid$age)
-      ) +
       ggplot2::coord_flip()
+    if (language == "EN"){
+      pop_pyramid_plot <- pop_pyramid_plot +
+        ggplot2::scale_x_continuous(
+          name = "Age",
+          breaks = unique(pop_pyramid$age),
+          labels = unique(pop_pyramid$age)
+        ) 
+    } else {
+      pop_pyramid_plot <- pop_pyramid_plot +
+        ggplot2::scale_x_continuous(
+          name = "Edad",
+          breaks = unique(pop_pyramid$age),
+          labels = unique(pop_pyramid$age)
+        )
+    }
 
     pop_pyramid$population <- c(female_total, male_total)
   } else {
@@ -227,6 +276,7 @@ population_pyramid_plot <- function(pop_pyramid, sex = TRUE) {
 #' @param population_pyramid A dataframe with the count of individuals with the
 #' columns age, population and sex
 #' @param plot A boolean for displaying a plot. The default value is FALSE
+#' @param language Language for plot components
 #' @importFrom rlang .data
 #' @return A dataframe with the proportion or total count of individuals
 #' @examples
@@ -241,9 +291,11 @@ population_pyramid_plot <- function(pop_pyramid, sex = TRUE) {
 #'   plot = TRUE
 #' )
 #' @export
-age_risk <- function(age, population_pyramid, sex = NULL, plot = FALSE) {
+age_risk <- function(age, population_pyramid, sex = NULL, plot = FALSE,
+                     language = c("EN", "ES")) {
   stopifnot("`age` must be an integer numeric vector with values
             between 0 and 100" = all(age %in% seq(0, 100)))
+  language <- match.arg(language)
   if (inherits(population_pyramid, what = "list")) {
     population_pyramid <- population_pyramid$data
   }
@@ -288,17 +340,35 @@ age_risk <- function(age, population_pyramid, sex = NULL, plot = FALSE) {
 
   if (plot) {
     if (!is.null(sex)) {
-      age_risk_plot <- population_pyramid_plot(age_risk, sex = TRUE)
-      age_risk_plot <- age_risk_plot +
+      age_risk_plot <- population_pyramid_plot(age_risk, language = language,
+                                               sex = TRUE)
+      if (language == "EN") {
         # nolint start
-        ggplot2::ylab("Cases / Population")
-      # nolint end
+        age_risk_plot <- age_risk_plot +
+          ggplot2::ylab("Cases / Population") +
+          ggplot2::ggtitle("Specific rate by age group")
+        # nolint end
+      } else {
+        # nolint start
+        age_risk_plot <- age_risk_plot +
+          ggplot2::ylab("Casos / Población") +
+          ggplot2::ggtitle("Tasa específica por grupo de edad")
+        # nolint end
+      }
     } else {
-      age_risk_plot <- population_pyramid_plot(age_risk, sex = FALSE)
-      age_risk_plot <- age_risk_plot +
-        # nolint start
-        ggplot2::ylab("Cases / Population")
-      # nolint end
+      age_risk_plot <- population_pyramid_plot(age_risk, language = language,
+                                               sex = FALSE)
+      if (language == "EN") {
+        age_risk_plot <- age_risk_plot +
+          # nolint start
+          ggplot2::ylab("Cases / Population")
+        # nolint end
+      } else {
+        age_risk_plot <- age_risk_plot +
+          # nolint start
+          ggplot2::ylab("Casos / Población")
+        # nolint end
+      }
     }
     print(age_risk_plot)
     return(list(data = age_risk, plot = age_risk_plot))
@@ -344,17 +414,17 @@ get_age_risk_sex <- function(age, sex_vector, pyramid, sex) {
 #' @param ethnic_codes A numeric vector with the codes of ethnicities to
 #' consult
 #' @param language "ES" for description in Spanish "EN" for English. The default
-#' value is ES
+#' value is EN
 #' @return A printed message with ethnicities descriptions
 #' @examples
 #' describe_ethnicity(round(runif(n = 150, min = 1, max = 4)))
 #' @export
-describe_ethnicity <- function(ethnic_codes, language = "ES") {
+describe_ethnicity <- function(ethnic_codes, language = c("EN", "ES")) {
   stopifnot(
     "`ethnic_codes` must be a numeric vector" =
-      is.numeric(ethnic_codes),
-    "The only languages allowed are ES and EN" = language %in% c("ES", "EN")
+      is.numeric(ethnic_codes)
   )
+  language <- match.arg(language)
   ethnic_codes <- as.data.frame(ethnic_codes)
   #### ESPA<U+00D1>OL ####
   indigena_es <- paste(
@@ -626,12 +696,12 @@ describe_occupation <- function(isco_codes, sex = NULL, plot = NULL) {
     if (!is.null(plot)) {
       if (plot == "treemap") {
         occupation_plot <- occupation_plot(occupation_data)
-        plot(occupation_plot)
+        print(occupation_plot)
       } else if (plot == "circular") {
         occupation_plot <- occupation_plot_circular(
           occupation_data
         )
-        plot(occupation_plot)
+        print(occupation_plot)
       }
       return(list(data = occupation_data, plot = occupation_plot))
     } else {
