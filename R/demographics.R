@@ -162,8 +162,8 @@ population_pyramid <- function(divipola_code, year, sex = TRUE, range = 5,
           ggplot2::ggtitle(paste(name, "population pyramid"))
       } else {
         pop_pyramid_plot <- pop_pyramid_plot +
-          ggplot2::ylab("Poblacion total") +
-          ggplot2::ggtitle(paste("Piramide poblacional", name))
+          ggplot2::ylab("Población total") +
+          ggplot2::ggtitle(paste("Pirámide poblacional", name))
       }
     } else {
       if (language == "EN"){
@@ -172,8 +172,8 @@ population_pyramid <- function(divipola_code, year, sex = TRUE, range = 5,
           ggplot2::ggtitle(paste(name, "population pyramid"))
       } else {
         pop_pyramid_plot <- pop_pyramid_plot +
-          ggplot2::ylab("Proporcion de la poblacion") +
-          ggplot2::ggtitle(paste("Piramide poblacional", name))
+          ggplot2::ylab("Proporción de la población") +
+          ggplot2::ggtitle(paste("Pirámide poblacional", name))
       }
     }
     print(pop_pyramid_plot)
@@ -351,8 +351,8 @@ age_risk <- function(age, population_pyramid, sex = NULL, plot = FALSE,
       } else {
         # nolint start
         age_risk_plot <- age_risk_plot +
-          ggplot2::ylab("Casos / Poblacion") +
-          ggplot2::ggtitle("Tasa especifica por grupo de edad")
+          ggplot2::ylab("Casos / Población") +
+          ggplot2::ggtitle("Tasa específica por grupo de edad")
         # nolint end
       }
     } else {
@@ -366,7 +366,7 @@ age_risk <- function(age, population_pyramid, sex = NULL, plot = FALSE,
       } else {
         age_risk_plot <- age_risk_plot +
           # nolint start
-          ggplot2::ylab("Casos / Poblacion")
+          ggplot2::ylab("Casos / Población")
         # nolint end
       }
     }
