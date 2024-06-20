@@ -12,6 +12,7 @@ Provides statistical and visualization tools for the analysis of demographic ind
 Useful links:
 \itemize{
   \item \url{https://epiverse-trace.github.io/epiCo/}
+  \item \url{https://github.com/epiverse-trace/epiCo}
   \item Report bugs at \url{https://github.com/epiverse-trace/epiCo/issues}
 }
 

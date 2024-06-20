@@ -4,7 +4,13 @@
 \alias{age_risk}
 \title{Returns the specific rates associated with being infected given age and sex}
 \usage{
-age_risk(age, population_pyramid, sex = NULL, plot = FALSE)
+age_risk(
+  age,
+  population_pyramid,
+  sex = NULL,
+  plot = FALSE,
+  language = c("EN", "ES")
+)
 }
 \arguments{
 \item{age}{A vector with the ages of cases in years from 0 to 100 years}
@@ -16,6 +22,8 @@ columns age, population and sex}
 is NULL}
 
 \item{plot}{A boolean for displaying a plot. The default value is FALSE}
+
+\item{language}{Language for plot components}
 }
 \value{
 A dataframe with the proportion or total count of individuals
