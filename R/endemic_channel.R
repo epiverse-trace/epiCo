@@ -44,7 +44,7 @@ endemic_channel <- function(incidence_historic, observations = NULL,
                               "replaced_by_mean",
                               "replaced_by_geometric_mean"
                             ),
-                            ci = 0.95, plot = FALSE) {
+                            ci = 0.95, plot = FALSE, language = c("EN","ES")) {
   stopifnot(
     "`incidence_historic` must be an incidence object" =
       inherits(incidence_historic, "incidence"),
@@ -62,6 +62,7 @@ endemic_channel <- function(incidence_historic, observations = NULL,
   )
   method <- match.arg(method)
   outliers_handling <- match.arg(outliers_handling)
+  language <- match.arg(language)
 
   if (!is.null(observations)) {
     stopifnot(
@@ -210,7 +211,7 @@ endemic_channel <- function(incidence_historic, observations = NULL,
   if (plot) {
     endemic_channel_plot <- endemic_plot(
       channel_data, method,
-      outlier_years, outliers_handling
+      outlier_years, outliers_handling, language
     )
     plot(endemic_channel_plot)
     return(list(data = channel_data, plot = endemic_channel_plot))
