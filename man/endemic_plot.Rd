@@ -4,7 +4,7 @@
 \alias{endemic_plot}
 \title{Creates the endemic channel plot}
 \usage{
-endemic_plot(channel_data, method, outlier_years, outliers_handling)
+endemic_plot(channel_data, method, outlier_years, outliers_handling, language)
 }
 \arguments{
 \item{channel_data}{Data frame with the central tendency, upper limit,
@@ -17,6 +17,8 @@ calculation}
 
 \item{outliers_handling}{A string with the handling decision regarding
 outlier years}
+
+\item{language}{Language for plot components}
 }
 \value{
 The ggplot object with the endemic channel plot
