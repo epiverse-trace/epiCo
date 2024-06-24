@@ -138,15 +138,15 @@ morans_index <- function(incidence_object, scale = 100000, threshold = 2,
     # Influential observations
     message(
       paste(
-      sprintf(
-        "%s with %s (incidence - spatial correlation)",
-        row.names(
-          moran_data_frame[moran_data_frame$quadr != "Not Significant", ]
+        sprintf(
+          "%s with %s (incidence - spatial correlation)",
+          row.names(
+            moran_data_frame[moran_data_frame$quadr != "Not Significant", ]
+          ),
+          moran_data_frame[moran_data_frame$quadr != "Not Significant", "quadr"]
         ),
-        moran_data_frame[moran_data_frame$quadr != "Not Significant", "quadr"]
-      ),
-      collapse = "\n"
-    )
+        collapse = "\n"
+      )
     )
   }
   # Plot
