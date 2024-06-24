@@ -51,12 +51,11 @@ Function that builds the endemic channel of a disease time
 series based on the selected method and windows of observation
 }
 \examples{
-\dontrun{
-# To understand how to obtain the incidence object, refer to the Building
-# an Endemic Channel with epiCo vignette.
-endemic_channel(observations, incidence_historic,
-  method = "geometric",
-  outliers_handling = "replace_with_median", plot = TRUE
+data_event <- epiCo::epi_data
+data_ibague <- data_event[data_event$cod_mun_o == 73001, ]
+incidence_historic <- incidence::incidence(data_ibague$fec_not,
+interval = "1 epiweek")
+endemic_channel(incidence_historic,
+  method = "geometric", plot = TRUE
 )
-}
 }
