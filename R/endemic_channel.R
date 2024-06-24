@@ -23,14 +23,12 @@
 #' intervals (or risk areas)
 #'
 #' @examples
-#' path <- system.file("data", "epi_data.rda", package = "epiCo")
-#' load(path)
+#' data_event <- epiCo::epi_data
 #' data_ibague <- data_event[data_event$cod_mun_o == 73001, ]
 #' incidence_historic <- incidence::incidence(data_ibague$fec_not,
 #' interval = "1 epiweek")
 #' endemic_channel(incidence_historic,
-#'   method = "geometric",
-#'   outliers_handling = "replace_with_median", plot = TRUE
+#'   method = "geometric", plot = TRUE
 #' )
 #' @export
 endemic_channel <- function(incidence_historic, observations = NULL,
