@@ -66,11 +66,14 @@ neighborhoods <- function(query_vector, threshold = 2) {
 #' observation, influential values.
 #'
 #' @examples
-#' \dontrun{
-#' # To understand how to obtain the incidence object, refer to the
-#' # Spatiotemporal analyses with epiCo vignette.
-#' morans_index(incidence_object, 2, FALSE)
-#' }
+#' data_event <- epiCo::epi_data
+#' incidence_historic <- incidence::incidence(data_event$fec_not,
+#'                                            groups = data_event$cod_mun_o,
+#'                                            interval = "4 year")
+#' incidence_object <- subset(incidence_historic,
+#'                       from = "2015-01-04",
+#'                       to = "2018-12-27")
+#' morans_index(incidence_object, scale = 100000, threshold = 2, plot = TRUE)
 #' @export
 morans_index <- function(incidence_object, scale = 100000, threshold = 2,
                          plot = TRUE, language = c("EN", "ES")) {
