@@ -1,25 +1,27 @@
 Package: epiCo
 Title: Statistical and Viz Tools for Vector-Borne Diseases in Colombia
 Version: 1.0.0
-Authors@R: 
-    c(person("Juan D.", "Umaña", , "jd.umana10@uniandes.edu.co", role = c("aut", "cre", "cph"),
+Authors@R: c(
+    person("Juan D.", "Umaña", , "jd.umana10@uniandes.edu.co", role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0000-0003-0316-6164")),
-      person("Juan", "Montenegro-Torres", , "jf.montenegro@uniandes.edu.co", role = c("aut"),
+    person("Juan", "Montenegro-Torres", , "jf.montenegro@uniandes.edu.co", role = "aut",
            comment = c(ORCID = "0000-0003-2755-4743")),
-      person("Julian", "Otero", , "jd.otero10@uniandes.edu.co", role = c("aut"),
+    person("Julian", "Otero", , "jd.otero10@uniandes.edu.co", role = "aut",
            comment = c(ORCID = "0009-0006-0429-7747")),
-      person("Hugo", "Gruson", , "hugo.gruson+R@normasup.org", role = c("ctb"),
-           comment = c(ORCID = "0000-0002-4094-1476")))
-Description: Provides statistical and visualization tools for the
-    analysis of demographic indicators, and spatio-temporal behavior and
+    person("Hugo", "Gruson", , "hugo.gruson+R@normasup.org", role = "ctb",
+           comment = c(ORCID = "0000-0002-4094-1476"))
+  )
+Description: Provides statistical and visualization tools for the analysis
+    of demographic indicators, and spatio-temporal behavior and
     characterization of outbreaks of vector-borne diseases (VBDs) in
-    Colombia. It implements travel times estimated from [Bravo-Vega C.,
-    Santos-Vega M., & Cordovez J.M.
-    (2022)]<doi:10.1371/journal.pntd.0011117>, and the endemic
-    channel method [Bortman, M.
-    (1999)]<https://iris.paho.org/handle/10665.2/8562>.
+    Colombia. It implements travel times estimated (Bravo-Vega C.,
+    Santos-Vega M., & Cordovez J.M.  (2022)
+    <https://doi.org/10.1371/journal.pntd.0011117>), and the endemic
+    channel method (Bortman, M.  (1999)
+    <https://iris.paho.org/handle/10665.2/8562>).
 License: MIT + file LICENSE
-URL: https://epiverse-trace.github.io/epiCo/, https://github.com/epiverse-trace/epiCo
+URL: https://epiverse-trace.github.io/epiCo/,
+    https://github.com/epiverse-trace/epiCo
 BugReports: https://github.com/epiverse-trace/epiCo/issues
 Depends:
     R (>= 3.2.0)
