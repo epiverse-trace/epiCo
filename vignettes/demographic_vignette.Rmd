@@ -88,7 +88,7 @@ ibague_pyramid_2019 <- population_pyramid(ibague_code, year,
 
 Events of epidemiological relevance are reported to the SIVIGILA using an official notification form (see [link](https://www.ins.gov.co/buscador-eventos/Paginas/Fichas-y-Protocolos.aspx)).
 
-**epiCo** provides a function to consult the dictionaries for the ethnicity categories, special population groups, and occupation codifications used by the SIVIGILA.
+**epiCo** provides a function to consult the dictionaries for the ethnicity categories, special population groups, and occupation codifications used by the SIVIGILA. As shown in the following example:
 
 ```{r}
 demog_data <- data.frame(
