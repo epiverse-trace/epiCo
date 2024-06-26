@@ -68,7 +68,7 @@ year <- 2016 # Year to consult
 ibague_pyramid_2016 <- population_pyramid(ibague_code, year) # Population
 # pyramid (dataframe) for the city of Ibagu<U+00E9> in the year 2019
 # dissagregated by sex
-head(ibague_pyramid_2016)
+knitr::kable(ibague_pyramid_2016[1:5, ])
 ```
 
 Definitions of age ranges and plotting are also provided for both: total number of individuals, or proportion of individuals
@@ -122,7 +122,7 @@ The following analyses use the dengue cases reported in Tolima in 2019.
 data("epi_data")
 
 data_tolima <- epi_data[lubridate::year(epi_data$fec_not) == 2019, ]
-head(data_tolima)
+knitr::kable(data_tolima[1:5, 4:12])
 ```
 
 ## 5. Estimation of incidence rates
@@ -138,7 +138,7 @@ incidence_object <- incidence(
   interval = "1 epiweek"
 )
 incidence_rate_object <- incidence_rate(incidence_object, level = 2)
-head(incidence_rate_object$counts)
+knitr::kable(incidence_rate_object$counts[1:5, 1:12])
 ```
 
 If groups in the incidence object are not within the DIVIPOLA coding for municipalities (level 2) or departments (level 1), or a national estimation is intended (level 0), the function will not be able to estimate an incidence rate.
