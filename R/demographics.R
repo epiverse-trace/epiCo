@@ -554,7 +554,7 @@ describe_occupation <- function(isco_codes, sex = NULL, plot = NULL) {
   if (length(invalid_codes) > 0) {
     message(
       length(invalid_codes),
-      "codes are invalid."
+      " codes are invalid."
     )
   }
 
