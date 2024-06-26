@@ -92,22 +92,22 @@ Events of epidemiological relevance are reported to the SIVIGILA using an offici
 
 ```{r}
 demog_data <- data.frame(
-  id = c(0001, 002, 003, 004, 005, 006, 007),
-  ethnicity_label = c(3, 4, 2, 3, 3, 3, 2),
-  occupation_label = c(6111, 3221, 5113, 5133, 6111, 23, 25),
-  sex = c("F", "M", "F", "F", "M", "M", "F"),
+  id = c(0001, 002, 003, 004, 005, 006, 007, 008),
+  ethnicity_label = c(3, 4, 2, 3, 3, 3, 2, 3),
+  occupation_label = c(6111, 3221, 5113, 5133, 6111, 23, 25, 99),
+  sex = c("F", "M", "F", "F", "M", "M", "F", "M"),
   stringsAsFactors = FALSE
 )
 
-# Description of ethnicities
-describe_ethnicity(demog_data$ethnicity_label, language = "EN")
-# reported in the consulted dataset
-describe_occupation(
+
+ethnicities <- describe_ethnicity(demog_data$ethnicity_label, language = "EN")
+
+occupations <- describe_occupation(
   isco_codes = demog_data$occupation_label,
   sex = demog_data$sex,
   plot = "treemap"
-) # Description of the occupations
-# reported in the consulted dataset
+)
+
 ```
 
 ## 4. Epidemiological data
