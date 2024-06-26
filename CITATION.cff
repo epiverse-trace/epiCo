@@ -7,8 +7,7 @@ cff-version: 1.2.0
 message: 'To cite package "epiCo" in publications use:'
 type: software
 license: MIT
-title: 'epiCo: Statistical and Visualization Tools for the Analysis of Outbreaks of
-  Vector-Borne Diseases (VBDs) in Colombia'
+title: 'epiCo: Statistical and Viz Tools for Vector-Borne Diseases in Colombia'
 version: 1.0.0
 abstract: Provides statistical and visualization tools for the analysis of demographic
   indicators, and spatio-temporal behavior and characterization of outbreaks of vector-borne
