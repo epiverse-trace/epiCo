@@ -141,13 +141,13 @@ morans_index <- function(incidence_object, scale = 100000, threshold = 2,
   } else {
     message("Significant municipalities are:")
     # Influential observations
-    significant_municipalities <- sprintf(
+    significant_municipalities <- paste(
+      sprintf(
       "%s with %s (incidence - spatial correlation)",
       row.names(moran_data_frame[moran_data_frame$quadr != "Not Significant", ]),
       moran_data_frame[moran_data_frame$quadr != "Not Significant", "quadr"]
-    )
-    full_message <- paste(significant_municipalities, collapse = "\n")
-    message(full_message)
+    ), collapse = "\n")
+    message(significant_municipalities)
   }
   # Plot
   if (plot) {
