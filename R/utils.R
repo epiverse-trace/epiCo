@@ -69,11 +69,13 @@ epi_calendar <- function(year, jan_days = 4) {
 #' @examples
 #' data_event <- epiCo::epi_data
 #' incidence_historic <- incidence::incidence(data_event$fec_not,
-#'                                            groups = data_event$cod_mun_o,
-#'                                            interval = "1 year")
+#'   groups = data_event$cod_mun_o,
+#'   interval = "1 year"
+#' )
 #' incidence_object <- subset(incidence_historic,
-#'                            from = "2015-01-04",
-#'                            to = "2018-12-27")
+#'   from = "2015-01-04",
+#'   to = "2018-12-27"
+#' )
 #' inc_rate <- incidence_rate(incidence_object, level = 2, scale = 100000)
 #' inc_rate$rates
 #'
