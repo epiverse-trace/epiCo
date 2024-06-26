@@ -6,7 +6,7 @@
 \alias{epiCo-package}
 \title{epiCo: Statistical and Viz Tools for Vector-Borne Diseases in Colombia}
 \description{
-Provides statistical and visualization tools for the analysis of demographic indicators, and spatio-temporal behavior and characterization of outbreaks of vector-borne diseases (VBDs) in Colombia. It implements travel times estimated from [Bravo-Vega C., Santos-Vega M., & Cordovez J.M. (2022)]\doi{10.1371/journal.pntd.0011117}, and the endemic channel method [Bortman, M. (1999)]\url{https://iris.paho.org/handle/10665.2/8562}.
+Provides statistical and visualization tools for the analysis of demographic indicators, and spatio-temporal behavior and characterization of outbreaks of vector-borne diseases (VBDs) in Colombia. It implements travel times estimated (Bravo-Vega C., Santos-Vega M., & Cordovez J.M. (2022) \url{https://doi.org/10.1371/journal.pntd.0011117}), and the endemic channel method (Bortman, M. (1999) \url{https://iris.paho.org/handle/10665.2/8562}).
 }
 \seealso{
 Useful links:
