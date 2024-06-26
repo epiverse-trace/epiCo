@@ -89,8 +89,7 @@ incidence_object <- incidence(
 )
 
 morans_tolima <- morans_index(
-  incidence_object = incidence_object,
-  language = "ES"
+  incidence_object = incidence_object
 )
 morans_tolima$plot
 ```
