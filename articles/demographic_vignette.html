@@ -176,14 +176,41 @@ the territory of interest and the year to consult.</p>
 <span><span class="va">ibague_pyramid_2016</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/population_pyramid.html">population_pyramid</a></span><span class="op">(</span><span class="va">ibague_code</span>, <span class="va">year</span><span class="op">)</span> <span class="co"># Population</span></span>
 <span><span class="co"># pyramid (dataframe) for the city of Ibagu&lt;U+00E9&gt; in the year 2019</span></span>
 <span><span class="co"># dissagregated by sex</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">ibague_pyramid_2016</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   age population sex</span></span>
-<span><span class="co">#&gt; 1   0      15839   F</span></span>
-<span><span class="co">#&gt; 2   5      17539   F</span></span>
-<span><span class="co">#&gt; 3  10      20171   F</span></span>
-<span><span class="co">#&gt; 4  15      23059   F</span></span>
-<span><span class="co">#&gt; 5  20      22659   F</span></span>
-<span><span class="co">#&gt; 6  25      20685   F</span></span></code></pre></div>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">ibague_pyramid_2016</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<thead><tr class="header">
+<th align="right">age</th>
+<th align="right">population</th>
+<th align="left">sex</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">0</td>
+<td align="right">15839</td>
+<td align="left">F</td>
+</tr>
+<tr class="even">
+<td align="right">5</td>
+<td align="right">17539</td>
+<td align="left">F</td>
+</tr>
+<tr class="odd">
+<td align="right">10</td>
+<td align="right">20171</td>
+<td align="left">F</td>
+</tr>
+<tr class="even">
+<td align="right">15</td>
+<td align="right">23059</td>
+<td align="left">F</td>
+</tr>
+<tr class="odd">
+<td align="right">20</td>
+<td align="right">22659</td>
+<td align="left">F</td>
+</tr>
+</tbody>
+</table>
 <p>Definitions of age ranges and plotting are also provided for both:
 total number of individuals, or proportion of individuals</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -204,73 +231,177 @@ total number of individuals, or proportion of individuals</p>
 using an official notification form (see <a href="https://www.ins.gov.co/buscador-eventos/Paginas/Fichas-y-Protocolos.aspx" class="external-link">link</a>).</p>
 <p><strong>epiCo</strong> provides a function to consult the
 dictionaries for the ethnicity categories, special population groups,
-and occupation codifications used by the SIVIGILA.</p>
+and occupation codifications used by the SIVIGILA. As shown in the
+following example:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">demog_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0001</span>, <span class="fl">002</span>, <span class="fl">003</span>, <span class="fl">004</span>, <span class="fl">005</span>, <span class="fl">006</span>, <span class="fl">007</span><span class="op">)</span>,</span>
-<span>  ethnicity_label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">3</span>, <span class="fl">3</span>, <span class="fl">2</span><span class="op">)</span>,</span>
-<span>  occupation_label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">6111</span>, <span class="fl">3221</span>, <span class="fl">5113</span>, <span class="fl">5133</span>, <span class="fl">6111</span>, <span class="fl">23</span>, <span class="fl">25</span><span class="op">)</span>,</span>
-<span>  sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"F"</span>, <span class="st">"M"</span>, <span class="st">"F"</span>, <span class="st">"F"</span>, <span class="st">"M"</span>, <span class="st">"M"</span>, <span class="st">"F"</span><span class="op">)</span>,</span>
+<span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0001</span>, <span class="fl">002</span>, <span class="fl">003</span>, <span class="fl">004</span>, <span class="fl">005</span>, <span class="fl">006</span>, <span class="fl">007</span>, <span class="fl">008</span><span class="op">)</span>,</span>
+<span>  ethnicity_label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">3</span>, <span class="fl">3</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>,</span>
+<span>  occupation_label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">6111</span>, <span class="fl">3221</span>, <span class="fl">5113</span>, <span class="fl">5133</span>, <span class="fl">6111</span>, <span class="fl">23</span>, <span class="fl">25</span>, <span class="fl">99</span><span class="op">)</span>,</span>
+<span>  sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"F"</span>, <span class="st">"M"</span>, <span class="st">"F"</span>, <span class="st">"F"</span>, <span class="st">"M"</span>, <span class="st">"M"</span>, <span class="st">"F"</span>, <span class="st">"M"</span><span class="op">)</span>,</span>
 <span>  stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Description of ethnicities</span></span>
-<span><span class="fu"><a href="../reference/describe_ethnicity.html">describe_ethnicity</a></span><span class="op">(</span><span class="va">demog_data</span><span class="op">$</span><span class="va">ethnicity_label</span>, language <span class="op">=</span> <span class="st">"EN"</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   code</span></span>
-<span><span class="co">#&gt; 1    2</span></span>
-<span><span class="co">#&gt; 2    3</span></span>
-<span><span class="co">#&gt; 3    4</span></span>
-<span><span class="co">#&gt;                                                                                                                                                                                                                                                   description</span></span>
-<span><span class="co">#&gt; 1                                                                                      They are communities that have their own ethnic and cultural identity; They are characterized by a nomadic tradition, and have their own language, which is Romanesque</span></span>
-<span><span class="co">#&gt; 2 Population located in the Archipelago of San Andres, Providencia and Santa Catalina, with Afro-Anglo-Antillean cultural roots, whose members have clearly differentiated sociocultural and linguistic traits from the rest of the Afro-Colombian population</span></span>
-<span><span class="co">#&gt; 3                                                                                                                     Population located in the municipality of San Basilio de Palenque, department of Bolivar, where palenquero is spoken, a Creole language</span></span></code></pre></div>
+<span></span>
+<span><span class="va">ethnicities</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/describe_ethnicity.html">describe_ethnicity</a></span><span class="op">(</span><span class="va">demog_data</span><span class="op">$</span><span class="va">ethnicity_label</span>, language <span class="op">=</span> <span class="st">"EN"</span><span class="op">)</span></span>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">ethnicities</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<colgroup>
+<col width="1%">
+<col width="98%">
+</colgroup>
+<thead><tr class="header">
+<th align="right">code</th>
+<th align="left">description</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">2</td>
+<td align="left">They are communities that have their own ethnic and
+cultural identity; They are characterized by a nomadic tradition, and
+have their own language, which is Romanesque</td>
+</tr>
+<tr class="even">
+<td align="right">3</td>
+<td align="left">Population located in the Archipelago of San Andres,
+Providencia and Santa Catalina, with Afro-Anglo-Antillean cultural
+roots, whose members have clearly differentiated sociocultural and
+linguistic traits from the rest of the Afro-Colombian population</td>
+</tr>
+<tr class="odd">
+<td align="right">4</td>
+<td align="left">Population located in the municipality of San Basilio
+de Palenque, department of Bolivar, where palenquero is spoken, a Creole
+language</td>
+</tr>
+</tbody>
+</table>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># reported in the consulted dataset</span></span>
-<span><span class="fu"><a href="../reference/describe_occupation.html">describe_occupation</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span></span>
+<span><span class="va">occupations</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/describe_occupation.html">describe_occupation</a></span><span class="op">(</span></span>
 <span>  isco_codes <span class="op">=</span> <span class="va">demog_data</span><span class="op">$</span><span class="va">occupation_label</span>,</span>
 <span>  sex <span class="op">=</span> <span class="va">demog_data</span><span class="op">$</span><span class="va">sex</span>,</span>
 <span>  plot <span class="op">=</span> <span class="st">"treemap"</span></span>
-<span><span class="op">)</span> <span class="co"># Description of the occupations</span></span>
-<span><span class="co">#&gt; 1codes are invalid.</span></span></code></pre></div>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; 2 codes are invalid.</span></span></code></pre></div>
 <p><img src="demographic_vignette_files/figure-html/unnamed-chunk-5-1.png" width="768"></p>
-<pre><code><span><span class="co">#&gt; $data</span></span>
-<span><span class="co">#&gt;   major                                        major_label sub_major</span></span>
-<span><span class="co">#&gt; 1     5 Service Workers and Shop and Market Sales Workers         51</span></span>
-<span><span class="co">#&gt; 2     5 Service Workers and Shop and Market Sales Workers         51</span></span>
-<span><span class="co">#&gt; 3     6          Skilled Agricultural and Fishery Workers         61</span></span>
-<span><span class="co">#&gt; 4     2                                     Professionals         23</span></span>
-<span><span class="co">#&gt; 5     3           Technicians and Associate Professionals         32</span></span>
-<span><span class="co">#&gt; 6     6          Skilled Agricultural and Fishery Workers         61</span></span>
-<span><span class="co">#&gt; 7    NA                                               &lt;NA&gt;        NA</span></span>
-<span><span class="co">#&gt;                                             sub_major_label minor</span></span>
-<span><span class="co">#&gt; 1                 Personal and Protective Services Workers    511</span></span>
-<span><span class="co">#&gt; 2                 Personal and Protective Services Workers    513</span></span>
-<span><span class="co">#&gt; 3 Market-Oriented Skilled Agricultural and Fishery Workers    611</span></span>
-<span><span class="co">#&gt; 4                                   Teaching Professionals     NA</span></span>
-<span><span class="co">#&gt; 5          Life Science and Health Associate Professionals    322</span></span>
-<span><span class="co">#&gt; 6 Market-Oriented Skilled Agricultural and Fishery Workers    611</span></span>
-<span><span class="co">#&gt; 7                                                      &lt;NA&gt;    NA</span></span>
-<span><span class="co">#&gt;                                               minor_label unit</span></span>
-<span><span class="co">#&gt; 1                  Travel Attendants and Related Workers  5113</span></span>
-<span><span class="co">#&gt; 2                      Personal Care and Related Workers  5133</span></span>
-<span><span class="co">#&gt; 3                      Market Gardeners and Crop Growers  6111</span></span>
-<span><span class="co">#&gt; 4                                                    &lt;NA&gt;   NA</span></span>
-<span><span class="co">#&gt; 5 Modern Health Associate Professionals (Except Nursing)  3221</span></span>
-<span><span class="co">#&gt; 6                      Market Gardeners and Crop Growers  6111</span></span>
-<span><span class="co">#&gt; 7                                                    &lt;NA&gt;   NA</span></span>
-<span><span class="co">#&gt;                          unit_label  sex count</span></span>
-<span><span class="co">#&gt; 1                    Travel guides     F     1</span></span>
-<span><span class="co">#&gt; 2 Home-based personal care workers     F     1</span></span>
-<span><span class="co">#&gt; 3 Field crop and vegetable growers     F     1</span></span>
-<span><span class="co">#&gt; 4                              &lt;NA&gt;    M     1</span></span>
-<span><span class="co">#&gt; 5               Medical assistants     M     1</span></span>
-<span><span class="co">#&gt; 6 Field crop and vegetable growers     M     1</span></span>
-<span><span class="co">#&gt; 7                              &lt;NA&gt; &lt;NA&gt;     1</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $plot</span></span></code></pre>
-<p><img src="demographic_vignette_files/figure-html/unnamed-chunk-5-2.png" width="768"></p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># reported in the consulted dataset</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">occupations</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></span></code></pre></div>
+<table style="width:100%;" class="table">
+<colgroup>
+<col width="2%">
+<col width="21%">
+<col width="4%">
+<col width="24%">
+<col width="2%">
+<col width="23%">
+<col width="2%">
+<col width="14%">
+<col width="1%">
+<col width="2%">
+</colgroup>
+<thead><tr class="header">
+<th align="right">major</th>
+<th align="left">major_label</th>
+<th align="right">sub_major</th>
+<th align="left">sub_major_label</th>
+<th align="right">minor</th>
+<th align="left">minor_label</th>
+<th align="right">unit</th>
+<th align="left">unit_label</th>
+<th align="left">sex</th>
+<th align="right">count</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">5</td>
+<td align="left">Service Workers and Shop and Market Sales Workers</td>
+<td align="right">51</td>
+<td align="left">Personal and Protective Services Workers</td>
+<td align="right">511</td>
+<td align="left">Travel Attendants and Related Workers</td>
+<td align="right">5113</td>
+<td align="left">Travel guides</td>
+<td align="left">F</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="right">5</td>
+<td align="left">Service Workers and Shop and Market Sales Workers</td>
+<td align="right">51</td>
+<td align="left">Personal and Protective Services Workers</td>
+<td align="right">513</td>
+<td align="left">Personal Care and Related Workers</td>
+<td align="right">5133</td>
+<td align="left">Home-based personal care workers</td>
+<td align="left">F</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="right">6</td>
+<td align="left">Skilled Agricultural and Fishery Workers</td>
+<td align="right">61</td>
+<td align="left">Market-Oriented Skilled Agricultural and Fishery
+Workers</td>
+<td align="right">611</td>
+<td align="left">Market Gardeners and Crop Growers</td>
+<td align="right">6111</td>
+<td align="left">Field crop and vegetable growers</td>
+<td align="left">F</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">Professionals</td>
+<td align="right">23</td>
+<td align="left">Teaching Professionals</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="left">M</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="left">Technicians and Associate Professionals</td>
+<td align="right">32</td>
+<td align="left">Life Science and Health Associate Professionals</td>
+<td align="right">322</td>
+<td align="left">Modern Health Associate Professionals (Except
+Nursing)</td>
+<td align="right">3221</td>
+<td align="left">Medical assistants</td>
+<td align="left">M</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="left">Skilled Agricultural and Fishery Workers</td>
+<td align="right">61</td>
+<td align="left">Market-Oriented Skilled Agricultural and Fishery
+Workers</td>
+<td align="right">611</td>
+<td align="left">Market Gardeners and Crop Growers</td>
+<td align="right">6111</td>
+<td align="left">Field crop and vegetable growers</td>
+<td align="left">M</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">2</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section level2">
 <h2 id="epidemiological-data">4. Epidemiological data<a class="anchor" aria-label="anchor" href="#epidemiological-data"></a>
@@ -283,23 +414,92 @@ SIVIGILA. This file contains the cases of all the municipalities in
 Tolima for the years 2015-2021.</p>
 <p>The following analyses use the dengue cases reported in Tolima in
 2019.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"epi_data"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">data_tolima</span> <span class="op">&lt;-</span> <span class="va">epi_data</span><span class="op">[</span><span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/year.html" class="external-link">year</a></span><span class="op">(</span><span class="va">epi_data</span><span class="op">$</span><span class="va">fec_not</span><span class="op">)</span> <span class="op">==</span> <span class="fl">2019</span>, <span class="op">]</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">data_tolima</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 16</span></span></span>
-<span><span class="co">#&gt;   fec_not    cod_pais_o cod_dpto_o cod_mun_o cod_pais_r cod_dpto_r cod_mun_r</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2019-01-02 170        73         73001     170        73         73001    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2019-01-15 170        73         73268     170        73         73268    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2019-01-01 170        73         73200     170        73         73200    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2019-01-12 170        73         73671     170        73         73671    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2019-01-05 170        73         73671     170        73         73671    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2019-01-05 170        73         73671     170        25         25754    </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 9 more variables: cod_dpto_n &lt;chr&gt;, cod_mun_n &lt;chr&gt;, edad &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   sexo &lt;chr&gt;, per_etn &lt;dbl&gt;, ocupacion &lt;chr&gt;, estrato &lt;chr&gt;, ini_sin &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   cod_eve &lt;dbl&gt;</span></span></span></code></pre></div>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">data_tolima</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">4</span><span class="op">:</span><span class="fl">12</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<colgroup>
+<col width="12%">
+<col width="13%">
+<col width="13%">
+<col width="12%">
+<col width="13%">
+<col width="12%">
+<col width="6%">
+<col width="6%">
+<col width="9%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">cod_mun_o</th>
+<th align="left">cod_pais_r</th>
+<th align="left">cod_dpto_r</th>
+<th align="left">cod_mun_r</th>
+<th align="left">cod_dpto_n</th>
+<th align="left">cod_mun_n</th>
+<th align="right">edad</th>
+<th align="left">sexo</th>
+<th align="right">per_etn</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">73001</td>
+<td align="left">170</td>
+<td align="left">73</td>
+<td align="left">73001</td>
+<td align="left">25</td>
+<td align="left">25307</td>
+<td align="right">11</td>
+<td align="left">F</td>
+<td align="right">6</td>
+</tr>
+<tr class="even">
+<td align="left">73268</td>
+<td align="left">170</td>
+<td align="left">73</td>
+<td align="left">73268</td>
+<td align="left">73</td>
+<td align="left">73268</td>
+<td align="right">18</td>
+<td align="left">F</td>
+<td align="right">6</td>
+</tr>
+<tr class="odd">
+<td align="left">73200</td>
+<td align="left">170</td>
+<td align="left">73</td>
+<td align="left">73200</td>
+<td align="left">11</td>
+<td align="left">11001</td>
+<td align="right">13</td>
+<td align="left">M</td>
+<td align="right">6</td>
+</tr>
+<tr class="even">
+<td align="left">73671</td>
+<td align="left">170</td>
+<td align="left">73</td>
+<td align="left">73671</td>
+<td align="left">73</td>
+<td align="left">73671</td>
+<td align="right">16</td>
+<td align="left">M</td>
+<td align="right">6</td>
+</tr>
+<tr class="odd">
+<td align="left">73671</td>
+<td align="left">170</td>
+<td align="left">73</td>
+<td align="left">73671</td>
+<td align="left">73</td>
+<td align="left">73671</td>
+<td align="right">15</td>
+<td align="left">M</td>
+<td align="right">6</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section level2">
 <h2 id="estimation-of-incidence-rates">5. Estimation of incidence rates<a class="anchor" aria-label="anchor" href="#estimation-of-incidence-rates"></a>
@@ -312,42 +512,116 @@ total number of inhabitants in the specific region and year.</p>
 <p><strong>epiCo</strong> uses the DANE population projections as
 denominators; therefore, it is necessary to provide the administration
 level at which incidences are calculated.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">incidence_object</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://www.repidemicsconsortium.org/incidence/reference/incidence.html" class="external-link">incidence</a></span><span class="op">(</span></span>
 <span>  dates <span class="op">=</span> <span class="va">data_tolima</span><span class="op">$</span><span class="va">fec_not</span>,</span>
 <span>  groups <span class="op">=</span> <span class="va">data_tolima</span><span class="op">$</span><span class="va">cod_mun_o</span>,</span>
 <span>  interval <span class="op">=</span> <span class="st">"1 epiweek"</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">incidence_rate_object</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/incidence_rate.html">incidence_rate</a></span><span class="op">(</span><span class="va">incidence_object</span>, level <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">incidence_rate_object</span><span class="op">$</span><span class="va">counts</span><span class="op">)</span></span>
-<span><span class="co">#&gt;      73001 73024 73026 73030 73043 73055 73067 73124 73148 73152 73168 73200</span></span>
-<span><span class="co">#&gt; [1,]    12     1     1     0     0     0     1     0     0     0     1     1</span></span>
-<span><span class="co">#&gt; [2,]    12     0     1     1     0     1     0     0     1     0    16     0</span></span>
-<span><span class="co">#&gt; [3,]    17     1     1     0     0     1     2     0     0     0     4     0</span></span>
-<span><span class="co">#&gt; [4,]    15     0     1     0     0     3     0     0     2     0    10     0</span></span>
-<span><span class="co">#&gt; [5,]    23     0     1     0     0     1     0     0     0     0    15     0</span></span>
-<span><span class="co">#&gt; [6,]    30     0     1     0     0     0     0     0     0     0     9     0</span></span>
-<span><span class="co">#&gt;      73217 73226 73236 73268 73270 73275 73283 73319 73349 73352 73408 73411</span></span>
-<span><span class="co">#&gt; [1,]     0     2     0    21     0     7     3     0     0     0     5     0</span></span>
-<span><span class="co">#&gt; [2,]     1     1     0    18     0    16     2     2     0     0     5     2</span></span>
-<span><span class="co">#&gt; [3,]     1     1     0    30     0    19     1     2     2     0     4     2</span></span>
-<span><span class="co">#&gt; [4,]     0     0     0    14     0    18     1     2     0     0     6     2</span></span>
-<span><span class="co">#&gt; [5,]     3     3     0    30     0    14     0     3     1     0     5     0</span></span>
-<span><span class="co">#&gt; [6,]     4     2     0    36     0    15     1     1     0     0     5     4</span></span>
-<span><span class="co">#&gt;      73443 73449 73461 73483 73504 73520 73547 73555 73563 73585 73616 73622</span></span>
-<span><span class="co">#&gt; [1,]     2     2     0     1     1     0     0     0     0     0     1     0</span></span>
-<span><span class="co">#&gt; [2,]     5     4     0     4     1     1     0     0     0     1     1     0</span></span>
-<span><span class="co">#&gt; [3,]     5     7     0     1     1     0     0     1     0     1     0     0</span></span>
-<span><span class="co">#&gt; [4,]     6    10     0     4     1     0     0     0     0     3     0     0</span></span>
-<span><span class="co">#&gt; [5,]     6    11     0     3     1     0     1     0     0     1     0     0</span></span>
-<span><span class="co">#&gt; [6,]    16     4     0     0     1     2     1     1     0     3     2     0</span></span>
-<span><span class="co">#&gt;      73624 73671 73675 73678 73686 73770 73854 73861 73870 73873</span></span>
-<span><span class="co">#&gt; [1,]     1     8     0     1     0     1     1     0     0     0</span></span>
-<span><span class="co">#&gt; [2,]     0    13     0     0     0     0     0     1     0     0</span></span>
-<span><span class="co">#&gt; [3,]     2     5     0     2     0     0     0     1     0     0</span></span>
-<span><span class="co">#&gt; [4,]     1     9     0     0     0     0     0     0     0     0</span></span>
-<span><span class="co">#&gt; [5,]     1     9     0     0     0     1     0     0     0     0</span></span>
-<span><span class="co">#&gt; [6,]     0     4     0     1     0     2     0     1     0     0</span></span></code></pre></div>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">incidence_rate_object</span><span class="op">$</span><span class="va">counts</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">12</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<colgroup>
+<col width="8%">
+<col width="8%">
+<col width="8%">
+<col width="8%">
+<col width="8%">
+<col width="8%">
+<col width="8%">
+<col width="8%">
+<col width="8%">
+<col width="8%">
+<col width="8%">
+<col width="8%">
+</colgroup>
+<thead><tr class="header">
+<th align="right">73001</th>
+<th align="right">73024</th>
+<th align="right">73026</th>
+<th align="right">73030</th>
+<th align="right">73043</th>
+<th align="right">73055</th>
+<th align="right">73067</th>
+<th align="right">73124</th>
+<th align="right">73148</th>
+<th align="right">73152</th>
+<th align="right">73168</th>
+<th align="right">73200</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">12</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="right">12</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">16</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="right">17</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">4</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="right">15</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">10</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="right">23</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">15</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
 <p>If groups in the incidence object are not within the DIVIPOLA coding
 for municipalities (level 2) or departments (level 1), or a national
 estimation is intended (level 0), the function will not be able to
@@ -362,7 +636,7 @@ normalizes the epidemiological data with the age structure of a
 population. This normalization allows us to estimate the age risk of a
 disease according to the age structure of the general population in a
 municipality, department, or country in a certain year.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data_ibague</span> <span class="op">&lt;-</span> <span class="va">data_tolima</span><span class="op">[</span><span class="va">data_tolima</span><span class="op">$</span><span class="va">cod_mun_o</span> <span class="op">==</span> <span class="fl">73001</span>, <span class="op">]</span></span>
 <span></span>
 <span><span class="va">age_risk_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/age_risk.html">age_risk</a></span><span class="op">(</span></span>

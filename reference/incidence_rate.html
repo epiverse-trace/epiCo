@@ -96,11 +96,45 @@ population.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span><span class="co"># To understand this function example refers to the epiCo - Demographic</span></span></span>
-<span class="r-in"><span><span class="co"># module vignette.</span></span></span>
-<span class="r-in"><span><span class="fu">incidence_rate</span><span class="op">(</span><span class="va">incidence_object</span>, <span class="fl">2</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">data_event</span> <span class="op">&lt;-</span> <span class="fu">epiCo</span><span class="fu">::</span><span class="va"><a href="epi_data.html">epi_data</a></span></span></span>
+<span class="r-in"><span><span class="va">incidence_historic</span> <span class="op">&lt;-</span> <span class="fu">incidence</span><span class="fu">::</span><span class="fu"><a href="https://www.repidemicsconsortium.org/incidence/reference/incidence.html" class="external-link">incidence</a></span><span class="op">(</span><span class="va">data_event</span><span class="op">$</span><span class="va">fec_not</span>,</span></span>
+<span class="r-in"><span>  groups <span class="op">=</span> <span class="va">data_event</span><span class="op">$</span><span class="va">cod_mun_o</span>,</span></span>
+<span class="r-in"><span>  interval <span class="op">=</span> <span class="st">"1 year"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">incidence_object</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">incidence_historic</span>,</span></span>
+<span class="r-in"><span>  from <span class="op">=</span> <span class="st">"2015-01-04"</span>,</span></span>
+<span class="r-in"><span>  to <span class="op">=</span> <span class="st">"2018-12-27"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">inc_rate</span> <span class="op">&lt;-</span> <span class="fu">incidence_rate</span><span class="op">(</span><span class="va">incidence_object</span>, level <span class="op">=</span> <span class="fl">2</span>, scale <span class="op">=</span> <span class="fl">100000</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">inc_rate</span><span class="op">$</span><span class="va">rates</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         73001    73024    73026    73030     73043    73055     73067    73124</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]  20.7351  0.00000   0.0000   0.0000  0.000000   0.0000  10.27591  0.00000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 113.1265  0.00000 459.7701 180.3156 39.404985 362.0052 144.68789 10.80089</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 112.3415 22.00704 781.8788 405.5881  9.787609 196.9124 129.33264  0.00000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          73148     73152      73168     73200     73217     73226 73236</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]  40.13646   0.00000   9.968698  24.14584  21.85124  10.97695     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 270.51398  46.97776 103.519669 120.83132 236.91484  78.38746     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 365.72106 141.22078 166.775865 193.98642 311.22606 263.00743     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          73268     73270     73275    73283      73319    73347      73349</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]  15.66706  12.43936  17.67159   0.0000   6.041748  0.00000   7.980846</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 393.58331  38.27019 148.01240 183.6636 405.740931 26.95781 256.770311</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 584.44690 233.97894 570.64356 148.0575 771.098968  0.00000 210.585996</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          73352    73408     73411     73443     73449    73461     73483</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 161.50969    0.000  40.22203  16.10436  41.96861  0.00000  32.79334</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]  42.18697 1366.829 505.09143 532.87861 582.98566 24.23068  92.91830</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]  25.23765 1302.897 266.49988 426.26423 596.67178 24.31315 107.85305</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           73504    73520     73547    73555     73563     73585      73616</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]   2.902673   0.0000  15.04438  0.00000   0.00000  12.71133   4.380393</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]  66.804148 172.3614  89.80692 50.63883  70.65473 538.29526 114.305812</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 101.135608 154.1624 134.10818 54.33939 141.20970 518.35486  17.566203</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      73622    73624     73671     73675    73678 73686      73770    73854</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]     0   0.0000    0.0000   0.00000   0.0000     0   26.08242   0.0000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]     0 105.5046  263.0486 829.74800 723.2472     0 1257.53209 429.5854</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]     0 106.1179 1004.5029  85.29777 560.7615     0  498.29531 224.5089</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         73861    73870    73873</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]   0.0000  0.00000 18.81468</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 301.9277 42.57584 38.48374</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 218.4599 43.08952 19.50078</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

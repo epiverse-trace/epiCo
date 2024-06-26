@@ -136,14 +136,74 @@ intervals (or risk areas)</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span><span class="co"># To understand how to obtain the incidence object, refer to the Building</span></span></span>
-<span class="r-in"><span><span class="co"># an Endemic Channel with epiCo vignette.</span></span></span>
-<span class="r-in"><span><span class="fu">endemic_channel</span><span class="op">(</span><span class="va">observations</span>, <span class="va">incidence_historic</span>,</span></span>
-<span class="r-in"><span>  method <span class="op">=</span> <span class="st">"geometric"</span>,</span></span>
-<span class="r-in"><span>  outliers_handling <span class="op">=</span> <span class="st">"replace_with_median"</span>, plot <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">data_event</span> <span class="op">&lt;-</span> <span class="fu">epiCo</span><span class="fu">::</span><span class="va"><a href="epi_data.html">epi_data</a></span></span></span>
+<span class="r-in"><span><span class="va">data_ibague</span> <span class="op">&lt;-</span> <span class="va">data_event</span><span class="op">[</span><span class="va">data_event</span><span class="op">$</span><span class="va">cod_mun_o</span> <span class="op">==</span> <span class="fl">73001</span>, <span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">incidence_historic</span> <span class="op">&lt;-</span> <span class="fu">incidence</span><span class="fu">::</span><span class="fu"><a href="https://www.repidemicsconsortium.org/incidence/reference/incidence.html" class="external-link">incidence</a></span><span class="op">(</span><span class="va">data_ibague</span><span class="op">$</span><span class="va">fec_not</span>,</span></span>
+<span class="r-in"><span>  interval <span class="op">=</span> <span class="st">"1 epiweek"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="fu">endemic_channel</span><span class="op">(</span><span class="va">incidence_historic</span>,</span></span>
+<span class="r-in"><span>  method <span class="op">=</span> <span class="st">"geometric"</span>, plot <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Data after2022-12-25 were not used for the endemic channel calculation.</span>
+<span class="r-plt img"><img src="endemic_channel-1.png" alt="" width="768" height="576"></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $data</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     central   up_lim   low_lim obs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  24.47382 56.83201 10.539270  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  22.33804 52.74742  9.459952  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  23.43837 55.52740  9.893443  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  19.69165 49.80177  7.786091  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  17.54179 54.10652  5.687196  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  23.21728 58.02311  9.290127  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7  17.44415 52.68364  5.775955  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8  17.02630 52.48901  5.522963  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9  17.93639 53.25805  6.040666  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 16.99037 48.11213  5.999998  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11 16.30440 47.77830  5.563896  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12 18.04311 46.21868  7.043772  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13 15.30253 38.38336  6.100753  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14 15.21235 43.94540  5.265980  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15 19.24401 50.45650  7.339627  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16 19.88636 52.94265  7.469730  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17 20.11381 54.38677  7.438673  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18 18.82923 47.70870  7.431348  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19 17.59734 50.51378  6.130334  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20 16.22427 45.74133  5.754685  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21 21.86827 56.07508  8.528231  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22 22.75543 57.22492  9.048673  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23 19.67685 50.11830  7.725291  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24 21.95581 53.54033  9.003635  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25 18.67200 47.87688  7.282086  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26 19.99601 50.24641  7.957591  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27 21.12839 52.04795  8.576878  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28 19.30105 54.36276  6.852679  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29 19.14772 50.09521  7.318767  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30 18.70109 48.96618  7.142293  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 31 15.60288 42.30523  5.754605  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 32 20.24884 54.30387  7.550392  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 33 15.02208 44.79656  5.037505  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 34 15.10822 48.05064  4.750369  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 35 23.51291 61.06149  9.054102  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 36 21.53578 60.19264  7.705091  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 37 17.31170 53.25710  5.627324  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 38 19.61336 62.71382  6.133957  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 39 18.96260 62.36108  5.766100  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 40 23.42624 65.60374  8.365205  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 41 21.40414 60.56026  7.564980  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 42 21.94888 60.21215  8.000932  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 43 24.05417 69.89871  8.277736  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 44 20.86997 65.96651  6.602678  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 45 22.39830 66.30860  7.565894  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 46 23.77151 67.37194  8.387537  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 47 21.46182 67.42606  6.831331  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 48 21.30963 66.80371  6.797532  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 49 22.81365 65.51115  7.944642  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 50 21.58169 66.31157  7.023953  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 51 25.35126 71.96271  8.930826  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 52 21.21817 57.54274  7.823936  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $plot</span>
+<span class="r-plt img"><img src="endemic_channel-2.png" alt="" width="768" height="576"></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

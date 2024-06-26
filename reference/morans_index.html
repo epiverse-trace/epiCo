@@ -111,11 +111,48 @@ observation, influential values.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span><span class="co"># To understand how to obtain the incidence object, refer to the</span></span></span>
-<span class="r-in"><span><span class="co"># Spatiotemporal analyses with epiCo vignette.</span></span></span>
-<span class="r-in"><span><span class="fu">morans_index</span><span class="op">(</span><span class="va">incidence_object</span>, <span class="fl">2</span>, <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">data_event</span> <span class="op">&lt;-</span> <span class="fu">epiCo</span><span class="fu">::</span><span class="va"><a href="epi_data.html">epi_data</a></span></span></span>
+<span class="r-in"><span><span class="va">incidence_historic</span> <span class="op">&lt;-</span> <span class="fu">incidence</span><span class="fu">::</span><span class="fu"><a href="https://www.repidemicsconsortium.org/incidence/reference/incidence.html" class="external-link">incidence</a></span><span class="op">(</span><span class="va">data_event</span><span class="op">$</span><span class="va">fec_not</span>,</span></span>
+<span class="r-in"><span>  groups <span class="op">=</span> <span class="va">data_event</span><span class="op">$</span><span class="va">cod_mun_o</span>,</span></span>
+<span class="r-in"><span>  interval <span class="op">=</span> <span class="st">"4 year"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">incidence_object</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">incidence_historic</span>,</span></span>
+<span class="r-in"><span>  from <span class="op">=</span> <span class="st">"2015-01-04"</span>,</span></span>
+<span class="r-in"><span>  to <span class="op">=</span> <span class="st">"2018-12-27"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">morans_index</span><span class="op">(</span><span class="va">incidence_object</span>, scale <span class="op">=</span> <span class="fl">100000</span>, threshold <span class="op">=</span> <span class="fl">2</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Significant municipalities are:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 73024 with Low-High (incidence - spatial correlation)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 73226 with High-High (incidence - spatial correlation)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 73352 with Low-High (incidence - spatial correlation)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 73675 with High-High (incidence - spatial correlation)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $data</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $data$municipios</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "73001" "73024" "73026" "73030" "73043" "73055" "73067" "73124" "73148"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10] "73152" "73168" "73200" "73217" "73226" "73236" "73268" "73270" "73275"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19] "73283" "73319" "73347" "73349" "73352" "73408" "73411" "73443" "73449"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [28] "73461" "73483" "73504" "73520" "73547" "73555" "73563" "73585" "73616"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [37] "73622" "73624" "73671" "73675" "73678" "73686" "73770" "73854" "73861"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [46] "73870" "73873"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $data$quadrant</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] Not Significant Low-High        Not Significant Not Significant</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5] Not Significant Not Significant Not Significant Not Significant</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9] Not Significant Not Significant Not Significant Not Significant</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13] Not Significant High-High       Not Significant Not Significant</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [17] Not Significant Not Significant Not Significant Not Significant</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [21] Not Significant Not Significant Low-High        Not Significant</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [25] Not Significant Not Significant Not Significant Not Significant</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [29] Not Significant Not Significant Not Significant Not Significant</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [33] Not Significant Not Significant Not Significant Not Significant</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [37] Not Significant Not Significant Not Significant High-High      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [41] Not Significant Not Significant Not Significant Not Significant</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [45] Not Significant Not Significant Not Significant</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Levels: High-High High-Low Low-High Low-Low Not Significant</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $plot</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
