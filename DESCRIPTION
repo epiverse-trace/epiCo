@@ -1,6 +1,5 @@
 Package: epiCo
-Title: Statistical and Visualization Tools for the Analysis of
-    Outbreaks of Vector-Borne Diseases (VBDs) in Colombia
+Title: Statistical and Viz Tools for Vector-Borne Diseases in Colombia
 Version: 1.0.0
 Authors@R: 
     c(person("Juan D.", "Umaña", , "jd.umana10@uniandes.edu.co", role = c("aut", "cre", "cph"),
