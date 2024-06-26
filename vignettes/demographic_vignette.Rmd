@@ -108,6 +108,7 @@ occupations <- describe_occupation(
   sex = demog_data$sex,
   plot = "treemap"
 )
+knitr::kable(occupations$data)
 
 ```
 
