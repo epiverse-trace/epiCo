@@ -101,6 +101,7 @@ demog_data <- data.frame(
 
 
 ethnicities <- describe_ethnicity(demog_data$ethnicity_label, language = "EN")
+knitr::kable(ethnicities)
 
 occupations <- describe_occupation(
   isco_codes = demog_data$occupation_label,
