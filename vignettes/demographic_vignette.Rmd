@@ -109,7 +109,6 @@ occupations <- describe_occupation(
   plot = "treemap"
 )
 knitr::kable(occupations$data)
-
 ```
 
 ## 4. Epidemiological data
