@@ -11,9 +11,9 @@ title: 'epiCo: Statistical and Viz Tools for Vector-Borne Diseases in Colombia'
 version: 1.0.0
 abstract: Provides statistical and visualization tools for the analysis of demographic
   indicators, and spatio-temporal behavior and characterization of outbreaks of vector-borne
-  diseases (VBDs) in Colombia. It implements travel times estimated in Bravo-Vega C.,
-  Santos-Vega M., & Cordovez J.M. (2022), and the endemic channel method
-  (Bortman, M. (1999) <https://iris.paho.org/handle/10665.2/8562>).
+  diseases (VBDs) in Colombia. It implements travel times estimated in Bravo-Vega
+  C., Santos-Vega M., & Cordovez J.M. (2022), and the endemic channel method (Bortman,
+  M. (1999) <https://iris.paho.org/handle/10665.2/8562>).
 authors:
 - family-names: Umaña
   given-names: Juan D.
