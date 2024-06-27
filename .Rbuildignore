@@ -10,3 +10,4 @@
 ^\.lintr$
 ^cran-comments\.md$
 ^CITATION\.cff$
+^CRAN-SUBMISSION$
