@@ -14,11 +14,9 @@ Authors@R: c(
 Description: Provides statistical and visualization tools for the analysis
     of demographic indicators, and spatio-temporal behavior and
     characterization of outbreaks of vector-borne diseases (VBDs) in
-    Colombia. It implements travel times estimated (Bravo-Vega C.,
-    Santos-Vega M., & Cordovez J.M.  (2022)
-    <https://doi.org/10.1371/journal.pntd.0011117>), and the endemic
-    channel method (Bortman, M.  (1999)
-    <https://iris.paho.org/handle/10665.2/8562>).
+    Colombia. It implements travel times estimated in Bravo-Vega C.,
+    Santos-Vega M., & Cordovez J.M. (2022), and the endemic channel method
+    (Bortman, M.  (1999) <https://iris.paho.org/handle/10665.2/8562>).
 License: MIT + file LICENSE
 URL: https://epiverse-trace.github.io/epiCo/,
     https://github.com/epiverse-trace/epiCo
