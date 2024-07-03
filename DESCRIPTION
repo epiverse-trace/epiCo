@@ -27,6 +27,7 @@ Imports:
     dplyr,
     ggplot2,
     ggraph,
+    grDevices,
     igraph,
     incidence,
     leaflet,
