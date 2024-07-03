@@ -819,7 +819,7 @@ occupation_plot <- function(occupation_data, sex = FALSE, q = 0.9) {
     treemapify::geom_treemap() +
     ggplot2::scale_fill_manual(
       name = "Major Group",
-      values = RColorBrewer::brewer.pal(n = 12, name = "Set3")
+      values = grDevices::palette.colors(n = 12, palette = "Set3")
     ) +
     treemapify::geom_treemap_text(
       colour = "grey16", place = "centre",
@@ -908,7 +908,7 @@ occupation_plot_circular <- function(occupation_data, q = 0.9) {
     ggraph::geom_node_circle(ggplot2::aes(fill = .data$sub_major)) +
     ggplot2::scale_fill_manual(
       name = "Major Group",
-      values = RColorBrewer::brewer.pal(n = 12, name = "Set3"),
+      values = grDevices::palette.colors(n = 12, palette = "Set3"),
       labels = circle_vertices$sub_major
     ) +
     ggraph::geom_node_text(ggplot2::aes(label = .data$unit)) +

@@ -22,7 +22,7 @@ URL: https://epiverse-trace.github.io/epiCo/,
     https://github.com/epiverse-trace/epiCo
 BugReports: https://github.com/epiverse-trace/epiCo/issues
 Depends:
-    R (>= 3.2.0)
+    R (>= 4.0.0)
 Imports:
     dplyr,
     ggplot2,
@@ -32,7 +32,6 @@ Imports:
     leaflet,
     lubridate,
     magrittr,
-    RColorBrewer,
     rlang,
     scales,
     spdep,
