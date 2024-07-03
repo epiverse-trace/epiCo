@@ -12,6 +12,7 @@ MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.or
 [![Codecov test
 coverage](https://codecov.io/gh/epiverse-trace/epico/branch/main/graph/badge.svg)](https://app.codecov.io/gh/epiverse-trace/epico?branch=main)
 [![lifecycle-maturing](https://raw.githubusercontent.com/reconverse/reconverse.github.io/master/images/badge-maturing.svg)](https://www.reconverse.org/lifecycle.html#maturing)
+[![DOI](https://zenodo.org/badge/550435309.svg)](https://zenodo.org/doi/10.5281/zenodo.11579611)
 <!-- badges: end -->
 
 ## Installation
