@@ -16,7 +16,13 @@ coverage](https://codecov.io/gh/epiverse-trace/epico/branch/main/graph/badge.svg
 
 ## Installation
 
-You can install the development version of *epiCo* from
+You can install the stable version of *epiCo* from CRAN with:
+
+``` r
+install.packages("epiCo")
+```
+
+You can also install the development version of *epiCo* from
 [GitHub](https://github.com/) with:
 
 ``` r
