@@ -49,8 +49,8 @@ population_pyramid <- function(divipola_code, year, sex = TRUE, range = 5,
     )
     pop_data_dpto <- dplyr::filter(
       population_projection_col_0,
-      ((population_projection_col_0$dp == divipola_code) &
-        (population_projection_col_0$ano == year))
+      .data$dp == divipola_code,
+      .data$ano == year
     )
 
     female_counts <- as.numeric(pop_data_dpto[104:204])
@@ -70,7 +70,8 @@ population_pyramid <- function(divipola_code, year, sex = TRUE, range = 5,
     )
     pop_data_dpto <- dplyr::filter(
       population_projection_col_1,
-      ((.data$dp == divipola_code) & (.data$ano == year))
+      .data$dp == divipola_code,
+      .data$ano == year
     )
 
     female_counts <- as.numeric(pop_data_dpto[104:204])
@@ -98,7 +99,8 @@ population_pyramid <- function(divipola_code, year, sex = TRUE, range = 5,
     )
     pop_data_mun <- dplyr::filter(
       population_projection_col_2,
-      ((.data$dpmp == divipola_code) & (.data$ano == year))
+      .data$dpmp == divipola_code,
+      .data$ano == year
     )
 
     female_counts <- as.numeric(pop_data_mun[89:174])
