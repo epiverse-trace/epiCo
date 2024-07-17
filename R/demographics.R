@@ -210,29 +210,28 @@ population_pyramid_plot <- function(pop_pyramid, language, sex = TRUE) {
     pop_pyramid_plot <- ggplot2::ggplot(
       pop_pyramid,
       ggplot2::aes(
-        x = .data$age,
-        y = .data$population,
+        x = .data$population,
+        y = .data$age,
         fill = .data$sex
       )
     ) +
-      ggplot2::geom_col() +
-      ggplot2::scale_y_continuous(
+      ggplot2::geom_col(orientation = "y") +
+      ggplot2::scale_x_continuous(
         breaks = scales::breaks_extended(n = 8),
         labels = function(x) {
           as.character(abs(as.numeric(x)))
         }
-      ) +
-      ggplot2::coord_flip()
+      )
     if (language == "EN") {
       pop_pyramid_plot <- pop_pyramid_plot +
-        ggplot2::scale_x_continuous(
+        ggplot2::scale_y_continuous(
           name = "Age",
           breaks = unique(pop_pyramid$age),
           labels = unique(pop_pyramid$age)
         )
     } else {
       pop_pyramid_plot <- pop_pyramid_plot +
-        ggplot2::scale_x_continuous(
+        ggplot2::scale_y_continuous(
           name = "Edad",
           breaks = unique(pop_pyramid$age),
           labels = unique(pop_pyramid$age)
@@ -244,23 +243,22 @@ population_pyramid_plot <- function(pop_pyramid, language, sex = TRUE) {
     pop_pyramid_plot <- ggplot2::ggplot(
       pop_pyramid,
       ggplot2::aes(
-        x = .data$age,
-        y = .data$population
+        x = .data$population,
+        y = .data$age
       )
     ) +
-      ggplot2::geom_bar(stat = "identity") +
-      ggplot2::scale_y_continuous(
+      ggplot2::geom_bar(stat = "identity", orientation = "y") +
+      ggplot2::scale_x_continuous(
         breaks = scales::breaks_extended(n = 8),
         labels = function(x) {
           as.character(abs(as.numeric(x)))
         }
       ) +
-      ggplot2::scale_x_continuous(
+      ggplot2::scale_y_continuous(
         name = "Age",
         breaks = pop_pyramid$age,
         labels = pop_pyramid$age
-      ) +
-      ggplot2::coord_flip()
+      )
   }
   return(pop_pyramid_plot)
 }
