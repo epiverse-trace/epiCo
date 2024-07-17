@@ -215,12 +215,7 @@ population_pyramid_plot <- function(pop_pyramid, language, sex = TRUE) {
         fill = .data$sex
       )
     ) +
-      ggplot2::geom_col(
-        data = dplyr::filter(pop_pyramid, .data$sex == "F")
-      ) +
-      ggplot2::geom_col(
-        data = dplyr::filter(pop_pyramid, .data$sex == "M")
-      ) +
+      ggplot2::geom_col() +
       ggplot2::scale_y_continuous(
         breaks = scales::breaks_extended(n = 8),
         labels = function(x) {
