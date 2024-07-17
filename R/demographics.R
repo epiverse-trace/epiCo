@@ -82,10 +82,9 @@ population_pyramid <- function(divipola_code, year, sex = TRUE, range = 5,
       .data$COD_DPTO == divipola_code
     ) %>%
       dplyr::slice(1) %>%
-      dplyr::pull(.data$NOM_DPTO)
-    name <- tolower(substr(name, 1, 1)) %>%
-      toupper() %>%
-      paste0(tolower(substr(name, 2, nchar(name))))
+      dplyr::pull(.data$NOM_DPTO) %>%
+      tolower() %>%
+      tools::toTitleCase()
   } else if (divipola_code %in% divipola_table$COD_MPIO) {
     path_2 <- system.file("extdata", "population_projection_col_2.rds",
       package = "epiCo"
@@ -110,10 +109,9 @@ population_pyramid <- function(divipola_code, year, sex = TRUE, range = 5,
       divipola_table,
       .data$COD_MPIO == divipola_code
     ) %>%
-      dplyr::pull(.data$NOM_MPIO)
-    name <- tolower(substr(name, 1, 1)) %>%
-      toupper() %>%
-      paste0(tolower(substr(name, 2, nchar(name))))
+      dplyr::pull(.data$NOM_MPIO) %>%
+      tolower() %>%
+      tools::toTitleCase()
   } else {
     stop("There is no location assigned to the consulted DIVIPOLA code")
   }
