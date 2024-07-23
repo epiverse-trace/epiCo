@@ -37,7 +37,7 @@ Using an endemic channel is a visual strategy to represent the historical behavi
 
 The broader definition and methodology for the endemic channel were provided by [Bortman (1999)](https://iris.paho.org/handle/10665.2/8562).
 
-```{r, echo = FALSE, out.width = '100%'}
+```{r, echo = FALSE, out.width = '100%', fig.cap='Example of an endemic channel figure with the Safety, Warning, and Epidemic bands.'}
 knitr::include_graphics(
   path = file.path("..", "man", "figures", "endemic_channel_figure.png"),
   error = FALSE
@@ -142,7 +142,7 @@ The output of *epiCo*'s `endemic_channel` function is a dataframe with the obser
 
 The following example uses the previously historic incidence accessed from the SIVIGILA data source to build the 2021 *endemic channel* for Ibagué City.
 
-```{r}
+```{r, fig.cap="Dengue endemic channel for Ibagué in 2021"}
 observations <- sample(5:40, 52, replace = TRUE)
 
 outlier_years <- c(2016, 2019)
