@@ -38,7 +38,7 @@ neighborhoods <- function(query_vector, threshold = 2) {
     msg <- paste(
       "Municipalities", toString(null_municipalities),
       "are not part of the neighborhood according to the selected",
-      "thershold in hours. It wil be displayed as 'Not significant'",
+      "threshold in hours. It wil be displayed as 'Not significant'",
       "but it was not included in the local moran's index analysis."
     )
     message(msg)
