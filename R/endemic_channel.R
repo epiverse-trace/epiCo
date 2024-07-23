@@ -102,7 +102,7 @@ endemic_channel <- function(incidence_historic, observations = NULL,
       incidence_historic <- incidence_historic[incidence_historic$dates <=
         as.Date(new_date)]
       message(
-        "Data after", new_date,
+        "Data after ", new_date,
         " were not used for the endemic channel calculation."
       )
     }
