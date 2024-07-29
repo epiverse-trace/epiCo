@@ -73,8 +73,8 @@ knitr::kable(ibague_pyramid_2016[1:5, ])
 
 Definitions of age ranges and plotting are also provided for both: total number of individuals, or proportion of individuals
 
-```{r}
-ibague_code <- "73001" # DIVIPOLA code for the city of Ibagu<U+00E9>
+```{r, fig.cap='Population pyramid for the city of Ibagué in 2019'}
+ibague_code <- "73001" # DIVIPOLA code for the city of Ibagué
 year <- 2019 # Year to consult
 age_range <- 5 # Age range or window
 ibague_pyramid_2019 <- population_pyramid(ibague_code, year,
@@ -90,7 +90,7 @@ Events of epidemiological relevance are reported to the SIVIGILA using an offici
 
 **epiCo** provides a function to consult the dictionaries for the ethnicity categories, special population groups, and occupation codifications used by the SIVIGILA. As shown in the following example:
 
-```{r}
+```{r, fig.cap='Treemap plot of the distribution of occupations reported in the line list'}
 demog_data <- data.frame(
   id = c(0001, 002, 003, 004, 005, 006, 007, 008),
   ethnicity_label = c(3, 4, 2, 3, 3, 3, 2, 3),
@@ -146,7 +146,7 @@ If groups in the incidence object are not within the DIVIPOLA coding for municip
 
 Normalization of data is a key aspect of epidemiology. **epiCo** allows for the age distribution of cases and normalizes the epidemiological data with the age structure of a population. This normalization allows us to estimate the age risk of a disease according to the age structure of the general population in a municipality, department, or country in a certain year.
 
-```{r}
+```{r, fig.cap='Age risk plot for the city of Ibagué in 2019'}
 data_ibague <- data_tolima[data_tolima$cod_mun_o == 73001, ]
 
 age_risk_data <- age_risk(
