@@ -199,7 +199,6 @@ morans_index <- function(incidence_object, scale = 100000, threshold = 2,
       "<b>", "Cluster: ", "</b>",
       shapes$CLUSTER, "<br>"
     )
-    # nolint start
     pal <- leaflet::colorFactor(
       palette = c(
         "#ba0001", "#00992C", "#80CC96",
@@ -212,6 +211,7 @@ morans_index <- function(incidence_object, scale = 100000, threshold = 2,
       ordered = TRUE
     )
 
+    # nolint next
     tile_provider <- "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}"
 
     clusters_plot <- leaflet::leaflet(shapes) %>%
@@ -237,7 +237,6 @@ morans_index <- function(incidence_object, scale = 100000, threshold = 2,
         title = map_title,
         opacity = 1
       )
-    # nolint end
     return(list(data = morans_index, plot = clusters_plot))
   } else {
     return(morans_index)
