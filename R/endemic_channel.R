@@ -17,7 +17,6 @@
 #' @param ci = 0.95 A numeric value to specify the confidence interval to use
 #' with the geometric method
 #' @param plot A boolean for displaying a plot
-#' @param language Language for plot components
 #'
 #' @return A dataframe with the observation, historical mean, and confidence
 #' intervals (or risk areas)
@@ -45,7 +44,7 @@ endemic_channel <- function(incidence_historic, observations = NULL,
                               "replaced_by_mean",
                               "replaced_by_geometric_mean"
                             ),
-                            ci = 0.95, plot = FALSE, language = c("EN", "ES")) {
+                            ci = 0.95, plot = FALSE) {
   stopifnot(
     "`incidence_historic` must be an incidence object" =
       inherits(incidence_historic, "incidence"),
@@ -63,7 +62,6 @@ endemic_channel <- function(incidence_historic, observations = NULL,
   )
   method <- match.arg(method)
   outliers_handling <- match.arg(outliers_handling)
-  language <- match.arg(language)
 
   if (!is.null(observations)) {
     stopifnot(
@@ -102,7 +100,7 @@ endemic_channel <- function(incidence_historic, observations = NULL,
       incidence_historic <- incidence_historic[incidence_historic$dates <=
         as.Date(new_date)]
       message(
-        "Data after", new_date,
+        "Data after ", new_date,
         " were not used for the endemic channel calculation."
       )
     }
@@ -212,7 +210,7 @@ endemic_channel <- function(incidence_historic, observations = NULL,
   if (plot) {
     endemic_channel_plot <- endemic_plot(
       channel_data, method,
-      outlier_years, outliers_handling, language
+      outlier_years, outliers_handling
     )
     plot(endemic_channel_plot)
     return(list(data = channel_data, plot = endemic_channel_plot))
@@ -288,13 +286,12 @@ endemic_outliers <- function(historic, outlier_years, outliers_handling,
 #' @param outlier_years A numeric vector with the outlier years
 #' @param outliers_handling A string with the handling decision regarding
 #' outlier years
-#' @param language Language for plot components
 #'
 #' @return The ggplot object with the endemic channel plot
 #'
 #' @keywords internal
 endemic_plot <- function(channel_data, method,
-                         outlier_years, outliers_handling, language) {
+                         outlier_years, outliers_handling) {
   endemic_channel_plot <- ggplot2::ggplot(
     channel_data,
     ggplot2::aes(x = as.numeric(
@@ -320,20 +317,24 @@ endemic_plot <- function(channel_data, method,
       expand = c(0, 0)
     ) +
     ggplot2::labs(
-      title = "Endemic channel",
+      title = tr_("Endemic channel"),
       caption = ifelse(length(outlier_years) > 1,
-        paste(
-          "Method: ", method, " | Epidemic years: ",
-          toString(outlier_years), " are ", outliers_handling
+        sprintf(
+          tr_("Method: %s | Epidemic years: %s are %s"),
+          method,
+          toString(outlier_years),
+          outliers_handling
         ),
-        paste(
-          "Method: ", method, " | Epidemic year: ",
-          outlier_years, " is ", outliers_handling
+        sprintf(
+          tr_("Method: %s | Epidemic year: %s is %s"),
+          method,
+          toString(outlier_years),
+          outliers_handling
         )
       )
     ) +
-    ggplot2::xlab(label = "Epidemiological week") +
-    ggplot2::ylab("Number of cases") +
+    ggplot2::xlab(label = tr_("Epidemiological week")) +
+    ggplot2::ylab(tr_("Number of cases")) +
     ggplot2::theme(
       plot.background = ggplot2::element_rect(fill = "white"),
       plot.margin = ggplot2::margin(20, 20, 20, 20),
@@ -351,59 +352,17 @@ endemic_plot <- function(channel_data, method,
       expand = c(0.01, 0.01)
     )
 
-  if (language == "ES") {
-    endemic_channel_plot <- endemic_channel_plot +
-      ggplot2::geom_line(ggplot2::aes(y = .data$up_lim, color = "Epidemia"),
-        linewidth = 1
-      ) +
-      ggplot2::geom_line(ggplot2::aes(y = .data$central, color = "Alerta"),
-        linewidth = 1
-      ) +
-      ggplot2::geom_line(ggplot2::aes(y = .data$low_lim, color = "Seguridad"),
-        linewidth = 1
-      ) +
-      ggplot2::labs(
-        title = "Canal endemico",
-        caption = ifelse(length(outlier_years) > 1,
-          paste(
-            "Metodo: ", method, " | Temporada epidemica: ",
-            toString(outlier_years), " son ", outliers_handling
-          ),
-          paste(
-            "Metodo: ", method, " | Temporadas epidemicas: ",
-            outlier_years, " es ", outliers_handling
-          )
-        )
-      ) +
-      ggplot2::xlab(label = "Semana epidemiologica") +
-      ggplot2::ylab("Numero de casos")
-  }
-
   if (anyNA(channel_data$obs)) {
     endemic_channel_plot <- endemic_channel_plot +
-      # nolint start
       ggplot2::scale_color_manual(
         name = "",
+        labels = c(tr_("Epidemic"), tr_("Warning"), tr_("Safety")),
         values = c(
-          "Epidemic" = "brown4",
-          "Warning" = "darkorange3",
-          "Safety" = "darkgreen"
+          Epidemic = "brown4",
+          Warning = "darkorange3",
+          Safety = "darkgreen"
         )
       )
-    # nolint end
-    if (language == "ES") {
-      endemic_channel_plot <- endemic_channel_plot +
-        # nolint start
-        ggplot2::scale_color_manual(
-          name = "",
-          values = c(
-            "Epidemia" = "brown4",
-            "Alerta" = "darkorange3",
-            "Seguridad" = "darkgreen"
-          )
-        )
-    }
-    # nolint end
   } else {
     endemic_channel_plot <- endemic_channel_plot +
       ggplot2::geom_line(ggplot2::aes(y = .data$obs, color = "Observed cases"),
@@ -416,6 +375,12 @@ endemic_plot <- function(channel_data, method,
       # nolint start
       ggplot2::scale_color_manual(
         name = "",
+        labels = c(
+          tr_("Epidemic"),
+          tr_("Warning"),
+          tr_("Safety"),
+          tr_("Observed cases")
+        ),
         values = c(
           "Epidemic" = "brown4",
           "Warning" = "darkorange3",
@@ -423,35 +388,6 @@ endemic_plot <- function(channel_data, method,
           "Observed cases" = "black"
         )
       )
-    # nolint end
-    if (language == "ES") {
-      endemic_channel_plot <- endemic_channel_plot +
-        ggplot2::geom_line(
-          ggplot2::aes(
-            y = .data$obs,
-            color = "Casos observados"
-          ),
-          linetype = "dashed",
-          linewidth = 0.75
-        ) +
-        ggplot2::geom_point(
-          ggplot2::aes(
-            y = .data$obs,
-            color = "Casos observados"
-          ),
-          size = 2
-        ) +
-        # nolint start
-        ggplot2::scale_color_manual(
-          name = "",
-          values = c(
-            "Epidemia" = "brown4",
-            "Alerta" = "darkorange3",
-            "Seguridad" = "darkgreen",
-            "Casos observados" = "black"
-          )
-        )
-    }
     # nolint end
   }
 

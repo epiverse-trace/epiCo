@@ -5,13 +5,7 @@
 \title{Calculate spatial correlation of given municipalities in an incidence_rate
 object.}
 \usage{
-morans_index(
-  incidence_object,
-  scale = 1e+05,
-  threshold = 2,
-  plot = TRUE,
-  language = c("EN", "ES")
-)
+morans_index(incidence_object, scale = 1e+05, threshold = 2, plot = TRUE)
 }
 \arguments{
 \item{incidence_object}{An incidence object with one observation for the
@@ -23,8 +17,6 @@ different locations (groups).}
 
 \item{plot}{if TRUE, returns a plot of influential observations in the
 Moran's plot.}
-
-\item{language}{Language for plot components}
 }
 \value{
 List of Moran's I clustering analysis, giving the quadrant of each

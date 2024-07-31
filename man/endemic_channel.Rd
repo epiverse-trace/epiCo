@@ -13,8 +13,7 @@ endemic_channel(
   outliers_handling = c("ignored", "included", "replaced_by_median", "replaced_by_mean",
     "replaced_by_geometric_mean"),
   ci = 0.95,
-  plot = FALSE,
-  language = c("EN", "ES")
+  plot = FALSE
 )
 }
 \arguments{
@@ -39,8 +38,6 @@ outlier years, see: outliers_handling function}
 with the geometric method}
 
 \item{plot}{A boolean for displaying a plot}
-
-\item{language}{Language for plot components}
 }
 \value{
 A dataframe with the observation, historical mean, and confidence

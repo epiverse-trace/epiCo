@@ -1,0 +1,76 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: epiCo 1.0.0\n"
+"POT-Creation-Date: 2024-07-31 10:51+0200\n"
+"PO-Revision-Date: 2024-07-31 10:09+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: demographics.R:159
+msgid "Total population"
+msgstr ""
+
+#: demographics.R:160 demographics.R:164
+msgid "population pyramid"
+msgstr ""
+
+#: demographics.R:163
+msgid "Proportion of population"
+msgstr ""
+
+#: demographics.R:235
+msgid "Age"
+msgstr ""
+
+#: demographics.R:319 demographics.R:327
+msgid "Cases / Population"
+msgstr ""
+
+#: demographics.R:321
+msgid "Specific rate by age group"
+msgstr ""
+
+#: endemic_channel.R:320
+msgid "Endemic channel"
+msgstr ""
+
+#: endemic_channel.R:323
+msgid "Method: %s | Epidemic years: %s are %s"
+msgstr ""
+
+#: endemic_channel.R:329
+msgid "Method: %s | Epidemic year: %s is %s"
+msgstr ""
+
+#: endemic_channel.R:336
+msgid "Epidemiological week"
+msgstr ""
+
+#: endemic_channel.R:337
+msgid "Number of cases"
+msgstr ""
+
+#: endemic_channel.R:359 endemic_channel.R:379
+msgid "Epidemic"
+msgstr ""
+
+#: endemic_channel.R:359 endemic_channel.R:380
+msgid "Warning"
+msgstr ""
+
+#: endemic_channel.R:359 endemic_channel.R:381
+msgid "Safety"
+msgstr ""
+
+#: endemic_channel.R:382
+msgid "Observed cases"
+msgstr ""
+
+#: spatiotemporal.R:157
+msgid "Local Moran's Index Clusters </br>%s-W%s to %s later"
+msgstr ""

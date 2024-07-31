@@ -10,8 +10,7 @@ population_pyramid(
   sex = TRUE,
   range = 5,
   total = TRUE,
-  plot = FALSE,
-  language = c("EN", "ES")
+  plot = FALSE
 )
 }
 \arguments{
@@ -30,8 +29,6 @@ default value is 5}
 proportion of the country's population. The default value is TRUE}
 
 \item{plot}{A boolean for displaying a plot. The default value is TRUE}
-
-\item{language}{Language for plot components}
 }
 \value{
 A dataframe with the proportion or total count of individuals
