@@ -206,7 +206,7 @@ the territory of interest and the year to consult.</p>
 <p>Definitions of age ranges and plotting are also provided for both:
 total number of individuals, or proportion of individuals</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">ibague_code</span> <span class="op">&lt;-</span> <span class="st">"73001"</span> <span class="co"># DIVIPOLA code for the city of Ibagu&lt;U+00E9&gt;</span></span>
+<code class="sourceCode R"><span><span class="va">ibague_code</span> <span class="op">&lt;-</span> <span class="st">"73001"</span> <span class="co"># DIVIPOLA code for the city of Ibagué</span></span>
 <span><span class="va">year</span> <span class="op">&lt;-</span> <span class="fl">2019</span> <span class="co"># Year to consult</span></span>
 <span><span class="va">age_range</span> <span class="op">&lt;-</span> <span class="fl">5</span> <span class="co"># Age range or window</span></span>
 <span><span class="va">ibague_pyramid_2019</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/population_pyramid.html">population_pyramid</a></span><span class="op">(</span><span class="va">ibague_code</span>, <span class="va">year</span>,</span>
@@ -214,7 +214,11 @@ total number of individuals, or proportion of individuals</p>
 <span>  sex <span class="op">=</span> <span class="cn">TRUE</span>, total <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  plot <span class="op">=</span> <span class="cn">TRUE</span>, language <span class="op">=</span> <span class="st">"EN"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="demographic_vignette_files/figure-html/unnamed-chunk-4-1.png" width="768"></p>
+<div class="figure">
+<img src="demographic_vignette_files/figure-html/unnamed-chunk-4-1.png" alt="Population pyramid for the city of Ibagué in 2019" width="768"><p class="caption">
+Population pyramid for the city of Ibagué in 2019
+</p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="demographic-variables">3. Demographic variables<a class="anchor" aria-label="anchor" href="#demographic-variables"></a>
@@ -276,7 +280,12 @@ language</td>
 <span>  plot <span class="op">=</span> <span class="st">"treemap"</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; 2 codes are invalid.</span></span></code></pre></div>
-<p><img src="demographic_vignette_files/figure-html/unnamed-chunk-5-1.png" width="768"></p>
+<div class="figure">
+<img src="demographic_vignette_files/figure-html/unnamed-chunk-5-1.png" alt="Treemap plot of the distribution of occupations reported in the line list" width="768"><p class="caption">
+Treemap plot of the distribution of occupations reported in the line
+list
+</p>
+</div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">occupations</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></span></code></pre></div>
 <table style="width:100%;" class="table">
@@ -636,7 +645,11 @@ municipality, department, or country in a certain year.</p>
 <span>  population_pyramid <span class="op">=</span> <span class="va">ibague_pyramid_2019</span><span class="op">$</span><span class="va">data</span>,</span>
 <span>  sex <span class="op">=</span> <span class="va">data_ibague</span><span class="op">$</span><span class="va">sexo</span>, plot <span class="op">=</span> <span class="cn">TRUE</span>, language <span class="op">=</span> <span class="st">"EN"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="demographic_vignette_files/figure-html/unnamed-chunk-8-1.png" width="768"></p>
+<div class="figure">
+<img src="demographic_vignette_files/figure-html/unnamed-chunk-8-1.png" alt="Age risk plot for the city of Ibagué in 2019" width="768"><p class="caption">
+Age risk plot for the city of Ibagué in 2019
+</p>
+</div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
