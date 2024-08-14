@@ -260,12 +260,22 @@ population_pyramid_plot <- function(pop_pyramid, language, sex = TRUE) {
           as.character(abs(as.numeric(x)))
         }
       ) +
-      ggplot2::scale_x_continuous(
-        name = "Age",
-        breaks = pop_pyramid$age,
-        labels = pop_pyramid$age
-      ) +
       ggplot2::coord_flip()
+    if (language == "EN") {
+      pop_pyramid_plot <- pop_pyramid_plot +
+        ggplot2::scale_x_continuous(
+          name = "Age",
+          breaks = unique(pop_pyramid$age),
+          labels = unique(pop_pyramid$age)
+        )
+    } else {
+      pop_pyramid_plot <- pop_pyramid_plot +
+        ggplot2::scale_x_continuous(
+          name = "Edad",
+          breaks = unique(pop_pyramid$age),
+          labels = unique(pop_pyramid$age)
+        )
+    }
   }
   return(pop_pyramid_plot)
 }
