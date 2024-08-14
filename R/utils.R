@@ -309,7 +309,7 @@ geometric_sd <- function(x, method = c(
 
   if (method == "positive") {
     stopifnot("`x` includes zero or negative values,
-              check the geom_mean methods" = any(x <= 0))
+              check the geom_mean methods" = any(x > 0))
     gsd <- stats::sd((log(x)))
   } else if (method == "shifted") {
     x_shifted <- x + shift
