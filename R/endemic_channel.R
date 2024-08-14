@@ -102,7 +102,7 @@ endemic_channel <- function(incidence_historic, observations = NULL,
       incidence_historic <- incidence_historic[incidence_historic$dates <=
         as.Date(new_date)]
       message(
-        "Data after", new_date,
+        "Data after ", new_date,
         " were not used for the endemic channel calculation."
       )
     }
@@ -381,29 +381,25 @@ endemic_plot <- function(channel_data, method,
 
   if (anyNA(channel_data$obs)) {
     endemic_channel_plot <- endemic_channel_plot +
-      # nolint start
       ggplot2::scale_color_manual(
         name = "",
         values = c(
-          "Epidemic" = "brown4",
-          "Warning" = "darkorange3",
-          "Safety" = "darkgreen"
+          Epidemic = "brown4",
+          Warning = "darkorange3",
+          Safety = "darkgreen"
         )
       )
-    # nolint end
     if (language == "ES") {
       endemic_channel_plot <- endemic_channel_plot +
-        # nolint start
         ggplot2::scale_color_manual(
           name = "",
           values = c(
-            "Epidemia" = "brown4",
-            "Alerta" = "darkorange3",
-            "Seguridad" = "darkgreen"
+            Epidemia = "brown4",
+            Alerta = "darkorange3",
+            Seguridad = "darkgreen"
           )
         )
     }
-    # nolint end
   } else {
     endemic_channel_plot <- endemic_channel_plot +
       ggplot2::geom_line(ggplot2::aes(y = .data$obs, color = "Observed cases"),
@@ -413,17 +409,15 @@ endemic_plot <- function(channel_data, method,
       ggplot2::geom_point(ggplot2::aes(y = .data$obs, color = "Observed cases"),
         size = 2
       ) +
-      # nolint start
       ggplot2::scale_color_manual(
         name = "",
         values = c(
-          "Epidemic" = "brown4",
-          "Warning" = "darkorange3",
-          "Safety" = "darkgreen",
-          "Observed cases" = "black"
+          Epidemic = "brown4",
+          Warning = "darkorange3",
+          Safety = "darkgreen",
+          `Observed cases` = "black"
         )
       )
-    # nolint end
     if (language == "ES") {
       endemic_channel_plot <- endemic_channel_plot +
         ggplot2::geom_line(
@@ -441,18 +435,16 @@ endemic_plot <- function(channel_data, method,
           ),
           size = 2
         ) +
-        # nolint start
         ggplot2::scale_color_manual(
           name = "",
           values = c(
-            "Epidemia" = "brown4",
-            "Alerta" = "darkorange3",
-            "Seguridad" = "darkgreen",
-            "Casos observados" = "black"
+            Epidemia = "brown4",
+            Alerta = "darkorange3",
+            Seguridad = "darkgreen",
+            `Casos observados` = "black"
           )
         )
     }
-    # nolint end
   }
 
   return(endemic_channel_plot)
