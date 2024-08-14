@@ -213,8 +213,8 @@ geometric_mean <- function(x, method = c(
     w_positive <- length(x_positive) / n_x
     x_negative <- x[x < 0]
     w_negative <- length(x_negative) / n_x
-    gm_positive <- exp(sum(log(x_positive)) / n_x)
-    gm_negative <- -1 * exp(sum(log(abs(x_negative))) / n_x)
+    gm_positive <- exp(sum(log(x_positive)))
+    gm_negative <- -1 * exp(sum(log(abs(x_negative))))
     gm <- w_positive * gm_positive + w_negative * gm_negative
   } else if (method == "optimized") {
     # The formula is:
