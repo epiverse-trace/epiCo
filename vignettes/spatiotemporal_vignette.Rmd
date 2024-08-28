@@ -43,7 +43,7 @@ Since **epiCo** stores all travel times among municipalities in Colombia, the de
 
 The `neighborhoods` function receives as parameters a vector of DIVIPOLA codes accounting for the municipalities to consider as potential neighbors and a threshold that accounts for the maximum travel time (in hours) that a municipality can be from another.
 
-```{r, messages = FALSE, eval = TRUE}
+```{r, messages = FALSE, eval = TRUE, fig.cap = "Neighbor municipalities of Cundinamarca with a 0.5-hour threshold."}
 library(epiCo)
 library(dplyr)
 library(incidence)
@@ -78,7 +78,7 @@ It is necessary for the user to provide the travel time threshold for the neighb
 
 The following example uses the cases of the municipalities of Tolima for the year 2019.
 
-```{r, messages = FALSE, eval = TRUE}
+```{r, messages = FALSE, eval = TRUE, fig.cap="Local Moran's index clusters for the incidence of Tolima municipalities in 2019."}
 data("epi_data")
 
 data_tolima <- epi_data[lubridate::year(epi_data$fec_not) == 2019, ]

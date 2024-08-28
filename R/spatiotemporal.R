@@ -38,7 +38,7 @@ neighborhoods <- function(query_vector, threshold = 2) {
     msg <- paste(
       "Municipalities", toString(null_municipalities),
       "are not part of the neighborhood according to the selected",
-      "thershold in hours. It wil be displayed as 'Not significant'",
+      "threshold in hours. It wil be displayed as 'Not significant'",
       "but it was not included in the local moran's index analysis."
     )
     message(msg)
@@ -189,7 +189,6 @@ morans_index <- function(incidence_object, scale = 100000, threshold = 2,
       "<b>", "Cluster: ", "</b>",
       shapes$CLUSTER, "<br>"
     )
-    # nolint start
     pal <- leaflet::colorFactor(
       palette = c(
         "#ba0001", "#00992C", "#80CC96",
@@ -202,6 +201,7 @@ morans_index <- function(incidence_object, scale = 100000, threshold = 2,
       ordered = TRUE
     )
 
+    # nolint next
     tile_provider <- "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}"
 
     clusters_plot <- leaflet::leaflet(shapes) %>%
@@ -227,7 +227,6 @@ morans_index <- function(incidence_object, scale = 100000, threshold = 2,
         title = map_title,
         opacity = 1
       )
-    # nolint end
     return(list(data = morans_index, plot = clusters_plot))
   } else {
     return(morans_index)
