@@ -13,64 +13,64 @@ msgstr ""
 
 #: demographics.R:159
 msgid "Total population"
-msgstr ""
+msgstr "Población Total"
 
 #: demographics.R:160 demographics.R:164
 msgid "population pyramid"
-msgstr ""
+msgstr "Pirámide poblacional"
 
 #: demographics.R:163
 msgid "Proportion of population"
-msgstr ""
+msgstr "Proporción de la población"
 
 #: demographics.R:235
 msgid "Age"
-msgstr ""
+msgstr "Edad"
 
 #: demographics.R:319 demographics.R:327
 msgid "Cases / Population"
-msgstr ""
+msgstr "Casos / Población"
 
 #: demographics.R:321
 msgid "Specific rate by age group"
-msgstr ""
+msgstr "Tasa específica por grupo de edad"
 
 #: endemic_channel.R:320
 msgid "Endemic channel"
-msgstr ""
+msgstr "Canal endémico"
 
 #: endemic_channel.R:323
 msgid "Method: %s | Epidemic years: %s are %s"
-msgstr ""
+msgstr "Método: %s | Años epidémicos: %s son %s"
 
 #: endemic_channel.R:329
 msgid "Method: %s | Epidemic year: %s is %s"
-msgstr ""
+msgstr "Método: %s | Año epidémico: %s es %s"
 
 #: endemic_channel.R:336
 msgid "Epidemiological week"
-msgstr ""
+msgstr "Semana epidemiológica"
 
 #: endemic_channel.R:337
 msgid "Number of cases"
-msgstr ""
+msgstr "Número de casos"
 
 #: endemic_channel.R:359 endemic_channel.R:379
 msgid "Epidemic"
-msgstr ""
+msgstr "Epidemia"
 
 #: endemic_channel.R:359 endemic_channel.R:380
 msgid "Warning"
-msgstr ""
+msgstr "Alerta"
 
 #: endemic_channel.R:359 endemic_channel.R:381
 msgid "Safety"
-msgstr ""
+msgstr "Seguridad"
 
 #: endemic_channel.R:382
 msgid "Observed cases"
-msgstr ""
+msgstr "Casos observados"
 
 #: spatiotemporal.R:157
 msgid "Local Moran's Index Clusters </br>%s-W%s to %s later"
-msgstr ""
+msgstr "Clusters del Indice de Moran Local </br>%s-W%s a %s después"
