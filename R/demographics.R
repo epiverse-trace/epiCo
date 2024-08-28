@@ -364,93 +364,54 @@ get_age_risk_sex <- function(age, sex_vector, pyramid, sex) {
 #' ethnicities
 #' @param ethnic_codes A numeric vector with the codes of ethnicities to
 #' consult
-#' @param language "ES" for description in Spanish "EN" for English. The default
-#' value is EN
 #' @return A printed message with ethnicities descriptions
 #' @examples
 #' describe_ethnicity(round(runif(n = 150, min = 1, max = 4)))
 #' @export
-describe_ethnicity <- function(ethnic_codes, language = c("EN", "ES")) {
+describe_ethnicity <- function(ethnic_codes) {
   stopifnot(
     "`ethnic_codes` must be a numeric vector" =
       is.numeric(ethnic_codes)
   )
-  language <- match.arg(language)
   ethnic_codes <- as.data.frame(ethnic_codes)
-  #### ESPA<U+00D1>OL ####
-  indigena_es <- paste(
-    "Persona de ascendencia amerindia que comparten sentimientos de",
-    "identificacion con su pasado aborigen, manteniendo rasgos y valores",
-    "propios de su cultura tradicional, asi como formas de organizacion y",
-    "control social propios"
-  )
 
-  rom_es <- paste(
-    "Son comunidades que tienen una identidad etnica y cultural propia; se",
-    "caracterizan por una tradicion nomada, y tienen su propio idioma que es",
-    "el romanes"
-  )
-
-  raizal_es <- paste(
-    "Poblacion ubicada en el Archipielago de San Andres, Providencia y Santa",
-    "Catalina, con raices culturales afroanglo-antillanas, cuyos integrantes",
-    "tienen rasgos socioculturales y linguisticos claramente diferenciados del",
-    "resto de la poblacion afrocolombiana"
-  )
-
-  palenquero_es <- paste(
-    "Poblacion ubicada en el municipio de San Basilio de Palenque,",
-    "departamento de Bolivar, donde se habla el palenquero, lenguaje criollo"
-  )
-
-  afro_es <- paste(
-    "Persona de ascendencia afrocolombiana que poseen una cultura propia, y",
-    "tienen sus propias tradiciones y costumbre dentro de la relacion",
-    "campo-poblado"
-  )
-
-  #### ENGLISH ####
   indigena_en <- paste(
-    "A person of Amerindian descent who shares feelings of identification with",
-    "their aboriginal past, maintaining traits and values of their traditional",
-    "culture, as well as their own forms of organization and social control"
+    tr_("A person of Amerindian descent who shares feelings of identification"),
+    tr_("with their aboriginal past, maintaining traits and values of their"),
+    tr_("traditional culture, as well as their own forms of organization and"),
+    tr_("social control")
   )
 
   rom_en <- paste(
-    "They are communities that have their own ethnic and cultural identity;",
-    "They are characterized by a nomadic tradition, and have their own",
-    "language, which is Romanesque"
+    tr_("They are communities that have their own ethnic and cultural"),
+    tr_("identity; They are characterized by a nomadic tradition, and have"),
+    tr_("their own language, which is Romanesque")
   )
 
   raizal_en <- paste(
-    "Population located in the Archipelago of San Andres, Providencia and",
-    "Santa Catalina, with Afro-Anglo-Antillean cultural roots, whose members",
-    "have clearly differentiated sociocultural and linguistic traits from the",
-    "rest of the Afro-Colombian population"
+    tr_("Population located in the Archipelago of San Andres, Providencia and"),
+    tr_("Santa Catalina, with Afro-Anglo-Antillean cultural roots, whose"),
+    tr_("members have clearly differentiated sociocultural and linguistic"),
+    tr_("traits from the rest of the Afro-Colombian population")
   )
 
   palenquero_en <- paste(
-    "Population located in the municipality of San Basilio de Palenque,",
-    "department of Bolivar, where palenquero is spoken, a Creole language"
+    tr_("Population located in the municipality of San Basilio de Palenque,"),
+    tr_("department of Bolivar, where palenquero is spoken, a Creole language")
   )
 
   afro_en <- paste(
-    "Person of Afro-Colombian descent who have their own culture, and have",
-    "their own traditions and customs within the rural-populatedrelationship"
+    tr_("Person of Afro-Colombian descent who have their own culture, and"),
+    tr_("have their own traditions and customs within the rural-populated"),
+    tr_("relationship")
   )
 
-  descriptions_es <- c(indigena_es, rom_es, raizal_es, palenquero_es, afro_es)
   descriptions_en <- c(indigena_en, rom_en, raizal_en, palenquero_en, afro_en)
 
   codes <- sort(unique(ethnic_codes$ethnic_codes))
   descrip_en <- descriptions_en[codes]
-  descrip_es <- descriptions_es[codes]
 
-  if (language == "EN") {
-    return(data.frame(code = codes, description = descrip_en))
-  } else {
-    return(data.frame(codigo = codes, descripcion = descrip_es))
-  }
+  return(data.frame(code = codes, description = descrip_en))
 }
 
 #' Get ISCO-88 occupation labels from codes
