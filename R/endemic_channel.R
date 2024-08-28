@@ -372,7 +372,6 @@ endemic_plot <- function(channel_data, method,
       ggplot2::geom_point(ggplot2::aes(y = .data$obs, color = "Observed cases"),
         size = 2
       ) +
-      # nolint start
       ggplot2::scale_color_manual(
         name = "",
         labels = c(
@@ -382,13 +381,12 @@ endemic_plot <- function(channel_data, method,
           tr_("Observed cases")
         ),
         values = c(
-          "Epidemic" = "brown4",
-          "Warning" = "darkorange3",
-          "Safety" = "darkgreen",
-          "Observed cases" = "black"
+          Epidemic = "brown4",
+          Warning = "darkorange3",
+          Safety = "darkgreen",
+          `Observed cases` = "black"
         )
       )
-    # nolint end
   }
 
   return(endemic_channel_plot)
