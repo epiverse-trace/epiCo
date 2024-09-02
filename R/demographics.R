@@ -206,7 +206,7 @@ population_pyramid_plot <- function(pop_pyramid, sex = TRUE) {
       ) +
       ggplot2::coord_flip() +
       ggplot2::scale_x_continuous(
-        name = "Age",
+        name = tr_("Age"),
         breaks = unique(pop_pyramid$age),
         labels = unique(pop_pyramid$age)
       )

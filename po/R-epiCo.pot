@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: epiCo 1.0.0\n"
-"POT-Creation-Date: 2024-08-28 17:13-0500\n"
+"POT-Creation-Date: 2024-09-02 15:35+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Proportion of population"
 msgstr ""
 
-#: demographics.R:230
+#: demographics.R:209 demographics.R:230
 msgid "Age"
 msgstr ""
 

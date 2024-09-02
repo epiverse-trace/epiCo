@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: epiCo 1.0.0\n"
-"POT-Creation-Date: 2024-08-28 17:13-0500\n"
+"POT-Creation-Date: 2024-09-02 15:35+0200\n"
 "PO-Revision-Date: 2024-07-31 10:09+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -23,7 +23,7 @@ msgstr "Pirámide poblacional"
 msgid "Proportion of population"
 msgstr "Proporción de la población"
 
-#: demographics.R:230
+#: demographics.R:209 demographics.R:230
 msgid "Age"
 msgstr "Edad"
 
