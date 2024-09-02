@@ -9,5 +9,5 @@ release_bullets <- function() {
 }
 
 tr_ <- function(...) {
-  enc2utf8(gettext(paste0(...), domain = "R-{mypackage}"))
+  enc2utf8(gettext(paste0(...), domain = "R-epiCo"))
 }
