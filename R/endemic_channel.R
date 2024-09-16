@@ -68,9 +68,8 @@ endemic_channel <- function(incidence_historic, observations = NULL,
       "`observations` must be numeric and positive" =
         (is.numeric(observations) &&
           all(observations >= 0)),
-      "`observations` size doesn't correspond to incidence interval" =
-        ((incidence_historic$interval == "1 week" &
-          length(observations) == 52))
+      "`observations` size is larger than the epidemiological year" =
+        (length(observations) <= 52)
     )
   }
 
