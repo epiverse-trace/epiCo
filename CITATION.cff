@@ -146,7 +146,6 @@ references:
     name: R Foundation for Statistical Computing
     address: Vienna, Austria
   year: '2024'
-  doi: 10.32614/CRAN.package.grDevices
 - type: software
   title: igraph
   abstract: 'igraph: Network Analysis and Visualization'
@@ -308,7 +307,6 @@ references:
     name: R Foundation for Statistical Computing
     address: Vienna, Austria
   year: '2024'
-  doi: 10.32614/CRAN.package.stats
 - type: software
   title: treemapify
   abstract: 'treemapify: Draw Treemaps in ''ggplot2'''
@@ -332,7 +330,6 @@ references:
     name: R Foundation for Statistical Computing
     address: Vienna, Austria
   year: '2024'
-  doi: 10.32614/CRAN.package.utils
 - type: software
   title: checkmate
   abstract: 'checkmate: Fast and Versatile Argument Checks'
@@ -415,6 +412,22 @@ references:
     orcid: https://orcid.org/0000-0003-3925-190X
   year: '2024'
   doi: 10.32614/CRAN.package.rmarkdown
+- type: software
+  title: spelling
+  abstract: 'spelling: Tools for Spell Checking in R'
+  notes: Suggests
+  url: https://ropensci.r-universe.dev/spelling
+  repository: https://CRAN.R-project.org/package=spelling
+  authors:
+  - family-names: Ooms
+    given-names: Jeroen
+    email: jeroen@berkeley.edu
+    orcid: https://orcid.org/0000-0002-4035-0289
+  - family-names: Hester
+    given-names: Jim
+    email: james.hester@rstudio.com
+  year: '2024'
+  doi: 10.32614/CRAN.package.spelling
 - type: software
   title: testthat
   abstract: 'testthat: Unit Testing for R'
