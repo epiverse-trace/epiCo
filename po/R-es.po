@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: epiCo 1.0.0\n"
-"POT-Creation-Date: 2024-09-16 14:18-0500\n"
+"POT-Creation-Date: 2024-09-16 16:14-0500\n"
 "PO-Revision-Date: 2024-07-31 10:09+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -108,39 +108,39 @@ msgstr "tienen sus propias tradiciones y costumbre dentro de la relacion"
 msgid "relationship"
 msgstr "campo-poblado"
 
-#: endemic_channel.R:320
+#: endemic_channel.R:319
 msgid "Endemic channel"
 msgstr "Canal endémico"
 
-#: endemic_channel.R:323
+#: endemic_channel.R:322
 msgid "Method: %s | Epidemic years: %s are %s"
 msgstr "Método: %s | Años epidémicos: %s son %s"
 
-#: endemic_channel.R:329
+#: endemic_channel.R:328
 msgid "Method: %s | Epidemic year: %s is %s"
 msgstr "Método: %s | Año epidémico: %s es %s"
 
-#: endemic_channel.R:336
+#: endemic_channel.R:335
 msgid "Epidemiological week"
 msgstr "Semana epidemiológica"
 
-#: endemic_channel.R:337
+#: endemic_channel.R:336
 msgid "Number of cases"
 msgstr "Número de casos"
 
-#: endemic_channel.R:359 endemic_channel.R:378
+#: endemic_channel.R:358 endemic_channel.R:377
 msgid "Epidemic"
 msgstr "Epidemia"
 
-#: endemic_channel.R:359 endemic_channel.R:379
+#: endemic_channel.R:358 endemic_channel.R:378
 msgid "Warning"
 msgstr "Alerta"
 
-#: endemic_channel.R:359 endemic_channel.R:380
+#: endemic_channel.R:358 endemic_channel.R:379
 msgid "Safety"
 msgstr "Seguridad"
 
-#: endemic_channel.R:381
+#: endemic_channel.R:367 endemic_channel.R:371 endemic_channel.R:380
 msgid "Observed cases"
 msgstr "Casos observados"
 
