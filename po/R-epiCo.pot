@@ -1,0 +1,143 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: epiCo 1.0.0\n"
+"POT-Creation-Date: 2024-09-16 14:18-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: demographics.R:159
+msgid "Total population"
+msgstr ""
+
+#: demographics.R:160 demographics.R:164
+msgid "population pyramid"
+msgstr ""
+
+#: demographics.R:163
+msgid "Proportion of population"
+msgstr ""
+
+#: demographics.R:202 demographics.R:224
+msgid "Population"
+msgstr ""
+
+#: demographics.R:209 demographics.R:231
+msgid "Age"
+msgstr ""
+
+#: demographics.R:314 demographics.R:322
+msgid "Cases / Population"
+msgstr ""
+
+#: demographics.R:316
+msgid "Specific rate by age group"
+msgstr ""
+
+#: demographics.R:380
+msgid "A person of Amerindian descent who shares feelings of identification"
+msgstr ""
+
+#: demographics.R:381
+msgid "with their aboriginal past, maintaining traits and values of their"
+msgstr ""
+
+#: demographics.R:382
+msgid "traditional culture, as well as their own forms of organization and"
+msgstr ""
+
+#: demographics.R:383
+msgid "social control"
+msgstr ""
+
+#: demographics.R:387
+msgid "They are communities that have their own ethnic and cultural"
+msgstr ""
+
+#: demographics.R:388
+msgid "identity; They are characterized by a nomadic tradition, and have"
+msgstr ""
+
+#: demographics.R:389
+msgid "their own language, which is Romanesque"
+msgstr ""
+
+#: demographics.R:393
+msgid "Population located in the Archipelago of San Andres, Providencia and"
+msgstr ""
+
+#: demographics.R:394
+msgid "Santa Catalina, with Afro-Anglo-Antillean cultural roots, whose"
+msgstr ""
+
+#: demographics.R:395
+msgid "members have clearly differentiated sociocultural and linguistic"
+msgstr ""
+
+#: demographics.R:396
+msgid "traits from the rest of the Afro-Colombian population"
+msgstr ""
+
+#: demographics.R:400
+msgid "Population located in the municipality of San Basilio de Palenque,"
+msgstr ""
+
+#: demographics.R:401
+msgid "department of Bolivar, where palenquero is spoken, a Creole language"
+msgstr ""
+
+#: demographics.R:405
+msgid "Person of Afro-Colombian descent who have their own culture, and"
+msgstr ""
+
+#: demographics.R:406
+msgid "have their own traditions and customs within the rural-populated"
+msgstr ""
+
+#: demographics.R:407
+msgid "relationship"
+msgstr ""
+
+#: endemic_channel.R:320
+msgid "Endemic channel"
+msgstr ""
+
+#: endemic_channel.R:323
+msgid "Method: %s | Epidemic years: %s are %s"
+msgstr ""
+
+#: endemic_channel.R:329
+msgid "Method: %s | Epidemic year: %s is %s"
+msgstr ""
+
+#: endemic_channel.R:336
+msgid "Epidemiological week"
+msgstr ""
+
+#: endemic_channel.R:337
+msgid "Number of cases"
+msgstr ""
+
+#: endemic_channel.R:359 endemic_channel.R:378
+msgid "Epidemic"
+msgstr ""
+
+#: endemic_channel.R:359 endemic_channel.R:379
+msgid "Warning"
+msgstr ""
+
+#: endemic_channel.R:359 endemic_channel.R:380
+msgid "Safety"
+msgstr ""
+
+#: endemic_channel.R:381
+msgid "Observed cases"
+msgstr ""
+
+#: spatiotemporal.R:157
+msgid "Local Moran's Index Clusters </br>%s-W%s to %s later"
+msgstr ""

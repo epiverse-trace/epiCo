@@ -4,12 +4,10 @@
 \alias{population_pyramid_plot}
 \title{Returns the population pyramid plot}
 \usage{
-population_pyramid_plot(pop_pyramid, language, sex = TRUE)
+population_pyramid_plot(pop_pyramid, sex = TRUE)
 }
 \arguments{
 \item{pop_pyramid}{A dataframe with the age counts}
-
-\item{language}{Language for plot components}
 
 \item{sex}{A boolean to consult data disaggregated by sex. The default value
 is TRUE}
