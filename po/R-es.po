@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: epiCo 1.0.0\n"
-"POT-Creation-Date: 2024-09-02 15:35+0200\n"
+"POT-Creation-Date: 2024-09-16 14:18-0500\n"
 "PO-Revision-Date: 2024-07-31 10:09+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -23,84 +23,88 @@ msgstr "Pirámide poblacional"
 msgid "Proportion of population"
 msgstr "Proporción de la población"
 
-#: demographics.R:209 demographics.R:230
+#: demographics.R:202 demographics.R:224
+msgid "Population"
+msgstr "Población"
+
+#: demographics.R:209 demographics.R:231
 msgid "Age"
 msgstr "Edad"
 
-#: demographics.R:313 demographics.R:321
+#: demographics.R:314 demographics.R:322
 msgid "Cases / Population"
 msgstr "Casos / Población"
 
-#: demographics.R:315
+#: demographics.R:316
 msgid "Specific rate by age group"
 msgstr "Tasa específica por grupo de edad"
 
-#: demographics.R:379
+#: demographics.R:380
 msgid "A person of Amerindian descent who shares feelings of identification"
 msgstr "Persona de ascendencia amerindia que comparten sentimientos de"
 
-#: demographics.R:380
+#: demographics.R:381
 msgid "with their aboriginal past, maintaining traits and values of their"
 msgstr "identificacion con su pasado aborigen, manteniendo rasgos y valores"
 
-#: demographics.R:381
+#: demographics.R:382
 msgid "traditional culture, as well as their own forms of organization and"
 msgstr "propios de su cultura tradicional, asi como formas de organizacion y"
 
-#: demographics.R:382
+#: demographics.R:383
 msgid "social control"
 msgstr "control social propios"
 
-#: demographics.R:386
+#: demographics.R:387
 msgid "They are communities that have their own ethnic and cultural"
 msgstr "Son comunidades que tienen una identidad etnica y cultural propia; se"
 
-#: demographics.R:387
+#: demographics.R:388
 msgid "identity; They are characterized by a nomadic tradition, and have"
 msgstr ""
 "caracterizan por una tradicion nomada, y tienen su propio idioma que es"
 
-#: demographics.R:388
+#: demographics.R:389
 msgid "their own language, which is Romanesque"
 msgstr "el romanes"
 
-#: demographics.R:392
+#: demographics.R:393
 msgid "Population located in the Archipelago of San Andres, Providencia and"
 msgstr ""
 "Poblacion ubicada en el Archipielago de San Andres, Providencia y Santa"
 
-#: demographics.R:393
+#: demographics.R:394
 msgid "Santa Catalina, with Afro-Anglo-Antillean cultural roots, whose"
 msgstr ""
 "Catalina, con raices culturales afroanglo-antillanas, cuyos integrantes"
 
-#: demographics.R:394
+#: demographics.R:395
 msgid "members have clearly differentiated sociocultural and linguistic"
 msgstr ""
 "tienen rasgos socioculturales y linguisticos claramente diferenciados del"
 
-#: demographics.R:395
+#: demographics.R:396
 msgid "traits from the rest of the Afro-Colombian population"
 msgstr "resto de la poblacion afrocolombiana"
 
-#: demographics.R:399
+#: demographics.R:400
 msgid "Population located in the municipality of San Basilio de Palenque,"
 msgstr "Poblacion ubicada en el municipio de San Basilio de Palenque,"
 
-#: demographics.R:400
+#: demographics.R:401
 msgid "department of Bolivar, where palenquero is spoken, a Creole language"
 msgstr ""
 "departamento de Bolivar, donde se habla el palenquero, lenguaje criollo"
 
-#: demographics.R:404
+#: demographics.R:405
 msgid "Person of Afro-Colombian descent who have their own culture, and"
 msgstr "Persona de ascendencia afrocolombiana que poseen una cultura propia, y"
 
-#: demographics.R:405
+#: demographics.R:406
 msgid "have their own traditions and customs within the rural-populated"
 msgstr "tienen sus propias tradiciones y costumbre dentro de la relacion"
 
-#: demographics.R:406
+#: demographics.R:407
 msgid "relationship"
 msgstr "campo-poblado"
 

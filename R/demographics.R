@@ -199,13 +199,13 @@ population_pyramid_plot <- function(pop_pyramid, sex = TRUE) {
     ) +
       ggplot2::geom_col(orientation = "y") +
       ggplot2::scale_x_continuous(
+        name = tr_("Population"),
         breaks = scales::breaks_extended(n = 8),
         labels = function(x) {
           as.character(abs(as.numeric(x)))
         }
       ) +
-      ggplot2::coord_flip() +
-      ggplot2::scale_x_continuous(
+      ggplot2::scale_y_continuous(
         name = tr_("Age"),
         breaks = unique(pop_pyramid$age),
         labels = unique(pop_pyramid$age)
@@ -221,12 +221,13 @@ population_pyramid_plot <- function(pop_pyramid, sex = TRUE) {
     ) +
       ggplot2::geom_bar(stat = "identity", orientation = "y") +
       ggplot2::scale_x_continuous(
+        name = tr_("Population"),
         breaks = scales::breaks_extended(n = 8),
         labels = function(x) {
           as.character(abs(as.numeric(x)))
         }
       ) +
-      ggplot2::scale_x_continuous(
+      ggplot2::scale_y_continuous(
         name = tr_("Age"),
         breaks = pop_pyramid$age,
         labels = pop_pyramid$age
