@@ -4,14 +4,11 @@
 \alias{describe_ethnicity}
 \title{Provides the sociological description of ethnicities in Colombia}
 \usage{
-describe_ethnicity(ethnic_codes, language = c("EN", "ES"))
+describe_ethnicity(ethnic_codes)
 }
 \arguments{
 \item{ethnic_codes}{A numeric vector with the codes of ethnicities to
 consult}
-
-\item{language}{"ES" for description in Spanish "EN" for English. The default
-value is EN}
 }
 \value{
 A printed message with ethnicities descriptions

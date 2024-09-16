@@ -7,3 +7,7 @@ release_bullets <- function() {
     "All contributors to this release are acknowledged in some way"
   )
 }
+
+tr_ <- function(...) {
+  enc2utf8(gettext(paste0(...), domain = "R-epiCo"))
+}
