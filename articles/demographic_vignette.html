@@ -212,7 +212,7 @@ total number of individuals, or proportion of individuals</p>
 <span><span class="va">ibague_pyramid_2019</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/population_pyramid.html">population_pyramid</a></span><span class="op">(</span><span class="va">ibague_code</span>, <span class="va">year</span>,</span>
 <span>  range <span class="op">=</span> <span class="va">age_range</span>,</span>
 <span>  sex <span class="op">=</span> <span class="cn">TRUE</span>, total <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  plot <span class="op">=</span> <span class="cn">TRUE</span>, language <span class="op">=</span> <span class="st">"EN"</span></span>
+<span>  plot <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
 <img src="demographic_vignette_files/figure-html/unnamed-chunk-4-1.png" alt="Population pyramid for the city of Ibagué in 2019" width="768"><p class="caption">
@@ -239,7 +239,7 @@ following example:</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span></span>
-<span><span class="va">ethnicities</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/describe_ethnicity.html">describe_ethnicity</a></span><span class="op">(</span><span class="va">demog_data</span><span class="op">$</span><span class="va">ethnicity_label</span>, language <span class="op">=</span> <span class="st">"EN"</span><span class="op">)</span></span>
+<span><span class="va">ethnicities</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/describe_ethnicity.html">describe_ethnicity</a></span><span class="op">(</span><span class="va">demog_data</span><span class="op">$</span><span class="va">ethnicity_label</span><span class="op">)</span></span>
 <span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">ethnicities</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <colgroup>
@@ -643,7 +643,7 @@ municipality, department, or country in a certain year.</p>
 <span><span class="va">age_risk_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/age_risk.html">age_risk</a></span><span class="op">(</span></span>
 <span>  age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="va">data_ibague</span><span class="op">$</span><span class="va">edad</span><span class="op">)</span>,</span>
 <span>  population_pyramid <span class="op">=</span> <span class="va">ibague_pyramid_2019</span><span class="op">$</span><span class="va">data</span>,</span>
-<span>  sex <span class="op">=</span> <span class="va">data_ibague</span><span class="op">$</span><span class="va">sexo</span>, plot <span class="op">=</span> <span class="cn">TRUE</span>, language <span class="op">=</span> <span class="st">"EN"</span></span>
+<span>  sex <span class="op">=</span> <span class="va">data_ibague</span><span class="op">$</span><span class="va">sexo</span>, plot <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
 <img src="demographic_vignette_files/figure-html/unnamed-chunk-8-1.png" alt="Age risk plot for the city of Ibagué in 2019" width="768"><p class="caption">

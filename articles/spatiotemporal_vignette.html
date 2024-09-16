@@ -172,6 +172,8 @@ travel time (in hours) that a municipality can be from another.</p>
 <span>  query_vector <span class="op">=</span> <span class="va">cundinamarca_data</span><span class="op">$</span><span class="va">COD_MPIO</span>,</span>
 <span>  threshold <span class="op">=</span> <span class="fl">0.5</span></span>
 <span><span class="op">)</span><span class="op">$</span><span class="va">neighbours</span></span>
+<span><span class="co">#&gt; Warning in spdep::mat2listw(distance, style = "W", zero.policy = TRUE):</span></span>
+<span><span class="co">#&gt; neighbour object has 5 sub-graphs</span></span>
 <span><span class="co">#&gt; Municipalities 25572, 25653, 25885 are not part of the neighborhood according to the selected threshold in hours. It wil be displayed as 'Not significant' but it was not included in the local moran's index analysis.</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cundinamarca_neighborhood</span>, <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span></span>
