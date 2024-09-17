@@ -320,7 +320,7 @@ age_risk <- function(age, population_pyramid, sex = NULL, plot = FALSE) {
       ) +
         # nolint start
         ggplot2::ylab(tr_("Cases / Population"))
-        # nolint end
+      # nolint end
     }
     print(age_risk_plot)
     return(list(data = age_risk, plot = age_risk_plot))
