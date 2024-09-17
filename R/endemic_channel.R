@@ -364,11 +364,19 @@ endemic_plot <- function(channel_data, method,
       )
   } else {
     endemic_channel_plot <- endemic_channel_plot +
-      ggplot2::geom_line(ggplot2::aes(y = .data$obs, color = tr_("Observed cases")),
+      ggplot2::geom_line(
+        ggplot2::aes(
+          y = .data$obs,
+          color = tr_("Observed cases")
+        ),
         linetype = "dashed",
         linewidth = 0.75
       ) +
-      ggplot2::geom_point(ggplot2::aes(y = .data$obs, color = tr_("Observed cases")),
+      ggplot2::geom_point(
+        ggplot2::aes(
+          y = .data$obs,
+          color = tr_("Observed cases")
+        ),
         size = 2
       ) +
       ggplot2::scale_color_manual(
