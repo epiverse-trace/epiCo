@@ -641,7 +641,7 @@ municipality, department, or country in a certain year.</p>
 <code class="sourceCode R"><span><span class="va">data_ibague</span> <span class="op">&lt;-</span> <span class="va">data_tolima</span><span class="op">[</span><span class="va">data_tolima</span><span class="op">$</span><span class="va">cod_mun_o</span> <span class="op">==</span> <span class="fl">73001</span>, <span class="op">]</span></span>
 <span></span>
 <span><span class="va">age_risk_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/age_risk.html">age_risk</a></span><span class="op">(</span></span>
-<span>  age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="va">data_ibague</span><span class="op">$</span><span class="va">edad</span><span class="op">)</span>,</span>
+<span>  age <span class="op">=</span> <span class="va">data_ibague</span><span class="op">$</span><span class="va">edad</span>,</span>
 <span>  population_pyramid <span class="op">=</span> <span class="va">ibague_pyramid_2019</span><span class="op">$</span><span class="va">data</span>,</span>
 <span>  sex <span class="op">=</span> <span class="va">data_ibague</span><span class="op">$</span><span class="va">sexo</span>, plot <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -662,7 +662,7 @@ Age risk plot for the city of Ibagué in 2019
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer>
