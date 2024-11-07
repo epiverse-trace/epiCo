@@ -41,11 +41,11 @@ incidence_object_0 <- incidence::incidence(sample_df_0$CASES,
 )
 incidence_object_1 <- incidence::incidence(sample_df_1$CASES,
   interval = "weeks",
-  group = sample_df_1$GROUP
+  groups = sample_df_1$GROUP
 )
 incidence_object_2 <- incidence::incidence(sample_df_2$CASES,
   interval = "weeks",
-  group = sample_df_2$GROUP
+  groups = sample_df_2$GROUP
 )
 
 # examples for each level

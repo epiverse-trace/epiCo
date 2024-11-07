@@ -49,7 +49,7 @@ sample_df$CASES <- "2012-03-01"
 
 incidence_object <- incidence::incidence(sample_df$CASES,
   interval = "month",
-  group = sample_df$GROUP
+  groups = sample_df$GROUP
 )
 
 # Failing incidence object
@@ -61,7 +61,7 @@ sample_groups_2 <- sample(c("05001", "05264", "05615", "05607"), 200,
 sample_df_2 <- data.frame(CASES = sample_dates_2, GROUP = sample_groups_2)
 incidence_object_2 <- incidence::incidence(sample_df_2$CASES,
   interval = "weeks",
-  group = sample_df_2$GROUP
+  groups = sample_df_2$GROUP
 )
 
 test_that("Morans Index errors and warnings are thrown", {
@@ -77,7 +77,7 @@ test_that("Morans Index errors and warnings are thrown", {
   ))
   expect_message(morans_index(incidence_object,
     threshold = 12, plot = TRUE
-  ), type = "list")
+  ))
 })
 
 test_that("Morans Index works as expected", {
