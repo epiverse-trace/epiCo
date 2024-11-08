@@ -196,7 +196,7 @@ geometric_mean <- function(x, method = c(
   method <- match.arg(method)
 
   if (method == "positive") {
-    x_positive <- x[x>0]
+    x_positive <- x[x > 0]
     stopifnot("`x` includes zero or negative values,
               check the geometric_mean methods" = all(x_positive > 0))
 
