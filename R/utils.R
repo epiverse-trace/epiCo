@@ -196,10 +196,11 @@ geometric_mean <- function(x, method = c(
   method <- match.arg(method)
 
   if (method == "positive") {
+    x_positive <- x[x>0]
     stopifnot("`x` includes zero or negative values,
-              check the geom_mean methods" = all(x > 0))
+              check the geometric_mean methods" = all(x_positive > 0))
 
-    gm <- exp(mean(log(x)))
+    gm <- exp(mean(log(x_positive)))
   } else if (method == "shifted") {
     x_shifted <- x + shift
     stopifnot("shifted `x` still includes zero or negative values,
