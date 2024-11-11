@@ -261,8 +261,10 @@ population_pyramid_plot <- function(pop_pyramid, sex = TRUE) {
 #' )
 #' @export
 age_risk <- function(age, population_pyramid, sex = NULL, plot = FALSE) {
-  stopifnot("`age` must be a numeric vector with values greater than 0" =
-              ((all(age > 0)) & (is.numeric(age))))
+  stopifnot(
+    "`age` must be a numeric vector with values greater than 0" =
+      ((all(age > 0)) & (is.numeric(age)))
+  )
   if (inherits(population_pyramid, what = "list")) {
     population_pyramid <- population_pyramid$data
   }
