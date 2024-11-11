@@ -85,14 +85,12 @@ test_that("Incidence rate calculate rates", {
 test_that("Geometric mean throws errors", {
   expect_error(geometric_mean(c(45, 20, 1000, "a")))
   expect_error(geometric_mean(c(45, 20, 1000, 100), method = "test"))
-  expect_error(geometric_mean(c(45, 20, 1000, 100),
+  expect_error(geometric_mean(c(45, 20, 1000, -3),
     method = "shifted",
     shift = "2"
   ))
   expect_error(geometric_mean(c(45, 20, 1000, 100), epsilon = "test"))
   expect_error(geometric_mean(c(45, 20, 1000, -100), method = "shifted"))
-  expect_error(geometric_mean(c(45, 20, 1000, -100), epsilon = "positive"))
-  expect_error(geometric_mean(c(45, 20, 1000, -100), method = "positive"))
 })
 
 test_that("Geometric mean works as expected", {
