@@ -197,7 +197,7 @@ geometric_mean <- function(
   method <- match.arg(method)
 
   if (method == "positive") {
-    if (sum(x <= 0) > 0) {
+    if (any(x) <= 0) {
       message(
         sum(x <= 0),
         " zeros or negative values where ignored in the estimation"
