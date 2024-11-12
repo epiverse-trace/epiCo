@@ -314,9 +314,14 @@ geometric_sd <- function(
   method <- match.arg(method)
 
   if (method == "positive") {
-    stopifnot("`x` includes zero or negative values,
-              check the geom_mean methods" = any(x > 0))
-    gsd <- stats::sd((log(x)))
+    if (any(x) <= 0) {
+      message(
+        sum(x <= 0),
+        " zeros or negative values where ignored in the estimation"
+      )
+    }
+    x_positive <- x[x > 0]
+    gsd <- stats::sd((log(x_positive)))
   } else if (method == "shifted") {
     x_shifted <- x + shift
     stopifnot("shifted `x` still includes zero or negative values,
