@@ -102,3 +102,23 @@ test_that("Geometric mean works as expected", {
   expect_gt(geometric_mean(c(45, 20, 1000, -100), method = "weighted"), 0)
   expect_gt(geometric_mean(c(45, 20, 1000, 100), method = "shifted"), 0)
 })
+
+test_that("Geometric standard deviation throws errors", {
+  expect_error(geometric_sd(c(45, 20, 1000, "a")))
+  expect_error(geometric_sd(c(45, 20, 1000, 100), method = "test"))
+  expect_error(geometric_sd(c(45, 20, 1000, -3),
+    method = "shifted",
+    shift = "2"
+  ))
+  expect_error(geometric_sd(c(45, 20, 1000, 100), epsilon = "test"))
+  expect_error(geometric_sd(c(45, 20, 1000, -100), method = "shifted"))
+})
+
+test_that("Geometric standard deviation works as expected", {
+  expect_type(geometric_sd(c(45, 20, 1000, 100)), "double")
+  expect_length(geometric_sd(c(45, 20, 1000, 100)), 1L)
+  expect_length(geometric_sd(c(45, 20, 1000, 100), method = "optimized"), 1)
+
+  expect_gt(geometric_sd(c(45, 20, 1000, 100), method = "positive"), 0)
+  expect_gt(geometric_sd(c(45, 20, 1000, 100), method = "shifted"), 0)
+})
