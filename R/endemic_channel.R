@@ -135,15 +135,15 @@ endemic_channel <- function(incidence_historic, observations = NULL,
     median = {
       central <- as.numeric(apply(historic,
         MARGIN = 2,
-        FUN = stats::quantile, p = 0.5
+        FUN = stats::quantile, probs = 0.5
       ))
       up_lim <- as.numeric(apply(historic,
         MARGIN = 2,
-        FUN = stats::quantile, p = 0.75
+        FUN = stats::quantile, probs = 0.75
       ))
       low_lim <- as.numeric(apply(historic,
         MARGIN = 2,
-        FUN = stats::quantile, p = 0.25
+        FUN = stats::quantile, probs = 0.25
       ))
     },
     mean = {
