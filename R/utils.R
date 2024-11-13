@@ -268,6 +268,9 @@ geometric_mean <- function(
     return(c(gm, delta))
   }
   gm <- round(gm, 5)
+  if (is.nan(gm)){
+    gm <- NA
+  }
   return(gm)
 }
 
