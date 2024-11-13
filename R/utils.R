@@ -234,38 +234,42 @@ geometric_mean <- function(
 
     x_positive <- x[x > 0]
     gm_positive <- exp(mean(log(x_positive)))
-    epsilon <- epsilon * gm_positive
+    if (!is.nan(gm_positive)){
+      epsilon <- epsilon * gm_positive
 
-    # Simple bisection  method to calculate delta: (Eq. I) is increasing as
-    # consequence of the Superaddivity of the Geometric Mean
-
-    delta_min <- 0
-    delta_max <- gm_positive + epsilon
-
-    while (exp(mean(log(x_positive + delta_max))) - delta_max < epsilon) {
-      delta_min <- delta_max
-      delta_max <- delta_max * 2
-    }
-
-    delta <- (delta_min + delta_max) / 2
-
-    # Define aus_exp to not repeat operations
-    aus_exp <- exp(mean(log(x_positive + delta))) - delta
-
-    while ((aus_exp - gm_positive) > epsilon) {
-      if ((aus_exp < gm_positive)) {
-        delta_min <- delta
-      } else {
-        delta_max <- delta
+      # Simple bisection  method to calculate delta: (Eq. I) is increasing as
+      # consequence of the Superaddivity of the Geometric Mean
+  
+      delta_min <- 0
+      delta_max <- gm_positive + epsilon
+  
+      while (exp(mean(log(x_positive + delta_max))) - delta_max < epsilon) {
+        delta_min <- delta_max
+        delta_max <- delta_max * 2
       }
-
+  
       delta <- (delta_min + delta_max) / 2
+  
+      # Define aus_exp to not repeat operations
       aus_exp <- exp(mean(log(x_positive + delta))) - delta
+  
+      while ((aus_exp - gm_positive) > epsilon) {
+        if ((aus_exp < gm_positive)) {
+          delta_min <- delta
+        } else {
+          delta_max <- delta
+        }
+  
+        delta <- (delta_min + delta_max) / 2
+        aus_exp <- exp(mean(log(x_positive + delta))) - delta
+      }
+      gm <- round(exp(mean(log(x + delta))) - delta, 5)
+      delta <- round(delta, 5)
+  
+      return(c(gm, delta))
+    } else {
+      gm <- NA
     }
-    gm <- round(exp(mean(log(x + delta))) - delta, 5)
-    delta <- round(delta, 5)
-
-    return(c(gm, delta))
   }
   gm <- round(gm, 5)
   if (is.nan(gm)){
