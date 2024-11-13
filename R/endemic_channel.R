@@ -192,10 +192,10 @@ endemic_channel <- function(incidence_historic, observations = NULL,
     }
   )
 
-  stopifnot(
-    "Insufficient information to estimate 'endemic channel' limits, check for at
-    least two years of data" = !all(is.na(c(low_lim, up_lim)))
-  )
+  # stopifnot(
+  #   "Insufficient information to estimate 'endemic channel' limits, check for at
+  #   least two years of data" = !all(is.na(c(low_lim, up_lim)))
+  # )
 
   channel_data <- data.frame(
     central = central,
