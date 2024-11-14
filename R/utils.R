@@ -220,6 +220,9 @@ geometric_mean <- function(
     w_negative <- length(x_negative) / n_x
     gm_positive <- exp(mean(log(x_positive)))
     gm_negative <- -1 * exp(mean(log(abs(x_negative))))
+    if (is.nan(gm_negative)){
+      gm_negative = 0
+    }
     gm <- w_positive * gm_positive + w_negative * gm_negative
   } else if (method == "optimized") {
     # The formula is:
