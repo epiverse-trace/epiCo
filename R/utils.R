@@ -266,7 +266,7 @@ geometric_mean <- function(
       gm <- round(exp(mean(log(x + delta))) - delta, 5)
       delta <- round(delta, 5)
   
-      return(c(gm, delta))
+      return(c(gm))
     } else {
       gm <- NA
     }
