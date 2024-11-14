@@ -346,6 +346,9 @@ geometric_sd <- function(
     w_negative <- length(x_negative) / n_x
     gsd_positive <- stats::sd((log(x_positive)))
     gsd_negative <- -1 * stats::sd((log(x_negative)))
+    if (is.na(gsd_negative)){
+      gsd_negative = 0
+    }
     gsd <- w_positive * gsd_positive + w_negative * gsd_negative
   } else if (method == "optimized") {
     x_opti <- x + delta
