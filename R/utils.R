@@ -276,7 +276,7 @@ geometric_mean <- function(
   }
   gm <- round(gm, 5)
   if (is.nan(gm)){
-    gm <- NA
+    gm <- 0
   }
   return(gm)
 }
@@ -354,6 +354,9 @@ geometric_sd <- function(
     x_opti <- x + delta
 
     gsd <- stats::sd((log(x_opti)))
+  }
+  if (is.na(gsd)){
+    gsd <- 0
   }
   gsd <- round(gsd, 5)
   return(gsd)
