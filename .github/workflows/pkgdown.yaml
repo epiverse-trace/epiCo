@@ -72,13 +72,13 @@ jobs:
         shell: Rscript {0}
 
       - name: Check website links
-        uses: untitaker/hyperlink@0.1.32
+        uses: untitaker/hyperlink@0.1.44
         with:
           args: docs/
 
       - name: Deploy to GitHub pages 🚀
         if: github.event_name != 'merge_group' && github.event_name != 'pull_request'
-        uses: JamesIves/github-pages-deploy-action@v4.5.0
+        uses: JamesIves/github-pages-deploy-action@v4.7.3
         with:
           # We clean on releases because we want to remove old vignettes,
           # figures, etc. that have been deleted from the `main` branch.
@@ -88,4 +88,3 @@ jobs:
           clean: ${{ github.event_name == 'release' }}
           branch: gh-pages
           folder: docs
-          
